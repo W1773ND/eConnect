@@ -7,8 +7,8 @@ from ikwen.billing.models import Payment
 
 from django.views.generic import TemplateView
 
-from econnect.admin import ProductAdmin, PackageAdmin, AddOnAdmin
-from econnect.models import Order, CustomerRequest, Product, Package, AddOn
+from econnect.admin import ProductAdmin, PackageAdmin, EquipmentAdmin, ExtraAdmin
+from econnect.models import Order, CustomerRequest, Product, Package, Equipment, Extra
 
 
 class Admin(TemplateView):
@@ -58,15 +58,26 @@ class ChangePackage(ChangeObjectBase):
     model_admin = PackageAdmin
 
 
-class AddOnList(HybridListView):
-    model = AddOn
+class EquipmentList(HybridListView):
+    model = Equipment
     list_filter = ('product',)
     search_field = 'name'
 
 
-class ChangeAddOn(ChangeObjectBase):
-    model = AddOn
-    model_admin = AddOnAdmin
+class ChangeEquipment(ChangeObjectBase):
+    model = Equipment
+    model_admin = EquipmentAdmin
+
+
+class ExtraList(HybridListView):
+    model = Extra
+    list_filter = ('product',)
+    search_field = 'name'
+
+
+class ChangeExtra(ChangeObjectBase):
+    model = Extra
+    model_admin = ExtraAdmin
 
 
 class PricingNumerilink(TemplateView):
@@ -75,10 +86,8 @@ class PricingNumerilink(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(PricingNumerilink, self).get_context_data(**kwargs)
         product = Product.objects.get(name='NumeriLink')
-        package_list = Package.objects.filter(product=product)
-        addon_list = AddOn.objects.filter(product=product)
+        equipment = Equipment.objects.get(product=product)
         context['product'] = product
-        context['package_list'] = package_list
-        context['add-on_list'] = addon_list
-        context['defaultEquipment_cost'] = AddOn.objects.get(type='Installation').cost + AddOn.objects.get(name='Decodeur', is_cyclic=False).cost
+        context['equipment_name'] = equipment.name
+        context['default_equipment_cost'] = product.installation_cost + equipment.purchase_cost
         return context

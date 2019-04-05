@@ -7,19 +7,29 @@ from ikwen.core.models import Service, AbstractWatchModel
 from ikwen.accesscontrol.models import Member
 
 
-class Product(AbstractWatchModel):
+class ModelI18n(Model):
+
+    language = models.CharField(max_length=6, blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
+
+class Product(ModelI18n):
     name = models.CharField(max_length=200)
     slug = models.CharField(max_length=250)
     summary = models.CharField(max_length=250)
     description = models.TextField(blank=True, null=True)
+    installation_cost = models.IntegerField(default=0)
     logo = models.ImageField(blank=True, null=True,
                              help_text="150 x 150px")
+    order_of_appearance = models.IntegerField(default=0)
 
     def __unicode__(self):
         return self.name
 
 
-class Package(AbstractWatchModel):
+class Package(ModelI18n):
     product = models.ForeignKey(Product)
     name = models.CharField(max_length=5)
     description = models.CharField(max_length=250)
@@ -33,24 +43,32 @@ class Package(AbstractWatchModel):
         return "%s | %s" % (self.description, self.cost)
 
 
-class AddOn(AbstractWatchModel):
+class Equipment (ModelI18n):
     product = models.ForeignKey(Product)
     name = models.CharField(max_length=250)
-    INSTALLATION = 'Installation'
-    EQUIPMENT = 'Equipment'
-    EXTRA = 'Extra'
-    TYPE_CHOICES = (
-        (INSTALLATION, _('Installation')),
-        (EQUIPMENT, _('Equipment')),
-        (EXTRA, 'Extra')
-    )
-    type = models.CharField(max_length=250, choices=TYPE_CHOICES)
-    description = models.TextField(blank=True, null=True)
-    cost = models.IntegerField(default=0)
-    is_cyclic = models.BooleanField(default=True)
+    purchase_cost = models.IntegerField(default=0)
+    rent_cost = models.IntegerField(default=0)
+    is_purchased = models.BooleanField(default=True)
+    order_of_appearance = models.IntegerField(default=0)
 
     def __unicode__(self):
         return str(self.product) + ' | ' + self.name
+
+
+class Extra(ModelI18n):
+    product = models.ForeignKey(Product)
+    name = models.CharField(max_length=250)
+    cost = models.IntegerField(default=0)
+    order_of_appearance = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return str(self.product) + ' | ' + self.name
+
+
+class AddOn(ModelI18n):
+    product = models.ForeignKey(Product)
+    equipment = models.ForeignKey(Equipment)
+    extra = models.ForeignKey(Extra)
 
 
 class Order(Model):

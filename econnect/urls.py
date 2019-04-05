@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import permission_required
 
 from ikwen.billing.views import PaymentList
 from econnect.views import Admin, Home, PricingNumerilink, OrderList, CustomerRequestList, ChangeProduct, ProductList, \
-    ChangePackage, PackageList, AddOnList, ChangeAddOn
+    ChangePackage, PackageList, EquipmentList, ChangeEquipment, ExtraList, ChangeExtra
 
 urlpatterns = patterns(
     '',
@@ -16,9 +16,12 @@ urlpatterns = patterns(
     url(r'^package_list/$', permission_required('econnect.ik_econnect_admin')(PackageList.as_view()), name='package_list'),
     url(r'^package/$', permission_required('econnect.ik_econnect_admin')(ChangePackage.as_view()), name='change_package'),
     url(r'^package/(?P<object_id>[-\w]+)/$', permission_required('econnect.ik_econnect_admin')(ChangePackage.as_view()), name='change_package'),
-    url(r'^add-on_list/$', permission_required('econnect.ik_econnect_admin')(AddOnList.as_view()), name='add-on_list'),
-    url(r'^add-on/$', permission_required('econnect.ik_econnect_admin')(ChangeAddOn.as_view()), name='change_addon'),
-    url(r'^add-on/(?P<object_id>[-\w]+)/$', permission_required('econnect.ik_econnect_admin')(ChangeAddOn.as_view()), name='change_addon'),
+    url(r'^equipment_list/$', permission_required('econnect.ik_econnect_admin')(EquipmentList.as_view()), name='equipment_list'),
+    url(r'^equipment/$', permission_required('econnect.ik_econnect_admin')(ChangeEquipment.as_view()), name='change_equipment'),
+    url(r'^equipment/(?P<object_id>[-\w]+)/$', permission_required('econnect.ik_econnect_admin')(ChangeEquipment.as_view()), name='change_equipment'),
+    url(r'^extra_list/$', permission_required('econnect.ik_econnect_admin')(ExtraList.as_view()), name='extra_list'),
+    url(r'^extra/$', permission_required('econnect.ik_econnect_admin')(ChangeExtra.as_view()), name='change_extra'),
+    url(r'^extra/(?P<object_id>[-\w]+)/$', permission_required('econnect.ik_econnect_admin')(ChangeExtra.as_view()), name='change_extra'),
     url(r'^admin/customer_order$', permission_required('econnect.ik_econnect_admin')(OrderList.as_view()), name='admin_order'),
     url(r'^admin/customer_request$', permission_required('econnect.ik_econnect_admin')(CustomerRequestList.as_view()), name='admin_request'),
     url(r'^admin/customer_payment$', permission_required('econnect.ik_econnect_admin')(PaymentList.as_view()), name='admin_payment'),

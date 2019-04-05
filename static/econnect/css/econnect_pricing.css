@@ -21,6 +21,7 @@
                 background-image: linear-gradient(to bottom,#00280f 0,#183625 100%); }
 .slider-selection { background-image: linear-gradient(to bottom,#2ab732 0,#318131 100%); }
 
+.canalP { background-color: #000000; color: #ffffff; letter-spacing: 3px; padding: .5vh; }
 .cost { background-color: #2ab732; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
 .addon-item { margin-bottom: 2vh; }
 .tooltip .tooltip-arrow { border-bottom-color: #2ab732 !important; }
