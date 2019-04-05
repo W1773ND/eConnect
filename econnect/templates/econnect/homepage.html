@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+
+{% block meta %}
+    {{ block.super }}
+    <link rel="shortcut icon" type="image/png" href="{% static "tsunami/img/favicon_Tsunami.ico" %}">
+    <meta name="theme-color" content="#233682">
+    <meta name="msapplication-navbutton-color" content="#233682">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#233682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://www.ikwen.com/tsunami/" />
+    <meta property="og:image" content="{% static 'tsunami/img/Logo-IKWEN-Tsunami_og.png' %}" />
+    <meta property="og:title" content="{% trans "ikwen TSUNAMI, the cloud tools your business needs" %}"/>
+    <meta property="og:description" content="{% trans "Reach more csustomers and sell all your stocks with Tsunami" %}">
+    <meta property="description" content="{% trans "Reach more csustomers and sell all your stocks with Tsunami" %}" />
+{% endblock %}
+
+{% block page_title %}
+    <title> Creolink </title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <!-- Custom css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/homepage.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'tsunami/css/tsunami_homepage.css' %}">
+    <style>
+        div#email-error {display: none}
+    </style>
+{% endblock %}
+
+{% block header_brand %}
+    <a class="navbar-brand hidden-xs" href="{{ service.url }}">
+        <img src="{% static 'tsunami/img/logo_ikwen_web_header.png' %}"/>
+    </a>
+    <strong class="navbar-brand visible-xs">{{ service.project_name }}</strong>
+{% endblock %}
+
+{% block content %}
+    <div id="section-header-general-view" class="container-fluid section-header" style="padding-top: 6vh;">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 text-center mobile-adjust" style="padding-top: 18vh">
+                <img style="max-width: 120px" alt="logo_ikwen_TSUNAMI" src="{% static 'tsunami/img/Logo-IKWEN-Tsunami.png' %}"/>
+              <h1 class="mobile-adjust" style="font-size: 3.5vw;">{% trans 'The best of internet' %}</h1>
+              <h1 class="mobile-adjust" style="font-size: 3.5vw;">{% trans 'The best of TV' %}</h1>
+                {% comment %}<p class="mobile-adjust" style="">
+                    {% trans 'Tsunami builds for you a persistent customer base and offers your products to this community via continuous automated Mail and SMS reminders.You should consider increasing your available stocks.... ' %}
+                </p>{% endcomment %}
+
+                {% if request.user.is_authenticated %}
+                    <a  href='#'>
+                        <button  type=button class="btn btn-outline-success btn-deploy animated pulse mobile-adjust" style="margin-top: 20px; height: 45px;">{% trans "Locate myself" %}</button>
+                    </a>
+                {% else %}
+                     <button type="button" class="btn btn-outline-success btn-deploy animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px;">{% trans "Locate myself" %}</button>
+                {% endif %}
+                <div class="anchor">
+                    <a class="js-scrollTo" href="#banniere-top" style="text-decoration: none"><i class="fa fa-arrow-circle-down"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="section-header-iPad-view" class="container-fluid section-header" style="display: none;">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1 text-center mobile-adjust" style="padding-top: 20vh">
+                <img style="max-width: 120px" alt="logo_ikwen_TSUNAMI" src="{% static 'tsunami/img/Logo-IKWEN-Tsunami.png' %}"/>
+                <h1 class="mobile-adjust" style="font-size: 3.5vw;">{% trans 'The best of internet' %}</h1>
+                <h1 class="mobile-adjust" style="font-size: 3.5vw;">{% trans 'The best of TV' %}</h1>
+                {% comment %}<p class="mobile-adjust" style="">
+                    {% trans 'Tsunami builds for you a persistent customer base and offers your products to this community via continuous automated Mail and SMS reminders.You should consider increasing your available stocks.... ' %}
+                </p>{% endcomment %}
+                {% if request.user.is_authenticated %}
+                    <a  href='#'>
+                        <button type="button" class="btn btn-outline-primary animated pulse mobile-adjust" style="margin-top: 20px; height: 45px;">{% trans "Locate myself" %}</button>
+                    </a>
+                {% else %}
+                     <button type="button" class="btn btn-outline-primary animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px;">{% trans "Locate myself" %}</button>
+                {% endif %}
+               <div class="anchor">
+                    <a class="js-scrollTo" href="#banniere-top" style="text-decoration: none"><i class="fa fa-arrow-circle-down"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="banniere-top" class="container-fluid">
+        <div class="row section-banniere-top" style="margin-top: 0;">
+            <div class="col-md-6 col-sm-6 col-md-offset-3 col-sm-offset-3 text-center" style="padding-top: 7vh">
+              <h1>{% trans "Get the best of Internet and TV" %}</h1>
+                <button type="button" class="btn btn-outline-white animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px;">{% trans "Locate myself" %}</button>
+            </div>
+        </div>
+        <div id="section-banniere-top-iPad-view" class="row section-banniere-top" style="display: none">
+            <div class="col-md-8 col-md-offset-2 text-center">
+              <h1>{% trans "Get the best of Internet and TV" %}</h1>
+                {% if request.user.is_authenticated %}
+                    <a  href='#'>
+                        <button type="button" class="btn btn-outline-white btn-deploy animated pulse mobile-adjust" style="margin-top: 20px; height: 45px;">{% trans 'Deploy <b>Tsunami</b>' %}</button>
+                    </a>
+                {% else %}
+                    <button type="button" class="btn btn-outline-white btn-deploy animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px;">{% trans "Locate myself" %}</button>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+    <section>
+        <div class="container">
+            <div class="col-md-6 f_container" style="box-shadow: 5px 5px 5px #4baa73;">
+                <div class="row f_card shadow">
+                  <div class="front face">
+                    <img src="{% static 'econnect/img/best_buddy_list_exploitation.png' %}"/>
+                  </div>
+                  <div class="back face center">
+                      <h3>NUMERI | LINK</h3>
+                      <a href="{% url 'econnect:numerilink' %}">{% trans "See more..." %}</a>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-6 f_container" style="box-shadow: -5px 5px 5px #4baa73;">
+                <div class="row f_card shadow">
+                  <div class="front face">
+                    <img src="{% static 'econnect/img/best_buddy_list_exploitation.png' %}"/>
+                  </div>
+                  <div class="back face center">
+                      <h3>HOME | LINK</h3>
+                      <a href="#">{% trans "See more..." %}</a>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-6 f_container" style="box-shadow: 5px -5px 5px #4baa73;">
+                <div class="row f_card shadow">
+                  <div class="front face">
+                    <img src="{% static 'econnect/img/best_buddy_list_exploitation.png' %}"/>
+                  </div>
+                  <div class="back face center">
+                      <h3>OFFICE | LINK</h3>
+                      <a href="#">{% trans "See more..." %}</a>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-6 f_container" style="box-shadow: -5px -5px 5px #4baa73;">
+                <div class="row f_card shadow">
+                  <div class="front face">
+                    <img src="{% static 'econnect/img/best_buddy_list_exploitation.png' %}"/>
+                  </div>
+                  <div class="back face center">
+                      <h3>CORPORATE | LINK</h3>
+                      <a href="#">{% trans "See more..." %}</a>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-faq">
+        <div class="container">
+            <div class="title">
+                <h2>FAQ</h2>
+            </div>
+            <div id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="col-md-6 panel panel-custom" style="cursor: pointer;">
+                    <div class="panel-title faq-title text-center" role="tab" id="headingOne"  data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
+                        <h5 class="mb-0">
+                        <a class="faq-question" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" >
+                          {% trans "Question 1 ?" %}
+                        </a>
+                      </h5>
+                    </div>
+
+                    <div id="collapseOne" class="collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="faq-answer" style="cursor: default">
+                            {% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est eros, vulputate eget sodales nec, malesuada vel ante. Quisque volutpat risus in dolor sollicitudin a commodo libero suscipit. Nunc ultrices risus ut arcu hendrerit aliquet. Integer sit amet eros eu augue porttitor dictum. Quisque vel ante est, at lacinia tortor. Curabitur lacus purus, malesuada sit amet dapibus ac, placerat id leo. Nullam vel ultrices augue. Donec posuere convallis purus, sit amet imperdiet leo laoreet at. Quisque aliquam, urna non interdum lobortis, leo diam tincidunt lectus, non ultricies quam purus eget quam." %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 panel panel-custom" style="cursor: pointer;">
+                    <div class="panel-title faq-title text-center" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo">
+                        <h5 class="mb-0">
+                        <a class="collapsed faq-question" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                          {% trans "Question 2 ?" %}
+                        </a>
+                      </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="faq-answer" style="cursor: default">
+                            {% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est eros, vulputate eget sodales nec, malesuada vel ante. Quisque volutpat risus in dolor sollicitudin a commodo libero suscipit. Nunc ultrices risus ut arcu hendrerit aliquet. Integer sit amet eros eu augue porttitor dictum. Quisque vel ante est, at lacinia tortor. Curabitur lacus purus, malesuada sit amet dapibus ac, placerat id leo. Nullam vel ultrices augue. Donec posuere convallis purus, sit amet imperdiet leo laoreet at. Quisque aliquam, urna non interdum lobortis, leo diam tincidunt lectus, non ultricies quam purus eget quam." %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 panel panel-custom" style="cursor: pointer;">
+                    <div class="panel-title faq-title text-center" role="tab" id="headingThree" data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree">
+                        <h5 class="mb-0">
+                        <a class="collapsed faq-question" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                          {% trans "Question 3 ?" %}
+                        </a>
+                      </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                        <div class="faq-answer" style="cursor: default">
+                            {% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est eros, vulputate eget sodales nec, malesuada vel ante. Quisque volutpat risus in dolor sollicitudin a commodo libero suscipit. Nunc ultrices risus ut arcu hendrerit aliquet. Integer sit amet eros eu augue porttitor dictum. Quisque vel ante est, at lacinia tortor. Curabitur lacus purus, malesuada sit amet dapibus ac, placerat id leo. Nullam vel ultrices augue. Donec posuere convallis purus, sit amet imperdiet leo laoreet at. Quisque aliquam, urna non interdum lobortis, leo diam tincidunt lectus, non ultricies quam purus eget quam." %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 panel panel-custom" style="cursor: pointer;">
+                    <div class="panel-title faq-title text-center" role="tab" id="headingFour" data-toggle="collapse" data-parent="#accordion" data-target="#collapseFour">
+                        <h5 class="mb-0">
+                        <a class="collapsed faq-question" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                          {% trans "Question 4 ?" %}
+                        </a>
+                      </h5>
+                    </div>
+                    <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour">
+                        <div class="faq-answer" style="cursor: default">
+                            {% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est eros, vulputate eget sodales nec, malesuada vel ante. Quisque volutpat risus in dolor sollicitudin a commodo libero suscipit. Nunc ultrices risus ut arcu hendrerit aliquet. Integer sit amet eros eu augue porttitor dictum. Quisque vel ante est, at lacinia tortor. Curabitur lacus purus, malesuada sit amet dapibus ac, placerat id leo. Nullam vel ultrices augue. Donec posuere convallis purus, sit amet imperdiet leo laoreet at. Quisque aliquam, urna non interdum lobortis, leo diam tincidunt lectus, non ultricies quam purus eget quam." %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <a class="js-scrollTo back-to-top hiding" href="#section-header-general-view" style="text-decoration: none; color: #3F3F3F">
+        <i class="fa fa-chevron-circle-up"></i>
+    </a>
+
+{# Modal definition :BEGIN #}
+    <div id="modal-get-email" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-get-email">
+        <div class="vertical-alignment-helper">
+            <div class="modal-dialog modal-m vertical-align-center" role="document">
+                <div class="modal-content" style=" background: url({% static 'tsunami/img/get_email-modal_background.png' %}); border: 0.2px solid #ccc; border-radius: 4px; text-align: center;">
+                    <div class="modal-header no-border " style="color: #464646">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="color: #d32f2f">&times;</span></button>
+                        <h4 class="modal-title" style="text-align: center">{% trans "Please, enter your email before proceeding..." %}</h4>
+                    </div>
+                    <div id='email-error' class="failure" style="margin: auto; width: 80%">Enter a valid email please </div>
+                    <div class="modal-body">
+                        <form action="#" id="get-user-email">
+                            <input id="action" name='action' type="hidden" required value="send_mail_to_visitor">
+                            <input id="visitor-email" name='visitor_email' type="email" required placeholder="Email" aria-describedby="input-email" class="form-control-custom">
+                        </form>
+                    </div>
+                    <div class="modal-footer no-border" style="padding-top: 0 !important; text-align: center !important;">
+                        <span class="btn btn-outline-primary btn-process mobile-adjust ">{% trans "Continue" %}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script>
+        (function () {
+            // redirect to Tsunami signIn page
+            $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next=#");
+
+            // set focus when modal is opened
+            $('#modal-get-email').on('shown.bs.modal', function () {
+                $("#visitor-email").focus();
+            });
+
+            $('#visitor-email').focusin(function () {
+                $('div#email-error').fadeOut().hide()
+            });
+
+            // get the email for Tsunami relaunch mails
+            $('.btn-process').click(function () {
+                var visitor_email = $('#visitor-email').val();
+                if (visitor_email !== ''){
+                    $('#get-user-email').submit()
+                }else {
+                    $('div#email-error').fadeIn().show()
+                }
+            });
+        })()
+    </script>
+{% endblock %}

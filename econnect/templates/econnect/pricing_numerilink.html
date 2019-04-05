@@ -1,0 +1,590 @@
+{% extends 'base.html' %}
+{% load i18n static humanize %}
+
+{% block meta %}
+    {{ block.super }}
+    <link rel="shortcut icon" type="image/png" href="{% static "tsunami/img/favicon_Tsunami.ico" %}">
+    <meta name="theme-color" content="#233682">
+    <meta name="msapplication-navbutton-color" content="#233682">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#233682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://www.ikwen.com/tsunami/" />
+    <meta property="og:image" content="{% static 'tsunami/img/Logo-IKWEN-Tsunami_og.png' %}" />
+    <meta property="og:title" content="{% trans "CREOLINK Communications" %}"/>
+    <meta property="og:description" content="{% trans "The best of internet, the best of TV" %}">
+    <meta property="description" content="{% trans "The best of internet, the best of TV" %}" />
+{% endblock %}
+
+{% block page_title %}
+    <title> Creolink - Numeri | Link</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <!-- Custom css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/bootstrap-slider.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/homepage.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/econnect_pricing.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'tsunami/css/tsunami_homepage.css' %}">
+    <style>
+        div#email-error {display: none}
+    </style>
+{% endblock %}
+
+{% block header_brand %}
+    <a class="navbar-brand hidden-xs" href="{{ service.url }}">
+        <img src="{% static "tsunami/img/logo_ikwen_web_header.png" %}"/>
+    </a>
+    <strong class="navbar-brand visible-xs">{{ service.project_name }}</strong>
+{% endblock %}
+
+{% block content %}
+
+    <div id="section-header-general-view" class="container-fluid">
+        <div class="row section-banniere-top" style="margin-top: 0 !important;">
+            <div class="col-md-6 col-sm-6 col-md-offset-3 col-sm-offset-3 text-center" style="padding-top: 7vh">
+              <h1>{% trans "Get the best of Internet and TV" %}</h1>
+                <button type="button" class="btn btn-outline-white animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px;">{% trans "Locate myself" %}</button>
+            </div>
+        </div>
+        <div id="section-banniere-top-iPad-view" class="row section-banniere-top" style="display: none">
+            <div class="col-md-8 col-md-offset-2 text-center">
+              <h1>{% trans "Get the best of Internet and TV" %}</h1>
+                {% if request.user.is_authenticated %}
+                    <a  href='#'>
+                        <button type="button" class="btn btn-outline-white btn-deploy animated pulse mobile-adjust" style="margin-top: 20px; height: 45px;">{% trans 'Deploy <b>Tsunami</b>' %}</button>
+                    </a>
+                {% else %}
+                    <button type="button" class="btn btn-outline-white btn-deploy animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px;">{% trans "Locate myself" %}</button>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+    <section class="pricing-area">
+
+        <nav class="col-md-2 pricing-menu hidden-xs">
+            <ul style="list-style-type: none">
+                <li><a class="js-scrollTo in-page-nav-link in-page-nav-link-tv is-active"href="#sectionTv"> {% trans "TV" %}</a></li>
+                <li><a class="js-scrollTo in-page-nav-link in-page-nav-link-equipement" href="#sectionEquipement"> {% trans "Equipement" %}</a></li>
+                <li><a class="js-scrollTo in-page-nav-link in-page-nav-link-addon" href="#sectionAddOn"> {% trans "Add-ons" %}</a></li>
+                <li><a class="js-scrollTo in-page-nav-link in-page-nav-link-faq" href="#sectionFaq"> {% trans "FAQs" %}</a></li>
+            </ul>
+        </nav>
+
+        <div class="col-md-2 pricing-menu scroll-menu visible-xs">
+            <a class="js-scrollTo in-page-nav-link in-page-nav-link-tv is-active"href="#sectionTv"> {% trans "TV" %}</a>
+            <a class="js-scrollTo in-page-nav-link in-page-nav-link-equipement" href="#sectionEquipement"> {% trans "Equipement" %}</a>
+            <a class="js-scrollTo in-page-nav-link in-page-nav-link-addon" href="#sectionAddOn"> {% trans "Add-ons" %}</a>
+            <a class="js-scrollTo in-page-nav-link in-page-nav-link-faq" href="#sectionFaq"> {% trans "FAQs" %}</a>
+            <a class="js-scrollTo in-page-nav-link in-page-nav-link-invoice" href="#invoice"> {% trans "Invoice" %}</a>
+        </div>
+
+        <div class="col-md-8 pricing-items" style="">
+
+            <section id="sectionTv" class="pricing-section" style="margin-top: 0">
+                <h3 class="col-md-8 section-title">{% trans "Bouquets TV" %}<label class="cost bouquet-cost">{% trans "Choose one below" %}</label></h3>
+                <div class="clearfix"></div>
+                <hr>
+                {% for package in package_list %}
+                    <div class="col-md-4{% if forloop.counter == 4 %} col-md-offset-2{% endif %}">
+                        <div class="panel panel-custom panel-custom-styling">
+                            <div class="pricing-container">
+                                <h3 class="pricing-title">{{ product.name }}&nbsp;<span class="pricing-pack">{{ package.name }}</span></h3>
+                                <h4 class="pricing-value">{{ package.cost|intcomma }} XAF</h4>
+                                <h5 class="pricing-content">{{ package.description }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="clearfix"></div>
+            </section>
+
+            <section id="sectionEquipement" class="pricing-section">
+                <h3 class="col-md-8 section-title">{% trans "Equipements" %}<label class="cost equipement-cost">{{ defaultEquipment_cost }}</label></h3>
+                <div class="clearfix"></div>
+                <hr>
+                <div class="col-md-8">
+                    <h4><label class="checkbox-inline disabled"><input type="checkbox" checked="checked" value="installation" disabled>{% trans "Installation" %}</label></h4>
+                </div>
+                <div class="col-md-12 v-align" style="padding: 5vh 0">
+                    <div class="col-md-2 v-align-center" style="">
+                        <h4>{% trans "Décodeur" %}</h4>
+                    </div>
+                    <div class="col-md-4" style="border-left: #e5e8ed 2px solid">
+                       <div class="radio">
+                           <h4><label><input type="radio" name="optiondecodeur" class="option-achat-decodeur" checked >{% trans "Achat" %}</label></h4>
+                       </div>
+                        <div class="radio">
+                            <h4><label><input type="radio" name="optiondecodeur" class="option-location-decodeur">{% trans "Location" %}</label></h4>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sectionAddOn" class="pricing-section">
+                <h3 class="col-md-8 section-title">{% trans "Add-ons" %}<label class="cost addons-cost" style="display: none" ></label></h3>
+                <div class="clearfix"></div>
+                <hr>
+                <div class="addon-item" style="padding-bottom: 3vh">
+                    <div class="col-md-4 ">
+                        <h4 style="border-right: #3c3c3c 2px solid">
+                            <label><input id="OptionalTvEnabled" type="checkbox"/> {% trans "Je dispose de plusieurs TV" %}</label>
+                        </h4>
+                    </div>
+                    <div class="col-md-8">
+                        <h4 id="CurrentSliderPriceValLabel" style=""><label>{% trans "Indiquez le nombre de TV à connecter..." %}</label></h4>
+                    </div>
+                </div>
+                <div class="col-md-10" style="padding-bottom: 5.5vh">
+                    <input id="optionalTvNumber" type="range" data-slider-min="1" data-slider-max="15" data-slider-step="1" data-slider-value="1" data-slider-enabled="false"/>
+                </div>
+                <div class="clearfix"></div>
+{#                <div>#}
+{#                    <label><input id="OptionalBouquetEnabled" type="checkbox"/> {% trans "Je désire des bouquets supplémentaires" %}</label>#}
+{#                </div>#}
+                <div class=" col-md-8 addon-item">
+                    <input type="checkbox" id="canalBouquetId" value="canalBouquetId" name="OptionalBouquet" class="optional-bouquet" >
+                    <h4 style="display: inline">
+                        <label for="canalBouquetId" class="checkbox-label">{% trans "Le bouquet" %}
+                            <span style=" background-color: #000000; color: #ffffff; padding: .5vh;"> CANAL+</span>
+                        </label>
+                    </h4>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-8 addon-item">
+                    <input type="checkbox" id="adultBouquetId" value="adultBouquetId" name="OptionalBouquet" class="optional-bouquet" >
+                    <h4 style="display: inline">
+                        <label for="adultBouquetId" class="otptional-bouquet checkbox-label">
+                            {% trans "Bouquet Adulte" %}
+                        </label>
+                    </h4>
+                </div>
+                <div class="clearfix"></div>
+            </section>
+
+            <section id="invoice" class="section-invoice visible-xs">
+                <div class="col-md-2 pricing-resume">
+                    <div class=" panel panel-pricing-resume text-center">
+                        <div class="panel-title pricing-resume-title row" style="">
+                            <h4 class="">{% trans "General Invoice" %}</h4>
+                        </div>
+                        <form class="mobile-adjust" style="font-size: 1.2vw" action="{% url 'kakocase:go' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="customer_id" value="{{ user.id }}">
+                            <input type="hidden" name="bouquet_id" value="{{ bouquet.id }}">
+                            <input type="hidden" name="equipement_id" value="{{ equipement.id }}">
+                            <input type="hidden" name="addon_id" value="{{ bouquet.id }}">
+                            <input type="hidden" name="totalCost_id" value="{{ totalCost.id }}">
+                            <div class="invoice-item invoice-item-tv">
+                                <h5>
+                                    <div class=" invoice-items-title"> {% trans "Bouquet TV" %} </div>
+                                    <div class=" invoice-items-name" style="display: none"> NumeriLink <span class="pricing-pack" style="display: none"></span> </div>
+                                    <div class="invoice-items-cost">  </div>
+                                </h5>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="invoice-item invoice-item-equipements">
+                                <h5>
+                                    <div class=" invoice-items-title"> {% trans "Equipements" %} </div>
+                                    <div class="invoice-items-cost">  </div>
+                                </h5>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="invoice-item invoice-item-addons">
+                                <h5>
+                                    <div class=" invoice-items-title"> {% trans "Add-ons" %} </div>
+                                    <div class="invoice-items-cost"></div>
+                                </h5>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="invoice-item invoice-item-total" style="display: none;">
+                                <h5>
+                                    <div class=" invoice-items-title"> {% trans "Total" %} </div>
+                                    <div class="invoice-items-cost cost"></div>
+                                </h5>
+                            </div>
+                            <div class="separator total-separator" style="display: none"></div>
+                            <div class="form-group"> <!-- Submit Button -->
+                                <button type="submit" class="btn btn-outline-success btn-general-invoice mobile-adjust">{% trans "Check Out" %}</button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </form>
+
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="sectionFaq" class="section-faq">
+                <div class="col-md-12">
+                    <h3 class="col-md-8 section-title">FAQs</h3>
+                    <div id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="col-md-6 panel panel-custom" style="cursor: pointer;">
+                            <div class="panel-title faq-title text-center" role="tab" id="headingOne"  data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
+                                <h5 class="mb-0">
+                                <a class="faq-question" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" >
+                                  {% trans "Question 1 ?" %}
+                                </a>
+                              </h5>
+                            </div>
+
+                            <div id="collapseOne" class="collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="faq-answer" style="cursor: default">
+                                    {% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est eros, vulputate eget sodales nec, malesuada vel ante. Quisque volutpat risus in dolor sollicitudin a commodo libero suscipit. Nunc ultrices risus ut arcu hendrerit aliquet. Integer sit amet eros eu augue porttitor dictum. Quisque vel ante est, at lacinia tortor. Curabitur lacus purus, malesuada sit amet dapibus ac, placerat id leo. Nullam vel ultrices augue. Donec posuere convallis purus, sit amet imperdiet leo laoreet at. Quisque aliquam, urna non interdum lobortis, leo diam tincidunt lectus, non ultricies quam purus eget quam." %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 panel panel-custom" style="cursor: pointer;">
+                            <div class="panel-title faq-title text-center" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo">
+                                <h5 class="mb-0">
+                                <a class="collapsed faq-question" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                  {% trans "Question 2 ?" %}
+                                </a>
+                              </h5>
+                            </div>
+                            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                <div class="faq-answer" style="cursor: default">
+                                    {% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est eros, vulputate eget sodales nec, malesuada vel ante. Quisque volutpat risus in dolor sollicitudin a commodo libero suscipit. Nunc ultrices risus ut arcu hendrerit aliquet. Integer sit amet eros eu augue porttitor dictum. Quisque vel ante est, at lacinia tortor. Curabitur lacus purus, malesuada sit amet dapibus ac, placerat id leo. Nullam vel ultrices augue. Donec posuere convallis purus, sit amet imperdiet leo laoreet at. Quisque aliquam, urna non interdum lobortis, leo diam tincidunt lectus, non ultricies quam purus eget quam." %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 panel panel-custom" style="cursor: pointer;">
+                            <div class="panel-title faq-title text-center" role="tab" id="headingThree" data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree">
+                                <h5 class="mb-0">
+                                <a class="collapsed faq-question" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                  {% trans "Question 3 ?" %}
+                                </a>
+                              </h5>
+                            </div>
+                            <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                                <div class="faq-answer" style="cursor: default">
+                                    {% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est eros, vulputate eget sodales nec, malesuada vel ante. Quisque volutpat risus in dolor sollicitudin a commodo libero suscipit. Nunc ultrices risus ut arcu hendrerit aliquet. Integer sit amet eros eu augue porttitor dictum. Quisque vel ante est, at lacinia tortor. Curabitur lacus purus, malesuada sit amet dapibus ac, placerat id leo. Nullam vel ultrices augue. Donec posuere convallis purus, sit amet imperdiet leo laoreet at. Quisque aliquam, urna non interdum lobortis, leo diam tincidunt lectus, non ultricies quam purus eget quam." %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 panel panel-custom" style="cursor: pointer;">
+                            <div class="panel-title faq-title text-center" role="tab" id="headingFour" data-toggle="collapse" data-parent="#accordion" data-target="#collapseFour">
+                                <h5 class="mb-0">
+                                <a class="collapsed faq-question" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                  {% trans "Question 4 ?" %}
+                                </a>
+                              </h5>
+                            </div>
+                            <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour">
+                                <div class="faq-answer" style="cursor: default">
+                                    {% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est eros, vulputate eget sodales nec, malesuada vel ante. Quisque volutpat risus in dolor sollicitudin a commodo libero suscipit. Nunc ultrices risus ut arcu hendrerit aliquet. Integer sit amet eros eu augue porttitor dictum. Quisque vel ante est, at lacinia tortor. Curabitur lacus purus, malesuada sit amet dapibus ac, placerat id leo. Nullam vel ultrices augue. Donec posuere convallis purus, sit amet imperdiet leo laoreet at. Quisque aliquam, urna non interdum lobortis, leo diam tincidunt lectus, non ultricies quam purus eget quam." %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <div class="col-md-2 pricing-resume hidden-xs">
+            <div class=" panel panel-pricing-resume text-center">
+                <div class="panel-title pricing-resume-title row" style="">
+                    <h4 class="">{% trans "General Invoice" %}</h4>
+                </div>
+                <form class="mobile-adjust" style="font-size: 1.2vw" action="{% url 'econnect:numerilink' %}" method="post">
+                    {% csrf_token %}
+{#                    <input type="hidden" name="customer_id" value="{{ user.id }}">#}
+{#                    <input type="hidden" name="bouquet_id" value="{{ bouquet.id }}">#}
+{#                    <input type="hidden" name="equipement_id" value="{{ equipement.id }}">#}
+{#                    <input type="hidden" name="addon_id" value="{{ bouquet.id }}">#}
+{#                    <input type="hidden" name="totalCost_id" value="{{ totalCost.id }}">#}
+                    <div class="invoice-item invoice-item-tv">
+                        <h5>
+                            <div class=" invoice-items-title"> {% trans "Bouquet TV" %} </div>
+                            <div class=" invoice-items-name" style="display: none"> NumeriLink <span class="pricing-pack" style="display: none"></span> </div>
+                            <div class="invoice-items-cost">  </div>
+                        </h5>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="invoice-item invoice-item-equipements">
+                        <h5>
+                            <div class=" invoice-items-title"> {% trans "Equipements" %} </div>
+                            <div class="invoice-items-cost">  </div>
+                        </h5>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="invoice-item invoice-item-addons">
+                        <h5>
+                            <div class=" invoice-items-title"> {% trans "Add-ons" %} </div>
+                            <div class="invoice-items-cost"></div>
+                        </h5>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="invoice-item invoice-item-total" style="display: none;">
+                        <h5>
+                            <div class=" invoice-items-title"> {% trans "Total" %} </div>
+                            <div class="invoice-items-cost pricing-pack"></div>
+                        </h5>
+                    </div>
+                    <div class="separator total-separator" style="display: none"></div>
+                    <div class="form-group"> <!-- Submit Button -->
+                        <button type="submit" class="btn btn-outline-success btn-general-invoice mobile-adjust">{% trans "Check Out" %}</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
+
+            </div>
+        </div>
+    </section>
+
+    <a class="js-scrollTo back-to-top hiding" href="#section-header-general-view" style="text-decoration: none; color: #3F3F3F">
+        <i class="fa fa-chevron-circle-up"></i>
+    </a>
+
+{# Modal definition :BEGIN #}
+    <div id="modal-get-email" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-get-email">
+        <div class="vertical-alignment-helper">
+            <div class="modal-dialog modal-m vertical-align-center" role="document">
+                <div class="modal-content" style=" background: url({% static 'tsunami/img/get_email-modal_background.png' %}); border: 0.2px solid #ccc; border-radius: 4px; text-align: center;">
+                    <div class="modal-header no-border " style="color: #464646">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="color: #d32f2f">&times;</span></button>
+                        <h4 class="modal-title" style="text-align: center">{% trans "Please, enter your email before proceeding..." %}</h4>
+                    </div>
+                    <div id='email-error' class="failure" style="margin: auto; width: 80%">Enter a valid email please </div>
+                    <div class="modal-body">
+                        <form action="#" id="get-user-email">
+                            <input id="action" name='action' type="hidden" required value="send_mail_to_visitor">
+                            <input id="visitor-email" name='visitor_email' type="email" required placeholder="Email" aria-describedby="input-email" class="form-control-custom">
+                        </form>
+                    </div>
+                    <div class="modal-footer no-border" style="padding-top: 0 !important; text-align: center !important;">
+                        <span class="btn btn-outline-primary btn-process mobile-adjust ">{% trans "Continue" %}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{# Modal definition :END #}
+
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'econnect/js/bootstrap-slider.min.js' %}"></script>
+    <script>
+        (function () {
+            // redirect to signIn page
+            $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next=#");
+
+            // set focus when modal is opened
+            $('#modal-get-email').on('shown.bs.modal', function () {
+                $("#visitor-email").focus();
+            });
+
+            $('#visitor-email').focusin(function () {
+                $('div#email-error').fadeOut().hide()
+            });
+
+            // get the email for Tsunami relaunch mails
+            $('.btn-process').click(function () {
+                var visitor_email = $('#visitor-email').val();
+                if (visitor_email !== ''){
+                    $('#get-user-email').submit()
+                }else {
+                    $('div#email-error').fadeIn().show()
+                }
+            });
+
+            // dynamic styling for vertical navbar :BEGIN
+
+            //Get the position of an element relative to the document
+            function offset(el) {
+                var rect = el[0].getBoundingClientRect(),
+                scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+                scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                return { top: parseInt(rect.top + scrollTop), left: parseInt(rect.left + scrollLeft) }
+            }
+
+            var sectionTvPosition = offset($('#sectionTv'));
+            var sectionEquipementPosition = offset($('#sectionEquipement'));
+            var sectionAddonPosition = offset($('#sectionAddOn'));
+            var sectionFaqPosition = offset($('#sectionFaq'));
+
+            var divInvoice = offset($('#invoice'));
+
+            $(window).scroll(function() {
+                if($(window).scrollTop() <= sectionTvPosition.top){
+                    $('.in-page-nav-link-tv').addClass('is-active');
+                    $('.in-page-nav-link-equipement').removeClass('is-active');
+                    $('.in-page-nav-link-addon').removeClass('is-active');
+                    $('.in-page-nav-link-faq').removeClass('is-active');
+                    $('.in-page-nav-link-invoice').removeClass('is-active');
+
+                }
+                if(($(window).scrollTop() >= sectionEquipementPosition.top) && ($(window).scrollTop() < sectionAddonPosition.top)){
+                    $('.in-page-nav-link-tv').removeClass('is-active');
+                    $('.in-page-nav-link-equipement').addClass('is-active');
+                    $('.in-page-nav-link-addon').removeClass('is-active');
+                    $('.in-page-nav-link-faq').removeClass('is-active');
+                    $('.in-page-nav-link-invoice').removeClass('is-active');
+
+                }
+                if(($(window).scrollTop() >= sectionAddonPosition.top) && ($(window).scrollTop() < sectionFaqPosition.top) ){
+                    $('.in-page-nav-link-tv').removeClass('is-active');
+                    $('.in-page-nav-link-equipement').removeClass('is-active');
+                    $('.in-page-nav-link-addon').addClass('is-active');
+                    $('.in-page-nav-link-faq').removeClass('is-active');
+                    $('.in-page-nav-link-invoice').removeClass('is-active');
+
+                }
+                if (divInvoice.top <= 444){
+                    if($(window).scrollTop() >= sectionFaqPosition.top) {
+                        $('.in-page-nav-link-tv').removeClass('is-active');
+                        $('.in-page-nav-link-equipement').removeClass('is-active');
+                        $('.in-page-nav-link-addon').removeClass('is-active');
+                        $('.in-page-nav-link-faq').addClass('is-active');
+                    }
+
+                }
+                else {
+                    if($(window).scrollTop() >= sectionFaqPosition.top && $(window).scrollTop() < divInvoice.top){
+                        $('.in-page-nav-link-tv').removeClass('is-active');
+                        $('.in-page-nav-link-equipement').removeClass('is-active');
+                        $('.in-page-nav-link-addon').removeClass('is-active');
+                        $('.in-page-nav-link-faq').addClass('is-active');
+                        $('.in-page-nav-link-invoice').removeClass('is-active');
+                    }
+                    if($(window).scrollTop() >= divInvoice.top){
+                        $('.in-page-nav-link-tv').removeClass('is-active');
+                        $('.in-page-nav-link-equipement').removeClass('is-active');
+                        $('.in-page-nav-link-addon').removeClass('is-active');
+                        $('.in-page-nav-link-faq').removeClass('is-active');
+                        $('.in-page-nav-link-invoice').addClass('is-active');
+                    }
+
+                }
+            });
+            // dynamic styling for vertical navbar :END
+
+            var invoiceCost = 0;
+            var bouquetCost = 0;
+            var decodeurCost = 0;
+            var addonCost = 0;
+            var equipementCost = 0;
+            var installationCost = 15000;
+
+            $('.invoice-item-equipements').find('.invoice-items-cost').text($('.equipement-cost').text());
+
+            function calculateInvoiceCost(){
+                invoiceCost = bouquetCost + installationCost + decodeurCost + addonCost;
+                $('.invoice-item-total').css('display', 'block').find('.invoice-items-cost').text(invoiceCost + " XAF");
+                $('.total-separator').css('display', 'block');
+
+            }
+
+            function calculateEquipementCost(){
+                if (decodeurCost === 25000) {
+                    equipementCost = installationCost + decodeurCost;
+                    $(".equipement-cost").text("  " + equipementCost + " XAF");
+                    $('.invoice-item-equipements').find('.invoice-items-cost').text($('.equipement-cost').text())
+                }
+                else if (decodeurCost === 2000) {
+                    $(".equipement-cost").text("  " + installationCost + " XAF" + " + " + decodeurCost + " XAF/mois");
+                    $('.invoice-item-equipements').find('.invoice-items-cost').text($('.equipement-cost').text())
+                }
+                calculateInvoiceCost();
+            }
+
+            function calculateAddonCost(){
+                addonCost = addonTvCost + addonCanalcost + addonAdultCost;
+                if (addonCost === 0){
+                    $('.addons-cost').css('display', 'none');
+                    $('.invoice-item-addons').css('display', 'none');
+                }
+                else {
+                    $('.addons-cost').css('display', 'inline');
+                    $(".addons-cost").text("  " + addonCost + " XAF/mois");
+                    $('.invoice-item-addons').find('.invoice-items-cost').text($('.addons-cost').text());
+                    $('.invoice-item-addons').css('display', 'block');
+                }
+                calculateInvoiceCost();
+            }
+
+
+            $('.pricing-container').click(function () {
+                bouquetCost = parseInt($(this).find('.pricing-value').text());
+               $('.bouquet-cost').text(bouquetCost + " XAF/mois");
+               $('.invoice-item-tv').find('.invoice-items-name').css('display', 'inline');
+               $('.invoice-item-tv').find('.pricing-pack').css('display', 'inline').text($(this).find('.pricing-pack').text());
+               $('.invoice-item-tv').find('.invoice-items-cost').text($(this).find('.pricing-value').text());
+               calculateInvoiceCost();
+            });
+            $('.option-achat-decodeur').click(function () {
+               decodeurCost = 25000;
+               calculateEquipementCost()
+            });
+
+             $('.option-location-decodeur').click(function () {
+               decodeurCost = 2000;
+               calculateEquipementCost()
+            });
+
+
+            var addonCanalcost = 0;
+            var addonAdultCost = 0;
+
+            $("#canalBouquetId").click(function() {
+                if(this.checked) {
+                    addonCanalcost = 12000;
+                    calculateAddonCost();
+                }
+                else {
+                    addonCanalcost = 0;
+                    calculateAddonCost();
+                }
+            });
+
+            $("#adultBouquetId").click(function() {
+                if(this.checked) {
+                    addonAdultCost = 5000;
+                    calculateAddonCost();
+                }
+                else {
+                    addonAdultCost = 0;
+                    calculateAddonCost();
+                }
+            });
+
+
+            var addonTvCost = 0;
+
+            //Optional TV adding slider gesture
+
+            $("#optionalTvNumber").slider({
+                tooltip: 'always',
+                handle: 'square',
+                tooltip_position: 'bottom'
+            });
+            $("#OptionalTvEnabled").click(function() {
+                if(this.checked) {
+                    $("#optionalTvNumber").slider("enable");
+                    $("#optionalTvNumber").slider("setValue", "2");
+                    addonTvCost= (parseInt($("#optionalTvNumber").slider("getValue") * 2500)) - 2500;
+                    $("#CurrentSliderPriceValLabel").text("  " + addonTvCost + " XAF/mois");
+                    calculateAddonCost();
+                }
+                else {
+                    $("#optionalTvNumber").slider("refresh");
+                    addonTvCost= 0;
+                    $("#CurrentSliderPriceValLabel").text("2.500 XAF / TV supplémentaires / mois");
+                    $("#optionalTvNumber").slider("disable");
+                    calculateAddonCost();
+                }
+            });
+            $("#optionalTvNumber").on("change", function(slideEvt) {
+                addonTvCost = (parseInt(slideEvt.value.newValue * 2500)) - 2500;
+                $("#CurrentSliderPriceValLabel").text("  " + addonTvCost + " XAF/mois");
+                calculateAddonCost();
+            });
+
+        })()
+    </script>
+{% endblock %}

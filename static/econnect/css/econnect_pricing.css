@@ -1,0 +1,48 @@
+
+.btn-general-invoice { width: 100% !important; }
+
+.in-page-nav-link { border-left: 2px solid #e5e8ed; color: rgba(3,27,78,.6); display: block; font-size: 20px; padding: 16px; }
+.in-page-nav-link.is-active { border-left-color: #2ab732; color: #2ab732; }
+.invoice-items-name { line-height: 2 }
+.invoice-items-title {line-height: 2; padding-bottom: 1vh; text-decoration: underline; }
+
+.panel-pricing-resume {border-color: #ecf0f1; padding: 0vh 2vh 1vh 2vh !important;position: relative !important; width: 95%; }
+.panel-custom-styling:hover { box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); }
+
+.pricing-container { cursor: pointer; padding: 2px 16px; }
+.pricing-menu { display: block; position: sticky; position: -webkit-sticky; top: 10vh; }
+.pricing-title { color: #2ab732; }
+.pricing-pack { background: #2ab732; color: #ffffff; padding: .7vh 1vw; }
+.pricing-resume { margin-top: 10vh; padding: 0 !important; position: sticky; position: -webkit-sticky; top: 10vh; }
+.pricing-resume-title { background-color: #2ab732; border-bottom: 2px #f1f1f1 solid; color: #ffffff; margin-bottom: 3vh; padding:1vh; }
+
+.slider-handle { background-color: #2ab732; background-image: -webkit-linear-gradient(top,#00280f 0, #183625 100%);
+                background-image: -o-linear-gradient(top,#00280f 0, #183625 100%);
+                background-image: linear-gradient(to bottom,#00280f 0,#183625 100%); }
+.slider-selection { background-image: linear-gradient(to bottom,#2ab732 0,#318131 100%); }
+
+.cost { background-color: #2ab732; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
+.addon-item { margin-bottom: 2vh; }
+.tooltip .tooltip-arrow { border-bottom-color: #2ab732 !important; }
+.tooltip-inner { background-color: #2ab732; }
+
+
+
+
+/* Media query */
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+
+    a:hover, a:focus { color: rgba(3,27,78,.6); }
+
+    .in-page-nav-link { border-bottom: 2px solid #183625 ;border-left: none; }
+    .in-page-nav-link.is-active { border-bottom-color: #ffffff; color: #ffffff; }
+    .scroll-menu { background: #2ab732; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
+    .scroll-menu a{ display: inline-block !important; margin: auto 3vw; padding: 2vw !important; text-align: center !important; }
+    .pricing-menu { display: block; padding: 1vh; position: sticky; position: -webkit-sticky; top: 7.8vh; z-index: 1071; }
+    .panel-pricing-resume {border-color: #ecf0f1; padding: 0vh 2vh 1vh 2vh !important;position: inherit !important; width: 100%; }
+    .pricing-resume { margin-top: 0 !important; padding: inherit !important; position: inherit; }
+    .pricing-area { margin-top: 0 !important;}
+
+}

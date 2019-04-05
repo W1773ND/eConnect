@@ -1,0 +1,93 @@
+{% extends "core/base_admin.html" %}
+{% load i18n humanize static %}
+{% block app_admin_nav %}
+    <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" class="menus">
+            <a href="{% url "econnect:admin" %}">{% trans 'Home' %}</a>
+        </li>
+        <hr>
+        <li role="presentation" class="menus">
+            <a href="javascript:;" data-toggle="collapse" data-target="#customerAdmin" style="padding-right: 0;">
+                {% trans 'Customer management' %}
+                <i class="fa fa-fw fa-caret-down"></i>
+            </a>
+            <ul id="customerAdmin" class="nav nav-pills nav-stacked collapse" style="padding-left: 15px;">
+                <li class="echo-categories">
+                    <a href="{% url "econnect:admin_order" %}">{% trans 'Orders' %}</a>
+                </li>
+                <li class="ccm-categories">
+                    <a href="{% url "econnect:admin_request" %}">{% trans 'Requests' %}</a>
+                </li>
+                <li class="ccm-categories">
+                    <a href="{% url "econnect:admin_payment" %}">{% trans 'Payments' %}</a>
+                </li>
+            </ul>
+        </li>
+        <hr>
+        <li role="presentation" class="menus">
+            <a href="javascript:;" data-toggle="collapse" data-target="#ccm" style="padding-right: 0;">
+                Cloud Customer Manager
+                <i class="fa fa-fw fa-caret-down"></i>
+            </a>
+            <ul id="ccm" class="nav nav-pills nav-stacked collapse" style="padding-left: 15px;">
+                <li class="ccm-categories">
+                    <a href="{% url "revival:profiletag_list" %}">Profiles</a>
+                </li>
+                <li class="ccm-categories">
+                    {% url 'ikwen:community' as community_url %}
+                    <a href="{{ community_url }}">{% trans "Community" %}</a>
+                </li>
+            </ul>
+        </li>
+        <hr>
+        <li role="presentation" class="menus">
+            <a href="javascript:;" data-toggle="collapse" data-target="#echo" aria-expanded="true" style="padding-right: 0;">
+                {% trans 'Messaging Campaign' %}<i class="fa fa-fw fa-caret-down"></i>
+            </a>
+            <ul id="echo" class="nav nav-pills nav-stacked collapse" style="padding-left: 15px;">
+                <li class="echo-categories">
+                    <a href="{% url "echo:sms_campaign" %}">SMS</a>
+                </li>
+                <li class="echo-categories">
+                    <a href="{% url "echo:change_mailcampaign" %}">Mail</a>
+                </li>
+            </ul>
+        </li>
+        <hr>
+        <li role="presentation" class="menus">
+            <a href="javascript:;" data-toggle="collapse" data-target="#cms" aria-expanded="true" style="padding-right: 0;">
+                {% trans 'Content Management System' %}<i class="fa fa-fw fa-caret-down"></i>
+            </a>
+            <ul id="cms" class="nav nav-pills nav-stacked collapse" style="padding-left: 15px;">
+                <li class="cms-categories">
+                    <a href="{% url "econnect:product_list" %}">{% trans 'Products' %}</a>
+                </li>
+                <li class="cms-categories">
+                    <a href="{% url "econnect:package_list" %}">{% trans 'Packages' %}</a>
+                </li>
+                <li class="cms-categories">
+                    <a href="{% url "econnect:add-on_list" %}">{% trans 'Add-Ons' %}</a>
+                </li>
+            </ul>
+        </li>
+        <hr>
+        <li role="presentation" class="menus">
+            <a href="javascript:;" data-toggle="collapse" data-target="#blog"aria-expanded="true" style="padding-right: 0;">
+                {% trans "Blog" %} <i class="fa fa-fw fa-caret-down"></i>
+            </a>
+            <ul id="blog" class="nav nav-pills nav-stacked collapse" aria-expanded="true"
+                style="padding-left: 15px">
+                <li class="blog-categories">{% url 'blog:list_category' as category_list_url %}
+                    <a href="{{ category_list_url }}">{% trans "Blog categories" %}</a>
+                </li>
+                <li class="posts">
+                    <a href="{% url 'blog:list_post' %}">{% trans "Posts" %}</a>
+                </li>
+
+                <li class="comments">
+                    <a href="{% url 'blog:list_comment' %}">{% trans "Comments" %}</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+{% endblock %}
