@@ -7,7 +7,8 @@
 .invoice-items-title {line-height: 2; padding-bottom: 1vh; text-decoration: underline; }
 
 .panel-pricing-resume {border-color: #ecf0f1; padding: 0vh 2vh 1vh 2vh !important;position: relative !important; width: 95%; }
-.panel-custom-styling:hover { box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); }
+.panel-custom-styling:active { background-color: #2ab7321f; box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
+.panel-custom-styling:hover { box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); -webkit-box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); -moz-box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);  transition-duration: .3s; }
 
 .pricing-container { cursor: pointer; padding: 2px 16px; }
 .pricing-menu { display: block; position: sticky; position: -webkit-sticky; top: 10vh; }

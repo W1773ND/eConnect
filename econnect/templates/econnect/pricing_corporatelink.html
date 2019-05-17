@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block page_title %}
-    <title> Creolink - Numeri | Link</title>
+    <title> Creolink - Corporate | Link</title>
 {% endblock %}
 
 {% block head_style %}
@@ -66,7 +66,7 @@
 
         <nav class="col-md-2 pricing-menu hidden-xs">
             <ul style="list-style-type: none">
-                <li><a class="js-scrollTo in-page-nav-link in-page-nav-link-tv is-active"href="#sectionTv"> {% trans "TV" %}</a></li>
+                <li><a class="js-scrollTo in-page-nav-link in-page-nav-link-tv is-active"href="#sectionTv"> {% trans "Domicile" %}</a></li>
                 <li><a class="js-scrollTo in-page-nav-link in-page-nav-link-equipement" href="#sectionEquipement"> {% trans "Equipement" %}</a></li>
                 <li><a class="js-scrollTo in-page-nav-link in-page-nav-link-addon" href="#sectionAddOn"> {% trans "Add-ons" %}</a></li>
                 <li><a class="js-scrollTo in-page-nav-link in-page-nav-link-faq" href="#sectionFaq"> {% trans "FAQs" %}</a></li>
@@ -84,7 +84,7 @@
         <div class="col-md-8 pricing-items" style="">
 
             <section id="sectionTv" class="pricing-section" style="margin-top: 0">
-                <h3 class="col-md-8 section-title">{% trans "Offres TV" %}<label class="cost bouquet-cost">{% trans "Choose one below" %}</label></h3>
+                <h3 class="col-md-8 section-title">{% trans "Offres PME" %}<label class="cost bouquet-cost">{% trans "Choose one below" %}</label></h3>
                 <div class="clearfix"></div>
                 <hr>
                 {% for package in product.package_set.all %}
@@ -93,7 +93,7 @@
                             <div class="pricing-container" data-cost="{{ package.cost }}">
                                 <h3 class="pricing-title">{{ product.name }}&nbsp;<span class="pricing-pack">{{ package.name }}</span></h3>
                                 <h4 class="pricing-value">{{ package.cost|intcomma }} XAF</h4>
-                                <h5 class="pricing-content">{{ package.description }}</h5>
+                                <h5 class="pricing-content">{{ package.description|safe }}</h5>
                             </div>
                         </div>
                     </div>
@@ -108,42 +108,31 @@
                 <div class="col-md-8">
                     <h4><label class="checkbox-inline disabled"><input type="checkbox" checked="checked" value="installation" disabled>{% trans "Installation" %}</label></h4>
                 </div>
+                {% for equipment in equipment_list %}
                 <div class="col-md-12 v-align" style="padding: 5vh 0">
                     <div class="col-md-2 v-align-center" style="">
-                        <h4>{{ equipment_name }}</h4>
+                        <h4>{{ equipment.name }}</h4>
                     </div>
                     <div class="col-md-4" style="border-left: #e5e8ed 2px solid">
                        <div class="radio">
-                           <h4><label><input type="radio" name="optiondecodeur" class="option-achat-decodeur" checked >{% trans "Achat" %}</label></h4>
+                           <h4><label><input type="radio" name="option{{ equipment.name|cut:" " }}" class="option-achat-{{ equipment.name|cut:" " }}" checked >{% trans "Achat" %}</label></h4>
                        </div>
                         <div class="radio">
-                            <h4><label><input type="radio" name="optiondecodeur" class="option-location-decodeur">{% trans "Location" %}</label></h4>
+                            <h4><label><input type="radio" name="option{{ equipment.name|cut:" " }}" class="option-location-{{ equipment.name|cut:" " }}">{% trans "Location" %}</label></h4>
                         </div>
                     </div>
                 </div>
+                {% endfor %}
             </section>
 
             <section id="sectionAddOn" class="pricing-section">
                 <h3 class="col-md-8 section-title">{% trans "Add-ons" %}<label class="cost addons-cost" style="display: none" ></label></h3>
                 <div class="clearfix"></div>
                 <hr>
-                <div class="addon-item" style="padding-bottom: 3vh">
-                    <div class="col-md-4 ">
-                        <h4 style="border-right: #3c3c3c 2px solid">
-                            <label><input id="OptionalTvEnabled" type="checkbox"/> {% trans "Je dispose de plusieurs TV" %}</label>
-                        </h4>
-                    </div>
-                    <div class="col-md-8">
-                        <h4 id="CurrentSliderPriceValLabel" style=""><label>{% trans "Indiquez le nombre de TV à connecter..." %}</label></h4>
-                    </div>
-                </div>
-                <div class="col-md-10" style="padding-bottom: 5.5vh">
-                    <input id="optionalTvNumber" type="range" data-slider-min="1" data-slider-max="15" data-slider-step="1" data-slider-value="1" data-slider-enabled="false"/>
-                </div>
                 <div class="clearfix"></div>
                 {% for extra in product.extra_set.all %}
                     <div class=" col-md-8 addon-item">
-                        <input type="checkbox" id="{{ extra.id }}" value="{{ extra.id }}" name="OptionalBouquet" data-addon-cost = "{{ extra.cost }}" class="addon" >
+                        <input type="checkbox" id="{{ extra.id }}" value="{{ extra.id }}" name="OptionalBouquet" class="optional-bouquet" >
                         <h4 style="display: inline">
                             <label for="{{ extra.id }}" class="checkbox-label">{{ extra.name|safe }}</label>
                         </h4>
@@ -288,7 +277,7 @@
                     <div class="invoice-item invoice-item-tv">
                         <h5>
                             <div class=" invoice-items-title"> {% trans "Bouquet TV" %} </div>
-                            <div class=" invoice-items-name" style="display: none">{{ product.name }}&nbsp;<span class="pricing-pack" style="display: none"></span></div>
+                            <div class=" invoice-items-name" style="display: none"> NumeriLink <span class="pricing-pack" style="display: none"></span> </div>
                             <div class="invoice-items-cost">  </div>
                         </h5>
                     </div>
@@ -296,7 +285,7 @@
                     <div class="invoice-item invoice-item-equipements">
                         <h5>
                             <div class=" invoice-items-title"> {% trans "Equipements" %} </div>
-                            <div class="invoice-items-cost" style="display: none;">{{ default_equipment_cost|intcomma }} XAF</div>
+                            <div class="invoice-items-cost">  </div>
                         </h5>
                     </div>
                     <div class="separator"></div>
@@ -315,7 +304,7 @@
                     </div>
                     <div class="separator total-separator" style="display: none"></div>
                     <div class="form-group"> <!-- Submit Button -->
-                        <button type="submit" class="btn btn-outline-success btn-general-invoice mobile-adjust tpl">{% trans "Check Out" %}</button>
+                        <button type="submit" class="btn btn-outline-success btn-general-invoice mobile-adjust">{% trans "Check Out" %}</button>
                     </div>
                     <div class="clearfix"></div>
                 </form>
@@ -324,7 +313,7 @@
         </div>
     </section>
 
-    <a class="js-scrollTo back-to-top hiding" href="#section-header-general-view" style="text-decoration: none; color: #3F3F3F">
+    <a class="js-scrollTo back-to-top hiding" href="#section-header-general-view" style="text-decoration: none; color: #3F3F3F; text-align: center">
         <i class="fa fa-chevron-circle-up"></i>
     </a>
 
@@ -455,53 +444,44 @@
 
             var invoiceCost = 0;
             var bouquetCost = 0;
-            var decodeurCost = 25000;
+            var decodeurCost = 0;
             var addonCost = 0;
-            var addonItemCost = 0;
             var equipementCost = 0;
-            var installationCost = 15000;
+            var installationCost = 99000;
 
             $('.invoice-item-equipements').find('.invoice-items-cost').text($('.equipement-cost').text());
 
             function calculateInvoiceCost(){
                 invoiceCost = bouquetCost + installationCost + decodeurCost + addonCost;
-                $('.invoice-item-total').css('display', 'block').find('.invoice-items-cost').text(invoiceCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF");
+                $('.invoice-item-total').css('display', 'block').find('.invoice-items-cost').text(invoiceCost + " XAF");
                 $('.total-separator').css('display', 'block');
-                if (invoiceCost > 0) $('.btn-general-invoice').removeClass('tpl');
-                else $('.btn-general-invoice').addClass('tpl');
 
             }
 
             function calculateEquipementCost(){
                 if (decodeurCost === 25000) {
                     equipementCost = installationCost + decodeurCost;
-                    $(".equipement-cost").text("  " + equipementCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF");
+                    $(".equipement-cost").text("  " + equipementCost + " XAF");
                     $('.invoice-item-equipements').find('.invoice-items-cost').text($('.equipement-cost').text())
                 }
                 else if (decodeurCost === 2000) {
-                    $(".equipement-cost").text("  " + installationCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}')
-                        + " XAF" + " + " + decodeurCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
+                    $(".equipement-cost").text("  " + installationCost + " XAF" + " + " + decodeurCost + " XAF/mois");
                     $('.invoice-item-equipements').find('.invoice-items-cost').text($('.equipement-cost').text())
                 }
                 calculateInvoiceCost();
             }
 
-            function calculateAddonCost() {
-                addonItemCost = 0;
-                $(".addon").each(function() {
-                    if (this.checked) {
-                        addonItemCost += ($(this).data('addon-cost'));
-                    }
-                });
-                addonCost = addonTvCost + addonItemCost;
-                $('.invoice-item-addons').find('.invoice-items-cost').text(addonCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
+            function calculateAddonCost(){
+                addonCost = addonTvCost + addonCanalcost + addonAdultCost;
                 if (addonCost === 0){
                     $('.addons-cost').css('display', 'none');
+                    $('.invoice-item-addons').css('display', 'none');
                 }
                 else {
-                    $('.invoice-item-equipements').find('.invoice-items-cost').css('display', 'inline');
-                    $('.addons-cost').css('display', 'inline').text(addonCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
-                    {#$('.invoice-item-addons').find('.invoice-items-cost').text($('.addons-cost').text());#}
+                    $('.addons-cost').css('display', 'inline');
+                    $(".addons-cost").text("  " + addonCost + " XAF/mois");
+                    $('.invoice-item-addons').find('.invoice-items-cost').text($('.addons-cost').text());
+                    $('.invoice-item-addons').css('display', 'block');
                 }
                 calculateInvoiceCost();
             }
@@ -509,7 +489,6 @@
 
             $('.pricing-container').click(function () {
                 bouquetCost = parseInt($(this).data('cost'));
-                $('.invoice-item-equipements').find('.invoice-items-cost').css('display', 'inline');
                $('.bouquet-cost').text(bouquetCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
                $('.invoice-item-tv').find('.invoice-items-name').css('display', 'inline');
                $('.invoice-item-tv').find('.pricing-pack').css('display', 'inline').text($(this).find('.pricing-pack').text());
@@ -517,51 +496,40 @@
                calculateInvoiceCost();
             });
             $('.option-achat-decodeur').click(function () {
-                decodeurCost = 25000;
-                $('.invoice-item-equipements').find('.invoice-items-cost').css('display', 'inline');
-                calculateEquipementCost();
+               decodeurCost = 25000;
+               calculateEquipementCost()
             });
 
-            $('.option-location-decodeur').click(function () {
-                $('.invoice-item-equipements').find('.invoice-items-cost').css('display', 'inline');
-                decodeurCost = 2000;
-                calculateEquipementCost()
+             $('.option-location-decodeur').click(function () {
+               decodeurCost = 2000;
+               calculateEquipementCost()
             });
 
-            $(".addon").click(calculateAddonCost);
 
+            var addonCanalcost = 0;
+            var addonAdultCost = 0;
 
-            var addonTvCost = 0;
-
-            //Optional TV adding slider gesture
-
-            $("#optionalTvNumber").slider({
-                tooltip: 'always',
-                handle: 'square',
-                tooltip_position: 'bottom'
-            });
-            $("#OptionalTvEnabled").click(function() {
+            $("#canalBouquetId").click(function() {
                 if(this.checked) {
-                    $("#optionalTvNumber").slider("enable");
-                    $("#optionalTvNumber").slider("setValue", "2");
-                    addonTvCost= (parseInt($("#optionalTvNumber").slider("getValue") * 2500)) - 2500;
-                    $("#CurrentSliderPriceValLabel").text("  " + addonTvCost + " XAF/mois");
+                    addonCanalcost = 12000;
                     calculateAddonCost();
                 }
                 else {
-                    $("#optionalTvNumber").slider("refresh");
-                    addonTvCost= 0;
-                    $("#CurrentSliderPriceValLabel").text("2.500 XAF / TV supplémentaires / mois");
-                    $("#optionalTvNumber").slider("disable");
+                    addonCanalcost = 0;
                     calculateAddonCost();
                 }
             });
-            $("#optionalTvNumber").on("change", function(slideEvt) {
-                addonTvCost = (parseInt(slideEvt.value.newValue * 2500)) - 2500;
-                $("#CurrentSliderPriceValLabel").text("  " + addonTvCost + " XAF/mois");
-                calculateAddonCost();
-            });
 
+            $("#adultBouquetId").click(function() {
+                if(this.checked) {
+                    addonAdultCost = 5000;
+                    calculateAddonCost();
+                }
+                else {
+                    addonAdultCost = 0;
+                    calculateAddonCost();
+                }
+            });
         })()
     </script>
 {% endblock %}

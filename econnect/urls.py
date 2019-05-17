@@ -3,12 +3,16 @@ from django.contrib.auth.decorators import permission_required
 
 from ikwen.billing.views import PaymentList
 from econnect.views import Admin, Home, PricingNumerilink, OrderList, CustomerRequestList, ChangeProduct, ProductList, \
-    ChangePackage, PackageList, EquipmentList, ChangeEquipment, ExtraList, ChangeExtra
+    ChangePackage, PackageList, EquipmentList, ChangeEquipment, ExtraList, ChangeExtra, PricingOfficelink, \
+    PricingHomelink, PricingCorporatelink
 
 urlpatterns = patterns(
     '',
     url(r'^$', Home.as_view(), name='home'),
     url(r'^numerilink$', PricingNumerilink.as_view(), name='numerilink'),
+    url(r'^officelink$', PricingOfficelink.as_view(), name='officelink'),
+    url(r'^homelink$', PricingHomelink.as_view(), name='homelink'),
+    url(r'^corporatelink$', PricingCorporatelink.as_view(), name='corporatelink'),
     url(r'^admin/home$', permission_required('econnect.ik_econnect_admin')(Admin.as_view()), name='admin'),
     url(r'^product_list/$', permission_required('econnect.ik_econnect_admin')(ProductList.as_view()), name='product_list'),
     url(r'^product/$', permission_required('econnect.ik_econnect_admin')(ChangeProduct.as_view()), name='change_product'),

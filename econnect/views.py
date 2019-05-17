@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django_mongodb_engine.contrib import _compiler_for_queryset
 
@@ -35,6 +36,15 @@ class CustomerRequestList(HybridListView):
 
 class Home(TemplateView):
     template_name = 'econnect/homepage.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(Home, self).get_context_data(**kwargs)
+        product_list = []
+        for product in Product.objects.all():
+            product.url = reverse('econnect:' + product.slug)
+            product_list.append(product)
+        context['product_list'] = product_list
+        return context
 
 
 class ProductList(HybridListView):
@@ -90,4 +100,47 @@ class PricingNumerilink(TemplateView):
         context['product'] = product
         context['equipment_name'] = equipment.name
         context['default_equipment_cost'] = product.installation_cost + equipment.purchase_cost
+        return context
+
+
+class PricingHomelink(TemplateView):
+    template_name = 'econnect/pricing_homelink.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PricingHomelink, self).get_context_data(**kwargs)
+        product = Product.objects.get(name='HomeLink')
+        equipment_list = Equipment.objects.filter(product=product)
+        for equipment in equipment_list:
+            context['default_equipment_cost'] = product.installation_cost + equipment.purchase_cost
+        context['equipment_list'] = equipment_list
+        context['product'] = product
+        return context
+
+
+class PricingOfficelink(TemplateView):
+    template_name = 'econnect/pricing_officelink.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PricingOfficelink, self).get_context_data(**kwargs)
+        product = Product.objects.get(name='OfficeLink')
+        equipment_list = Equipment.objects.filter(product=product)
+        for equipment in equipment_list:
+            context['default_equipment_cost'] = product.installation_cost + equipment.purchase_cost
+        context['equipment_list'] = equipment_list
+        context['product'] = product
+        return context
+
+
+
+class PricingCorporatelink(TemplateView):
+    template_name = 'econnect/pricing_corporatelink.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PricingCorporatelink, self).get_context_data(**kwargs)
+        product = Product.objects.get(name='CorporateLink')
+        equipment_list = Equipment.objects.filter(product=product)
+        for equipment in equipment_list:
+            context['default_equipment_cost'] = product.installation_cost + equipment.purchase_cost
+        context['equipment_list'] = equipment_list
+        context['product'] = product
         return context

@@ -16,12 +16,13 @@ class ModelI18n(Model):
 
 
 class Product(ModelI18n):
+    UPLOAD_TO = 'econnect'
     name = models.CharField(max_length=200)
     slug = models.CharField(max_length=250)
     summary = models.CharField(max_length=250)
     description = models.TextField(blank=True, null=True)
     installation_cost = models.IntegerField(default=0)
-    logo = models.ImageField(blank=True, null=True,
+    logo = models.ImageField(blank=True, null=True, upload_to=UPLOAD_TO,
                              help_text="150 x 150px")
     order_of_appearance = models.IntegerField(default=0)
 
@@ -32,7 +33,7 @@ class Product(ModelI18n):
 class Package(ModelI18n):
     product = models.ForeignKey(Product)
     name = models.CharField(max_length=5)
-    description = models.CharField(max_length=250)
+    description = models.TextField()
     cost = models.IntegerField()
     order_of_appearance = models.IntegerField(default=0)
 

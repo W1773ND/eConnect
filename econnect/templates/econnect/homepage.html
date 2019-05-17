@@ -105,6 +105,25 @@
     </div>
     <section>
         <div class="container">
+            {% for product in product_list %}
+                <div class="col-md-6 f_container">
+                    <div class="row f_card shadow">
+                      <div class="front face">
+                          <img src="{% get_media_prefix  %}{{ product.logo.name }}"/>
+                      </div>
+                      <div class="back face center">
+                          <h3>{{ product.name }}</h3>
+                      {% url product.slug as product_url  %}
+                          {% blocktrans with product_url=product.url product_description=product.description %}
+                              <a href="{{product_url}}">{{ product_description }}</a>
+                          {% endblocktrans %}
+                      </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% comment %}
+        <div class="container">
             <div class="col-md-6 f_container" style="box-shadow: 5px 5px 5px #4baa73;">
                 <div class="row f_card shadow">
                   <div class="front face">
@@ -150,6 +169,7 @@
                 </div>
             </div>
         </div>
+        {% endcomment %}
     </section>
 
     <section class="section-faq">
