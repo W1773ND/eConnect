@@ -12,6 +12,10 @@ from econnect.admin import ProductAdmin, PackageAdmin, EquipmentAdmin, ExtraAdmi
 from econnect.models import Order, CustomerRequest, Product, Package, Equipment, Extra
 
 
+class Maps(TemplateView):
+    template_name = 'econnect/maps.html'
+
+
 class Admin(TemplateView):
     template_name = 'econnect/admin/admin_home.html'
 

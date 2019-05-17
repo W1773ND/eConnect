@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import permission_required
 from ikwen.billing.views import PaymentList
 from econnect.views import Admin, Home, PricingNumerilink, OrderList, CustomerRequestList, ChangeProduct, ProductList, \
     ChangePackage, PackageList, EquipmentList, ChangeEquipment, ExtraList, ChangeExtra, PricingOfficelink, \
-    PricingHomelink, PricingCorporatelink
+    PricingHomelink, PricingCorporatelink, Maps
 
 urlpatterns = patterns(
     '',
@@ -29,4 +29,5 @@ urlpatterns = patterns(
     url(r'^admin/customer_order$', permission_required('econnect.ik_econnect_admin')(OrderList.as_view()), name='admin_order'),
     url(r'^admin/customer_request$', permission_required('econnect.ik_econnect_admin')(CustomerRequestList.as_view()), name='admin_request'),
     url(r'^admin/customer_payment$', permission_required('econnect.ik_econnect_admin')(PaymentList.as_view()), name='admin_payment'),
+    url(r'^maps$', Maps.as_view(), name='maps'),
 )
