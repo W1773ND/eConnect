@@ -24,8 +24,8 @@ from django.views.generic import TemplateView
 from ikwen.accesscontrol.templatetags.auth_tokens import append_auth_tokens
 
 from ikwen.core.utils import get_model_admin_instance, DefaultUploadBackend
-from ikwen_webnode.blog.admin import PostAdmin, PostCategoryAdmin
-from ikwen_webnode.blog.models import Post, Comment, PostCategory, PostLikes, LinkedDoc, Photo
+from blog.admin import PostAdmin, PostCategoryAdmin
+from blog.models import Post, Comment, PostCategory, PostLikes, LinkedDoc, Photo
 from django.http import HttpResponse
 import json
 from django.template.defaultfilters import slugify

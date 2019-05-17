@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.contrib.auth.decorators import permission_required
 
-from ikwen_webnode.blog.views import PostDetails, Search, PostPerCategory, PostsList, save_comment, AdminPostHome, \
+from blog.views import PostDetails, Search, PostPerCategory, PostsList, save_comment, AdminPostHome, \
     save_post_likes, post_photo_uploader,Post_document_uploader, delete_photo, ListCategory, ChangeCategory, load_posts_for_homepage, \
     ChangePost, CommentList, delete_comment_object, toggle_object_attribute, get_media, delete_tinyMCE_photo,delete_doc
 from ikwen_webnode.webnode.views import AdminHome
