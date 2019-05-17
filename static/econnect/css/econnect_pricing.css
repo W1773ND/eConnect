@@ -2,20 +2,35 @@
 .btn-general-invoice { width: 100% !important; }
 
 .in-page-nav-link { border-left: 2px solid #e5e8ed; color: rgba(3,27,78,.6); display: block; font-size: 20px; padding: 16px; }
-.in-page-nav-link.is-active { border-left-color: #2ab732; color: #2ab732; }
+.in-page-nav-link.green.is-active { border-left-color: #2ab732; color: #2ab732; }
+.in-page-nav-link.orange.is-active { border-left-color: #ff9800; color: #ff9800; }
+.in-page-nav-link.greygreen.is-active { border-left-color: #cddc39; color: #cddc39; }
+.in-page-nav-link.blue.is-active { border-left-color: #29b6f6; color: #29b6f6; }
 .invoice-items-name { line-height: 2 }
 .invoice-items-title {line-height: 2; padding-bottom: 1vh; text-decoration: underline; }
 
 .panel-pricing-resume {border-color: #ecf0f1; padding: 0vh 2vh 1vh 2vh !important;position: relative !important; width: 95%; }
-.panel-custom-styling:active { background-color: #2ab7321f; box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
+.panel-custom-styling.green:active { background-color: rgba(42, 183, 50, 0.12); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
+.panel-custom-styling.orange:active { background-color: rgba(255, 152, 0, 0.26); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
+.panel-custom-styling.greygreen:active { background-color: rgba(114, 122, 32, 0.12); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
+.panel-custom-styling.blue:active { background-color: rgba(32, 97, 130, 0.12); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
 .panel-custom-styling:hover { box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); -webkit-box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); -moz-box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);  transition-duration: .3s; }
 
 .pricing-container { cursor: pointer; padding: 2px 16px; }
 .pricing-menu { display: block; position: sticky; position: -webkit-sticky; top: 10vh; }
-.pricing-title { color: #2ab732; }
-.pricing-pack { background: #2ab732; color: #ffffff; padding: .7vh 1vw; }
+.pricing-title.green { color: #2ab732; }
+.pricing-title.orange { color: #ff9800; }
+.pricing-title.greygreen { color: #cddc39; }
+.pricing-title.blue { color: #29b6f6; }
+.pricing-pack.green { background: #2ab732; color: #ffffff; padding: .7vh 1vw; }
+.pricing-pack.orange { background: #ff9800; color: #ffffff; padding: .7vh 1vw; }
+.pricing-pack.greygreen { background: #cddc39; color: #ffffff; padding: .7vh 1vw; }
+.pricing-pack.blue { background: #29b6f6; color: #ffffff; padding: .7vh 1vw; }
 .pricing-resume { margin-top: 10vh; padding: 0 !important; position: sticky; position: -webkit-sticky; top: 10vh; }
-.pricing-resume-title { background-color: #2ab732; border-bottom: 2px #f1f1f1 solid; color: #ffffff; margin-bottom: 3vh; padding:1vh; }
+.pricing-resume-title.green { background-color: #2ab732; border-bottom: 2px #f1f1f1 solid; color: #ffffff; margin-bottom: 3vh; padding:1vh; }
+.pricing-resume-title.orange { background-color: #ff9800; border-bottom: 2px #f1f1f1 solid; color: #ffffff; margin-bottom: 3vh; padding:1vh; }
+.pricing-resume-title.greygreen { background-color: #cddc39; border-bottom: 2px #f1f1f1 solid; color: #ffffff; margin-bottom: 3vh; padding:1vh; }
+.pricing-resume-title.blue { background-color: #29b6f6; border-bottom: 2px #f1f1f1 solid; color: #ffffff; margin-bottom: 3vh; padding:1vh; }
 
 .slider-handle { background-color: #2ab732; background-image: -webkit-linear-gradient(top,#00280f 0, #183625 100%);
                 background-image: -o-linear-gradient(top,#00280f 0, #183625 100%);
@@ -23,7 +38,10 @@
 .slider-selection { background-image: linear-gradient(to bottom,#2ab732 0,#318131 100%); }
 
 .canalP { background-color: #000000; color: #ffffff; letter-spacing: 3px; padding: .5vh; }
-.cost { background-color: #2ab732; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
+.cost.green { background-color: #2ab732; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
+.cost.orange { background-color: #ff9800; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
+.cost.greygreen { background-color: #cddc39; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
+.cost.blue { background-color: #29b6f6; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
 .addon-item { margin-bottom: 2vh; }
 .tooltip .tooltip-arrow { border-bottom-color: #2ab732 !important; }
 .tooltip-inner { background-color: #2ab732; }
@@ -40,7 +58,10 @@
 
     .in-page-nav-link { border-bottom: 2px solid #183625 ;border-left: none; }
     .in-page-nav-link.is-active { border-bottom-color: #ffffff; color: #ffffff; }
-    .scroll-menu { background: #2ab732; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
+    .scroll-menu.green { background: #2ab732; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
+    .scroll-menu.orange { background: #ff9800; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
+    .scroll-menu.greygreen { background: #cddc39; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
+    .scroll-menu.blue { background: #29b6f6; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
     .scroll-menu a{ display: inline-block !important; margin: auto 3vw; padding: 2vw !important; text-align: center !important; }
     .pricing-menu { display: block; padding: 1vh; position: sticky; position: -webkit-sticky; top: 7.8vh; z-index: 1071; }
     .panel-pricing-resume {border-color: #ecf0f1; padding: 0vh 2vh 1vh 2vh !important;position: inherit !important; width: 100%; }

@@ -16,6 +16,11 @@ a {text-decoration: none !important;}
 
 hr { -webkit-box-sizing: content-box; box-sizing: content-box; height: 0; margin: 0 0 16px 0; border: 0; border-top: 3px solid #f1f1f1; }
 
+a.green:hover { color: #28a745}
+a.orange:hover { color: #ff9800}
+a.greygreen:hover { color: #cddc39}
+a.blue:hover { color: #29b6f6}
+
 .working {cursor: wait}
 .success {background: #B6F1B6; border: 1px solid; border-radius: 3px; color: #039B03}
 .msg-tag.info {background: #dde9f1;border: 1px solid;border-radius: 3px;color: #1d2e9b}
@@ -51,10 +56,43 @@ hr { -webkit-box-sizing: content-box; box-sizing: content-box; height: 0; margin
 .btn-outline-white.disabled, .btn-outline-white:disabled { color: #ffffff; background-color: transparent; }
 .btn-outline-white:not(:disabled):not(.disabled):active,
 .btn-outline-white:not(:disabled):not(.disabled).active,
-.show > .btn-outline-white.dropdown-toggle { color: #fff; background-color: #ffffff; border-color: #ffffff; }
+.show > .btn-outline-white.dropdown-toggle { color: #838383; background-color: #ffffff; border-color: #ffffff; }
 .btn-outline-white:not(:disabled):not(.disabled):active:focus,
 .btn-outline-white:not(:disabled):not(.disabled).active:focus,
 .show > .btn-outline-white.dropdown-toggle:focus { box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5); }
+
+.btn-outline-orange { color: #ff9800; background-color: transparent; background-image: none; border-color: #ff9800; }
+.btn-outline-orange:hover { color: #fff !important; background-color: #ff9800; border-color: #ff9800; }
+.btn-outline-orange:focus, .btn-outline-white.focus { color: #ff9800; box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5); }
+.btn-outline-orange.disabled, .btn-outline-white:disabled { color: #ff9800; background-color: transparent; }
+.btn-outline-orange:not(:disabled):not(.disabled):active,
+.btn-outline-orange:not(:disabled):not(.disabled).active,
+.show > .btn-outline-orange.dropdown-toggle { color: #fff; background-color: #ff9800; border-color: #ff9800; }
+.btn-outline-orange:not(:disabled):not(.disabled):active:focus,
+.btn-outline-orange:not(:disabled):not(.disabled).active:focus,
+.show > .btn-outline-orange.dropdown-toggle:focus { box-shadow: 0 0 0 0.2rem rgba(255, 152, 0, 0.5); }
+
+.btn-outline-greygreen { color: #cddc39; background-color: transparent; background-image: none; border-color: #cddc39; }
+.btn-outline-greygreen:hover { color: #fff !important; background-color: #cddc39; border-color: #ffffff; }
+.btn-outline-greygreen:focus, .btn-outline-white.focus { color: #cddc39; box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5); }
+.btn-outline-greygreen.disabled, .btn-outline-white:disabled { color: #cddc39; background-color: transparent; }
+.btn-outline-greygreen:not(:disabled):not(.disabled):active,
+.btn-outline-greygreen:not(:disabled):not(.disabled).active,
+.show > .btn-outline-greygreen.dropdown-toggle { color: #fff; background-color: #cddc39; border-color: #cddc39; }
+.btn-outline-greygreen:not(:disabled):not(.disabled):active:focus,
+.btn-outline-greygreen:not(:disabled):not(.disabled).active:focus,
+.show > .btn-outline-greygreen.dropdown-toggle:focus { box-shadow: 0 0 0 0.2rem rgba(114, 122, 32, 0.5); }
+
+.btn-outline-blue { color: #29b6f6; background-color: transparent; background-image: none; border-color: #29b6f6; }
+.btn-outline-blue:hover { color: #fff !important; background-color: #29b6f6; border-color: #ffffff; }
+.btn-outline-blue:focus, .btn-outline-white.focus { color: #29b6f6; box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5); }
+.btn-outline-blue.disabled, .btn-outline-white:disabled { color: #29b6f6; background-color: transparent; }
+.btn-outline-blue:not(:disabled):not(.disabled):active,
+.btn-outline-blue:not(:disabled):not(.disabled).active,
+.show > .btn-outline-blue.dropdown-toggle { color: #fff; background-color: #29b6f6; border-color: #29b6f6; }
+.btn-outline-blue:not(:disabled):not(.disabled):active:focus,
+.btn-outline-blue:not(:disabled):not(.disabled).active:focus,
+.show > .btn-outline-blue.dropdown-toggle:focus { box-shadow: 0 0 0 0.2rem rgba(32, 97, 130, 0.6); }
 
 .clear {clear: both}
 .container { flex: 1 0 auto; /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */ }

@@ -66,32 +66,32 @@
 
         <nav class="col-md-2 pricing-menu hidden-xs">
             <ul style="list-style-type: none">
-                <li><a class="js-scrollTo in-page-nav-link in-page-nav-link-tv is-active"href="#sectionTv"> {% trans "Domicile" %}</a></li>
-                <li><a class="js-scrollTo in-page-nav-link in-page-nav-link-equipement" href="#sectionEquipement"> {% trans "Equipement" %}</a></li>
-                <li><a class="js-scrollTo in-page-nav-link in-page-nav-link-addon" href="#sectionAddOn"> {% trans "Add-ons" %}</a></li>
-                <li><a class="js-scrollTo in-page-nav-link in-page-nav-link-faq" href="#sectionFaq"> {% trans "FAQs" %}</a></li>
+                <li><a class="js-scrollTo in-page-nav-link orange in-page-nav-link-tv is-active"href="#sectionTv"> {% trans "Domicile" %}</a></li>
+                <li><a class="js-scrollTo in-page-nav-link orange in-page-nav-link-equipement" href="#sectionEquipement"> {% trans "Equipement" %}</a></li>
+                <li><a class="js-scrollTo in-page-nav-link orange in-page-nav-link-addon" href="#sectionAddOn"> {% trans "Add-ons" %}</a></li>
+                <li><a class="js-scrollTo in-page-nav-link orange in-page-nav-link-faq" href="#sectionFaq"> {% trans "FAQs" %}</a></li>
             </ul>
         </nav>
 
-        <div class="col-md-2 pricing-menu scroll-menu visible-xs">
-            <a class="js-scrollTo in-page-nav-link in-page-nav-link-tv is-active"href="#sectionTv"> {% trans "TV" %}</a>
-            <a class="js-scrollTo in-page-nav-link in-page-nav-link-equipement" href="#sectionEquipement"> {% trans "Equipement" %}</a>
-            <a class="js-scrollTo in-page-nav-link in-page-nav-link-addon" href="#sectionAddOn"> {% trans "Add-ons" %}</a>
-            <a class="js-scrollTo in-page-nav-link in-page-nav-link-faq" href="#sectionFaq"> {% trans "FAQs" %}</a>
-            <a class="js-scrollTo in-page-nav-link in-page-nav-link-invoice" href="#invoice"> {% trans "Invoice" %}</a>
+        <div class="col-md-2 pricing-menu scroll-menu orange visible-xs">
+            <a class="js-scrollTo in-page-nav-link orange in-page-nav-link-tv is-active"href="#sectionTv"> {% trans "TV" %}</a>
+            <a class="js-scrollTo in-page-nav-link orange in-page-nav-link-equipement" href="#sectionEquipement"> {% trans "Equipement" %}</a>
+            <a class="js-scrollTo in-page-nav-link orange in-page-nav-link-addon" href="#sectionAddOn"> {% trans "Add-ons" %}</a>
+            <a class="js-scrollTo in-page-nav-link orange in-page-nav-link-faq" href="#sectionFaq"> {% trans "FAQs" %}</a>
+            <a class="js-scrollTo in-page-nav-link orange in-page-nav-link-invoice" href="#invoice"> {% trans "Invoice" %}</a>
         </div>
 
         <div class="col-md-8 pricing-items" style="">
 
             <section id="sectionTv" class="pricing-section" style="margin-top: 0">
-                <h3 class="col-md-8 section-title">{% trans "Offres Domiciles" %}<label class="cost bouquet-cost">{% trans "Choose one below" %}</label></h3>
+                <h3 class="col-md-8 section-title">{% trans "Offres Domiciles" %}<label class="cost orange bouquet-cost">{% trans "Choose one below" %}</label></h3>
                 <div class="clearfix"></div>
                 <hr>
                 {% for package in product.package_set.all %}
                     <div class="col-md-4{% if forloop.counter == 4 %} col-md-offset-2{% endif %}">
-                        <div class="panel panel-custom panel-custom-styling">
+                        <div class="panel panel-custom panel-custom-styling orange">
                             <div class="pricing-container" data-cost="{{ package.cost }}">
-                                <h3 class="pricing-title">{{ product.name }}&nbsp;<span class="pricing-pack">{{ package.name }}</span></h3>
+                                <h3 class="pricing-title orange">{{ product.name }}&nbsp;<span class="pricing-pack orange">{{ package.name }}</span></h3>
                                 <h4 class="pricing-value">{{ package.cost|intcomma }} XAF</h4>
                                 <h5 class="pricing-content">{{ package.description|safe }}</h5>
                             </div>
@@ -158,7 +158,7 @@
                             <div class="invoice-item invoice-item-tv">
                                 <h5>
                                     <div class=" invoice-items-title"> {% trans "Bouquet TV" %} </div>
-                                    <div class=" invoice-items-name" style="display: none"> NumeriLink <span class="pricing-pack" style="display: none"></span> </div>
+                                    <div class=" invoice-items-name" style="display: none"> NumeriLink <span class="pricing-pack orange" style="display: none"></span> </div>
                                     <div class="invoice-items-cost">  </div>
                                 </h5>
                             </div>
@@ -264,7 +264,7 @@
 
         <div class="col-md-2 pricing-resume hidden-xs">
             <div class=" panel panel-pricing-resume text-center">
-                <div class="panel-title pricing-resume-title row" style="">
+                <div class="panel-title pricing-resume-title orange row" style="">
                     <h4 class="">{% trans "General Invoice" %}</h4>
                 </div>
                 <form class="mobile-adjust" style="font-size: 1.2vw" action="{% url 'econnect:numerilink' %}" method="post">
@@ -277,7 +277,7 @@
                     <div class="invoice-item invoice-item-tv">
                         <h5>
                             <div class=" invoice-items-title"> {% trans "Bouquet TV" %} </div>
-                            <div class=" invoice-items-name" style="display: none"> NumeriLink <span class="pricing-pack" style="display: none"></span> </div>
+                            <div class=" invoice-items-name" style="display: none"> NumeriLink <span class="pricing-pack orange" style="display: none"></span> </div>
                             <div class="invoice-items-cost">  </div>
                         </h5>
                     </div>
@@ -299,12 +299,12 @@
                     <div class="invoice-item invoice-item-total" style="display: none;">
                         <h5>
                             <div class=" invoice-items-title"> {% trans "Total" %} </div>
-                            <div class="invoice-items-cost pricing-pack"></div>
+                            <div class="invoice-items-cost pricing-pack orange"></div>
                         </h5>
                     </div>
                     <div class="separator total-separator" style="display: none"></div>
                     <div class="form-group"> <!-- Submit Button -->
-                        <button type="submit" class="btn btn-outline-success btn-general-invoice mobile-adjust">{% trans "Check Out" %}</button>
+                        <button type="submit" class="btn btn-outline-orange btn-general-invoice mobile-adjust">{% trans "Check Out" %}</button>
                     </div>
                     <div class="clearfix"></div>
                 </form>
