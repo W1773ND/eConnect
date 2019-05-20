@@ -102,7 +102,7 @@
             </section>
 
             <section id="sectionEquipement" class="pricing-section">
-                <h3 class="col-md-8 section-title">{% trans "Equipements" %}<label class="cost equipement-cost">{{ default_equipment_cost|intcomma }} XAF</label></h3>
+                <h3 class="col-md-8 section-title">{% trans "Equipements" %}<label class="cost green equipement-cost">{{ default_equipment_cost|intcomma }} XAF</label></h3>
                 <div class="clearfix"></div>
                 <hr>
                 <div class="col-md-8">
@@ -124,7 +124,7 @@
             </section>
 
             <section id="sectionAddOn" class="pricing-section">
-                <h3 class="col-md-8 section-title">{% trans "Add-ons" %}<label class="cost addons-cost" style="display: none" ></label></h3>
+                <h3 class="col-md-8 section-title">{% trans "Add-ons" %}<label class="cost green addons-cost" style="display: none" ></label></h3>
                 <div class="clearfix"></div>
                 <hr>
                 <div class="addon-item" style="padding-bottom: 3vh">
@@ -328,30 +328,7 @@
         <i class="fa fa-chevron-circle-up"></i>
     </a>
 
-{# Modal definition :BEGIN #}
-    <div id="modal-get-email" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-get-email">
-        <div class="vertical-alignment-helper">
-            <div class="modal-dialog modal-m vertical-align-center" role="document">
-                <div class="modal-content" style=" background: url({% static 'tsunami/img/get_email-modal_background.png' %}); border: 0.2px solid #ccc; border-radius: 4px; text-align: center;">
-                    <div class="modal-header no-border " style="color: #464646">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="color: #d32f2f">&times;</span></button>
-                        <h4 class="modal-title" style="text-align: center">{% trans "Please, enter your email before proceeding..." %}</h4>
-                    </div>
-                    <div id='email-error' class="failure" style="margin: auto; width: 80%">Enter a valid email please </div>
-                    <div class="modal-body">
-                        <form action="#" id="get-user-email">
-                            <input id="action" name='action' type="hidden" required value="send_mail_to_visitor">
-                            <input id="visitor-email" name='visitor_email' type="email" required placeholder="Email" aria-describedby="input-email" class="form-control-custom">
-                        </form>
-                    </div>
-                    <div class="modal-footer no-border" style="padding-top: 0 !important; text-align: center !important;">
-                        <span class="btn btn-outline-primary btn-process mobile-adjust ">{% trans "Continue" %}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-{# Modal definition :END #}
+   {% include 'econnect/snippets/get_email_modal.html' %}
 
 {% endblock %}
 

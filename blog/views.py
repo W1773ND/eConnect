@@ -1,4 +1,5 @@
 import os
+from math import ceil
 
 from ajaxuploader.views import AjaxFileUploader
 from django.contrib.admin.sites import AdminSite
@@ -33,7 +34,7 @@ from ikwen.core.views import HybridListView, ChangeObjectBase
 
 from django.conf import settings
 
-POST_PER_PAGE = 5
+POST_PER_PAGE = 5.0
 MEDIA_DIR = getattr(settings, 'MEDIA_ROOT') + 'tiny_mce/'
 TINYMCE_MEDIA_URL = getattr(settings, 'MEDIA_URL') + 'tiny_mce/'
 
@@ -45,11 +46,11 @@ class PostsList(TemplateView):
         context = super(PostsList, self).get_context_data(**kwargs)
         posts = Post.objects.filter(is_active=True)
         entries = posts.order_by('-pub_date')
-        page_count = entries.count() / POST_PER_PAGE
+        page_count = int(ceil(entries.count() / POST_PER_PAGE))
         for entry in entries:
             comment_count = Comment.objects.filter(post=entry).count()
             entry.comment_count = comment_count
-        context['items_paginated'] = get_paginated_view(self.request, entries, POST_PER_PAGE)
+        context['items_paginated'] = get_paginated_view(self.request, entries, int(POST_PER_PAGE))
         context['entries'] = entries
         context['page_count'] = page_count
         return context

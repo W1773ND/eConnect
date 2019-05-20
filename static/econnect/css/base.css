@@ -32,7 +32,7 @@ a:hover { color: #B6F1B6; text-decoration: none; }
     }
 .modal .actions {clear: both}
 .actions .glyphicon, .glyphicon.action {border: 1px solid #ddd; border-radius: 3px}
-.cta {font-family: "PT Sans", Lato, sans-serif;font-weight: 700;letter-spacing: 0.5px}
+.cta {font-family: "Trebuchet MS", Lato, sans-serif;font-weight: 700;letter-spacing: 0.5px}
 .stretched {height: 100%; width: 100%}
 .errorlist {color: #e74c3c}
 .input-error {border-color: #e74c3c}

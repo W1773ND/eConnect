@@ -125,6 +125,12 @@
                             <div id="site-menu" class="collapse navbar-collapse">
                                 <div class="container-fluid">
                                     <ul class="nav navbar-nav navbar-right" style="margin: 0 -15px 0 0">
+                                        <li><a href="{% url 'econnect:numerilink' %}" class="nav-menu">NumeriLink</a></li>
+                                        <li><a href="{% url 'econnect:numerilink' %}" class="nav-menu">HomeLink</a></li>
+                                        <li><a href="{% url 'econnect:officelink' %}" class="nav-menu">OfficeLink</a></li>
+                                        <li><a href="{% url 'econnect:corporatelink' %}" class="nav-menu">CorporateLink</a></li>
+                                        <li><a href="{% url 'blog:home' %}" class="nav-menu">{% trans "Blog" %}</a></li>
+                                        <li></li>
                                         {% if user.is_authenticated %}
                                             <li id="user-menu" class="dropdown">
                                                 <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
