@@ -45,10 +45,10 @@ a:hover, a:focus { color: #28a745; }
 .section-title { margin: 10vh 0 3vh 0; font-weight: bold;}
 
 .form-control-custom{ background-color: #ffffff99; background-image: none; border: 1px solid #ccc; color: #464646;
-					display: block; font-size: 14px;  height: 34px; line-height: 1.42857143;
+					display: block; font-size: 14px;  height: 50px; line-height: 1.3333333;
 					border-radius: 4px; -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
 					margin: auto; text-align: center; transition: border-color ease-in-out .15s, box-shadow;
-					-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s; width: 60%; padding: 6px 12px;
+					-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s; width: 60%; padding: 10px 20px;
 }
 
 .faq-answer { color: #828282; border-top: lightgreen 1px solid; padding-top: 1vh  }

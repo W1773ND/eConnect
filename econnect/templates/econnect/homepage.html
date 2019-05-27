@@ -22,7 +22,6 @@
 {% block head_style %}
     {{ block.super }}
     <!-- Custom css -->
-{#    <link rel="stylesheet" type="text/css" href="{% static 'tsunami/css/tsunami_homepage.css' %}">#}
     <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/homepage.css' %}">
     <style>
         div#email-error {display: none}
@@ -67,10 +66,9 @@
             <div class="col-md-8 col-sm-8 col-md-offset-2 col-sm-offset-2 text-center">
               <h1 class="mobile-adjust" style="font-size: 3.5vw; color: #464646 ">{% trans 'The best of internet, the best of TV' %}</h1>
                 {% if request.user.is_authenticated %}
-                    <a  href='#' class="btn btn-outline-success btn-deploy animated pulse mobile-adjust" style="margin-top: 20px; height: 45px; min-width: 200px">{% trans "Locate myself" %}
-                    </a>
+                    <a  href='#' class="btn btn-outline-success btn-deploy animated pulse mobile-adjust" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt" style=" font-size:larger; margin: 0 1vw 0 -.5vw;"></i>{% trans "Set my location" %}</a>
                 {% else %}
-                     <button type="button" class="btn btn-outline-success btn-deploy animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px; min-width: 200px">{% trans "Locate myself" %}</button>
+                     <button type="button" class="btn btn-outline-success btn-deploy animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt" style=" font-size:larger; margin: 0 1vw 0 -.5vw;"></i>{% trans "Set my location" %}</button>
                 {% endif %}
             </div>
         </div>
@@ -78,9 +76,9 @@
             <div class="col-md-8 col-md-offset-2 text-center">
               <h1 class="mobile-adjust">{% trans "The best of internet, the best of TV" %}</h1>
                 {% if request.user.is_authenticated %}
-                    <a  href='#' class="btn btn-outline-success btn-deploy animated pulse mobile-adjust" style="margin-top: 20px; height: 45px; min-width: 200px">{% trans "Locate myself" %}</a>
+                    <a  href='#' class="btn btn-outline-success btn-deploy animated pulse mobile-adjust" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt" style=" font-size:larger; margin: 0 1vw 0 -.5vw;"></i>{% trans "Set my location" %}</a>
                 {% else %}
-                     <button type="button" class="btn btn-outline-success btn-deploy animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px; min-width: 200px">{% trans "Locate myself" %}</button>
+                     <button type="button" class="btn btn-outline-success btn-deploy animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt" style=" font-size:larger; margin: 0 1vw 0 -.5vw;"></i>{% trans "Set my location" %}</button>
                 {% endif %}
 
             </div>
