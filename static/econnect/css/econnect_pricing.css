@@ -7,9 +7,16 @@
 .in-page-nav-link.greygreen.is-active { border-left-color: #cddc39; color: #cddc39; }
 .in-page-nav-link.blue.is-active { border-left-color: #29b6f6; color: #29b6f6; }
 .invoice-items-name { line-height: 2 }
-.invoice-items-title {line-height: 2; padding-bottom: 1vh; text-decoration: underline; }
+.invoice-items-title { font-weight: 700; line-height: 2; padding-bottom: 1vh; }
+.invoice-items-cost.green { color: #2ab732; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
+.invoice-items-cost.orange { color: #ff9800; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
+.invoice-items-cost.greygreen { color: #cddc39; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
+.invoice-items-cost.blue { color: #29b6f6; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
 
-.panel-pricing-resume {border-color: #ecf0f1; padding: 0vh 2vh 1vh 2vh !important;position: relative !important; width: 95%; }
+.panel-pricing-resume.green {border-color: #2ab732; padding: 0vh 2vh 1vh 2vh !important;position: relative !important; width: 95%; }
+.panel-pricing-resume.orange {border-color: #ff9800; padding: 0vh 2vh 1vh 2vh !important;position: relative !important; width: 95%; }
+.panel-pricing-resume.greygreen {border-color: #cddc39; padding: 0vh 2vh 1vh 2vh !important;position: relative !important; width: 95%; }
+.panel-pricing-resume.blue {border-color: #29b6f6; padding: 0vh 2vh 1vh 2vh !important;position: relative !important; width: 95%; }
 .panel-custom-styling.green:active { background-color: rgba(42, 183, 50, 0.12); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
 .panel-custom-styling.orange:active { background-color: rgba(255, 152, 0, 0.26); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
 .panel-custom-styling.greygreen:active { background-color: rgba(114, 122, 32, 0.12); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
@@ -27,10 +34,11 @@
 .pricing-pack.greygreen { background: #cddc39; color: #ffffff; padding: .7vh 1vw; }
 .pricing-pack.blue { background: #29b6f6; color: #ffffff; padding: .7vh 1vw; }
 .pricing-resume { margin-top: 10vh; padding: 0 !important; position: sticky; position: -webkit-sticky; top: 10vh; }
-.pricing-resume-title.green { background-color: #2ab732; border-bottom: 2px #f1f1f1 solid; color: #ffffff; margin-bottom: 3vh; padding:1vh; }
-.pricing-resume-title.orange { background-color: #ff9800; border-bottom: 2px #f1f1f1 solid; color: #ffffff; margin-bottom: 3vh; padding:1vh; }
-.pricing-resume-title.greygreen { background-color: #cddc39; border-bottom: 2px #f1f1f1 solid; color: #ffffff; margin-bottom: 3vh; padding:1vh; }
-.pricing-resume-title.blue { background-color: #29b6f6; border-bottom: 2px #f1f1f1 solid; color: #ffffff; margin-bottom: 3vh; padding:1vh; }
+.pricing-resume-title.green { background-color: #2ab732; color: #ffffff; margin: 0 -1.5vw 3vh ; padding:1vh; }
+.pricing-resume-title.orange { background-color: #ff9800; color: #ffffff; margin: 0 -20px 3vh ; padding:1vh; }
+.pricing-resume-title.greygreen { background-color: #cddc39; color: #ffffff; margin: 0 -20px 3vh ; padding:1vh; }
+.pricing-resume-title.blue { background-color: #29b6f6; color: #ffffff; margin: 0 -30px 3vh ; padding:1vh; }
+.pricing-value { font-weight: 700; margin: 2vh 0 3vh 0 }
 
 .slider-handle { background-color: #2ab732; background-image: -webkit-linear-gradient(top,#00280f 0, #183625 100%);
                 background-image: -o-linear-gradient(top,#00280f 0, #183625 100%);

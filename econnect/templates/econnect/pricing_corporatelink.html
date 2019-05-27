@@ -79,7 +79,7 @@
             <a class="js-scrollTo in-page-nav-link blue in-page-nav-link-invoice" href="#invoice"> {% trans "Invoice" %}</a>
         </div>
 
-        <div class="col-md-8 pricing-items" style="">
+        <div class="col-md-8 pricing-items">
 
             <section id="sectionTv" class="pricing-section" style="margin-top: 0">
                 <h3 class="col-md-8 section-title">{% trans "Offres TV" %}<label class="cost blue bouquet-cost">{% trans "Choose one below" %}</label></h3>
@@ -90,7 +90,7 @@
                         <div class="panel panel-custom panel-custom-styling blue">
                             <div class="pricing-container" data-cost="{{ package.cost }}">
                                 <h3 class="pricing-title blue">{{ product.name }}&nbsp;<span class="pricing-pack blue">{{ package.name }}</span></h3>
-                                <h4 class="pricing-value">{{ package.cost|intcomma }} XAF</h4>
+                                <h4 class="pricing-value">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
                                 <h5 class="pricing-content">{{ package.description|safe }}</h5>
                             </div>
                         </div>
@@ -126,7 +126,7 @@
             </section>
             <section id="invoice" class="section-invoice visible-xs">
                 <div class="col-md-2 pricing-resume">
-                    <div class=" panel panel-pricing-resume text-center">
+                    <div class=" panel panel-pricing-resume blue text-center">
                         <div class="panel-title pricing-resume-title blue row" style="">
                             <h4 class="">{% trans "General Invoice" %}</h4>
                         </div>
@@ -158,7 +158,6 @@
                                     <div class="invoice-items-cost cost"></div>
                                 </h5>
                             </div>
-                            <div class="separator total-separator" style="display: none"></div>
                             <div class="form-group"> <!-- Submit Button -->
                                 <button type="submit" class="btn btn-outline-success btn-general-invoice mobile-adjust">{% trans "Check Out" %}</button>
                             </div>
@@ -238,8 +237,8 @@
         </div>
 
         <div class="col-md-2 pricing-resume hidden-xs">
-            <div class=" panel panel-pricing-resume text-center">
-                <div class="panel-title pricing-resume-title blue row" style="">
+            <div class=" panel panel-pricing-resume blue text-center" style="overflow: hidden">
+                <div class="panel-title pricing-resume-title blue" style="">
                     <h4 class="">{% trans "General Invoice" %}</h4>
                 </div>
                 <form class="mobile-adjust" style="font-size: 1.2vw" action="{% url 'kakocase:go' %}" method="post">
@@ -267,10 +266,9 @@
                     <div class="invoice-item invoice-item-total" style="display: none;">
                         <h5>
                             <div class=" invoice-items-title"> {% trans "Total" %} </div>
-                            <div class="invoice-items-cost pricing-pack blue"></div>
+                            <div class="invoice-items-cost blue"></div>
                         </h5>
                     </div>
-                    <div class="separator total-separator" style="display: none"></div>
                     <div class="form-group"> <!-- Submit Button -->
                         <button type="submit" class="btn btn-outline blue btn-general-invoice mobile-adjust tpl">{% trans "Check Out" %}</button>
                     </div>
@@ -318,7 +316,10 @@
 
             //Dynamic color for menu items: BEGIN
             $('.nav-menu').addClass('blue');
+            $('.glyphicon').addClass('blue');
             $('a.cta').addClass('blue');
+            $('.faq-answer').addClass('blue');
+            $('.faq-question').addClass('blue');
             //Dynamic color for menu items: END
 
 

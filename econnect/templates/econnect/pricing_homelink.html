@@ -92,7 +92,7 @@
                         <div class="panel panel-custom panel-custom-styling orange">
                             <div class="pricing-container" data-cost="{{ package.cost }}">
                                 <h3 class="pricing-title orange">{{ product.name }}&nbsp;<span class="pricing-pack orange">{{ package.name }}</span></h3>
-                                <h4 class="pricing-value">{{ package.cost|intcomma }} XAF</h4>
+                                <h4 class="pricing-value">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
                                 <h5 class="pricing-content">{{ package.description|safe }}</h5>
                             </div>
                         </div>
@@ -144,9 +144,9 @@
             </section>
 
             <section id="invoice" class="section-invoice visible-xs">
-                <div class="col-md-2 pricing-resume">
-                    <div class=" panel panel-pricing-resume text-center">
-                        <div class="panel-title pricing-resume-title orange row" style="">
+                <div class="col-md-2 pricing-resume orange">
+                    <div class=" panel panel-pricing-resume text-center" style="overflow: hidden">
+                        <div class="panel-title pricing-resume-title orange">
                             <h4 class="">{% trans "General Invoice" %}</h4>
                         </div>
                         <form class="mobile-adjust" style="font-size: 1.2vw" action="{% url 'kakocase:go' %}" method="post">
@@ -181,10 +181,9 @@
                             <div class="invoice-item invoice-item-total" style="display: none;">
                                 <h5>
                                     <div class=" invoice-items-title"> {% trans "Total" %} </div>
-                                    <div class="invoice-items-cost cost"></div>
+                                    <div class="invoice-items-cost orange"></div>
                                 </h5>
                             </div>
-                            <div class="separator total-separator" style="display: none"></div>
                             <div class="form-group"> <!-- Submit Button -->
                                 <button type="submit" class="btn btn-outline-success btn-general-invoice mobile-adjust">{% trans "Check Out" %}</button>
                             </div>
@@ -264,8 +263,8 @@
         </div>
 
         <div class="col-md-2 pricing-resume hidden-xs">
-            <div class=" panel panel-pricing-resume text-center">
-                <div class="panel-title pricing-resume-title orange row" style="">
+            <div class=" panel panel-pricing-resume orange text-center" style="overflow: hidden">
+                <div class="panel-title pricing-resume-title orange">
                     <h4 class="">{% trans "General Invoice" %}</h4>
                 </div>
                 <form class="mobile-adjust" style="font-size: 1.2vw" action="{% url 'kakocase:go' %}" method="post">
@@ -300,10 +299,9 @@
                     <div class="invoice-item invoice-item-total" style="display: none;">
                         <h5>
                             <div class=" invoice-items-title"> {% trans "Total" %} </div>
-                            <div class="invoice-items-cost pricing-pack orange"></div>
+                            <div class="invoice-items-cost orange"></div>
                         </h5>
                     </div>
-                    <div class="separator total-separator" style="display: none"></div>
                     <div class="form-group"> <!-- Submit Button -->
                         <button type="submit" class="btn btn-outline orange btn-general-invoice mobile-adjust tpl">{% trans "Check Out" %}</button>
                     </div>
@@ -349,10 +347,13 @@
                 }
             });
 
-            //Dynamic color for menu items: BEGIN
+            //Dynamic color for menu items and faq: BEGIN
             $('.nav-menu').addClass('orange');
+            $('.glyphicon').addClass('orange');
             $('a.cta').addClass('orange');
-            //Dynamic color for menu items: END
+            $('.faq-answer').addClass('orange');
+            $('.faq-question').addClass('orange');
+            //Dynamic color for menu items and faq: END
 
 
 
