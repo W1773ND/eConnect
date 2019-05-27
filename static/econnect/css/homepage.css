@@ -5,7 +5,7 @@
 
 body { font-family: "Trebuchet MS", Helvetica, sans-serif; }
 
-h2 { font-size: 2.5vw; line-height: 6vh; margin-top: 0 !important;}
+h2 { font-size: 2.5vw; line-height: 6vh; margin: 0 0 3vh 0 !important;}
 
 p { font-family: "Trebuchet MS", Helvetica, sans-serif; font-size: 1vw; line-height: 3.5vh;}
 
@@ -19,30 +19,29 @@ a:hover, a:focus { color: #28a745; }
 
 .anchor { font-size: 4vw; padding-top: 6vh; }
 
-.container-fluid { margin-left: 0 !important; margin-right: 0 !important;}
+/*.container-fluid { margin-left: 0 !important; margin-right: 0 !important;}*/
 
 .fa-chevron-circle-up { color: darkgreen; }
+.front, .back { cursor: pointer; }
 
 .img-features{ }
 
 .panel-custom {border-color: #ecf0f1; padding: 0vh 2vh 1vh 2vh !important;position: relative !important;width: 100%; }
 .panel-title { line-height: 1.6 !important }
+.product-description { margin: 5vh 0 0 0; }
+.product-title { margin: 3vh 0 0 0; }
 .picto-features{ max-width: 100px; }
 
 .no-border { border: none !important; }
 
 
-.section-banniere { background: url(../img/Tsunami_banniere.jpg) center center no-repeat;
-					-webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;
-					background-size: cover; color: white; height: 251px; margin-top: 5vh; }
-.section-banniere-top { background: url(../img/Tsunami_banniere_top.jpg) center center;
-					-webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;
-					background-size: cover; color: white; height: 300px; margin-top: 6.5vh !important; }
+
+.section-banniere-top { background-color: white; padding-bottom: 5vh; }
 .section-features-text { padding-top: 10vh; }
 
-.section-header{ background: url(../img/Tsunami_entete.png) center center;
+/*.section-header{ background: url(../img/background_decodeur.jpg) center center;
 				-webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;
-				background-size: cover; height: 100vh; }
+				background-size: cover; height: 100vh; }*/
 .section-title { margin: 10vh 0 3vh 0; font-weight: bold;}
 
 .form-control-custom{ background-color: #ffffff99; background-image: none; border: 1px solid #ccc; color: #464646;
@@ -81,24 +80,85 @@ a:hover, a:focus { color: #28a745; }
   transform: rotateY(180deg);
   /*box-shadow: -5px 5px 5px #aaa;*/
 }
-.face {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
+.face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; }
+.face.back { background-color: #fff; border: 2px solid #28a745; border-radius: 5px;  display: block; overflow-y: auto; padding: 10px; transform: rotateY(180deg); text-align: center;}
+.face.back::-webkit-scrollbar-track { 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1); background-color: rgba(42, 183, 50, 0.25); border-radius: 10px; }
+.face.back::-webkit-scrollbar { width: 8px; background-color: #F5F5F5; }
+.face.back::-webkit-scrollbar-thumb { background-color: #fff;
+										border-radius: 8px;
+										background-image: -webkit-gradient(linear,
+										40% 0%,
+										75% 84%,
+										from(#4D9C41),
+										to(#19911D),
+										color-stop(.6, #54DE5D))
 }
-.face.back {
-  display: block;
-  transform: rotateY(180deg);
-  box-sizing: border-box;
-  padding: 10px;
-  color: white;
-  text-align: center;
-  background-color: #aaa;
+
+.card{ background-color: #fff; border: 1px solid transparent; border-radius: 6px; }
+.card > .card-link{ color: #333; }
+.card > .card-link:hover{  text-decoration: none; }
+.card > .card-link .card-img img{ border-radius: 6px 6px 0 0; }
+.card .card-img{ position: relative; padding: 0; display: table; }
+.card .card-img .card-caption{ position: absolute; right: 0; bottom: 16px; left: 0; }
+.card .card-body{ display: table; width: 100%; padding: 12px; }
+.card .card-header{ border-radius: 6px 6px 0 0; padding: 8px; }
+.card .card-footer{ border-radius: 0 0 6px 6px; padding: 8px; }
+.card .card-left{ position: relative; float: left; padding: 0 0 8px 0; }
+.card .card-right{ position: relative; float: left; padding: 8px 0 0 0; }
+.card .card-body h1:first-child,
+.card .card-body h2:first-child,
+.card .card-body h3:first-child,
+.card .card-body h4:first-child,
+.card .card-body .h1,
+.card .card-body .h2,
+.card .card-body .h3,
+.card .card-body .h4{ margin-top: 0; }
+.card .card-body .heading{ display: block;  }
+.card .card-body .heading:last-child{ margin-bottom: 0; }
+
+.card .card-body .lead{ text-align: center; }
+
+/* -- green theme ------ */
+.card-default.green{
+  border-color: #28a745;
+  background-color: #fff;
+  margin-bottom: 24px;
 }
+.card-default.green > .card-header,
+.card-default.green > .card-footer{ color: #ddd; background-color: #28a745; }
+.card-default.green > .card-header{ border-bottom: 1px solid #28a745; padding: 8px; }
+.card-default.green > .card-footer{ border-top: 1px solid #28a745; padding: 8px; }
+.card-default.green > .card-body{  }
+.card-default.green > .card-img:first-child img{ border-radius: 6px 6px 0 0; }
+.card-default.green > .card-left{ padding-right: 4px; }
+.card-default.green > .card-right{ padding-left: 4px; }
+.card-default.green p:last-child{ margin-bottom: 0; }
+.card-default.green .card-caption { color: #fff; text-align: center; text-transform: uppercase; }
+
+
 
 
 /* Media query */
+
+@media( min-width: 768px ){
+  .card .card-left{ float: left; padding: 0 8px 0 0; }
+  .card .card-right{ float: left; padding: 0 0 0 8px; }
+
+  .card .card-4-8 .card-left{ width: 33.33333333%; }
+  .card .card-4-8 .card-right{ width: 66.66666667%; }
+
+  .card .card-5-7 .card-left{ width: 41.66666667%; }
+  .card .card-5-7 .card-right{ width: 58.33333333%; }
+
+  .card .card-6-6 .card-left{ width: 50%; }
+  .card .card-6-6 .card-right{ width: 50%; }
+
+  .card .card-7-5 .card-left{ width: 58.33333333%; }
+  .card .card-7-5 .card-right{ width: 41.66666667%; }
+
+  .card .card-8-4 .card-left{ width: 66.66666667%; }
+  .card .card-8-4 .card-right{ width: 33.33333333%; }
+}
 
 @media all and (max-width: 980px) {
 /*** wrap row in a flex box ***/
@@ -144,17 +204,16 @@ margin-bottom: 30px;
 
 	h1.mobile-adjust{ font-size: 10vw !important; }
 	h2.mobile-adjust { font-size: 8vw !important; }
+	h5.mobile-adjust > p { font-size: 4vw !important; }
 
 	p.mobile-adjust { font-size: 5vw; line-height: 4.5vh;}
 
-	.img-features {display:  none !important;}
-
-	.picto-features { text-align: center !important; }
+	/*.navbar.active { margin-top: 4vh; }*/
 
 	.section-features-text{ padding-top: 0 !important; }
 	.section-header{ background: url(../img/Tsunami_entete_mobile.png) center center;
 					-webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;
-					background-size: cover; height: 100vh; padding-top: 2.5vh !important;}
+					background-size: cover; height: 100vh; padding-top: 8vh !important;}
 
 }
 
@@ -174,6 +233,7 @@ margin-bottom: 30px;
 	p.mobile-adjust { font-size: 2.5vw !important; line-height: 6vh !important; padding-bottom: 1.5vh !important; margin-bottom: 2vh !important; }
 
 	.img-features {display:  none !important;}
+	img.mobile-adjust { max-width: 90vw; }
 
 	.section-banniere-top { margin-top: 20vh !important; }
 	.section-features-text{ padding-top: 0 !important; }

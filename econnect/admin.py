@@ -2,7 +2,7 @@ from django.contrib import admin
 
 
 class ProductAdmin(admin.ModelAdmin):
-    fields = ('name', 'summary', 'description', 'installation_cost', )
+    fields = ('name', 'summary', 'description', 'cta_label', 'instalation_cost', )
 
 
 class PackageAdmin(admin.ModelAdmin):

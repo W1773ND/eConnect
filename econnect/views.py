@@ -1,5 +1,6 @@
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
+from django.template.defaultfilters import slugify
 from django_mongodb_engine.contrib import _compiler_for_queryset
 
 from ikwen.accesscontrol.backends import UMBRELLA
@@ -100,10 +101,16 @@ class PricingNumerilink(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(PricingNumerilink, self).get_context_data(**kwargs)
         product = Product.objects.get(name='NumeriLink')
-        equipment = Equipment.objects.get(product=product)
+        equipment_purchase_cost = 0
+        for equipment in product.equipment_set.all():
+            equipment_purchase_cost += equipment.purchase_cost
+            equipment.slug = slugify(equipment.name)
+            equipment.save()
+        for extra in product.extra_set.all():
+            extra.slug = slugify(extra.name)
+            extra.save()
+        context['default_equipment_cost'] = product.instalation_cost + equipment_purchase_cost
         context['product'] = product
-        context['equipment_name'] = equipment.name
-        context['default_equipment_cost'] = product.installation_cost + equipment.purchase_cost
         return context
 
 
@@ -113,10 +120,15 @@ class PricingHomelink(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(PricingHomelink, self).get_context_data(**kwargs)
         product = Product.objects.get(name='HomeLink')
-        equipment_list = Equipment.objects.filter(product=product)
-        for equipment in equipment_list:
-            context['default_equipment_cost'] = product.installation_cost + equipment.purchase_cost
-        context['equipment_list'] = equipment_list
+        equipment_purchase_cost = 0
+        for equipment in product.equipment_set.all():
+            equipment_purchase_cost += equipment.purchase_cost
+            equipment.slug = slugify(equipment.name)
+            equipment.save()
+        for extra in product.extra_set.all():
+            extra.slug = slugify(extra.name)
+            extra.save()
+        context['default_equipment_cost'] = product.instalation_cost + equipment_purchase_cost
         context['product'] = product
         return context
 
@@ -128,12 +140,18 @@ class PricingOfficelink(TemplateView):
         context = super(PricingOfficelink, self).get_context_data(**kwargs)
         product = Product.objects.get(name='OfficeLink')
         equipment_list = Equipment.objects.filter(product=product)
+        equipment_purchase_cost = 0
         for equipment in equipment_list:
-            context['default_equipment_cost'] = product.installation_cost + equipment.purchase_cost
+            equipment_purchase_cost += equipment.purchase_cost
+            equipment.slug = slugify(equipment.name)
+            equipment.save()
+        for extra in product.extra_set.all():
+            extra.slug = slugify(extra.name)
+            extra.save()
+        context['default_equipment_cost'] = product.instalation_cost + equipment_purchase_cost
         context['equipment_list'] = equipment_list
         context['product'] = product
         return context
-
 
 
 class PricingCorporatelink(TemplateView):
@@ -143,8 +161,15 @@ class PricingCorporatelink(TemplateView):
         context = super(PricingCorporatelink, self).get_context_data(**kwargs)
         product = Product.objects.get(name='CorporateLink')
         equipment_list = Equipment.objects.filter(product=product)
+        equipment_purchase_cost = 0
         for equipment in equipment_list:
-            context['default_equipment_cost'] = product.installation_cost + equipment.purchase_cost
+            equipment_purchase_cost += equipment.purchase_cost
+            equipment.slug = slugify(equipment.name)
+            equipment.save()
+        for extra in product.extra_set.all():
+            extra.slug = slugify(extra.name)
+            extra.save()
+        context['default_equipment_cost'] = product.instalation_cost + equipment_purchase_cost
         context['equipment_list'] = equipment_list
         context['product'] = product
         return context

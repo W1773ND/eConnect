@@ -27,9 +27,9 @@ p { font-family: PT sans; font-size: 1vw; line-height: 3.5vh;}
 					background-size: cover; color: white; height: 300px; margin-top: 6.5vh !important; }
 .section-features-text { padding-top: 10vh; }
 
-.section-header{ background: url(../img/Tsunami_entete.png) center center;
-				-webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;
-				background-size: cover; height: 100vh; }
+/*.section-header{ background: url(../img/Tsunami_entete.png) center center;*/
+/*				-webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;*/
+/*				background-size: cover; height: 100vh; }*/
 
 .form-control-custom{ background-color: #ffffff99; background-image: none; border: 1px solid #ccc; color: #464646;
 					display: block; font-size: 14px;  height: 34px; line-height: 1.42857143;

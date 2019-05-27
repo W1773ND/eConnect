@@ -16,12 +16,13 @@ class ModelI18n(Model):
 
 
 class Product(ModelI18n):
-    UPLOAD_TO = 'econnect'
+    UPLOAD_TO = 'econnect/'
     name = models.CharField(max_length=200)
     slug = models.CharField(max_length=250)
     summary = models.CharField(max_length=250)
     description = models.TextField(blank=True, null=True)
-    installation_cost = models.IntegerField(default=0)
+    cta_label = models.CharField(max_length=30, verbose_name="Call-to-action")
+    instalation_cost = models.IntegerField(default=0)
     logo = models.ImageField(blank=True, null=True, upload_to=UPLOAD_TO,
                              help_text="150 x 150px")
     order_of_appearance = models.IntegerField(default=0)
@@ -46,7 +47,8 @@ class Package(ModelI18n):
 
 class Equipment (ModelI18n):
     product = models.ForeignKey(Product)
-    name = models.CharField(max_length=250)
+    name = models.CharField(max_length=240)
+    slug = models.SlugField(max_length=250)
     purchase_cost = models.IntegerField(default=0)
     rent_cost = models.IntegerField(default=0)
     is_purchased = models.BooleanField(default=True)
@@ -58,7 +60,8 @@ class Equipment (ModelI18n):
 
 class Extra(ModelI18n):
     product = models.ForeignKey(Product)
-    name = models.CharField(max_length=250)
+    name = models.CharField(max_length=240)
+    slug = models.SlugField(max_length=250)
     cost = models.IntegerField(default=0)
     order_of_appearance = models.IntegerField(default=0)
 

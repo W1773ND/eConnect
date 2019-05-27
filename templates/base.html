@@ -45,22 +45,22 @@
                                     <span class="icon-bar"></span>
                                 </div>
                                 {% block header_brand %}
-{#                                    <a class="navbar-brand navbar-brand-screen hidden-xs" href="{{ service.url }}">#}
-{#                                        <img src="{% static "tsunami/img/logo_ikwen_web_header.png" %}">#}
-{#                                    </a>#}
-{#                                    <a class="navbar-brand hidden-xs" href="{{ service.url }}">#}
-{#                                        <strong>{{ service.project_name }}</strong>#}
-{#                                    </a>#}
+                                    <a class="navbar-brand navbar-brand-screen hidden-xs" href="{{ service.url }}">
+                                        <img src="{% static "tsunami/img/logo_ikwen_web_header.png" %}">
+                                    </a>
+                                    <a class="navbar-brand hidden-xs" href="{{ service.url }}">
+                                        <strong>{{ service.project_name }}</strong>
+                                    </a>
                                     <strong class="navbar-brand visible-xs">{{ service.project_name }}</strong>
                                 {% endblock %}
                                 {% block site_menu_xs %}
                                     <nav class="visible-xs pull-right">
                                         <ul id="nav-xs" class="nav navbar-nav navbar-right">
-                                            <li class="show-search">
+                                            {% comment %}<li class="show-search">
                                                 <a>
                                                     <i class="glyphicon glyphicon-search"></i>
                                                 </a>
-                                            </li>
+                                            </li>{% endcomment %}
                                             {% if user.is_authenticated %}
                                                 <li class="home">
                                                     <a href="{{ settings.IKWEN_CONSOLE_URL }}">
@@ -93,43 +93,43 @@
                                 {% endblock %}
                             </div>
                         </div>
-                        <div id="navbar-search" class="navbar-form navbar-left">
-                            <form id="search" autocomplete="off" onsubmit="return false">
-                                <i class="glyphicon glyphicon-menu-left hide-search visible-xs"></i>
-                                <i class="glyphicon glyphicon-search hidden-xs"></i>
-                                <input type="text" name="radix" class="form-control input-sm" placeholder="{% trans "Search" %}">
-                                <input type="hidden" name="q">
-                                <span class="spinner" style="display: none"></span>
-                            </form>
-                            <div id="navbar-results" style="display: none" data-min-search-chars="2">
-                                <div class="stage">
-                                    {% include 'core/snippets/spinner.html' %}
-                                    <ul style="float: left; padding-left: 0; width: 100%">
-                                        <li class="ik-li tpl" style="display: none">
-                                            <a class="target_url" style="display: block">
-                                                <span class="image rounded photo logo bg-img" style="background-image: url({% static 'ikwen/img/no_photo.png' %})"></span>
-                                                <div class="info">
-                                                     <div class='full_name project_name has-faded-edge'></div>
-                                                    <p class="about short_description minor-tag"></p>
-                                                </div>
-                                                <div class="clearfix"></div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
+{#                        <div id="navbar-search" class="navbar-form navbar-left">#}
+{#                            <form id="search" autocomplete="off" onsubmit="return false">#}
+{#                                <i class="glyphicon glyphicon-menu-left hide-search visible-xs"></i>#}
+{#                                <i class="glyphicon glyphicon-search hidden-xs"></i>#}
+{#                                <input type="text" name="radix" class="form-control input-sm" placeholder="{% trans "Search" %}">#}
+{#                                <input type="hidden" name="q">#}
+{#                                <span class="spinner" style="display: none"></span>#}
+{#                            </form>#}
+{#                            <div id="navbar-results" style="display: none" data-min-search-chars="2">#}
+{#                                <div class="stage">#}
+{#                                    {% include 'core/snippets/spinner.html' %}#}
+{#                                    <ul style="float: left; padding-left: 0; width: 100%">#}
+{#                                        <li class="ik-li tpl" style="display: none">#}
+{#                                            <a class="target_url" style="display: block">#}
+{#                                                <span class="image rounded photo logo bg-img" style="background-image: url({% static 'ikwen/img/no_photo.png' %})"></span>#}
+{#                                                <div class="info">#}
+{#                                                     <div class='full_name project_name has-faded-edge'></div>#}
+{#                                                    <p class="about short_description minor-tag"></p>#}
+{#                                                </div>#}
+{#                                                <div class="clearfix"></div>#}
+{#                                            </a>#}
+{#                                        </li>#}
+{#                                    </ul>#}
+{#                                    <div class="clearfix"></div>#}
+{#                                </div>#}
+{#                                <div class="clearfix"></div>#}
+{#                            </div>#}
+{#                        </div>#}
                         {% block site_menu %}
                             <div id="site-menu" class="collapse navbar-collapse">
                                 <div class="container-fluid">
                                     <ul class="nav navbar-nav navbar-right" style="margin: 0 -15px 0 0">
-                                        <li><a href="{% url 'econnect:numerilink' %}" class="nav-menu">NumeriLink</a></li>
-                                        <li><a href="{% url 'econnect:numerilink' %}" class="nav-menu">HomeLink</a></li>
-                                        <li><a href="{% url 'econnect:officelink' %}" class="nav-menu">OfficeLink</a></li>
-                                        <li><a href="{% url 'econnect:corporatelink' %}" class="nav-menu">CorporateLink</a></li>
-                                        <li><a href="{% url 'blog:home' %}" class="nav-menu">{% trans "Blog" %}</a></li>
+                                        <li><a href="{% url 'econnect:numerilink' %}" class="nav-menu nav-menu-custom">NumeriLink</a></li>
+                                        <li><a href="{% url 'econnect:homelink' %}" class="nav-menu nav-menu-custom">HomeLink</a></li>
+                                        <li><a href="{% url 'econnect:officelink' %}" class="nav-menu nav-menu-custom">OfficeLink</a></li>
+                                        <li><a href="{% url 'econnect:corporatelink' %}" class="nav-menu nav-menu-custom">CorporateLink</a></li>
+                                        <li><a href="{% url 'blog:home' %}" class="nav-menu nav-menu-custom">{% trans "Blog" %}</a></li>
                                         <li></li>
                                         {% if user.is_authenticated %}
                                             <li id="user-menu" class="dropdown">
@@ -152,7 +152,7 @@
                                             </li>
                                         {% else %}
                                             <li class="hidden-xs">
-                                                <a href="{% url 'ikwen:sign_in' %}" class="cta">{% trans "Login" %}</a>
+                                                <a href="{% url 'ikwen:sign_in' %}" class="cta nav-menu-custom">{% trans "Login" %}</a>
                                             </li>
                                         {% endif %}
                                     </ul>
@@ -230,6 +230,13 @@
                         return false
                     });
 
+                    var path = window.location.href;
+                    $('li a.nav-menu').each(function () {
+                        if (this.href === path) {
+                            $(this).addClass('active')
+                        }
+                    });
+
                     $('#nav-xs').on('click', '.show-search', function() {
                         $('#navbar-search').prependTo('body').fadeIn().find('input').focus();
                     });
@@ -297,6 +304,7 @@
 						$('.back-to-top').removeClass('showing').addClass('hiding')
 					}
 				    });
+                    
 
                     {% url 'ikwen:list_projects' as list_projects_url %}
                     var searchDescriptor = [{

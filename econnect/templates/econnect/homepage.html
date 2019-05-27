@@ -22,8 +22,8 @@
 {% block head_style %}
     {{ block.super }}
     <!-- Custom css -->
+{#    <link rel="stylesheet" type="text/css" href="{% static 'tsunami/css/tsunami_homepage.css' %}">#}
     <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/homepage.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'tsunami/css/tsunami_homepage.css' %}">
     <style>
         div#email-error {display: none}
     </style>
@@ -38,37 +38,17 @@
 
 {% block content %}
     <div id="section-header-general-view" class="container-fluid section-header" style="padding-top: 6vh;">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3 text-center mobile-adjust" style="padding-top: 18vh">
-                <img style="max-width: 120px" alt="logo_ikwen_TSUNAMI" src="{% static 'tsunami/img/Logo-IKWEN-Tsunami.png' %}"/>
-              <h1 class="mobile-adjust" style="font-size: 3.5vw;">{% trans 'The best of internet' %}</h1>
-              <h1 class="mobile-adjust" style="font-size: 3.5vw;">{% trans 'The best of TV' %}</h1>
-                {% comment %}<p class="mobile-adjust" style="">
-                    {% trans 'Tsunami builds for you a persistent customer base and offers your products to this community via continuous automated Mail and SMS reminders.You should consider increasing your available stocks.... ' %}
-                </p>{% endcomment %}
-
-                {% if request.user.is_authenticated %}
-                    <a  href='#'>
-                        <button  type=button class="btn btn-outline-success btn-deploy animated pulse mobile-adjust" style="margin-top: 20px; height: 45px;">{% trans "Locate myself" %}</button>
-                    </a>
-                {% else %}
-                     <button type="button" class="btn btn-outline-success btn-deploy animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px;">{% trans "Locate myself" %}</button>
-                {% endif %}
-                <div class="anchor">
-                    <a class="js-scrollTo" href="#banniere-top" style="text-decoration: none"><i class="fa fa-arrow-circle-down"></i></a>
-                </div>
-            </div>
-        </div>
+        <img class="img-responsive" alt="logo_ikwen_TSUNAMI" src="{% static 'econnect/img/background_decodeur_crop.jpg' %}"/>
     </div>
     <div id="section-header-iPad-view" class="container-fluid section-header" style="display: none;">
-        <div class="row">
+        {% comment %}<div class="row">
             <div class="col-md-10 col-md-offset-1 text-center mobile-adjust" style="padding-top: 20vh">
                 <img style="max-width: 120px" alt="logo_ikwen_TSUNAMI" src="{% static 'tsunami/img/Logo-IKWEN-Tsunami.png' %}"/>
                 <h1 class="mobile-adjust" style="font-size: 3.5vw;">{% trans 'The best of internet' %}</h1>
                 <h1 class="mobile-adjust" style="font-size: 3.5vw;">{% trans 'The best of TV' %}</h1>
-                {% comment %}<p class="mobile-adjust" style="">
+                <p class="mobile-adjust" style="">
                     {% trans 'Tsunami builds for you a persistent customer base and offers your products to this community via continuous automated Mail and SMS reminders.You should consider increasing your available stocks.... ' %}
-                </p>{% endcomment %}
+                </p>
                 {% if request.user.is_authenticated %}
                     <a  href='#'>
                         <button type="button" class="btn btn-outline-primary animated pulse mobile-adjust" style="margin-top: 20px; height: 45px;">{% trans "Locate myself" %}</button>
@@ -80,46 +60,78 @@
                     <a class="js-scrollTo" href="#banniere-top" style="text-decoration: none"><i class="fa fa-arrow-circle-down"></i></a>
                 </div>
             </div>
-        </div>
+        </div>{% endcomment %}
     </div>
     <div id="banniere-top" class="container-fluid">
         <div class="row section-banniere-top" style="margin-top: 0;">
-            <div class="col-md-6 col-sm-6 col-md-offset-3 col-sm-offset-3 text-center" style="padding-top: 7vh">
-              <h1>{% trans "Get the best of Internet and TV" %}</h1>
-                <button type="button" class="btn btn-outline-white animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px;">{% trans "Locate myself" %}</button>
+            <div class="col-md-8 col-sm-8 col-md-offset-2 col-sm-offset-2 text-center">
+              <h1 class="mobile-adjust" style="font-size: 3.5vw; color: #464646 ">{% trans 'The best of internet, the best of TV' %}</h1>
+                {% if request.user.is_authenticated %}
+                    <a  href='#' class="btn btn-outline-success btn-deploy animated pulse mobile-adjust" style="margin-top: 20px; height: 45px; min-width: 200px">{% trans "Locate myself" %}
+                    </a>
+                {% else %}
+                     <button type="button" class="btn btn-outline-success btn-deploy animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px; min-width: 200px">{% trans "Locate myself" %}</button>
+                {% endif %}
             </div>
         </div>
         <div id="section-banniere-top-iPad-view" class="row section-banniere-top" style="display: none">
             <div class="col-md-8 col-md-offset-2 text-center">
-              <h1>{% trans "Get the best of Internet and TV" %}</h1>
+              <h1 class="mobile-adjust">{% trans "The best of internet, the best of TV" %}</h1>
                 {% if request.user.is_authenticated %}
-                    <a  href='#'>
-                        <button type="button" class="btn btn-outline-white btn-deploy animated pulse mobile-adjust" style="margin-top: 20px; height: 45px;">{% trans 'Deploy <b>Tsunami</b>' %}</button>
-                    </a>
+                    <a  href='#' class="btn btn-outline-success btn-deploy animated pulse mobile-adjust" style="margin-top: 20px; height: 45px; min-width: 200px">{% trans "Locate myself" %}</a>
                 {% else %}
-                    <button type="button" class="btn btn-outline-white btn-deploy animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px;">{% trans "Locate myself" %}</button>
+                     <button type="button" class="btn btn-outline-success btn-deploy animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px; min-width: 200px">{% trans "Locate myself" %}</button>
                 {% endif %}
 
             </div>
         </div>
     </div>
     <section>
-        <div class="container">
-            {% for product in product_list %}
-                <div class="col-md-6 f_container">
-                    <div class="row f_card shadow">
-                      <div class="front face">
-                          <img src="{% get_media_prefix  %}{{ product.logo.name }}"/>
-                      </div>
-                      <div class="back face center">
-                          <h3>{{ product.name }}</h3>
+        <h2 class="mobile-adjust title-section text-center">{% trans "Découvrez nos services" %}</h2>
+        <br>
+        <div class="container hidden-xs text-centert" style="">
+        {% for product in product_list %}
+            <div class="col-md-6 f_container" style="" >
+                <div class="f_card shadow">
+                  <div class="front face">
+                      <img class="img-responsive mobile-adjust" style="width: 500px; height: 500px" src="{% get_media_prefix  %}{{ product.logo.name }}"/>
+                  </div>
+                  <div class="back face center">
+                      <h3 class="product-title">{{ product.name }}</h3>
                       {% url product.slug as product_url  %}
-                          {% blocktrans with product_url=product.url product_description=product.description %}
-                              <a href="{{product_url}}">{{ product_description }}</a>
-                          {% endblocktrans %}
+                      <div class="product-description">
+                      {% blocktrans with product_url=product.url product_description=product.description product_cta=product.cta_label %}
+                          <p class="mobile-adjust">{{ product_description }}</p>
+                          <p class="mobile-adjust"><a class="product-link" href="{{product_url}}">{{ product_cta }}</a></p>
+                      {% endblocktrans %}
                       </div>
+                  </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+
+        <div class="container visible-xs">
+            <h2 class="mobile-adjust title-section text-center">{% trans "Découvrez nos services" %}</h2>
+            <br>
+            {% for product in product_list %}
+            <div class="card card-default green">
+                <div class="card-header text-center" style="font-size: 25px">{{ product.name }}</div>
+                <div class="card-body card-5-7">
+                    <div class="card-left">
+                        <img src="{% get_media_prefix  %}{{ product.logo.name }}" class="img-responsive">
+                    </div>
+                {% blocktrans with product_url=product.url product_description=product.description product_cta=product.cta_label %}
+                    <div class="card-right">
+                        <p class="mobile-adjust">{{ product_description }}</p>
                     </div>
                 </div>
+                <div class="text-center">
+                    <a  href='{{product_url}}' class="btn btn-outline-success animated pulse mobile-adjust" style="margin: 2vh 0 3vh 0; height: 45px; min-width: 200px">{{ product_cta }}</a>
+                </div>
+
+                {% endblocktrans %}
+            </div>
             {% endfor %}
         </div>
         {% comment %}
@@ -175,7 +187,7 @@
     <section class="section-faq">
         <div class="container">
             <div class="title">
-                <h2>FAQ</h2>
+                <h2 class="mobile-adjust">FAQ</h2>
             </div>
             <div id="accordion" role="tablist" aria-multiselectable="true">
                 <div class="col-md-6 panel panel-custom" style="cursor: pointer;">
@@ -272,6 +284,12 @@
                 }else {
                     $('div#email-error').fadeIn().show()
                 }
+            });
+
+            $('.back.face').click(function () {
+                {#window.location = $(this).find("a:first").attr("href");#}
+                window.open($(this).find("a:first").attr("href"));
+                return false;
             });
         })()
     </script>

@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block page_title %}
-    <title> Creolink - Numeri | Link</title>
+    <title> Creolink - Home | Link</title>
 {% endblock %}
 
 {% block head_style %}
@@ -44,7 +44,7 @@
         <div class="row section-banniere-top" style="margin-top: 0 !important;">
             <div class="col-md-6 col-sm-6 col-md-offset-3 col-sm-offset-3 text-center" style="padding-top: 7vh">
               <h1>{% trans "Get the best of Internet and TV" %}</h1>
-                <button type="button" class="btn btn-outline-white animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px;">{% trans "Locate myself" %}</button>
+                <button type="button" class="btn btn-outline white animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px;">{% trans "Locate myself" %}</button>
             </div>
         </div>
         <div id="section-banniere-top-iPad-view" class="row section-banniere-top" style="display: none">
@@ -52,10 +52,10 @@
               <h1>{% trans "Get the best of Internet and TV" %}</h1>
                 {% if request.user.is_authenticated %}
                     <a  href='#'>
-                        <button type="button" class="btn btn-outline-white btn-deploy animated pulse mobile-adjust" style="margin-top: 20px; height: 45px;">{% trans 'Deploy <b>Tsunami</b>' %}</button>
+                        <button type="button" class="btn btn-outline white btn-deploy animated pulse mobile-adjust" style="margin-top: 20px; height: 45px;">{% trans 'Deploy <b>Tsunami</b>' %}</button>
                     </a>
                 {% else %}
-                    <button type="button" class="btn btn-outline-white btn-deploy animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px;">{% trans "Locate myself" %}</button>
+                    <button type="button" class="btn btn-outline white btn-deploy animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px;">{% trans "Locate myself" %}</button>
                 {% endif %}
 
             </div>
@@ -67,7 +67,7 @@
         <nav class="col-md-2 pricing-menu hidden-xs">
             <ul style="list-style-type: none">
                 <li><a class="js-scrollTo in-page-nav-link green in-page-nav-link-tv is-active"href="#sectionTv"> {% trans "TV" %}</a></li>
-                <li><a class="js-scrollTo in-page-nav-link green in-page-nav-link-equipement" href="#sectionEquipement"> {% trans "Equipement" %}</a></li>
+                <li><a class="js-scrollTo in-page-nav-link green in-page-nav-link-equipment" href="#sectionEquipment"> {% trans "Equipement" %}</a></li>
                 <li><a class="js-scrollTo in-page-nav-link green in-page-nav-link-addon" href="#sectionAddOn"> {% trans "Add-ons" %}</a></li>
                 <li><a class="js-scrollTo in-page-nav-link green in-page-nav-link-faq" href="#sectionFaq"> {% trans "FAQs" %}</a></li>
             </ul>
@@ -75,7 +75,7 @@
 
         <div class="col-md-2 pricing-menu scroll-menu green visible-xs">
             <a class="js-scrollTo in-page-nav-link green in-page-nav-link-tv is-active"href="#sectionTv"> {% trans "TV" %}</a>
-            <a class="js-scrollTo in-page-nav-link green in-page-nav-link-equipement" href="#sectionEquipement"> {% trans "Equipement" %}</a>
+            <a class="js-scrollTo in-page-nav-link green in-page-nav-link-equipment" href="#sectionEquipment"> {% trans "Equipement" %}</a>
             <a class="js-scrollTo in-page-nav-link green in-page-nav-link-addon" href="#sectionAddOn"> {% trans "Add-ons" %}</a>
             <a class="js-scrollTo in-page-nav-link green in-page-nav-link-faq" href="#sectionFaq"> {% trans "FAQs" %}</a>
             <a class="js-scrollTo in-page-nav-link green in-page-nav-link-invoice" href="#invoice"> {% trans "Invoice" %}</a>
@@ -93,7 +93,7 @@
                             <div class="pricing-container" data-cost="{{ package.cost }}">
                                 <h3 class="pricing-title green">{{ product.name }}&nbsp;<span class="pricing-pack green">{{ package.name }}</span></h3>
                                 <h4 class="pricing-value">{{ package.cost|intcomma }} XAF</h4>
-                                <h5 class="pricing-content">{{ package.description }}</h5>
+                                <h5 class="pricing-content">{{ package.description|safe }}</h5>
                             </div>
                         </div>
                     </div>
@@ -101,26 +101,30 @@
                 <div class="clearfix"></div>
             </section>
 
-            <section id="sectionEquipement" class="pricing-section">
-                <h3 class="col-md-8 section-title">{% trans "Equipements" %}<label class="cost green equipement-cost">{{ default_equipment_cost|intcomma }} XAF</label></h3>
+            <section id="sectionEquipment" class="pricing-section">
+                <input type="hidden" name="instalationCost" value="{{ product.instalation_cost }}">
+                <h3 class="col-md-8 section-title">{% trans "Equipements" %}<label class="cost green equipment-cost">{{ default_equipment_cost|intcomma }} XAF</label></h3>
                 <div class="clearfix"></div>
                 <hr>
                 <div class="col-md-8">
-                    <h4><label class="checkbox-inline disabled"><input type="checkbox" checked="checked" value="installation" disabled>{% trans "Installation" %}</label></h4>
+                    <h4><label class="checkbox-inline disabled"><input type="checkbox" checked="checked" value="instalation" disabled>{% trans "Installation" %}</label></h4>
                 </div>
+                {% for equipment in product.equipment_set.all %}
                 <div class="col-md-12 v-align" style="padding: 5vh 0">
                     <div class="col-md-2 v-align-center" style="">
-                        <h4>{{ equipment_name }}</h4>
+                        <h4>{{ equipment.name }}</h4>
                     </div>
-                    <div class="col-md-4" style="border-left: #e5e8ed 2px solid">
+                    <div class="col-md-4 equipment-billing" style="border-left: #e5e8ed 2px solid">
                        <div class="radio">
-                           <h4><label><input type="radio" name="optiondecodeur" class="option-achat-decodeur" checked >{% trans "Achat" %}</label></h4>
+                           <h4><label><input type="radio" name="option{{ equipment.slug }}" class="option option-achat {{ equipment.slug }}" checked data-cost="{{ equipment.purchase_cost }}">{% trans "Achat" %}</label></h4>
                        </div>
                         <div class="radio">
-                            <h4><label><input type="radio" name="optiondecodeur" class="option-location-decodeur">{% trans "Location" %}</label></h4>
+                            <h4><label><input type="radio" name="option{{ equipment.slug }}" class="option option-location {{ equipment.slug }}" data-cost="{{ equipment.rent_cost }}">{% trans "Location" %}</label></h4>
                         </div>
                     </div>
                 </div>
+                {% endfor %}
+
             </section>
 
             <section id="sectionAddOn" class="pricing-section">
@@ -130,7 +134,7 @@
                 <div class="addon-item" style="padding-bottom: 3vh">
                     <div class="col-md-4 ">
                         <h4 style="border-right: #3c3c3c 2px solid">
-                            <label><input id="OptionalTvEnabled" type="checkbox"/> {% trans "Je dispose de plusieurs TV" %}</label>
+                            <label  style="cursor: pointer"><input id="OptionalTvEnabled" type="checkbox"/> {% trans "Je dispose de plusieurs TV" %}</label>
                         </h4>
                     </div>
                     <div class="col-md-8">
@@ -143,12 +147,11 @@
                 <div class="clearfix"></div>
                 {% for extra in product.extra_set.all %}
                     <div class=" col-md-8 addon-item">
-                        <input type="checkbox" id="{{ extra.id }}" value="{{ extra.id }}" name="OptionalBouquet" data-addon-cost = "{{ extra.cost }}" class="addon" >
+                        <input  style="cursor: pointer" type="checkbox" id="{{ extra.id }}" value="{{ extra.id }}" name="OptionalBouquet" data-addon-cost = "{{ extra.cost }}" class="addon" >
                         <h4 style="display: inline">
-                            <label for="{{ extra.id }}" class="checkbox-label">{{ extra.name|safe }}</label>
+                            <label for="{{ extra.id }}" class="checkbox-label"  style="cursor: pointer">{{ extra.name|safe }}</label>
                         </h4>
                     </div>
-                    <div class="clearfix"></div>
                 {% endfor %}
                 <div class="clearfix"></div>
             </section>
@@ -163,18 +166,18 @@
                             {% csrf_token %}
                             <input type="hidden" name="customer_id" value="{{ user.id }}">
                             <input type="hidden" name="bouquet_id" value="{{ bouquet.id }}">
-                            <input type="hidden" name="equipement_id" value="{{ equipement.id }}">
+                            <input type="hidden" name="equipment_id" value="{{ equipment.id }}">
                             <input type="hidden" name="addon_id" value="{{ bouquet.id }}">
                             <input type="hidden" name="totalCost_id" value="{{ totalCost.id }}">
                             <div class="invoice-item invoice-item-tv">
                                 <h5>
-                                    <div class=" invoice-items-title"> {% trans "Bouquet TV" %} </div>
+                                    <div class=" invoice-items-title"> {% trans "Offre TV" %} </div>
                                     <div class=" invoice-items-name" style="display: none"> NumeriLink <span class="pricing-pack green" style="display: none"></span> </div>
                                     <div class="invoice-items-cost">  </div>
                                 </h5>
                             </div>
                             <div class="separator"></div>
-                            <div class="invoice-item invoice-item-equipements">
+                            <div class="invoice-item invoice-item-equipments">
                                 <h5>
                                     <div class=" invoice-items-title"> {% trans "Equipements" %} </div>
                                     <div class="invoice-items-cost">  </div>
@@ -275,28 +278,28 @@
 
         <div class="col-md-2 pricing-resume hidden-xs">
             <div class=" panel panel-pricing-resume text-center">
-                <div class="panel-title pricing-resume-title row" style="">
+                <div class="panel-title pricing-resume-title green row" style="">
                     <h4 class="">{% trans "General Invoice" %}</h4>
                 </div>
-                <form class="mobile-adjust" style="font-size: 1.2vw" action="{% url 'econnect:numerilink' %}" method="post">
+                <form class="mobile-adjust" style="font-size: 1.2vw" action="{% url 'kakocase:go' %}" method="post">
                     {% csrf_token %}
 {#                    <input type="hidden" name="customer_id" value="{{ user.id }}">#}
 {#                    <input type="hidden" name="bouquet_id" value="{{ bouquet.id }}">#}
-{#                    <input type="hidden" name="equipement_id" value="{{ equipement.id }}">#}
+{#                    <input type="hidden" name="equipment_id" value="{{ equipment.id }}">#}
 {#                    <input type="hidden" name="addon_id" value="{{ bouquet.id }}">#}
 {#                    <input type="hidden" name="totalCost_id" value="{{ totalCost.id }}">#}
                     <div class="invoice-item invoice-item-tv">
                         <h5>
-                            <div class=" invoice-items-title"> {% trans "Bouquet TV" %} </div>
+                            <div class=" invoice-items-title"> {% trans "Offre TV" %} </div>
                             <div class=" invoice-items-name" style="display: none">{{ product.name }}&nbsp;<span class="pricing-pack green" style="display: none"></span></div>
                             <div class="invoice-items-cost">  </div>
                         </h5>
                     </div>
                     <div class="separator"></div>
-                    <div class="invoice-item invoice-item-equipements">
+                    <div class="invoice-item invoice-item-equipments">
                         <h5>
                             <div class=" invoice-items-title"> {% trans "Equipements" %} </div>
-                            <div class="invoice-items-cost" style="display: none;">{{ default_equipment_cost|intcomma }} XAF</div>
+                            <div class="invoice-items-cost" style="display: none;" >{{ default_equipment_cost|intcomma }} XAF</div>
                         </h5>
                     </div>
                     <div class="separator"></div>
@@ -359,7 +362,14 @@
                 }
             });
 
-            // dynamic styling for vertical navbar :BEGIN
+            //Dynamic color for menu items: BEGIN
+            $('.nav-menu').addClass('green');
+            $('a.cta').addClass('green');
+            //Dynamic color for menu items: END
+
+
+
+            //Dynamic styling for vertical navbar :BEGIN
 
             //Get the position of an element relative to the document
             function offset(el) {
@@ -370,7 +380,7 @@
             }
 
             var sectionTvPosition = offset($('#sectionTv'));
-            var sectionEquipementPosition = offset($('#sectionEquipement'));
+            var sectionEquipmentPosition = offset($('#sectionEquipment'));
             var sectionAddonPosition = offset($('#sectionAddOn'));
             var sectionFaqPosition = offset($('#sectionFaq'));
 
@@ -379,15 +389,15 @@
             $(window).scroll(function() {
                 if($(window).scrollTop() <= sectionTvPosition.top){
                     $('.in-page-nav-link-tv').addClass('is-active');
-                    $('.in-page-nav-link-equipement').removeClass('is-active');
+                    $('.in-page-nav-link-equipment').removeClass('is-active');
                     $('.in-page-nav-link-addon').removeClass('is-active');
                     $('.in-page-nav-link-faq').removeClass('is-active');
                     $('.in-page-nav-link-invoice').removeClass('is-active');
 
                 }
-                if(($(window).scrollTop() >= sectionEquipementPosition.top) && ($(window).scrollTop() < sectionAddonPosition.top)){
+                if(($(window).scrollTop() >= sectionEquipmentPosition.top) && ($(window).scrollTop() < sectionAddonPosition.top)){
                     $('.in-page-nav-link-tv').removeClass('is-active');
-                    $('.in-page-nav-link-equipement').addClass('is-active');
+                    $('.in-page-nav-link-equipment').addClass('is-active');
                     $('.in-page-nav-link-addon').removeClass('is-active');
                     $('.in-page-nav-link-faq').removeClass('is-active');
                     $('.in-page-nav-link-invoice').removeClass('is-active');
@@ -395,7 +405,7 @@
                 }
                 if(($(window).scrollTop() >= sectionAddonPosition.top) && ($(window).scrollTop() < sectionFaqPosition.top) ){
                     $('.in-page-nav-link-tv').removeClass('is-active');
-                    $('.in-page-nav-link-equipement').removeClass('is-active');
+                    $('.in-page-nav-link-equipment').removeClass('is-active');
                     $('.in-page-nav-link-addon').addClass('is-active');
                     $('.in-page-nav-link-faq').removeClass('is-active');
                     $('.in-page-nav-link-invoice').removeClass('is-active');
@@ -404,7 +414,7 @@
                 if (divInvoice.top <= 444){
                     if($(window).scrollTop() >= sectionFaqPosition.top) {
                         $('.in-page-nav-link-tv').removeClass('is-active');
-                        $('.in-page-nav-link-equipement').removeClass('is-active');
+                        $('.in-page-nav-link-equipment').removeClass('is-active');
                         $('.in-page-nav-link-addon').removeClass('is-active');
                         $('.in-page-nav-link-faq').addClass('is-active');
                     }
@@ -413,14 +423,14 @@
                 else {
                     if($(window).scrollTop() >= sectionFaqPosition.top && $(window).scrollTop() < divInvoice.top){
                         $('.in-page-nav-link-tv').removeClass('is-active');
-                        $('.in-page-nav-link-equipement').removeClass('is-active');
+                        $('.in-page-nav-link-equipment').removeClass('is-active');
                         $('.in-page-nav-link-addon').removeClass('is-active');
                         $('.in-page-nav-link-faq').addClass('is-active');
                         $('.in-page-nav-link-invoice').removeClass('is-active');
                     }
                     if($(window).scrollTop() >= divInvoice.top){
                         $('.in-page-nav-link-tv').removeClass('is-active');
-                        $('.in-page-nav-link-equipement').removeClass('is-active');
+                        $('.in-page-nav-link-equipment').removeClass('is-active');
                         $('.in-page-nav-link-addon').removeClass('is-active');
                         $('.in-page-nav-link-faq').removeClass('is-active');
                         $('.in-page-nav-link-invoice').addClass('is-active');
@@ -428,20 +438,24 @@
 
                 }
             });
-            // dynamic styling for vertical navbar :END
+            //Dynamic styling for vertical navbar :END
 
             var invoiceCost = 0;
             var bouquetCost = 0;
-            var decodeurCost = 25000;
+
+            var equipmentCost = 0;
+            var equipmentRentCost = 0;
+            var equipmentBuyCost = 0;
+            var rentChoice = false;
+
             var addonCost = 0;
             var addonItemCost = 0;
-            var equipementCost = 0;
-            var installationCost = 15000;
+            var instalationCost = parseInt($('input[name=instalationCost]').val());
 
-            $('.invoice-item-equipements').find('.invoice-items-cost').text($('.equipement-cost').text());
+            $('.invoice-item-equipments').find('.invoice-items-cost').text($('.equipment-cost').text());
 
             function calculateInvoiceCost(){
-                invoiceCost = bouquetCost + installationCost + decodeurCost + addonCost;
+                invoiceCost = bouquetCost + instalationCost + equipmentCost + addonCost;
                 $('.invoice-item-total').css('display', 'block').find('.invoice-items-cost').text(invoiceCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF");
                 $('.total-separator').css('display', 'block');
                 if (invoiceCost > 0) $('.btn-general-invoice').removeClass('tpl');
@@ -449,17 +463,35 @@
 
             }
 
-            function calculateEquipementCost(){
-                if (decodeurCost === 25000) {
-                    equipementCost = installationCost + decodeurCost;
-                    $(".equipement-cost").text("  " + equipementCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF");
-                    $('.invoice-item-equipements').find('.invoice-items-cost').text($('.equipement-cost').text())
+            function calculateEquipmentCost(){
+                instalationCost = parseInt($('input[name=instalationCost]').val());
+                equipmentRentCost = 0;
+                equipmentBuyCost = 0;
+                rentChoice = false;
+                $(".option:checked").each(function() {
+                    if ($(this).hasClass('option-location')){
+                        equipmentRentCost += parseInt($(this).data('cost'));
+                        rentChoice = true
+                    }
+                    else if ($(this).hasClass('option-achat')) {
+                        equipmentBuyCost += parseInt($(this).data('cost'))
+                    }
+                    equipmentCost = equipmentRentCost + equipmentBuyCost;
+                });
+                if (rentChoice){
+                    var instalCost = instalationCost;
+                    instalCost += equipmentBuyCost;
+                    $(".equipment-cost").text("  " + instalCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}')
+                        + " XAF" + " + " + equipmentRentCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
+                    $('.invoice-item-equipments').find('.invoice-items-cost').text($('.equipment-cost').text())
                 }
-                else if (decodeurCost === 2000) {
-                    $(".equipement-cost").text("  " + installationCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}')
-                        + " XAF" + " + " + decodeurCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
-                    $('.invoice-item-equipements').find('.invoice-items-cost').text($('.equipement-cost').text())
+                else {
+                    var instalCost = instalationCost;
+                    instalCost += equipmentCost;
+                    $(".equipment-cost").text("  " + instalCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF");
+                    $('.invoice-item-equipments').find('.invoice-items-cost').text($('.equipment-cost').text())
                 }
+                $('.invoice-item-equipments').find('.invoice-items-cost').css('display', 'inline');
                 calculateInvoiceCost();
             }
 
@@ -474,10 +506,12 @@
                 $('.invoice-item-addons').find('.invoice-items-cost').text(addonCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
                 if (addonCost === 0){
                     $('.addons-cost').css('display', 'none');
+                    {#$('.invoice-items-cost').css('display', 'none');#}
                 }
                 else {
-                    $('.invoice-item-equipements').find('.invoice-items-cost').css('display', 'inline');
+                    $('.invoice-item-equipments').find('.invoice-items-cost').css('display', 'inline');
                     $('.addons-cost').css('display', 'inline').text(addonCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
+                    {#$('.invoice-items-cost').css('display', 'none');#}
                     {#$('.invoice-item-addons').find('.invoice-items-cost').text($('.addons-cost').text());#}
                 }
                 calculateInvoiceCost();
@@ -486,24 +520,15 @@
 
             $('.pricing-container').click(function () {
                 bouquetCost = parseInt($(this).data('cost'));
-                $('.invoice-item-equipements').find('.invoice-items-cost').css('display', 'inline');
+                $('.invoice-item-equipments').find('.invoice-items-cost').css('display', 'inline');
                $('.bouquet-cost').text(bouquetCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
                $('.invoice-item-tv').find('.invoice-items-name').css('display', 'inline');
                $('.invoice-item-tv').find('.pricing-pack').css('display', 'inline').text($(this).find('.pricing-pack').text());
                $('.invoice-item-tv').find('.invoice-items-cost').text($(this).find('.pricing-value').text());
                calculateInvoiceCost();
             });
-            $('.option-achat-decodeur').click(function () {
-                decodeurCost = 25000;
-                $('.invoice-item-equipements').find('.invoice-items-cost').css('display', 'inline');
-                calculateEquipementCost();
-            });
 
-            $('.option-location-decodeur').click(function () {
-                $('.invoice-item-equipements').find('.invoice-items-cost').css('display', 'inline');
-                decodeurCost = 2000;
-                calculateEquipementCost()
-            });
+            $(".option").click(calculateEquipmentCost);
 
             $(".addon").click(calculateAddonCost);
 
