@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load i18n static humanize %}
+
+{% block meta %}
+    {{ block.super }}
+    <link rel="shortcut icon" type="image/png" href="{% static "tsunami/img/favicon_Tsunami.ico" %}">
+    <meta name="theme-color" content="#233682">
+    <meta name="msapplication-navbutton-color" content="#233682">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#233682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://www.creolink.com/" />
+    <meta property="og:image" content="{% static 'tsunami/img/Logo-IKWEN-Tsunami_og.png' %}" />
+    <meta property="og:title" content="{% trans "CREOLINK Communications" %}"/>
+    <meta property="og:description" content="{% trans "The best of internet, the best of TV" %}">
+    <meta property="description" content="{% trans "The best of internet, the best of TV" %}" />
+{% endblock %}
+
+{% block page_title %}
+<title> {% trans "Order Confirm" %} - {{ service.project_name }} </title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link href="{% static 'econnect/css/admin_home.css' %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'tsunami/css/tsunami_homepage.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/homepage.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/econnect_pricing.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/order_confirm.css' %}">
+{% endblock %}
+
+{% block header_brand %}
+    <a class="navbar-brand hidden-xs" href="{{ service.url }}">
+        <img src="{% static "tsunami/img/logo_ikwen_web_header.png" %}"/>
+    </a>
+    <strong class="navbar-brand visible-xs">{{ service.project_name }}</strong>
+{% endblock %}
+
+{% block content %}
+
+    <section class="pricing-area">
+        <div class="container">
+            <div id="stage" style="margin: auto">
+                {% include 'core/snippets/spinner.html' %}
+
+                <div style="margin-bottom: 3vh;">
+                    <div class="text-center">
+                        {% if user.photo.name %}
+                            <img class="img-circle img-thumbnail" src="{{ settings.IKWEN_MEDIA_URL }}{{ user.photo.small_name }}" style="margin-top: 1vh;width:100px;height:100px">
+                        {% else %}
+                            <img class="img-circle img-thumbnail" src="{% static 'ikwen/img/login-avatar.jpg' %}" style="margin-top: 1vh;">
+                        {% endif %}
+                        <img class="img-circle img-thumbnail" src="{{ set }}" style="margin-top: 1vh;">
+                        <h2 class="welcome-title">{% trans "Dear " %} {{ user.first_name }},</h2>
+                        <h5 class="col-xs-12 welcome-subtitle"> {% trans "Thank you for your interest, please confirm your order details before submitting your request" %}</h5>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class=" card-section subtle-shade">
+                    <h4 class="card-section-title"></h4>
+                    <div class="row-card-section">
+                        <div class="col-md-4 card-img">
+{#                            <img  style="max-width: 250px;" src="{% static 'kakocase/img/website-configuration.png' %}">#}
+                            <div class="mapouter">
+                                <div class="gmap_canvas">
+                                    <iframe width='100%' height='100%' id='mapcanvas' src='https://maps.google.com/maps?q=3.8687997813334833,11.457516037359596&amp;t=&amp;z=17&amp;ie=UTF8&amp;iwloc=&amp;output=embed' frameborder='0' scrolling='no' marginheight='0' marginwidth='0'><div style='overflow:hidden;'><div id='gmap_canvas' style='height:100%;width:100%;'></div></div></iframe>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="subtitle">
+                                {% blocktrans %}
+
+                                {% endblocktrans %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <a href="{% url 'econnect:admin_order' %}" class="btn btn-outline-success" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Change location" %}</a>
+                        <a href="{% url 'econnect:admin_request' %}" class="btn btn-outline-success" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Update order" %}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    {% include 'core/snippets/sort_and_actions.html' %}
+    <script type="text/javascript">
+        //Get URL Parameter: BEGIN
+        /**
+         * @return {string}
+         */
+        function GetURLParameter(Param) {
+            let PageURL = window.location.search.substring(1);
+            let URLVariables = PageURL.split('&');
+            for (let i = 0; i < URLVariables.length; i++ ) {
+                let ParameterName = URLVariables[i].split('=');
+                if (ParameterName[0] === Param) return ParameterName[1];
+            }
+        }
+        //Get URL Parameter: END
+    </script>
+{% endblock %}

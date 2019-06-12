@@ -90,12 +90,14 @@ class PostView(TemplateView):
                           equipment_order_entry_list=equipment_order_entry_list, location_lat=customer_lat,
                           location_lng=customer_lng, formatted_address=formatted_address, cost=order_cost)
             order.save()
-            return HttpResponseRedirect(reverse('econnect:home'))
+            url = reverse('econnect:order_confirm')
+            url += '?q={}' + repr(customer_lat) + '%2C' + repr(customer_lng)
+            return HttpResponseRedirect(url)
         else:
             return render(request, self.template_name, {'form': form})
 
 
-class Admin(TemplateView):
+class AdminView(TemplateView):
     template_name = 'econnect/admin/admin_home.html'
 
 
@@ -118,11 +120,11 @@ class CustomerRequestList(HybridListView):
     context_object_name = 'customerRequest'
 
 
-class Home(TemplateView):
+class HomeView(TemplateView):
     template_name = 'econnect/homepage.html'
 
     def get_context_data(self, **kwargs):
-        context = super(Home, self).get_context_data(**kwargs)
+        context = super(HomeView, self).get_context_data(**kwargs)
         product_list = []
         for product in Product.objects.all():
             product.url = reverse('econnect:' + product.slug)
@@ -174,11 +176,11 @@ class ChangeExtra(ChangeObjectBase):
     model_admin = ExtraAdmin
 
 
-class PricingNumerilink(PostView):
+class PricingNumerilinkView(PostView):
     template_name = 'econnect/pricing_numerilink.html'
 
     def get_context_data(self, **kwargs):
-        context = super(PricingNumerilink, self).get_context_data(**kwargs)
+        context = super(PricingNumerilinkView, self).get_context_data(**kwargs)
         try:
             product = Product.objects.get(name=NUMERI)
         except Product.DoesNotExist:
@@ -197,11 +199,11 @@ class PricingNumerilink(PostView):
         return context
 
 
-class PricingHomelink(PostView):
+class PricingHomelinkView(PostView):
     template_name = 'econnect/pricing_homelink.html'
 
     def get_context_data(self, **kwargs):
-        context = super(PricingHomelink, self).get_context_data(**kwargs)
+        context = super(PricingHomelinkView, self).get_context_data(**kwargs)
         try:
             product = Product.objects.get(name=HOME)
         except Product.DoesNotExist:
@@ -220,11 +222,11 @@ class PricingHomelink(PostView):
         return context
 
 
-class PricingOfficelink(PostView):
+class PricingOfficelinkView(PostView):
     template_name = 'econnect/pricing_officelink.html'
 
     def get_context_data(self, **kwargs):
-        context = super(PricingOfficelink, self).get_context_data(**kwargs)
+        context = super(PricingOfficelinkView, self).get_context_data(**kwargs)
         try:
             product = Product.objects.get(name=OFFICE)
         except Product.DoesNotExist:
@@ -245,11 +247,36 @@ class PricingOfficelink(PostView):
         return context
 
 
-class PricingCorporatelink(PostView):
+class PricingCorporatelinkView(PostView):
     template_name = 'econnect/pricing_corporatelink.html'
 
     def get_context_data(self, **kwargs):
-        context = super(PricingCorporatelink, self).get_context_data(**kwargs)
+        context = super(PricingCorporatelinkView, self).get_context_data(**kwargs)
+        try:
+            product = Product.objects.get(name=CORPORATE)
+        except Product.DoesNotExist:
+            raise Http404
+        equipment_list = Equipment.objects.filter(product=product)
+        equipment_purchase_cost = 0
+        for equipment in equipment_list:
+            equipment_purchase_cost += equipment.purchase_cost
+            equipment.slug = slugify(equipment.name)
+            equipment.save()
+        for extra in product.extra_set.all():
+            extra.slug = slugify(extra.name)
+            extra.save()
+        context['equipment_purchase_cost'] = equipment_purchase_cost
+        context['default_equipment_cost'] = product.install_cost + equipment_purchase_cost
+        context['equipment_list'] = equipment_list
+        context['product'] = product
+        return context
+
+
+class OrderConfirmView(PostView):
+    template_name = 'econnect/order_confirm.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderConfirmView, self).get_context_data(**kwargs)
         try:
             product = Product.objects.get(name=CORPORATE)
         except Product.DoesNotExist:

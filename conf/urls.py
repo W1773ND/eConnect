@@ -9,7 +9,7 @@ from ikwen_kakocase.kakocase.views import AdminHome
 
 from ikwen_kakocase.trade.provider.views import ProviderDashboard, CCMDashboard
 
-from econnect.views import Home
+from econnect.views import HomeView
 
 admin.autodiscover()
 
@@ -47,7 +47,7 @@ urlpatterns = patterns(
     # url(r'^$', ProviderDashboard.as_view(), name='admin_home'),
     url(r'^page/(?P<url>[-\w]+)/$', FlatPageView.as_view(), name='flatpage'),
 
-    url(r'^$', Home.as_view(), name='home'),
+    url(r'^$', HomeView.as_view(), name='home'),
     url(r'^webnode/$', include('ikwen_webnode.webnode.urls', namespace='webnode')),
     url(r'^', include('econnect.urls', namespace='econnect')),
 )

@@ -2,18 +2,21 @@ from django.conf.urls import url, patterns
 from django.contrib.auth.decorators import permission_required
 
 from ikwen.billing.views import PaymentList
-from econnect.views import Admin, Home, PricingNumerilink, OrderList, CustomerRequestList, ChangeProduct, ProductList, \
-    ChangePackage, PackageList, EquipmentList, ChangeEquipment, ExtraList, ChangeExtra, PricingOfficelink, \
-    PricingHomelink, PricingCorporatelink, MapsView
+from econnect.views import AdminView, HomeView, PricingNumerilinkView, OrderList, CustomerRequestList, ChangeProduct, \
+    ProductList, \
+    ChangePackage, PackageList, EquipmentList, ChangeEquipment, ExtraList, ChangeExtra, PricingOfficelinkView, \
+    PricingHomelinkView, PricingCorporatelinkView, MapsView, OrderConfirmView
 
 urlpatterns = patterns(
     '',
-    url(r'^$', Home.as_view(), name='home'),
-    url(r'^numerilink$', PricingNumerilink.as_view(), name='numerilink'),
-    url(r'^officelink$', PricingOfficelink.as_view(), name='officelink'),
-    url(r'^homelink$', PricingHomelink.as_view(), name='homelink'),
-    url(r'^corporatelink$', PricingCorporatelink.as_view(), name='corporatelink'),
-    url(r'^admin/home$', permission_required('econnect.ik_econnect_admin')(Admin.as_view()), name='admin'),
+    url(r'^$', HomeView.as_view(), name='home'),
+    url(r'^numerilink$', PricingNumerilinkView.as_view(), name='numerilink'),
+    url(r'^officelink$', PricingOfficelinkView.as_view(), name='officelink'),
+    url(r'^homelink$', PricingHomelinkView.as_view(), name='homelink'),
+    url(r'^corporatelink$', PricingCorporatelinkView.as_view(), name='corporatelink'),
+    url(r'^order_confirm$', permission_required('econnect.ik_econnect_member')(OrderConfirmView.as_view()), name='order_confirm'),
+    # url(r'^order_confirm/(?P<lat>.)/$', permission_required('econnect.ik_econnect_member')(OrderConfirmView.as_view()), name='order_confirm'),
+    url(r'^admin/home$', permission_required('econnect.ik_econnect_admin')(AdminView.as_view()), name='admin'),
     url(r'^product_list/$', permission_required('econnect.ik_econnect_admin')(ProductList.as_view()), name='product_list'),
     url(r'^product/$', permission_required('econnect.ik_econnect_admin')(ChangeProduct.as_view()), name='change_product'),
     url(r'^product/(?P<object_id>[-\w]+)/$', permission_required('econnect.ik_econnect_admin')(ChangeProduct.as_view()), name='change_product'),
