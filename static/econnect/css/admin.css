@@ -2,6 +2,7 @@
     Document   : admin
     Created on : April 09, 2017, 12:30
     Author     : Kom Sihon
+    Contributor: W1773ND (wilfriedwillend@gmail.com)
     Description:
         Rules for ikwen Admin pages
 */
@@ -136,6 +137,19 @@ footer a {color: #999}
 #object-detail .ik-li .about {font-size: 13px; margin-top: 2px}
 #object-detail .container-fluid {padding: 0 10px}
 #object-detail .spinner {left: auto; position: fixed; right: 0; top: 0; width: 270px}
+
+.event {list-style-type: none; margin-bottom: 30px; padding: 0 !important;}
+.event-action { margin: 2vh 0; }
+.event .btn {width: 120px;}
+.event-content {/* border: none; */}
+.event-content p {margin-top: 10px;}
+.event-customer-name {text-transform: uppercase;font-weight: 700;}
+.event-detail {border: 1px solid #ddd; margin-top: 10px; padding: 15px;}
+.event-icon {height: 92%;line-height: 140px;margin: -15px 0 0 -15px;padding-left: inherit;position: absolute;text-align: center;/* width: 90px; */}
+.event-icon img {width: 60px;}
+.event-title { margin-bottom: 2vh; }
+
+.order-pricing {  }
 
 .payment-mean {display: block;height: 45px;background: #fff;}
 .payment-mean span {float: left; padding: 12px 15px; width: 35%}

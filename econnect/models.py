@@ -1,10 +1,18 @@
 from django.db import models
-from django.db.models import Model
 from django.utils.translation import gettext_lazy as _
 from djangotoolbox.fields import ListField, EmbeddedModelField
 
-from ikwen.core.models import Service, AbstractWatchModel
+from ikwen.core.models import Model, Service, AbstractWatchModel
+from ikwen.core.constants import PENDING_FOR_PAYMENT
 from ikwen.accesscontrol.models import Member
+
+NUMERI = 'NumeriLink'
+HOME = 'HomeLink'
+OFFICE = 'OfficeLink'
+CORPORATE = 'CorporateLink'
+RENTAL = "rental"
+PURCHASE = "purchase"
+OPTIONAL_TV_COST = 2500
 
 
 class ModelI18n(Model):
@@ -22,7 +30,7 @@ class Product(ModelI18n):
     summary = models.CharField(max_length=250)
     description = models.TextField(blank=True, null=True)
     cta_label = models.CharField(max_length=30, verbose_name="Call-to-action")
-    instalation_cost = models.IntegerField(default=0)
+    install_cost = models.IntegerField(default=0)
     logo = models.ImageField(blank=True, null=True, upload_to=UPLOAD_TO,
                              help_text="150 x 150px")
     order_of_appearance = models.IntegerField(default=0)
@@ -75,11 +83,25 @@ class AddOn(ModelI18n):
     extra = models.ForeignKey(Extra)
 
 
+class EquipmentOrderEntry(Model):
+    equipment = models.ForeignKey(Equipment)
+    name = models.CharField(max_length=240)
+    cost = models.IntegerField(default=0)
+    is_rent = models.BooleanField(default=False)
+
+
 class Order(Model):
     member = models.ForeignKey(Member, related_name='+')
-    product = models.ForeignKey(Package)
-    addon_list = ListField(EmbeddedModelField('AddOn'))
+    package = models.ForeignKey(Package)
+    equipment_order_entry_list = ListField(EmbeddedModelField('EquipmentOrderEntry'), editable=False)
+    optional_tv = models.IntegerField(blank=True, null=True)
+    extra_list = ListField(EmbeddedModelField('Extra'), editable=False, blank=True, null=True)
+    location_lat = models.FloatField(default=0.0)
+    location_lng = models.FloatField(default=0.0)
+    formatted_address = models.CharField(max_length=250)
     cost = models.IntegerField(default=0)
+    is_confirm = models.BooleanField(default=False)
+    status = models.CharField(max_length=30, default=PENDING_FOR_PAYMENT)
 
 
 class CustomerRequest(Model):

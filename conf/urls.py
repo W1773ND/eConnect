@@ -28,7 +28,7 @@ urlpatterns = patterns(
     url(r'^currencies/', include('currencies.urls')),
     url(r'^items/', include('ikwen_webnode.items.urls', namespace='items')),
     url(r'^web/', include('ikwen_webnode.web.urls', namespace='web')),
-    url(r'^blog/', include('blog.urls', namespace='blog')),
+    url(r'^blog/', include('ikwen_webnode.blog.urls', namespace='blog')),
     url(r'^rewarding/', include('ikwen.rewarding.urls', namespace='rewarding')),
 
     url(r'^ikwen/dashboard/$', permission_required('trade.ik_view_dashboard')(ProviderDashboard.as_view()),
@@ -48,5 +48,6 @@ urlpatterns = patterns(
     url(r'^page/(?P<url>[-\w]+)/$', FlatPageView.as_view(), name='flatpage'),
 
     url(r'^$', Home.as_view(), name='home'),
+    url(r'^webnode/$', include('ikwen_webnode.webnode.urls', namespace='webnode')),
     url(r'^', include('econnect.urls', namespace='econnect')),
 )

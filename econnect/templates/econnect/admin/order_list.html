@@ -10,7 +10,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'echo/css/swiper.min.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'ikwen/ajaxuploader/css/fileuploader.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'embed-doc/css/embed-doc.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'echo/css/echo.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/base_default.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/admin.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/econnect_pricing.css' %}"/>
 {% endblock %}
 
 {% block breadcrumb_location %}
@@ -57,7 +59,7 @@
             </div>
             <div id="results" class="col-sm-8 col-sm-offset-2">
                 {% include 'core/snippets/spinner.html' %}
-                {% include 'echo/snippets/mailcampaign_list_results.html' %}
+                {% include 'econnect/admin/snippets/order_list_results.html' %}
             </div>
         </div>
     </div>

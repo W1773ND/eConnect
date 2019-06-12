@@ -1,0 +1,79 @@
+{% load i18n static humanize %}
+<ul class="object-list campaign-list list-group">
+    {% for order in objects_page.object_list %}
+    {% url change_object_url_name order.id as obj_url %}
+    <li class="col-sm-12 event{% if not order.is_paid %} pending{% endif %}" id= "{{ order.id }}">
+        <div class="subtle-shade event-detail">
+            <div class="event-icon v-align">
+                <img class="v-align-center" src="{% static 'echo/img/mail-icon.png' %}" />
+            </div>
+            <div class="event-content">
+                <div>
+                    <div class="col-md-6 row">
+                       <span class="event-customer-name">{{ order.member }}</span><span class="text-muted"> {{ order.member.email }}</span></div>
+                    <div class="col-md-4 col-md-offset-2 event-date text-muted text-right" style="padding-right: 0;">{{ order.created_on }}</div>
+                    <div class="clearfix"></div>
+                    <p class="event-title text-muted" style="border-bottom: 1px solid #b4bcc2; height: 80%"></p>
+                    <div class="container-fluid order-content v-align row">
+                        <div class="col-md-6 row" style="border-right: 1px solid #b4bcc2">
+
+                            <p>
+                                &#9642;&nbsp;{{ order.package.product.name }}&nbsp;<span class="pricing-pack {{ order.package.product.name }}">{{ order.package.name }}</span>
+                            </p>
+                            {% for equipment_entry in order.equipment_order_entry_list %}
+                            <p>
+                               &#9642;&nbsp;{{ equipment_entry.equipment.name }}&nbsp;{% if equipment_entry.is_rent %}{% trans "on rental" %}{% else %}{% trans "on purchase" %}{% endif %}
+                            </p>
+                            {% endfor %}
+                            {% for extra in order.extra_list %}
+                            <p>
+                                &#9642;&nbsp;{{ extra.name|safe }}
+                            </p>
+                            {% endfor %}
+                            {% if order.optional_tv %}
+                            <p>
+                                &#9642;&nbsp;{% trans 'Optional Tv to connect: ' %}{{ order.optional_tv }}
+                            </p>
+                            {% endif %}
+                            <br>
+                            <p class="customer-location text-muted">{% trans 'To be installed at' %}</p>
+                            <a href='{% url 'econnect:maps' %}?next={{ request.path }}&availabilityCheck=1&lat={{ order.location_lat }}&lng={{ order.location_lng }}'>{{ order.formatted_address }}</a>
+                        </div>
+                        <div class="col-md-5 col-md-offset-2 v-align-center">
+                            <span class="pricing-value" style="font-size: 2em">{{ order.cost|intcomma }} </span><span class="text-muted" style="font-size: .8em">XAF</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <div class="event-action">
+                    <a href="{{ obj_url }}" class="btn btn-outline grey pull-right btn-sm" style="margin-left: 1vw"> {% trans "Reject" %}</a>
+                    <a href="{{ obj_url }}" class="btn btn-outline grey pull-right btn-sm"> {% trans "Accept" %}</a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% if objects_page.paginator.num_pages > 1 %}
+<ul class="pagination">
+    <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+    {% for page in objects_page.paginator.page_range %}
+        <li class="page{% if page == objects_page.number %} active{% endif %}" data-val="{{ page }}">
+            <a href="#">
+                {{ page }} {% if page == objects_page.number %}<span class="sr-only">(current)</span>{% endif %}
+            </a>
+        </li>
+    {% endfor %}
+    <li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+</ul>
+{% endif %}
+<div id="page-navigation" class="text-muted">
+    {% if objects_page.paginator.num_pages > 1 %}
+        <p>{% blocktrans with count=objects_page.paginator.count start=objects_page.start_index end=objects_page.end_index %}
+            {{ start }} – {{ end }} of {{ count }} results{% endblocktrans %}</p>
+    {% else %}
+        <p>{% blocktrans with count=objects_page.paginator.count %}{{ count }} results{% endblocktrans %}</p>
+    {% endif %}
+</div>

@@ -202,7 +202,7 @@
                         return false
                     });
 
-                    var path = window.location.href;
+                    let path = window.location.href;
                     $('li a.nav-menu').each(function () {
                         if (this.href === path) {
                             $(this).addClass('active')
@@ -264,22 +264,32 @@
                         return false;
                     });
 
+                    //Retrieving location: BEGIN
+                    if (localStorage.getItem('Location')){
+                        $('.location-set').text('{% trans " Modify my location" %}');
+                        let retrievedLocation = JSON.parse(localStorage.getItem('Location'));
+                        $('input[name=customer_lat]').val(retrievedLocation['Latitude']);
+                        $('input[name=customer_lng]').val(retrievedLocation['Longitude']);
+                        $('input[name=formatted_address]').val(localStorage.getItem('FormattedAddress').replace('Current location: ', ''));
+                    }
+                    //Retrieving location: END
+
                     $(window).scroll(function(e){
-					var scrollTop = $(window).scrollTop();
-					var docHeight = $(document).height();
-					var winHeight = $(window).height();
-					var scrollPercent = (scrollTop) / (docHeight - winHeight);
-					var scrollPercentRounded = Math.round(scrollPercent*100);
-					if (scrollPercentRounded >= 10) {
-						$('.back-to-top').removeClass('hiding').addClass('showing')
-					} else {
-						$('.back-to-top').removeClass('showing').addClass('hiding')
-					}
-				    });
+                        let scrollTop = $(window).scrollTop();
+                        let docHeight = $(document).height();
+                        let winHeight = $(window).height();
+                        let scrollPercent = (scrollTop) / (docHeight - winHeight);
+                        let scrollPercentRounded = Math.round(scrollPercent*100);
+                        if (scrollPercentRounded >= 10) {
+                            $('.back-to-top').removeClass('hiding').addClass('showing')
+                        } else {
+                            $('.back-to-top').removeClass('showing').addClass('hiding')
+                        }
+                    });
                     
 
                     {% url 'ikwen:list_projects' as list_projects_url %}
-                    var searchDescriptor = [{
+                    let searchDescriptor = [{
                         endpoint: '{{ list_projects_url|ikwenize }}',
                         resultTplSelector: '#navbar-results .ik-li',
                         jsonp: true

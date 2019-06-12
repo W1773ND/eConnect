@@ -44,20 +44,20 @@
         <div class="row section-banniere-top" style="margin-top: 0 !important;">
             <div class="col-md-6 col-sm-6 col-md-offset-3 col-sm-offset-3 text-center" style="padding-top: 7vh">
               <h1>{% trans "Get the best of Internet and TV" %}</h1>
-                 {% if request.user.is_authenticated %}
-                    <a  href='#' class="btn btn-outline white btn-deploy animated pulse mobile-adjust" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt" style=" font-size:larger; margin: 0 1vw 0 -.5vw;"></i>{% trans "Set my location" %}</a>
+                {% if request.user.is_authenticated %}
+                    <a  href='{% url 'econnect:maps' %}?next={{ request.path }}' class="btn btn-outline white btn-set-location animated pulse mobile-adjust" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style=" font-size:larger; word-spacing: -8px;">&nbsp;&nbsp;{% trans "Set my location" %}</i></a>
                 {% else %}
-                     <button type="button" class="btn btn-outline white btn-deploy animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt" style=" font-size:larger; margin: 0 1vw 0 -.5vw;"></i>{% trans "Set my location" %}</button>
+                     <button type="button" class="btn btn-outline white btn-set-location animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style=" font-size:larger; word-spacing: -8px;">&nbsp;&nbsp;{% trans "Set my location" %}</i></button>
                 {% endif %}
             </div>
         </div>
         <div id="section-banniere-top-iPad-view" class="row section-banniere-top" style="display: none">
             <div class="col-md-8 col-md-offset-2 text-center">
               <h1>{% trans "Get the best of Internet and TV" %}</h1>
-                 {% if request.user.is_authenticated %}
-                    <a  href='#' class="btn btn-outline white btn-deploy animated pulse mobile-adjust" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt" style=" font-size:larger; margin: 0 1vw 0 -.5vw;"></i>{% trans "Set my location" %}</a>
+                {% if request.user.is_authenticated %}
+                    <a  href="{% url 'econnect:maps' %}?next={{ request.path }}" class="btn btn-outline white btn-set-location animated pulse mobile-adjust" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style=" font-size:larger; word-spacing: -8px;">&nbsp;&nbsp;{% trans "Set my location" %}</i></a>
                 {% else %}
-                     <button type="button" class="btn btn-outline white btn-deploy animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt" style=" font-size:larger; margin: 0 1vw 0 -.5vw;"></i>{% trans "Set my location" %}</button>
+                     <button type="button" class="btn btn-outline white btn-set-location animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style=" font-size:larger; word-spacing: -8px;">&nbsp;&nbsp;{% trans "Set my location" %}</i></button>
                 {% endif %}
 
             </div>
@@ -68,34 +68,34 @@
 
         <nav class="col-md-2 pricing-menu hidden-xs">
             <ul style="list-style-type: none">
-                <li><a class="js-scrollTo in-page-nav-link orange in-page-nav-link-tv is-active"href="#sectionTv"> {% trans "TV" %}</a></li>
-                <li><a class="js-scrollTo in-page-nav-link orange in-page-nav-link-equipment" href="#sectionEquipment"> {% trans "Equipement" %}</a></li>
-                <li><a class="js-scrollTo in-page-nav-link orange in-page-nav-link-addon" href="#sectionAddOn"> {% trans "Add-ons" %}</a></li>
-                <li><a class="js-scrollTo in-page-nav-link orange in-page-nav-link-faq" href="#sectionFaq"> {% trans "FAQs" %}</a></li>
+                <li><a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-tv is-active"href="#sectionPack"> {% trans "Pack" %}</a></li>
+                <li><a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-equipment" href="#sectionEquipment"> {% trans "Equipement" %}</a></li>
+                <li><a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-addon" href="#sectionAddOn"> {% trans "Add-ons" %}</a></li>
+                <li><a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-faq" href="#sectionFaq"> {% trans "FAQs" %}</a></li>
             </ul>
         </nav>
 
-        <div class="col-md-2 pricing-menu scroll-menu orange visible-xs">
-            <a class="js-scrollTo in-page-nav-link orange in-page-nav-link-tv is-active"href="#sectionTv"> {% trans "TV" %}</a>
-            <a class="js-scrollTo in-page-nav-link orange in-page-nav-link-equipment" href="#sectionEquipment"> {% trans "Equipement" %}</a>
-            <a class="js-scrollTo in-page-nav-link orange in-page-nav-link-addon" href="#sectionAddOn"> {% trans "Add-ons" %}</a>
-            <a class="js-scrollTo in-page-nav-link orange in-page-nav-link-faq" href="#sectionFaq"> {% trans "FAQs" %}</a>
-            <a class="js-scrollTo in-page-nav-link orange in-page-nav-link-invoice" href="#invoice"> {% trans "Invoice" %}</a>
+        <div class="col-md-2 pricing-menu scroll-menu {{ product.name }} visible-xs">
+            <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-tv is-active"href="#sectionPack"> {% trans "Pack" %}</a>
+            <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-equipment" href="#sectionEquipment"> {% trans "Equipement" %}</a>
+            <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-addon" href="#sectionAddOn"> {% trans "Add-ons" %}</a>
+            <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-faq" href="#sectionFaq"> {% trans "FAQs" %}</a>
+            <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-invoice" href="#invoice"> {% trans "Invoice" %}</a>
         </div>
 
         <div class="col-md-8 pricing-items" style="">
 
-            <section id="sectionTv" class="pricing-section" style="margin-top: 0">
-                <h3 class="col-md-8 section-title">{% trans "Offres TV" %}<label class="cost orange bouquet-cost">{% trans "Choose one below" %}</label></h3>
+            <section id="sectionPack" class="pricing-section" style="margin-top: 0">
+                <h3 class="col-md-8 section-title">{% trans "Pack" %}<label class="cost {{ product.name }} bouquet-cost">{% trans "Choose one below" %}</label></h3>
                 <div class="clearfix"></div>
-                <hr>
+                <hr class="section-border-top">
                 {% for package in product.package_set.all %}
                     <div class="col-md-4{% if forloop.counter == 4 %} col-md-offset-2{% endif %}">
-                        <div class="panel panel-custom panel-custom-styling orange">
-                            <div class="pricing-container" data-cost="{{ package.cost }}">
-                                <h3 class="pricing-title orange">{{ product.name }}&nbsp;<span class="pricing-pack orange">{{ package.name }}</span></h3>
+                        <div class="panel panel-custom panel-custom-styling {{ product.name }}">
+                            <div class="pricing-container" data-cost="{{ package.cost }}" data-package-id="{{ package.id }}">
+                                <h3 class="pricing-title {{ product.name }}">{{ product.name }}&nbsp;<span class="pricing-pack {{ product.name }}">{{ package.name }}</span></h3>
                                 <h4 class="pricing-value">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
-                                <h5 class="pricing-content">{{ package.description|safe }}</h5>
+                                <h5 class="pricing-content mobile-adjust">{{ package.description|safe }}</h5>
                             </div>
                         </div>
                     </div>
@@ -104,24 +104,25 @@
             </section>
 
             <section id="sectionEquipment" class="pricing-section">
-                <input type="hidden" name="instalationCost" value="{{ product.instalation_cost }}">
-                <h3 class="col-md-8 section-title">{% trans "Equipements" %}<label class="cost orange equipment-cost">{{ default_equipment_cost|intcomma }} XAF</label></h3>
+                <input type="hidden" name="installCost" value="{{ product.install_cost }}">
+                <input type="hidden" name="equipmentPurchaseCost" value="{{ equipment_purchase_cost }}">
+                <h3 class="col-md-8 section-title">{% trans "Equipements" %}<label class="cost {{ product.name }} equipment-cost">{{ default_equipment_cost|intcomma }} XAF</label></h3>
                 <div class="clearfix"></div>
-                <hr>
+                <hr class="section-border-top">
                 <div class="col-md-8">
-                    <h4><label class="checkbox-inline disabled"><input type="checkbox" checked="checked" value="instalation" disabled>{% trans "Installation" %}</label></h4>
+                    <h4><label class="checkbox-inline disabled"><input type="checkbox" checked="checked" disabled><span class="text-muted">{% trans "Installation" %}</span></label></h4>
                 </div>
                 {% for equipment in product.equipment_set.all %}
-                <div class="col-md-12 v-align" style="padding: 5vh 0">
+                <div class="col-md-12 v-align equipment" style="padding: 5vh 0">
                     <div class="col-md-2 v-align-center" style="">
-                        <h4>{{ equipment.name }}</h4>
+                        <h4 class="equipment-name">{{ equipment.name }}</h4>
                     </div>
                     <div class="col-md-4 equipment-billing" style="border-left: #e5e8ed 2px solid">
                        <div class="radio">
-                           <h4><label><input type="radio" name="option{{ equipment.slug }}" class="option option-achat {{ equipment.slug }}" checked data-cost="{{ equipment.purchase_cost }}">{% trans "Achat" %}</label></h4>
+                           <h4><label><input type="radio" name="option{{ equipment.slug }}" class="option option-achat {{ equipment.slug }}" checked data-cost="{{ equipment.purchase_cost }}" data-equipment-id="{{ equipment.id }}">{% trans "Achat" %}</label></h4>
                        </div>
                         <div class="radio">
-                            <h4><label><input type="radio" name="option{{ equipment.slug }}" class="option option-location {{ equipment.slug }}" data-cost="{{ equipment.rent_cost }}">{% trans "Location" %}</label></h4>
+                            <h4><label><input type="radio" name="option{{ equipment.slug }}" class="option option-location {{ equipment.slug }}" data-cost="{{ equipment.rent_cost }}" data-equipment-id="{{ equipment.id }}">{% trans "Location" %}</label></h4>
                         </div>
                     </div>
                 </div>
@@ -130,13 +131,13 @@
             </section>
 
             <section id="sectionAddOn" class="pricing-section">
-                <h3 class="col-md-8 section-title">{% trans "Add-ons" %}<label class="cost orange addons-cost" style="display: none" ></label></h3>
+                <h3 class="col-md-8 section-title">{% trans "Add-ons" %}<label class="cost {{ product.name }} addons-cost" style="display: none" ></label></h3>
                 <div class="clearfix"></div>
-                <hr>
+                <hr class="section-border-top">
                 <div class="clearfix"></div>
                 {% for extra in product.extra_set.all %}
                     <div class=" col-md-8 addon-item">
-                        <input type="checkbox" id="{{ extra.id }}" value="{{ extra.id }}" name="OptionalBouquet" data-addon-cost = "{{ extra.cost }}" class="addon" >
+                        <input type="checkbox" id="{{ extra.id }}" value="{{ extra.id }}" name="OptionalBouquet" data-addon-cost = "{{ extra.cost }}" data-addon-id="{{ extra.id }}" class="addon" >
                         <h4 style="display: inline">
                             <label for="{{ extra.id }}" class="checkbox-label">{{ extra.name|safe }}</label>
                         </h4>
@@ -146,9 +147,9 @@
             </section>
 
             <section id="invoice" class="section-invoice visible-xs">
-                <div class="col-md-2 pricing-resume orange">
+                <div class="col-md-2 pricing-resume {{ product.name }}">
                     <div class=" panel panel-pricing-resume text-center" style="overflow: hidden">
-                        <div class="panel-title pricing-resume-title orange">
+                        <div class="panel-title pricing-resume-title {{ product.name }}">
                             <h4 class="">{% trans "General Invoice" %}</h4>
                         </div>
                         <form class="mobile-adjust" style="font-size: 1.2vw" action="{% url 'kakocase:go' %}" method="post">
@@ -156,12 +157,13 @@
                             <input type="hidden" name="customer_id" value="{{ user.id }}">
                             <input type="hidden" name="bouquet_id" value="{{ bouquet.id }}">
                             <input type="hidden" name="equipment_id" value="{{ equipment.id }}">
+                            <input type="hidden" name="installation_cost" value="{{ default_equipment_cost }}-{{ equipment_purchase_cost }}">
                             <input type="hidden" name="addon_id" value="{{ bouquet.id }}">
                             <input type="hidden" name="totalCost_id" value="{{ totalCost.id }}">
                             <div class="invoice-item invoice-item-tv">
                                 <h5>
-                                    <div class=" invoice-items-title"> {% trans "Offre TV" %} </div>
-                                    <div class=" invoice-items-name" style="display: none"> NumeriLink <span class="pricing-pack orange" style="display: none"></span> </div>
+                                    <div class=" invoice-items-title"> {% trans "Pack" %} </div>
+                                    <div class=" invoice-items-name" style="display: none"> NumeriLink <span class="pricing-pack {{ product.name }}" style="display: none"></span> </div>
                                     <div class="invoice-items-cost">  </div>
                                 </h5>
                             </div>
@@ -183,11 +185,11 @@
                             <div class="invoice-item invoice-item-total" style="display: none;">
                                 <h5>
                                     <div class=" invoice-items-title"> {% trans "Total" %} </div>
-                                    <div class="invoice-items-cost orange"></div>
+                                    <div class="invoice-items-cost {{ product.name }}"></div>
                                 </h5>
                             </div>
                             <div class="form-group"> <!-- Submit Button -->
-                                <button type="submit" class="btn btn-outline-success btn-general-invoice mobile-adjust">{% trans "Check Out" %}</button>
+                                <button type="submit" class="btn btn-outline {{ product.name }} btn-general-invoice mobile-adjust">{% trans "Check Out" %}</button>
                             </div>
                             <div class="clearfix"></div>
                         </form>
@@ -262,24 +264,37 @@
                 </div>
             </section>
 
+            <section id="errors">
+                {{ form.errors }}
+                {% if form.error %}
+                    {% for error in form.error %}
+                        {{ error }}
+                    {% endfor %}
+                {% endif %}
+            </section>
+
         </div>
 
         <div class="col-md-2 pricing-resume hidden-xs">
-            <div class=" panel panel-pricing-resume orange text-center" style="overflow: hidden">
-                <div class="panel-title pricing-resume-title orange">
+            <div class=" panel panel-pricing-resume {{ product.name }} text-center" style="overflow: hidden">
+                <div class="panel-title pricing-resume-title {{ product.name }}">
                     <h4 class="">{% trans "General Invoice" %}</h4>
                 </div>
-                <form class="mobile-adjust" style="font-size: 1.2vw" action="{% url 'kakocase:go' %}" method="post">
+                <form class="mobile-adjust" style="font-size: 1.2vw" method="post">
                     {% csrf_token %}
-{#                    <input type="hidden" name="customer_id" value="{{ user.id }}">#}
-{#                    <input type="hidden" name="bouquet_id" value="{{ bouquet.id }}">#}
-{#                    <input type="hidden" name="equipment_id" value="{{ equipment.id }}">#}
-{#                    <input type="hidden" name="addon_id" value="{{ bouquet.id }}">#}
-{#                    <input type="hidden" name="totalCost_id" value="{{ totalCost.id }}">#}
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                    <input type="hidden" name="customer_id" value="{{ user.id }}">
+                    <input type="hidden" name="customer_lat">
+                    <input type="hidden" name="customer_lng">
+                    <input type="hidden" name="formatted_address">
+                    <input type="hidden" name="pack_id">
+                    <input type="hidden" name="equipment" value="{% for equipment in product.equipment_set.all %}{{ equipment.id }}|achat;{% endfor %}">
+                    <input type="hidden" name="extra">
+
                     <div class="invoice-item invoice-item-tv">
                         <h5>
-                            <div class=" invoice-items-title"> {% trans "Offre TV" %} </div>
-                            <div class=" invoice-items-name" style="display: none">{{ product.name }}&nbsp;<span class="pricing-pack orange" style="display: none"></span></div>
+                            <div class=" invoice-items-title"> {% trans "Pack" %} </div>
+                            <div class=" invoice-items-name" style="display: none">{{ product.name }}&nbsp;<span class="pricing-pack {{ product.name }}" style="display: none"></span></div>
                             <div class="invoice-items-cost">  </div>
                         </h5>
                     </div>
@@ -301,11 +316,11 @@
                     <div class="invoice-item invoice-item-total" style="display: none;">
                         <h5>
                             <div class=" invoice-items-title"> {% trans "Total" %} </div>
-                            <div class="invoice-items-cost orange"></div>
+                            <div class="invoice-items-cost {{ product.name }}"></div>
                         </h5>
                     </div>
                     <div class="form-group"> <!-- Submit Button -->
-                        <button type="submit" class="btn btn-outline orange btn-general-invoice mobile-adjust tpl">{% trans "Check Out" %}</button>
+                        <button type="submit" class="btn btn-outline {{ product.name }} btn-general-invoice mobile-adjust tpl">{% trans "Check Out" %}</button>
                     </div>
                     <div class="clearfix"></div>
                 </form>
@@ -328,7 +343,7 @@
     <script>
         (function () {
             // redirect to signIn page
-            $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next=#");
+            $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:homelink' %}");
 
             // set focus when modal is opened
             $('#modal-get-email').on('shown.bs.modal', function () {
@@ -341,7 +356,7 @@
 
             // get the email for Tsunami relaunch mails
             $('.btn-process').click(function () {
-                var visitor_email = $('#visitor-email').val();
+                let visitor_email = $('#visitor-email').val();
                 if (visitor_email !== ''){
                     $('#get-user-email').submit()
                 }else {
@@ -350,11 +365,12 @@
             });
 
             //Dynamic color for menu items and faq: BEGIN
-            $('.nav-menu').addClass('orange');
-            $('.glyphicon').addClass('orange');
-            $('a.cta').addClass('orange');
-            $('.faq-answer').addClass('orange');
-            $('.faq-question').addClass('orange');
+            $('.nav-menu').addClass('{{ product.name }}');
+            $('.glyphicon').addClass('{{ product.name }}');
+            $('a.cta').addClass('{{ product.name }}');
+            $('.faq-answer').addClass('{{ product.name }}');
+            $('.faq-question').addClass('{{ product.name }}');
+            $('.fa-chevron-circle-up').css('color', '#ff9800');
             //Dynamic color for menu items and faq: END
 
 
@@ -363,21 +379,21 @@
 
             //Get the position of an element relative to the document
             function offset(el) {
-                var rect = el[0].getBoundingClientRect(),
+                let rect = el[0].getBoundingClientRect(),
                 scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
                 scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 return { top: parseInt(rect.top + scrollTop), left: parseInt(rect.left + scrollLeft) }
             }
 
-            var sectionTvPosition = offset($('#sectionTv'));
-            var sectionEquipmentPosition = offset($('#sectionEquipment'));
-            var sectionAddonPosition = offset($('#sectionAddOn'));
-            var sectionFaqPosition = offset($('#sectionFaq'));
+            let sectionPackPosition = offset($('#sectionPack'));
+            let sectionEquipmentPosition = offset($('#sectionEquipment'));
+            let sectionAddonPosition = offset($('#sectionAddOn'));
+            let sectionFaqPosition = offset($('#sectionFaq'));
 
-            var divInvoice = offset($('#invoice'));
+            let divInvoice = offset($('#invoice'));
 
             $(window).scroll(function() {
-                if($(window).scrollTop() <= sectionTvPosition.top){
+                if($(window).scrollTop() <= sectionPackPosition.top){
                     $('.in-page-nav-link-tv').addClass('is-active');
                     $('.in-page-nav-link-equipment').removeClass('is-active');
                     $('.in-page-nav-link-addon').removeClass('is-active');
@@ -430,22 +446,22 @@
             });
             //Dynamic styling for vertical navbar :END
 
-            var invoiceCost = 0;
-            var bouquetCost = 0;
+            let invoiceCost = 0;
+            let bouquetCost = 0;
 
-            var equipmentCost = 0;
-            var equipmentRentCost = 0;
-            var equipmentBuyCost = 0;
-            var rentChoice = false;
+            let equipmentCost = parseInt($('input[name=equipmentPurchaseCost]').val());
+            let equipmentRentCost = 0;
+            let equipmentBuyCost = 0;
+            let rentChoice = false;
 
-            var addonCost = 0;
-            var addonItemCost = 0;
-            var instalationCost = parseInt($('input[name=instalationCost]').val());
+            let addonCost = 0;
+            let addonItemCost = 0;
+            let installCost = parseInt($('input[name=installCost]').val());
 
             $('.invoice-item-equipments').find('.invoice-items-cost').text($('.equipment-cost').text());
 
             function calculateInvoiceCost(){
-                invoiceCost = bouquetCost + instalationCost + equipmentCost + addonCost;
+                invoiceCost = bouquetCost + installCost + equipmentCost + addonCost;
                 $('.invoice-item-total').css('display', 'block').find('.invoice-items-cost').text(invoiceCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF");
                 $('.total-separator').css('display', 'block');
                 if (invoiceCost > 0) $('.btn-general-invoice').removeClass('tpl');
@@ -454,31 +470,38 @@
             }
 
             function calculateEquipmentCost(){
-                instalationCost = parseInt($('input[name=instalationCost]').val());
+                installCost = parseInt($('input[name=installCost]').val());
                 equipmentRentCost = 0;
                 equipmentBuyCost = 0;
+                let equipmentList = "";
+
                 rentChoice = false;
                 $(".option:checked").each(function() {
+                    let equipmentId = $(this).data('equipment-id');
                     if ($(this).hasClass('option-location')){
                         equipmentRentCost += parseInt($(this).data('cost'));
-                        rentChoice = true
+                        rentChoice = true;
+                        var item = equipmentId + '|' + 'rental;'
                     }
                     else if ($(this).hasClass('option-achat')) {
-                        equipmentBuyCost += parseInt($(this).data('cost'))
+                        equipmentBuyCost += parseInt($(this).data('cost'));
+                        var item = equipmentId + '|' + 'purchase;'
                     }
                     equipmentCost = equipmentRentCost + equipmentBuyCost;
+                    equipmentList += item;
+                    $('input[name=equipment]').val(equipmentList)
                 });
                 if (rentChoice){
-                    var instalCost = instalationCost;
-                    instalCost += equipmentBuyCost;
-                    $(".equipment-cost").text("  " + instalCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}')
+                    let installationCost = installCost;
+                    installationCost += equipmentBuyCost;
+                    $(".equipment-cost").text("  " + installationCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}')
                         + " XAF" + " + " + equipmentRentCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
                     $('.invoice-item-equipments').find('.invoice-items-cost').text($('.equipment-cost').text())
                 }
                 else {
-                    var instalCost = instalationCost;
-                    instalCost += equipmentCost;
-                    $(".equipment-cost").text("  " + instalCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF");
+                    let installationCost = installCost;
+                    installationCost += equipmentCost;
+                    $(".equipment-cost").text("  " + installationCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF");
                     $('.invoice-item-equipments').find('.invoice-items-cost').text($('.equipment-cost').text())
                 }
                 $('.invoice-item-equipments').find('.invoice-items-cost').css('display', 'inline');
@@ -492,6 +515,13 @@
                         addonItemCost += ($(this).data('addon-cost'));
                     }
                 });
+                let extraIdSelectedList = "";
+                $(".addon:checked").each(function() {
+                    let extraId = $(this).data('addon-id');
+                    extraIdSelectedList += extraId + ';'
+                });
+                $('input[name=extra]').val(extraIdSelectedList);
+
                 addonCost = addonTvCost + addonItemCost;
                 $('.invoice-item-addons').find('.invoice-items-cost').text(addonCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
                 if (addonCost === 0){
@@ -510,12 +540,14 @@
 
             $('.pricing-container').click(function () {
                 bouquetCost = parseInt($(this).data('cost'));
+                let packageId = $(this).data('package-id');
+                $('input[name=pack_id]').val(packageId);
                 $('.invoice-item-equipments').find('.invoice-items-cost').css('display', 'inline');
-               $('.bouquet-cost').text(bouquetCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
-               $('.invoice-item-tv').find('.invoice-items-name').css('display', 'inline');
-               $('.invoice-item-tv').find('.pricing-pack').css('display', 'inline').text($(this).find('.pricing-pack').text());
-               $('.invoice-item-tv').find('.invoice-items-cost').text($(this).find('.pricing-value').text());
-               calculateInvoiceCost();
+                $('.bouquet-cost').text(bouquetCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
+                $('.invoice-item-tv').find('.invoice-items-name').css('display', 'inline');
+                $('.invoice-item-tv').find('.pricing-pack').css('display', 'inline').text($(this).find('.pricing-pack').text());
+                $('.invoice-item-tv').find('.invoice-items-cost').text($(this).find('.pricing-value').text());
+                calculateInvoiceCost();
             });
 
             $(".option").click(calculateEquipmentCost);
@@ -523,7 +555,7 @@
             $(".addon").click(calculateAddonCost);
 
 
-            var addonTvCost = 0;
+            let addonTvCost = 0;
 
             //Optional TV adding slider gesture
 
