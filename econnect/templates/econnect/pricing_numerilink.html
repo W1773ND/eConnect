@@ -293,18 +293,32 @@
                 <div class="panel-title pricing-resume-title {{ product.name }}">
                     <h4 class="">{% trans "General Invoice" %}</h4>
                 </div>
-                <form class="mobile-adjust" style="font-size: 1.2vw" method="post">
+                <form class="mobile-adjust" method="post">
                     {% csrf_token %}
-                    <input type="hidden" name="product_id" value="{{ product.id }}">
-                    <input type="hidden" name="customer_id" value="{{ user.id }}">
-                    <input type="hidden" name="customer_lat">
-                    <input type="hidden" name="customer_lng">
-                    <input type="hidden" name="formatted_address">
-                    <input type="hidden" name="pack_id">
-                    <input type="hidden" name="equipment" value="{% for equipment in product.equipment_set.all %}{{ equipment.id }}|achat;{% endfor %}">
-                    <input type="hidden" name="extra">
-                    <input type="hidden" name="optional_tv" value="1">
-
+                    {% if order %}
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <input type="hidden" name="product_id" value="{{ order.package.product.id }}">
+                        <input type="hidden" name="customer_id" value="{{ order.member_id }}">
+                        <input type="hidden" name="customer_lat" value="{{ order.location_lat }}">
+                        <input type="hidden" name="customer_lng" value="{{ order.location_lng }}">
+                        <input type="hidden" name="formatted_address" value="{{ order.formatted_adress }}">
+                        <input type="hidden" name="pack_id" value="{{ order.package_id }}">
+                        <input type="hidden" name="equipment" value="{{ equipment_order_entry }}">
+                        <input type="hidden" name="extra" value="{{ extra }}">
+                        {% if not order.optional_tv == None %}
+                            <input type="hidden" name="optional_tv" value="{{ order.optional_tv }}">
+                        {% endif %}
+                    {% else %}
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        <input type="hidden" name="customer_id" value="{{ user.id }}">
+                        <input type="hidden" name="customer_lat">
+                        <input type="hidden" name="customer_lng">
+                        <input type="hidden" name="formatted_address">
+                        <input type="hidden" name="pack_id">
+                        <input type="hidden" name="equipment" value="{% for equipment in product.equipment_set.all %}{{ equipment.id }}|achat;{% endfor %}">
+                        <input type="hidden" name="extra">
+                        <input type="hidden" name="optional_tv" value="1">
+                    {% endif %}
                     <div class="invoice-item invoice-item-tv">
                         <h5>
                             <div class=" invoice-items-title"> {% trans "Pack" %} </div>
@@ -333,8 +347,12 @@
                             <div class="invoice-items-cost {{ product.name }}"></div>
                         </h5>
                     </div>
-                    <div class="form-group"> <!-- Submit Button -->
-                        <button type="submit" class="btn btn-outline {{ product.name }} btn-general-invoice mobile-adjust tpl">{% trans "Check Out" %}</button>
+                    <!-- Submit Button -->
+                    <div class="form-group">
+                        <button type="button" class="btn btn-outline {{ product.name }} btn-general-invoice mobile-adjust tpl">{% trans "Check Out" %}</button>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-outline {{ product.name }} btn-general-invoice-ready mobile-adjust tpl">{% trans "Check Out" %}</button>
                     </div>
                     <div class="clearfix"></div>
                 </form>
@@ -478,8 +496,12 @@
                 invoiceCost = bouquetCost + installCost + equipmentCost + addonCost;
                 $('.invoice-item-total').css('display', 'block').find('.invoice-items-cost').text(invoiceCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF");
                 $('.total-separator').css('display', 'block');
-                if (invoiceCost > 0) $('.btn-general-invoice').removeClass('tpl');
-                else $('.btn-general-invoice').addClass('tpl');
+                if (localStorage.getItem('Location')){
+                    if (invoiceCost > 0)  $('.btn-general-invoice-ready').removeClass('tpl');
+                    else $('.btn-general-invoice-ready').addClass('tpl');
+                }else if (invoiceCost > 0)  $('.btn-general-invoice').removeClass('tpl');
+                    else $('.btn-general-invoice').addClass('tpl');
+
 
             }
 
@@ -600,6 +622,12 @@
                 $("#CurrentSliderPriceValLabel").text("  " + addonTvCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
                 $('input[name=optional_tv]').val(slideEvt.value.newValue);
                 calculateAddonCost();
+            });
+            $('.btn-general-invoice').on("click", function() {
+                $(this).blur();
+                $('.btn-set-location').focus()
+                alert("Please set your location before proceeding...");
+                return false
             });
 
         })()

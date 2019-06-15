@@ -1,6 +1,6 @@
 
 
-a.btn { min-width: 200px !important; }
+.btn {min-width: 200px !important;}
 .btn-outline-primary { color: #007bff; background-color: transparent; background-image: none; border-color: #007bff; }
 .btn-outline-primary:hover { color: #fff !important; background-color: #007bff; border-color: #007bff; }
 .btn-outline-primary:focus, .btn-outline-primary.focus { color: #007bff; box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5); }
@@ -40,7 +40,7 @@ a.btn { min-width: 200px !important; }
 
 .toggle-handle { background-color: #fff; }
 
-.row-card-section { align-items: center; display: flex; }
+.row-card-section {align-items: center;display: flex;}
 
 .welcome-subtitle { color: #5a5a5a; }
 

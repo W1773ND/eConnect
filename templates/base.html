@@ -274,6 +274,9 @@
                     }
                     //Retrieving location: END
 
+                    //Cleaning local Storage
+                    {#$('.btn-general-invoice').click(localStorage.clear());#}
+
                     $(window).scroll(function(e){
                         let scrollTop = $(window).scrollTop();
                         let docHeight = $(document).height();

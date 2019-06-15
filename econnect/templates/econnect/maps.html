@@ -1,0 +1,400 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+
+{% block meta %}
+    {{ block.super }}
+    <link rel="shortcut icon" type="image/png" href="{% static "tsunami/img/favicon_Tsunami.ico" %}">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#233682">
+    <meta name="msapplication-navbutton-color" content="#233682">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#233682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://www.ikwen.com/tsunami/" />
+    <meta property="og:image" content="{% static 'tsunami/img/Logo-IKWEN-Tsunami_og.png' %}" />
+    <meta property="og:title" content="{% trans "ikwen TSUNAMI, the cloud tools your business needs" %}"/>
+    <meta property="og:description" content="{% trans "Reach more csustomers and sell all your stocks with Tsunami" %}">
+    <meta property="description" content="{% trans "Reach more csustomers and sell all your stocks with Tsunami" %}" />
+{% endblock %}
+
+{% block page_title %}
+    <title>Creolink - Geolocation</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <style>
+        #map {height: 100%;}
+        html, body {height: 100%;margin: 0;padding: 0;}
+    </style>
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+    <div id="map"></div>
+    <form id="order" class="mobile-adjust" style="font-size: 1.2vw" method="post">
+        {% csrf_token %}
+        {% if order %}
+            <input type="hidden" name="order_id" value="{{ order.id }}">
+            <input type="hidden" name="product_id" value="{{ order.package.product.id }}">
+            <input type="hidden" name="customer_id" value="{{ order.member_id }}">
+            <input type="hidden" name="customer_lat" value="{{ order.location_lat }}">
+            <input type="hidden" name="customer_lng" value="{{ order.location_lng }}">
+            <input type="hidden" name="formatted_address" value="{{ order.formatted_adress }}">
+            <input type="hidden" name="pack_id" value="{{ order.package_id }}">
+            <input type="hidden" name="equipment" value="{{ equipment_order_entry }}">
+            <input type="hidden" name="extra" value="{{ extra }}">
+            {% if not order.optional_tv == None %}
+                <input type="hidden" name="optional_tv" value="{{ order.optional_tv }}">
+            {% endif %}
+        {% else %}
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+            <input type="hidden" name="customer_id" value="{{ user.id }}">
+            <input type="hidden" name="customer_lat">
+            <input type="hidden" name="customer_lng">
+            <input type="hidden" name="formatted_address">
+        {% endif %}
+    </form>
+    <div id="defaultContent" style="display: none">
+        <div class="content-string">
+            <h4 class="title text-center" style="margin-top: 0px; padding-bottom: 0.5vh;"> {% trans "Set your position" %}</h4>
+            <div class="content">'
+                <p>{% trans "Indicate the desired position for the intervention" %}</p>
+                <div class="text-center">
+                    <button class="btn btn-outline-success text-center {% if order %}update{% else %}set{% endif %}-position" style="min-width: 150px; margin-top:1vh;">{% trans "Set it" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section id="errors">
+        {{ form.errors }}
+        {% if form.error %}
+            {% for error in form.error %}
+                {{ error }}
+            {% endfor %}
+        {% endif %}
+    </section>
+    <input name="formatted_address" class="text-center blink infinite" style="color: red; cursor: not-allowed; font-weight: 700">
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+
+{% block js %}
+    {{ block.super }}
+    <script>
+        var map, infoWindow, marker, pos;
+        var availabilityCheck= parseInt('{{ request.GET.availabilityCheck }}');
+        var orderId= '{{ request.GET.order_id }}';
+        {% comment %}var NEW_ZEALAND_BOUNDS = {
+            north: 13.083335,
+            south: 16.194408,
+            west: 1.6559,
+            east: 8.3936,
+        };{% endcomment %}
+        var IKWEN = { lat: 3.834418, lng: 11.4849073 };
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: IKWEN,
+                {% comment %}restriction: {
+                    latLngBounds: NEW_ZEALAND_BOUNDS,
+                    strictBounds: false,
+                },{% endcomment %}
+                zoom: 16,
+                // gestureHandling: 'cooperative'
+
+            });
+            var geocoder = new google.maps.Geocoder;
+            var contentString = $('#defaultContent').html();
+            var infowindow = new google.maps.InfoWindow({content: contentString});
+            var infowindowForOrder = new google.maps.InfoWindow();
+
+            function stopBounce() {
+                marker.setAnimation(google.maps.Animation.DROP);
+            }
+
+            function startBounce() {
+                marker.setAnimation(google.maps.Animation.BOUNCE);
+            }
+
+            function autoCenter() {
+                map.addListener('center_changed', function() {
+                  window.setTimeout(function() {
+                    map.panTo(marker.getPosition());
+                  }, 4000);
+                });
+            }
+
+            function locationResolve(geocoder, latlng){
+                geocoder.geocode({'location': latlng}, function(results, status) {
+                    if (status === google.maps.GeocoderStatus.OK) {
+                        if (results[1]) {
+                            if (results[0].formatted_address.indexOf("Unnamed Road") != -1) {
+                                $('input[name=formatted_address]').val("Current location: "+ results[1].formatted_address);
+                            }
+                            else { $('input[name=formatted_address]').val("Current location: "+ results[0].formatted_address); }
+
+                        }
+                        else if (results[0]) { $('input[name=formatted_address]').val("Current location: "+ results[0].formatted_address);}
+                        else { window.alert('No results found'); }
+                    } else {  window.alert('Geocoder failed due to: ' + status); }
+                    if (availabilityCheck === 1){
+                        let contentString = '<br>'+
+                                            '<div style="font-weight: 700;">'+
+                                                $("input[name=formatted_address]").val().replace("Current location: ", "") +
+                                            '</div>'+
+                                            '<br>'+
+                                            '<div class="text-center blink infinite">Click on this mark to close the map</div>'+
+                                            '<br>';
+                        infowindowForOrder.setContent(contentString);
+                    }
+
+                });
+            }
+            if (availabilityCheck === 1) {
+                $('input[name=formatted_address]').attr('type', 'hidden');
+                map.setZoom(18);
+                pos = {
+                    lat: parseFloat("{{ request.GET.lat }}"),
+                    lng: parseFloat("{{ request.GET.lng }}")
+                };
+                locationResolve(geocoder, pos);
+
+                marker = new google.maps.Marker({
+                    position: pos,
+                    map: map,
+                    animation: google.maps.Animation.DROP,
+                    title: 'Order location'
+                });
+                autoCenter();
+                marker.addListener('click', function() {
+                    map.setZoom(15);
+                    ikwen.showFloatingNotice('Redirection to the order admin page...', '', 3);
+                    setTimeout(redirect, 2000);
+                });
+                map.setCenter(pos);
+                infowindowForOrder.open(map, marker);
+
+            }
+
+            else if (orderId !== '') {
+                map.setZoom(18);
+                pos = {
+                    lat: parseFloat("{{ request.GET.lat }}"),
+                    lng: parseFloat("{{ request.GET.lng }}")
+                };
+                locationResolve(geocoder, pos);
+
+                marker = new google.maps.Marker({
+                    position: pos,
+                    map: map,
+                    draggable:true,
+                    animation: google.maps.Animation.DROP,
+                    title: 'Here you are'
+                });
+                autoCenter();
+                marker.addListener('click', function() {
+                    stopBounce();
+                    infowindow.open(map, marker);
+                });
+                google.maps.event.addListener(marker, 'dragstart', function (evt) {
+                    startBounce();
+                    infowindow.close(map, marker);
+                });
+                google.maps.event.addListener(marker, 'dragend', function (evt) {
+                    stopBounce();
+                    var latitude = marker.getPosition().lat();
+                    var longitude = marker.getPosition().lng();
+                    pos = {lat: latitude, lng: longitude};
+                    map.panTo(marker.getPosition());
+
+                    $('input[name=customer_lat]').val(latitude);
+                    $('input[name=customer_lng]').val(longitude);
+
+                    infowindow.open(map, marker);
+                    locationResolve(geocoder, pos);
+
+                });
+                map.setCenter(pos);
+
+            }
+            else if (localStorage.getItem('Location')) {
+                let retrievedLocation = JSON.parse(localStorage.getItem('Location'));
+                $('input[name=customer_lat]').val(retrievedLocation['Latitude']);
+                $('input[name=customer_lng]').val(retrievedLocation['Longitude']);
+                pos = {
+                    lat: parseFloat($('input[name=customer_lat]').val()),
+                    lng: parseFloat($('input[name=customer_lng]').val())
+                };
+                locationResolve(geocoder, pos);
+
+                marker = new google.maps.Marker({
+                    position: pos,
+                    map: map,
+                    draggable:true,
+                    animation: google.maps.Animation.DROP,
+                    title: 'Last saved location...'
+                });
+                autoCenter();
+                marker.addListener('click', function() {
+                    stopBounce();
+                    infowindow.open(map, marker);
+                });
+                google.maps.event.addListener(marker, 'dragend', function (evt) {
+                    stopBounce();
+                    marker.setTitle('Here you are');
+                    var latitude = marker.getPosition().lat();
+                    var longitude = marker.getPosition().lng();
+                    pos = {lat: latitude, lng: longitude};
+                    map.panTo(marker.getPosition());
+
+                    $('input[name=customer_lat]').val(latitude);
+                    $('input[name=customer_lng]').val(longitude);
+
+                    infowindow.open(map, marker);
+                    locationResolve(geocoder, pos);
+
+                });
+                google.maps.event.addListener(marker, 'dragstart', function (evt) {
+                    startBounce();
+                    infowindow.close(map, marker);
+                });
+
+                map.setCenter(pos);
+
+            }
+            // Try HTML5 geolocation.
+            else if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                locationResolve(geocoder, pos);
+                marker = new google.maps.Marker({
+                    position: pos,
+                    map: map,
+                    draggable:true,
+                    animation: google.maps.Animation.BOUNCE,
+                    title: 'Here you are'
+                });
+                $('input[name=customer_lat]').val(pos.lat);
+                $('input[name=customer_lng]').val(pos.lng);
+                autoCenter();
+                marker.addListener('click', function() {
+                    stopBounce();
+                    infowindow.open(map, marker);
+                });
+                google.maps.event.addListener(marker, 'dragstart', function (evt) {
+                    startBounce();
+                    infowindow.close(map, marker);
+                });
+                google.maps.event.addListener(marker, 'dragend', function (evt) {
+                    stopBounce();
+                    var latitude = marker.getPosition().lat();
+                    var longitude = marker.getPosition().lng();
+                    pos = {lat: latitude, lng: longitude};
+                    map.panTo(marker.getPosition());
+
+                    $('input[name=customer_lat]').val(latitude);
+                    $('input[name=customer_lng]').val(longitude);
+
+                    infowindow.open(map, marker);
+                    locationResolve(geocoder, pos);
+
+                });
+                map.setCenter(pos);
+                })
+            }
+            else {
+                locationResolve(geocoder, IKWEN);
+
+                marker = new google.maps.Marker({
+                    position: IKWEN,
+                    map: map,
+                    draggable:true,
+                    animation: google.maps.Animation.BOUNCE,
+                    title: 'Default location...'
+                });
+                autoCenter();
+                marker.addListener('click', function() {
+                    stopBounce();
+                    infowindow.open(map, marker);
+                });
+                google.maps.event.addListener(marker, 'dragstart', function (evt) {
+                    startBounce();
+                    infowindow.close(map, marker);
+                });
+                google.maps.event.addListener(marker, 'dragend', function (evt) {
+                    stopBounce();
+                    marker.setTitle('Here you are');
+                    var latitude = marker.getPosition().lat();
+                    var longitude = marker.getPosition().lng();
+                    pos = {lat: latitude, lng: longitude};
+                    map.panTo(marker.getPosition());
+
+                    $('input[name=customer_lat]').val(latitude);
+                    $('input[name=customer_lng]').val(longitude);
+
+                    infowindow.open(map, marker);
+                    locationResolve(geocoder, pos);
+
+                });
+
+                map.setCenter(pos);
+
+            }{% comment %}, function() {
+                handleLocationError(true, infoWindow, map.getCenter());
+                });
+            } else {
+                handleLocationError(false, infoWindow, map.getCenter());
+            }{% endcomment %}
+        }
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(browserHasGeolocation ?
+                      "Error: The Geolocation service failed." :
+                      "Error: Your browser doesn't support geolocation.");
+            infoWindow.open(map);
+        }
+
+        function redirect(){
+            window.location.replace("{{ request.GET.next }}")
+        }
+
+        $(document.body).on('click', '.set-position', function () {
+            map.setZoom(18);
+            var savedLocation = {
+              "Latitude": $('input[name=customer_lat]').val(),
+              "Longitude": $('input[name=customer_lng]').val()
+            };
+            var savedFormattedAddress = $('input[name=formatted_address]').val();
+            localStorage.setItem('Location', JSON.stringify(savedLocation));
+            localStorage.setItem('FormattedAddress', savedFormattedAddress);
+            ikwen.showFloatingNotice('Location saved successfully!', '', 3);
+            setTimeout(redirect, 2000);
+
+        });
+
+        $(document.body).on('click', '.update-position', function () {
+            map.setZoom(18);
+            var updatedLocation = {
+              "Latitude": $('input[name=customer_lat]').val(),
+              "Longitude": $('input[name=customer_lng]').val()
+            };
+            var updatedFormattedAddress = $('input[name=formatted_address]').val();
+            localStorage.setItem('Location', JSON.stringify(updatedLocation));
+            localStorage.setItem('FormattedAddress', updatedFormattedAddress);
+            ikwen.showFloatingNotice('Location updated successfully!', '', 3);
+            $('#order').submit();
+            setTimeout(redirect, 2000);
+
+        });
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ settings.GOOGLE_MAPS_API_KEY }}">
+    </script>
+{% endblock %}

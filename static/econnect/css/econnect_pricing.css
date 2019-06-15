@@ -1,5 +1,5 @@
 
-.btn-general-invoice { width: 100% !important; }
+.btn-general-invoice, .btn-general-invoice-ready { width: 100% !important; }
 
 .in-page-nav-link { border-left: 2px solid #e5e8ed; color: rgba(3,27,78,.6); display: block; font-size: 20px; padding: 16px; }
 .in-page-nav-link.NumeriLink.is-active { border-left-color: #2ab732; color: #2ab732; }

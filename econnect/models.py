@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from djangotoolbox.fields import ListField, EmbeddedModelField
 
 from ikwen.core.models import Model, Service, AbstractWatchModel
-from ikwen.core.constants import PENDING_FOR_PAYMENT
+from ikwen.core.constants import STARTED
 from ikwen.accesscontrol.models import Member
 
 NUMERI = 'NumeriLink'
@@ -100,8 +100,7 @@ class Order(Model):
     location_lng = models.FloatField(default=0.0)
     formatted_address = models.CharField(max_length=250)
     cost = models.IntegerField(default=0)
-    is_confirm = models.BooleanField(default=False)
-    status = models.CharField(max_length=30, default=PENDING_FOR_PAYMENT)
+    status = models.CharField(max_length=30, default=STARTED)
 
 
 class CustomerRequest(Model):

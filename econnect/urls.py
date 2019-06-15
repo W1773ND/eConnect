@@ -5,18 +5,17 @@ from ikwen.billing.views import PaymentList
 from econnect.views import AdminView, HomeView, PricingNumerilinkView, OrderList, CustomerRequestList, ChangeProduct, \
     ProductList, \
     ChangePackage, PackageList, EquipmentList, ChangeEquipment, ExtraList, ChangeExtra, PricingOfficelinkView, \
-    PricingHomelinkView, PricingCorporatelinkView, MapsView, OrderConfirmView
+    PricingHomelinkView, PricingCorporatelinkView, Maps, OrderConfirmView
 
 urlpatterns = patterns(
     '',
     url(r'^$', HomeView.as_view(), name='home'),
-    url(r'^numerilink$', PricingNumerilinkView.as_view(), name='numerilink'),
-    url(r'^officelink$', PricingOfficelinkView.as_view(), name='officelink'),
-    url(r'^homelink$', PricingHomelinkView.as_view(), name='homelink'),
-    url(r'^corporatelink$', PricingCorporatelinkView.as_view(), name='corporatelink'),
-    url(r'^order_confirm$', permission_required('econnect.ik_econnect_member')(OrderConfirmView.as_view()), name='order_confirm'),
-    # url(r'^order_confirm/(?P<lat>.)/$', permission_required('econnect.ik_econnect_member')(OrderConfirmView.as_view()), name='order_confirm'),
-    url(r'^admin/home$', permission_required('econnect.ik_econnect_admin')(AdminView.as_view()), name='admin'),
+    url(r'^numerilink/$', PricingNumerilinkView.as_view(), name='numerilink'),
+    url(r'^officelink/$', PricingOfficelinkView.as_view(), name='officelink'),
+    url(r'^homelink/$', PricingHomelinkView.as_view(), name='homelink'),
+    url(r'^corporatelink/$', PricingCorporatelinkView.as_view(), name='corporatelink'),
+    url(r'^order_confirm/$', permission_required('econnect.ik_econnect_member')(OrderConfirmView.as_view()), name='order_confirm'),
+    url(r'^admin/home/$', permission_required('econnect.ik_econnect_admin')(AdminView.as_view()), name='admin'),
     url(r'^product_list/$', permission_required('econnect.ik_econnect_admin')(ProductList.as_view()), name='product_list'),
     url(r'^product/$', permission_required('econnect.ik_econnect_admin')(ChangeProduct.as_view()), name='change_product'),
     url(r'^product/(?P<object_id>[-\w]+)/$', permission_required('econnect.ik_econnect_admin')(ChangeProduct.as_view()), name='change_product'),
@@ -32,5 +31,5 @@ urlpatterns = patterns(
     url(r'^admin/customer_order$', permission_required('econnect.ik_econnect_admin')(OrderList.as_view()), name='admin_order'),
     url(r'^admin/customer_request$', permission_required('econnect.ik_econnect_admin')(CustomerRequestList.as_view()), name='admin_request'),
     url(r'^admin/customer_payment$', permission_required('econnect.ik_econnect_admin')(PaymentList.as_view()), name='admin_payment'),
-    url(r'^maps$', MapsView.as_view(), name='maps'),
+    url(r'^maps$', Maps.as_view(), name='maps'),
 )

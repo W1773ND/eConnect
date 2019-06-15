@@ -745,12 +745,10 @@ time {color: #888;float: right;font-size: 11px; font-weight: normal; padding: 0;
 	animation-fill-mode: both;
 }
 
-/*
 .animated.infinite {
 	-webkit-animation-iteration-count: infinite;
 	animation-iteration-count: infinite;
 }
-*/
 
 .blink { animation: blinker 4s linear; transition-timing-function: ease-out }
 .blink.infinite { animation-iteration-count: infinite; -webkit-animation-iteration-count: infinite; }
