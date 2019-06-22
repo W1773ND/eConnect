@@ -34,14 +34,14 @@
 
 {% block content %}
     <section class="pricing-area">
-        <div class="container content">
+        <div class="container content" style="padding-top: 4vh">
             <div class="col-md-8 col-md-offset-2 text-center order title">
-                {% if user.photo.name %}
+                {% comment %}{% if user.photo.name %}
                     <img class="img-circle img-thumbnail" src="{{ settings.IKWEN_MEDIA_URL }}{{ user.photo.small_name }}" style="margin-top: 1vh;width:100px;height:100px">
                 {% else %}
                     <img class="img-circle img-thumbnail" src="{% static 'ikwen/img/login-avatar.jpg' %}" style="margin-top: 1vh;">
-                {% endif %}
-                <img class="img-circle img-thumbnail" src="{{ set }}" style="margin-top: 1vh;">
+                {% endif %}{% endcomment %}
+                <img class="img-circle img-thumbnail" src="{{ set }}" style="margin-top: 5vh;">
                 <h2 class="welcome-title">{% trans "Dear " %} {{ user.first_name }},</h2>
                 <h5 class="col-xs-12 welcome-subtitle"> {% trans "Thank you for your interest, please confirm your order details before submitting your request" %}</h5>
             </div>
@@ -98,13 +98,16 @@
     {{ block.super }}
     <script type="text/javascript">
         (function () {
+            function redirect(){
+                window.location.replace("{% url 'econnect:home' %}")
+            }
             $('.order-confirm').click(function () {
                 let orderId = "{{ request.GET.order_id }}";
                 let params = {action: 'confirm_order', orderId: orderId};
                 $.getJSON('', params, function (data) {
                     if (data.success) {
-                        ikwen.showFloatingNotice('Your order has been successfully submitted', '', 3);
-                        setTimeout(window.location.replace({% url 'econnect:home' %}), 3000)
+                        ikwen.showFloatingNotice('Your order has been successfully submitted', '', 1);
+                        setTimeout(redirect, 1000)
                     }
                     else {
                         ikwen.showFloatingNotice('Error occurs when submitting your order, please try again...', '', 3);

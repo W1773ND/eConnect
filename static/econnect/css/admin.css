@@ -109,6 +109,8 @@ div#container.admin {padding-top: 92px;}
 .change-form label {font-weight: 400}
 .change-form label.required {font-weight: 700}
 
+.circle { border-radius: 50%; width: 15px; height: 15px; background-image: radial-gradient(orange, red) }
+
 #results {padding-top: 15px}
 .list-group-item {border-left: none; border-right: none; border-radius: 0}
 .list-group-item .actions {bottom: 12px;position: absolute;right: 20px;}
@@ -140,7 +142,7 @@ footer a {color: #999}
 
 .event {list-style-type: none; margin-bottom: 30px; padding: 0 !important;}
 .event-action { margin: 2vh 0; }
-.event .btn {width: 120px;}
+.event .btn {min-width: 120px;}
 .event-content {/* border: none; */}
 .event-content p {margin-top: 10px;}
 .event-customer-name {text-transform: uppercase;font-weight: 700;}

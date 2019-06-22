@@ -46,7 +46,7 @@
                                 </div>
                                 {% block header_brand %}
                                     <a class="navbar-brand navbar-brand-screen hidden-xs" href="{{ service.url }}">
-                                        <img src="{% static "tsunami/img/logo_ikwen_web_header.png" %}">
+                                        <img src="{% static "econnect/img/creolink_logo.png" %}">
                                     </a>
                                     <a class="navbar-brand hidden-xs" href="{{ service.url }}">
                                         <strong>{{ service.project_name }}</strong>
@@ -299,6 +299,17 @@
                     }];
                     $('form#search input').focusout(function() {$('#navbar-results').fadeOut()});
                     ikwen.setupSearch('#search input', '#navbar-results', searchDescriptor);
+
+
+                    $('.btn-general-invoice').on("click", function() {
+                        $(this).blur();
+                        $('.btn-set-location').focus();
+                        $('#modal-set-location').modal('show');
+                    });
+
+                    $('.btn-set-location').on('click', function () {
+                        $('#modal-set-location').modal('hide')
+                    })
                 })()
             </script>
         {% endblock %}

@@ -23,7 +23,7 @@
     {{ block.super }}
     <!-- Custom css -->
     <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/bootstrap-slider.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'tsunami/css/tsunami_homepage.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/tsunami_homepage.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/homepage.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/econnect_pricing.css' %}">
     <style>
@@ -31,18 +31,11 @@
     </style>
 {% endblock %}
 
-{% block header_brand %}
-    <a class="navbar-brand hidden-xs" href="{{ service.url }}">
-        <img src="{% static "tsunami/img/logo_ikwen_web_header.png" %}"/>
-    </a>
-    <strong class="navbar-brand visible-xs">{{ service.project_name }}</strong>
-{% endblock %}
-
 {% block content %}
 
     <div id="section-header-general-view" class="container-fluid">
         <div class="row section-banniere-top" style="margin-top: 0 !important;">
-            <div class="col-md-6 col-sm-6 col-md-offset-3 col-sm-offset-3 text-center" style="padding-top: 7vh">
+            <div class="col-md-6 col-sm-6 col-md-offset-3 col-sm-offset-3 text-center" style="padding-top: 10vh">
               <h1>{% trans "Get the best of Internet and TV" %}</h1>
                 {% if request.user.is_authenticated %}
                     <a  href='{% url 'econnect:maps' %}?next={{ request.path }}' class="btn btn-outline white btn-set-location animated pulse mobile-adjust" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style=" font-size:larger; word-spacing: -8px;">&nbsp;&nbsp;{% trans "Set my location" %}</i></a>
@@ -147,54 +140,66 @@
             </section>
 
             <section id="invoice" class="section-invoice visible-xs">
-                <div class="col-md-2 pricing-resume {{ product.name }}">
-                    <div class=" panel panel-pricing-resume text-center" style="overflow: hidden">
-                        <div class="panel-title pricing-resume-title {{ product.name }}">
-                            <h4 class="">{% trans "General Invoice" %}</h4>
-                        </div>
-                        <form class="mobile-adjust" style="font-size: 1.2vw" action="{% url 'kakocase:go' %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="customer_id" value="{{ user.id }}">
-                            <input type="hidden" name="bouquet_id" value="{{ bouquet.id }}">
-                            <input type="hidden" name="equipment_id" value="{{ equipment.id }}">
-                            <input type="hidden" name="installation_cost" value="{{ default_equipment_cost }}-{{ equipment_purchase_cost }}">
-                            <input type="hidden" name="addon_id" value="{{ bouquet.id }}">
-                            <input type="hidden" name="totalCost_id" value="{{ totalCost.id }}">
-                            <div class="invoice-item invoice-item-tv">
-                                <h5>
-                                    <div class=" invoice-items-title"> {% trans "Pack" %} </div>
-                                    <div class=" invoice-items-name" style="display: none"> NumeriLink <span class="pricing-pack {{ product.name }}" style="display: none"></span> </div>
-                                    <div class="invoice-items-cost">  </div>
-                                </h5>
-                            </div>
-                            <div class="separator"></div>
-                            <div class="invoice-item invoice-item-equipments">
-                                <h5>
-                                    <div class=" invoice-items-title"> {% trans "Equipements" %} </div>
-                                    <div class="invoice-items-cost">  </div>
-                                </h5>
-                            </div>
-                            <div class="separator"></div>
-                            <div class="invoice-item invoice-item-addons">
-                                <h5>
-                                    <div class=" invoice-items-title"> {% trans "Add-ons" %} </div>
-                                    <div class="invoice-items-cost"></div>
-                                </h5>
-                            </div>
-                            <div class="separator"></div>
-                            <div class="invoice-item invoice-item-total" style="display: none;">
-                                <h5>
-                                    <div class=" invoice-items-title"> {% trans "Total" %} </div>
-                                    <div class="invoice-items-cost {{ product.name }}"></div>
-                                </h5>
-                            </div>
-                            <div class="form-group"> <!-- Submit Button -->
-                                <button type="submit" class="btn btn-outline {{ product.name }} btn-general-invoice mobile-adjust">{% trans "Check Out" %}</button>
-                            </div>
-                            <div class="clearfix"></div>
-                        </form>
-
+               <div class=" panel panel-pricing-resume {{ product.name }} text-center" style="overflow: hidden">
+                    <div class="panel-title pricing-resume-title {{ product.name }}">
+                        <h4 class="">{% trans "General Invoice" %}</h4>
                     </div>
+                    <form class="mobile-adjust" method="post">
+                        {% csrf_token %}
+                        {% if order %}
+                            <input type="hidden" name="order_id" value="{{ order.id }}">
+                            <input type="hidden" name="product_id" value="{{ order.package.product.id }}">
+                            <input type="hidden" name="customer_id" value="{{ order.member_id }}">
+                            <input type="hidden" name="customer_lat" value="{{ order.location_lat }}">
+                            <input type="hidden" name="customer_lng" value="{{ order.location_lng }}">
+                            <input type="hidden" name="formatted_address" value="{{ order.formatted_adress }}">
+                            <input type="hidden" name="pack_id" value="{{ order.package_id }}">
+                            <input type="hidden" name="equipment" value="{{ equipment_order_entry }}">
+                            <input type="hidden" name="extra" value="{{ extra }}">
+                            {% if not order.optional_tv == None %}
+                                <input type="hidden" name="optional_tv" value="{{ order.optional_tv }}">
+                            {% endif %}
+                        {% else %}
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <input type="hidden" name="customer_id" value="{{ user.id }}">
+                            <input type="hidden" name="customer_lat">
+                            <input type="hidden" name="customer_lng">
+                            <input type="hidden" name="formatted_address">
+                            <input type="hidden" name="pack_id">
+                            <input type="hidden" name="equipment" value="{% for equipment in product.equipment_set.all %}{{ equipment.id }}|achat;{% endfor %}">
+                            <input type="hidden" name="extra">
+                            <input type="hidden" name="optional_tv" value="1">
+                        {% endif %}
+                        <div class="invoice-item invoice-item-tv">
+                            <h5>
+                                <div class=" invoice-items-title"> {% trans "Pack" %} </div>
+                                <div class=" invoice-items-name" style="display: none">{{ product.name }}&nbsp;<span class="pricing-pack {{ product.name }}" style="display: none"></span></div>
+                                <div class="invoice-items-cost">  </div>
+                            </h5>
+                        </div>
+                        <div class="separator"></div>
+                        <div class="invoice-item invoice-item-equipments">
+                            <h5>
+                                <div class=" invoice-items-title"> {% trans "Equipements" %} </div>
+                                <div class="invoice-items-cost" style="display: none;" >{{ default_equipment_cost|intcomma }} XAF</div>
+                            </h5>
+                        </div>
+                        <div class="separator"></div>
+                        <div class="invoice-item invoice-item-total" style="display: none;">
+                            <h5>
+                                <div class=" invoice-items-title"> {% trans "Total" %} </div>
+                                <div class="invoice-items-cost {{ product.name }}"></div>
+                            </h5>
+                        </div>
+                        <!-- Submit Button -->
+                        <div class="form-group">
+                            <button type="button" class="btn btn-outline {{ product.name }} btn-general-invoice mobile-adjust tpl">{% trans "Check Out" %}</button>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-outline {{ product.name }} btn-general-invoice-ready mobile-adjust tpl">{% trans "Check Out" %}</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </form>
                 </div>
             </section>
 
@@ -280,17 +285,31 @@
                 <div class="panel-title pricing-resume-title {{ product.name }}">
                     <h4 class="">{% trans "General Invoice" %}</h4>
                 </div>
-                <form class="mobile-adjust" style="font-size: 1.2vw" method="post">
+                <form class="mobile-adjust" method="post">
                     {% csrf_token %}
-                    <input type="hidden" name="product_id" value="{{ product.id }}">
-                    <input type="hidden" name="customer_id" value="{{ user.id }}">
-                    <input type="hidden" name="customer_lat">
-                    <input type="hidden" name="customer_lng">
-                    <input type="hidden" name="formatted_address">
-                    <input type="hidden" name="pack_id">
-                    <input type="hidden" name="equipment" value="{% for equipment in product.equipment_set.all %}{{ equipment.id }}|achat;{% endfor %}">
-                    <input type="hidden" name="extra">
-
+                    {% if order %}
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <input type="hidden" name="product_id" value="{{ order.package.product.id }}">
+                        <input type="hidden" name="customer_id" value="{{ order.member_id }}">
+                        <input type="hidden" name="customer_lat" value="{{ order.location_lat }}">
+                        <input type="hidden" name="customer_lng" value="{{ order.location_lng }}">
+                        <input type="hidden" name="formatted_address" value="{{ order.formatted_adress }}">
+                        <input type="hidden" name="pack_id" value="{{ order.package_id }}">
+                        <input type="hidden" name="equipment" value="{{ equipment_order_entry }}">
+                        <input type="hidden" name="extra" value="{{ extra }}">
+                        {% if not order.optional_tv == None %}
+                            <input type="hidden" name="optional_tv" value="{{ order.optional_tv }}">
+                        {% endif %}
+                    {% else %}
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        <input type="hidden" name="customer_id" value="{{ user.id }}">
+                        <input type="hidden" name="customer_lat">
+                        <input type="hidden" name="customer_lng">
+                        <input type="hidden" name="formatted_address">
+                        <input type="hidden" name="pack_id">
+                        <input type="hidden" name="equipment" value="{% for equipment in product.equipment_set.all %}{{ equipment.id }}|achat;{% endfor %}">
+                        <input type="hidden" name="extra">
+                    {% endif %}
                     <div class="invoice-item invoice-item-tv">
                         <h5>
                             <div class=" invoice-items-title"> {% trans "Pack" %} </div>
@@ -319,8 +338,12 @@
                             <div class="invoice-items-cost {{ product.name }}"></div>
                         </h5>
                     </div>
-                    <div class="form-group"> <!-- Submit Button -->
-                        <button type="submit" class="btn btn-outline {{ product.name }} btn-general-invoice mobile-adjust tpl">{% trans "Check Out" %}</button>
+                    <!-- Submit Button -->
+                    <div class="form-group">
+                        <button type="button" class="btn btn-outline {{ product.name }} btn-general-invoice mobile-adjust tpl">{% trans "Check Out" %}</button>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-outline {{ product.name }} btn-general-invoice-ready mobile-adjust tpl">{% trans "Check Out" %}</button>
                     </div>
                     <div class="clearfix"></div>
                 </form>
@@ -333,7 +356,8 @@
         <i class="fa fa-chevron-circle-up"></i>
     </a>
 
-   {% include 'econnect/snippets/get_email_modal.html' %}
+    {% include 'econnect/snippets/get_email_modal.html' %}
+    {% include 'econnect/snippets/set_location_modal.html' %}
 
 {% endblock %}
 
@@ -464,9 +488,11 @@
                 invoiceCost = bouquetCost + installCost + equipmentCost + addonCost;
                 $('.invoice-item-total').css('display', 'block').find('.invoice-items-cost').text(invoiceCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF");
                 $('.total-separator').css('display', 'block');
-                if (invoiceCost > 0) $('.btn-general-invoice').removeClass('tpl');
-                else $('.btn-general-invoice').addClass('tpl');
-
+                if (localStorage.getItem('Location')){
+                    if (invoiceCost > 0)  $('.btn-general-invoice-ready').removeClass('tpl');
+                    else $('.btn-general-invoice-ready').addClass('tpl');
+                }else if (invoiceCost > 0)  $('.btn-general-invoice').removeClass('tpl');
+                    else $('.btn-general-invoice').addClass('tpl');
             }
 
             function calculateEquipmentCost(){

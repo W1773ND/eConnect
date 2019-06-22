@@ -1,0 +1,363 @@
+{% extends 'echo/campaign_base.html' %}
+{% load i18n humanize staticfiles auth_tokens %}
+
+{% block page_title %}
+    <title> {% trans "Email campaign" %} - ikwen</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'ikwen/css/uploader-single.css' %}" />
+    <style>
+        .mce-container { width: auto!important; }
+    </style>
+{% endblock %}
+
+{% block head_js %}
+    {{ block.super }}
+    <script src="{% static 'ikwen/ajaxuploader/js/fileuploader.js' %}" ></script>
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>
+        (function () {
+            var properties = {
+                menubar: false,
+                statusbar: false,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table contextmenu paste code'
+                ],
+                paste_data_images: true,
+                selector: '#mail-content',
+                width : 200,
+                height: 150,
+                toolbar: 'undo redo | bold italic underline | bullist numlist | alignleft aligncenter alignright | link code',
+                content_css: [
+                    '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+                    '//www.tinymce.com/css/codepen.min.css'
+                ],
+                init_instance_callback: function (editor) {
+                    editor.on('keyup', function (e) {
+                        var mailContent = tinyMCE.get('mail-content').getContent();
+                        $('div.mce-tinymce').removeClass('warning');
+                        if($('input[name=subject]').val() != "" && $('input[name=pre_header]').val() != "" && mailContent !="") {
+                            $('.start-campaign').removeClass('disabled');
+                            $('.show-modal-test').removeClass('not-allowed')
+                        }
+                        else {
+                            $('.start-campaign').addClass('disabled');
+                            $('.show-modal-test').addClass('not-allowed')
+                        }
+                    });
+                }
+            };
+            {% comment %}if ($(window).width() >= 768) {
+                properties['width'] = 435;
+            }{% endcomment %}
+            tinymce.init(properties);
+        })()
+    </script>
+
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content">
+        <div class="container-fluid">
+            <div class="sold" style="text-align: right">
+                <strong><p>{% trans "Remaining mail : " %}<span class="messaging-balance text-muted">{{ balance.mail_count }}</span></p></strong>
+                <a style="text-decoration: none;" href="{% url 'echo:mail_bundle' %}"><strong><p>{% trans "Refill ? " %}</p></strong></a>
+            </div>
+            <div class="form col-lg-4 col-sm-6 col-lg-offset-4 col-sm-offset-3 all-content">
+                <h3><label class="title"> {% trans "Email campaign" %}</label></h3>
+                <form style="" class="campaign {% if campaign and campaign.terminated %} terminated {% endif %}" method="post">{% csrf_token %}
+                    <input type="hidden" name="keep_editing" value="yes">
+                    <input class="filename" type="hidden" name="filename" {% if campaign.recipient_src == "File" %} value="{{ campaign.recipient_label }}" {% endif %}>
+                    <input class="profile-checked" type="hidden" name="profiles"{% if campaign.recipient_src == "Profiles" %} value="{{ campaign.recipient_profile }}" {% endif %}>
+
+                    {% if campaign and not campaign.terminated %}
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    {% if not campaign.is_started %}
+                                        <div class="btn btn-sm btn-default btn-block start-campaign {% if not campaign.subject or not campaign.pre_header %} disabled {% endif %}" data-campaign-id="{{ campaign.id }}">
+                                            <i class="fa fa-play"></i>
+                                            <span>{% trans "Start" %}</span>
+                                        </div>
+                                    {% elif campaign.keep_running %}
+                                        <div class="btn btn-sm btn-default btn-block toggle-send running" data-campaign-id="{{ campaign.id }}">
+                                            <i class="fa fa-pause"></i>
+                                            <span>{% trans "Pause" %}</span>
+                                        </div>
+                                    {% else %}
+                                        <div class="btn btn-sm btn-default btn-block toggle-send paused" data-campaign-id="{{ campaign.id }}">
+                                            <i class="fa fa-play"></i>
+                                            <span>{% trans "Start" %}</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="btn btn-sm btn-default btn-block show-modal-test {% if not campaign.subject or not campaign.pre_header %} not-allowed {% endif %}"  data-toggle="modal" data-target="#modal-test">
+                                        <i class="fa fa-vial"></i>
+                                        {% trans "Test" %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="form-group">
+                        <div class="col-xs-10" style="padding-left: 0" >
+                            {% if campaign.recipient_label or campaign.is_started %}
+                                <input type="text" class="form-control recipient-list input-sm text-center" id="recipient-list" name="recipients" placeholder="{% trans 'To' %}" value="{{ campaign.recipient_label }}" readonly>
+                                {% if not campaign.is_started %}
+                                    <div class="reset-recipient-list">&times;</div>
+                                {% endif %}
+                            {% else %}
+                                <input type="text" class="form-control recipient-list input-sm " id="recipient-list" name="recipients" placeholder="{% trans 'To' %}">
+                                <div class="reset-recipient-list tpl">&times;</div>
+                            {% endif %}
+                        </div>
+                        {% if campaign.is_started %}
+                                <div class="col-xs-2 btn-choose-recipient not-allowed">
+                                    <i class="fa fa-bullhorn" data-toggle="modal" data-target="#modal-choose-recipient"
+                                       title="Start a campaign" style="color: #888; font-size: 24px; height: 33px; width: 33px; line-height: 33px"></i>
+                                </div>
+                        {% else %}
+                            <div class="col-xs-2 btn-choose-recipient">
+                                <i class="fa fa-bullhorn" data-toggle="modal" data-target="#modal-choose-recipient"
+                                   title="Start a campaign" style="color: #888; font-size: 24px; height: 33px; width: 33px; line-height: 33px"></i>
+                            </div>
+                        {% endif %}
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="mail-campaign-content" {% if not campaign %} style="display: none" {% endif %}>
+                        <div class="form-group">
+                            <div class="">
+                                <input type="text" class="form-control input-sm" id="subject"
+                                   name="subject" value="{{ campaign.subject }}" placeholder="{% trans 'Subject' %}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="">
+                                <input type="text" class="form-control input-sm" id="pre-header"
+                                   name="pre_header" value="{{ campaign.pre_header }}" placeholder="{% trans 'Pre-Header' %}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12 col-md-offset-1">
+                                {% with image=campaign.image img_help_text='Add an image to your mail: 800x500px' %}
+                                    <input type="hidden" name="image_url" id="image_url" value="{% if image.name %}{{ image.url }}{% endif %}" />
+                                    {% include 'core/snippets/uploader_single.html' %}
+                                {% endwith %}
+                            </div>
+                            <div class="clearfix"></div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <div class="">
+                                <h5><label class="text-center" for="mail-content">{% trans "Message" %}</label></h5>
+                                <div class="mail-content">
+                                    <textarea class="form-control input-sm"
+                                              id="mail-content" name="content">{{ campaign.content|safe }}</textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                        <input type="hidden" name="items_fk_list" value="{{ items_fk_list }}" />
+                        {% comment %}<section class="content" style="width: 100%">
+                            <ul id="content-items" style="padding-left: 0">
+                                {% for item in item_list %}
+                                    <li class="ik-li" id="{{ item.id }}" data-id="{{ item.id }}">
+                                        <div class="subtle-shade select">
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                        </div>
+                                        {% url 'kako:change_product' item.id as change_item_url %}
+                                        {% if item.image and item.image.name %}
+                                            <a href="{{ change_item_url }}" class="image" style="background-image: url({{ item.image.small_url }})"></a>
+                                        {% else %}
+                                            <a href="{{ change_item_url }}" class="image" style="background-image: url({% static 'ikwen/img/login-avatar.jpg' %})"></a>
+                                        {% endif %}
+                                        <div class="info">
+                                            <a href="{{ change_item_url }}" class="full_name">{{ item.name }}</a>
+                                        </div>
+                                        {% if campaign.total != campaign.progress %}
+                                        <div class="actions">
+                                            <i class="action glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>
+                                        </div>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                                {% if not campaign or campaign.total != campaign.progress %}
+                                <li class="ik-li">
+                                    <a href="{% url 'kako:product_list' %}?smart_link=yes&campaign=yes&smart_object_id={{ obj.id }}">
+                                        <i class="icon link"></i>
+                                        {% trans "Add products" %}
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </section>{% endcomment %}
+                        <section class="call-to-action" style="border-bottom: 1px solid #eee ; padding-top: 8vh">
+                            <div class="form-group">
+                                <div class="">
+                                    <label for="cta-label">{% trans "Call-to-action button title" %}</label>
+                                    <input type="text" class="form-control input-sm" id="cta-label"
+                                       name="cta" value="{{ campaign.cta }}" placeholder="{% trans 'Ex: Buy now' %}" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="">
+                                    <label for="cta-url">{% trans "Call-to-action url link" %}</label>
+                                    <input type="text" class="form-control input-sm" id="cta-url"
+                                       name="cta_url" value="{{ campaign.cta_url }}" placeholder="{% trans 'Ex: http://www.mysite.com/product/your_product' %}" />
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    {% if not campaign %}
+                    <div class="form-group col-xs-12 col-sm-6 col-sm-offset-3 btn-continue not-allowed" style="clear: both; padding-top: 15px">
+                        <button class="btn btn-sm btn-success btn-block">{% trans "Continue" %}</button>
+                    </div>
+                    {% elif not campaign.terminated  %}
+                    <div class="form-group col-xs-12 col-sm-6 col-sm-offset-3" style="clear: both; padding-top: 15px">
+                        <button class="btn btn-sm btn-success btn-block">{% trans "Save" %}</button>
+                    </div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-test" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-info">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{% trans "Send a mail test" %}</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <p>{% blocktrans %}Input test emails. <em>Separate with coma</em>{% endblocktrans %}</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="test-emails">{% trans "Test emails" %}</label>
+                        <textarea id="test-emails" class="form-control" cols="4"></textarea>
+                    </div>
+                    {% include 'core/snippets/spinner.html' %}
+                    <div class="test-error text-danger"></div>
+                    <div class="test-warning text-warning"></div>
+                    <div class="test-success text-success"></div>
+                    <div class="actions">
+                        <div class="col-xs-12 col-sm-4 pull-right action">
+                            <button class="btn btn-success btn-block btn-sm run-test"
+                                    aria-label="OK">{% trans "Send test" %}</button>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 pull-right action">
+                            <button class="btn btn-default btn-block btn-sm"
+                                    data-dismiss="modal" aria-label="Close">{% trans "Cancel" %}</button>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'echo/snippets/campaign_modals.html' %}
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script>
+        (function () {
+            $('input[name=subject]').keyup(function () {
+                var mailContent = tinyMCE.get('mail-content').getContent();
+                $(this).removeClass('warning');
+                if($('input[name=subject]').val() != "" && $('input[name=pre_header]').val() != "" && mailContent !="") {
+                    $('.start-campaign').removeClass('disabled');
+                    $('.show-modal-test').removeClass('not-allowed')
+                }
+                else {
+                    $('.start-campaign').addClass('disabled');
+                    $('.show-modal-test').addClass('not-allowed')
+                }
+            });
+            $('input[name=pre_header]').keyup(function () {
+                var mailContent = tinyMCE.get('mail-content').getContent();
+                $(this).removeClass('warning');
+                if($('input[name=subject]').val() != "" && $('input[name=pre_header]').val() != "" && mailContent !="") {
+                    $('.start-campaign').removeClass('disabled');
+                    $('.show-modal-test').removeClass('not-allowed')
+                }
+                else {
+                    $('.start-campaign').addClass('disabled');
+                    $('.show-modal-test').addClass('not-allowed')
+                }
+            });
+
+            $('.start-campaign:not(.toggle-send)').click(function () {
+                if($(this).hasClass('disabled')) {
+                    if($('input[name=subject]').val() === "") {
+                        $('input[name=subject]').addClass('warning');
+                    }
+                    if($('input[name=pre_header]').val() === "") {
+                        $('input[name=pre_header]').addClass('warning');
+                    }
+                    var mailContent = tinyMCE.get('mail-content').getContent();
+                    if (mailContent === "") {
+                        $('div.mce-tinymce').addClass('warning')
+                    }
+
+                } else {
+                    var params = {action: 'start_campaign'};
+                    $.getJSON('', params, function (data) {
+                        if (data.insufficient_balance) {
+                            $('#insufficient-balance-modal').modal('show')
+                        } else if (data.error) {
+                            ikwen.showFloatingNotice(data.error, '', 6)
+                        } else {
+                            $('.start-campaign:not(.toggle-send)').removeClass('start-campaign').addClass('toggle-send paused');
+                            $('.start-campaign:not(.toggle-send) i').removeClass('fa-play').addClass('fa-pause');
+                            $('.start-campaign:not(.toggle-send) span').text('Pause');
+
+                        }
+                    });
+                }
+
+            });
+
+            $('body').on('click', '.toggle-send', function () {
+                if ($(this).hasClass('running')) {
+                    $(this).removeClass('running').addClass('paused');
+                    $(this).children('i').removeClass('fa-pause').addClass('fa-play');
+                    $(this).children('span').text('Start');
+                    $('.recipient-list').prop("readonly", true);
+                } else if ($(this).hasClass('paused')) {
+                    $(this).removeClass('paused').addClass('running');
+                    $(this).children('i').removeClass('fa-play').addClass('fa-pause');
+                    $(this).children('span').text('Pause');
+                }
+                $.getJSON('', {action: 'toggle_campaign'})
+            }).on('click', '.run-test', function() {
+                var emailList = $('#test-emails').val(),
+                    params = {action: 'run_test', test_email_list: emailList};
+                $('#modal-test .spinner').show();
+                $('.test-error, .test-warning, .test-success').hide();
+                $.getJSON('', params, function(data) {
+                    $('#modal-test .spinner').hide();
+                    if (data.error) {
+                        $('.test-error').text(data.error).show();
+                        return;
+                    }
+                    $('.test-success').text("{% trans "Your tests were sent" %}").show();
+                    if (data.warning) {
+                        var warning = data.warning.join('<br>');
+                        $('.test-warning').html(warning).show();
+                    }
+                });
+            });
+            $('form.campaign.terminated input').prop('readonly', true);
+            $('form.campaign.terminated .btn-choose-recipient').addClass('not-allowed');
+            $('form.campaign.terminated .mail-content').addClass('not-allowed');
+
+        })();
+    </script>
+{% endblock %}

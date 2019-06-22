@@ -1,0 +1,14 @@
+
+
+.order {margin-bottom: 3vh;}
+
+.welcome-title { margin: 3vh 0 0 !important; }
+
+
+
+/*Styling embed map*/
+/*.embed-map-disabled { pointer-events: none;}*/
+
+.gmap_canvas { background:none!important; height:auto; overflow:hidden; width:auto;}
+
+.mapouter{position:relative;text-align:right;height:auto;width:auto;}

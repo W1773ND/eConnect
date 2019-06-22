@@ -1,11 +1,10 @@
 from django.conf.urls import url, patterns
 from django.contrib.auth.decorators import permission_required
 
-from ikwen.billing.views import PaymentList
 from econnect.views import AdminView, HomeView, PricingNumerilinkView, OrderList, CustomerRequestList, ChangeProduct, \
     ProductList, \
     ChangePackage, PackageList, EquipmentList, ChangeEquipment, ExtraList, ChangeExtra, PricingOfficelinkView, \
-    PricingHomelinkView, PricingCorporatelinkView, Maps, OrderConfirmView
+    PricingHomelinkView, PricingCorporatelinkView, Maps, OrderConfirmView, ChangeMailCampaign
 
 urlpatterns = patterns(
     '',
@@ -29,7 +28,8 @@ urlpatterns = patterns(
     url(r'^extra/$', permission_required('econnect.ik_econnect_admin')(ChangeExtra.as_view()), name='change_extra'),
     url(r'^extra/(?P<object_id>[-\w]+)/$', permission_required('econnect.ik_econnect_admin')(ChangeExtra.as_view()), name='change_extra'),
     url(r'^admin/customer_order$', permission_required('econnect.ik_econnect_admin')(OrderList.as_view()), name='admin_order'),
+    url(r'^mailCampaign/$', permission_required('echo.ik_messaging_campaign')(ChangeMailCampaign.as_view()), name='change_mailcampaign'),
+    url(r'^mailCampaign/(?P<object_id>[-\w]+)/$', permission_required('echo.ik_messaging_campaign')(ChangeMailCampaign.as_view()), name='change_mailcampaign'),
     url(r'^admin/customer_request$', permission_required('econnect.ik_econnect_admin')(CustomerRequestList.as_view()), name='admin_request'),
-    url(r'^admin/customer_payment$', permission_required('econnect.ik_econnect_admin')(PaymentList.as_view()), name='admin_payment'),
     url(r'^maps$', Maps.as_view(), name='maps'),
 )

@@ -15,12 +15,12 @@
                 <li class="echo-categories">
                     <a href="{% url "econnect:admin_order" %}">{% trans 'Orders' %}</a>
                 </li>
-                <li class="ccm-categories">
-                    <a href="{% url "econnect:admin_request" %}">{% trans 'Requests' %}</a>
-                </li>
-                <li class="ccm-categories">
-                    <a href="{% url "econnect:admin_payment" %}">{% trans 'Payments' %}</a>
-                </li>
+{#                <li class="ccm-categories">#}
+{#                    <a href="{% url "econnect:admin_request" %}">{% trans 'Requests' %}</a>#}
+{#                </li>#}
+{#                <li class="ccm-categories">#}
+{#                    <a href="{% url "econnect:admin_payment" %}">{% trans 'Payments' %}</a>#}
+{#                </li>#}
             </ul>
         </li>
         <div class="divider"></div>
@@ -49,7 +49,7 @@
                     <a href="{% url "echo:sms_campaign" %}">SMS</a>
                 </li>
                 <li class="echo-categories">
-                    <a href="{% url "echo:change_mailcampaign" %}">Mail</a>
+                    <a href="{% url "econnect:change_mailcampaign" %}">Mail</a>
                 </li>
             </ul>
         </li>
@@ -70,6 +70,36 @@
                 </li>
                 <li class="cms-categories">
                     <a href="{% url "econnect:extra_list" %}">{% trans 'Extra' %}</a>
+                </li>
+            </ul>
+        </li>
+        <div class="divider"></div>
+        <li role="presentation" class="menus">
+            <a href="javascript:;" data-toggle="collapse" data-target="#billing"aria-expanded="true" style="padding-right: 0;">
+                {% trans "Billing" %} <i class="fa fa-fw fa-caret-down"></i>
+            </a>
+            <ul id="billing" class="nav nav-pills nav-stacked collapse" aria-expanded="true"
+                style="padding-left: 15px">
+                {% if perms.billing.ik_manage_subscription %}
+                <li class="subscriptions">{% url 'billing:subscription_list' as subscription_list_url %}
+                    <a href="{{ subscription_list_url }}">{% trans "Subscriptions" %}</a>
+                </li>
+                {% endif %}
+                {% if perms.billing.ik_manage_invoice %}
+                <li class="invoices">{% url 'billing:admin_invoice_list' as admin_invoice_list_url %}
+                    <a href="{{ admin_invoice_list_url }}">{% trans "Customer invoices" %}</a>
+                </li>
+                <li class="payments">{% url 'billing:payment_list' as payment_list_url %}
+                    <a href="{{ payment_list_url }}">{% trans "Payments" %}</a>
+                </li>
+                {% endif %}
+                {% if perms.billing.ik_configure_billing %}
+                <li class="billing-configuration">{% url 'billing:configuration' as configuration_url %}
+                    <a href="{{ configuration_url }}">{% trans "Configuration" %}</a>
+                </li>
+                {% endif %}
+                <li class="invoices">{% url 'billing:invoice_list' as invoice_list_url %}
+                    <a href="{{ invoice_list_url }}">{% trans "Invoices" %}</a>
                 </li>
             </ul>
         </li>

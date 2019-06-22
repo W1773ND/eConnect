@@ -75,7 +75,6 @@ a:hover { color: #B6F1B6; text-decoration: none; }
 .floating-notice {background: #F6FF8C; border: 1px solid #CDD570; border-radius: 2px; color: #484B2B; padding: 9px 24px; position: absolute}
 .floating-notice.failure {border: 1px solid; color:  #F00}
 .floating-notice .action {cursor: pointer; text-decoration: underline}
-.status-bullet {border-radius: 50%;display: block;height: 15px;width: 15px;float: left;margin: 2px 10px 0 0;}
 .status-bullet.warning, .status-bullet.pending {background: #FF9800;}
 .status-bullet.primary {background: #3498db}
 .status-bullet.success {background: #2ab732}
@@ -248,8 +247,6 @@ time {color: #888;float: right;font-size: 11px; font-weight: normal; padding: 0;
 .dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {color: #7b8a8b;background-color: #eee}
 .btn .glyphicon, .btn .fa {margin: 0 10px 0 -10px}
 
-.btn-outline-success {background-color: transparent;background-image: none;border-color: #FFC107;color: #FFC107;}
-.btn-outline-success:hover, .btn-outline-success:active, .btn-outline-success:active:hover {background-color: #FFC107; border-color: #FFC107; color: #fff}
 .btn-outline-white {background-color: transparent;background-image: none;border-color: #fff;color: #fff;}
 .btn-outline-white:hover {background-color: #fff; border-color: #fff; color: #01244F}
 .btn-outline-success:focus, .btn-outline-success.focus {box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5)}

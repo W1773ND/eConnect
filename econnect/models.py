@@ -6,6 +6,9 @@ from ikwen.core.models import Model, Service, AbstractWatchModel
 from ikwen.core.constants import STARTED
 from ikwen.accesscontrol.models import Member
 
+from ikwen.billing.models import AbstractSubscription
+
+
 NUMERI = 'NumeriLink'
 HOME = 'HomeLink'
 OFFICE = 'OfficeLink'
@@ -13,6 +16,7 @@ CORPORATE = 'CorporateLink'
 RENTAL = "rental"
 PURCHASE = "purchase"
 OPTIONAL_TV_COST = 2500
+REJECTED = "Rejected"
 
 
 class ModelI18n(Model):
@@ -107,4 +111,8 @@ class CustomerRequest(Model):
     member = models.ForeignKey(Member, related_name='+')
     name = models.CharField(max_length=250)
     label = models.CharField(max_length=250, blank=False, null=False)
+
+
+class Subscription(AbstractSubscription):
+    order = models.ForeignKey(Order)
 

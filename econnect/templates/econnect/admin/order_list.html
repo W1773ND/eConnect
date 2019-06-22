@@ -49,13 +49,13 @@
                         {% endif %}
                     </div>
                 </form>
-{#                {% url change_object_url_name as change_object_url %}#}
-{#                <a href="{{ change_object_url }}" class="btn btn-sm btn-success cta add pull-right action"#}
-{#                        title="{% trans "Add new " %} {{ verbose_name }}">#}
-{#                    <i class="glyphicon glyphicon-plus"></i>#}
-{#                    <span class="hidden-xs">{% trans "Add" %}</span>#}
-{#                </a>#}
-{#                <div class="clearfix"></div>#}
+                {% comment %}{% url change_object_url_name as change_object_url %}
+                <a href="{{ change_object_url }}" class="btn btn-sm btn-success cta add pull-right action"
+                        title="{% trans "Add new " %} {{ verbose_name }}">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span class="hidden-xs">{% trans "Add" %}</span>
+                </a>
+                <div class="clearfix"></div>{% endcomment %}
             </div>
             <div id="results" class="col-sm-8 col-sm-offset-2">
                 {% include 'core/snippets/spinner.html' %}
@@ -67,10 +67,49 @@
 
 {% block js %}
     {{ block.super }}
-    <script src="{% static 'echo/js/bootstrap-datepicker.js' %}" ></script>
-    <script src="{% static 'echo/js/sms-character-counter.js' %}" ></script>
-    <script src="{% static 'echo/js/swiper.min.js' %}" ></script>
     <script src="{% static 'embed-doc/js/embed-doc.js' %}" ></script>
-    <script src="{% static 'ikwen/ajaxuploader/js/fileuploader.js' %}" ></script>
+    <script type="text/javascript">
+        (function () {
+            $('.order-accept').click(function () {
+                let orderId = $(this).parents('.event-action').data('order-id');
+                let params = {action: 'accept_order', order_id: orderId};
+                $.getJSON('', params, function (data) {
+                    if (data.success) {
+                        ikwen.showFloatingNotice('Order accepted', '', 3);
+                    }
+                    else {
+                        ikwen.showFloatingNotice('Error occurs when accepting this order, please try again...', '', 3);
+                    }
+                })
+
+            });
+            $('.order-reject').click(function () {
+                let orderId = $(this).parents('.event-action').data('order-id');
+                let params = {action: 'reject_order', order_id: orderId};
+                $.getJSON('', params, function (data) {
+                    if (data.success) {
+                        ikwen.showFloatingNotice('Order rejected', '', 3);
+                    }
+                    else {
+                        ikwen.showFloatingNotice('Error occurs when rejecting this order, please try again...', '', 3);
+                    }
+                })
+
+            });
+            $('.order-relaunch').click(function () {
+               {% comment %} let orderId = $(this).parents('.event-action').data('order-id');
+                let params = {action: 'reject_order', order_id: orderId};
+                $.getJSON('', params, function (data) {
+                    if (data.success) {
+                        {#ikwen.showFloatingNotice('Contact customer...', '', 3);#}
+                    }
+                    else {
+                        ikwen.showFloatingNotice('Error occurs when rejecting this order, please try again...', '', 3);
+                    }
+                }){% endcomment %}
+
+            })
+        })();
+    </script>
 
 {% endblock %}
