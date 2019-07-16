@@ -49,16 +49,18 @@
                 <div class="event-action" data-order-id="{{ order.id }}">
                 {% if order.status == "Pending" %}
                     <button class="btn btn-outline-success order-accept pull-right btn-sm" style="margin-left: 1vw"> {% trans "Accept" %}</button>
-                    <button class="btn btn-outline-danger order-reject pull-right btn-sm"> {% trans "Reject" %}</button>
+                    <button class="btn btn-outline-secondary order-report pull-right btn-sm"> {% trans "Report" %}</button>
                 {% elif order.status == "PendingForPayment" %}
                     <p class="text-muted text-center">{% trans 'This order is waiting for payment...' %}</p>
+                {% elif order.status == "Paid" %}
+                    <button class="btn btn-outline-success order-finish pull-right btn-sm"> {% trans "Finish" %}</button>
                 {% else %}
                     <form action="{% url 'econnect:change_mailcampaign' %}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="keep_editing" value="yes">
                     <input type="hidden" name="order_id" value="{{ order.id }}">
                     <input type="hidden" name="recipients" value="{{ order.member.email }}">
-                    <button href="{{ obj_url }}" class="btn btn-outline-secondary order-relaunch pull-right btn-sm">{% trans 'Contact customer' %}</button>
+                    <button href="{{ obj_url }}" class="btn btn-outline-primary order-relaunch pull-right btn-sm">{% trans 'Contact customer' %}</button>
                     </form>
                 {% endif %}
                 </div>

@@ -200,7 +200,7 @@
                     infowindow.open(map, marker);
                 });
                 google.maps.event.addListener(marker, 'dragstart', function (evt) {
-                    startBounce();
+                    {#startBounce();#}
                     infowindow.close(map, marker);
                 });
                 google.maps.event.addListener(marker, 'dragend', function (evt) {
@@ -237,7 +237,7 @@
                     animation: google.maps.Animation.DROP,
                     title: 'Last saved location...'
                 });
-                autoCenter();
+                {#autoCenter();#}
                 marker.addListener('click', function() {
                     stopBounce();
                     infowindow.open(map, marker);
@@ -282,7 +282,7 @@
                 });
                 $('input[name=customer_lat]').val(pos.lat);
                 $('input[name=customer_lng]').val(pos.lng);
-                autoCenter();
+                {#autoCenter();#}
                 marker.addListener('click', function() {
                     stopBounce();
                     infowindow.open(map, marker);
@@ -318,7 +318,7 @@
                     animation: google.maps.Animation.BOUNCE,
                     title: 'Default location...'
                 });
-                autoCenter();
+                {#autoCenter();#}
                 marker.addListener('click', function() {
                     stopBounce();
                     infowindow.open(map, marker);

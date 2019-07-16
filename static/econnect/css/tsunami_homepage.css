@@ -19,21 +19,6 @@ p { font-family: PT sans; font-size: 1vw; line-height: 3.5vh;}
 .no-border { border: none !important; }
 
 
-.section-banniere { background: url(../img/econnect-banniere-top.jpg) center center no-repeat;
-					-webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;
-					background-size: cover; color: white; height: 251px; margin-top: 5vh; }
-.section-banniere-top {
-					background: url(../img/econnect-banniere-top.jpg) center center;
-					-webkit-background-size: cover;
-					-moz-background-size: cover;
-					-o-background-size: cover;
-					background-size: cover;
-                    box-shadow:inset 0 0 0 2000px rgba(18, 43, 44, 0.67);
-					color: white;
-					height: 300px;
-					margin-top: 6.5vh !important;
-					}
-.section-features-text { padding-top: 10vh; }
 
 /*.section-header{ background: url(../img/Tsunami_entete.png) center center;*/
 /*				-webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;*/
@@ -176,7 +161,7 @@ margin-bottom: 30px;
 
 	.anchor { font-size: 6vw; padding-top: 6vh; }
 
-	.btn.mobile-adjust { font-size: 2.3vw; height: 7vh !important; width: 25vw !important;}
+	.btn.mobile-adjust {font-size: 2.3vw;height: 7vh !important;/* width: 25vw !important; */}
 
 	div.mobile-adjust{ padding-top: 2vh !important; }
 	.discover-link { font-size: 2vw !important; }

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n static %}
+{% load i18n static auth_tokens %}
 
 {% block meta %}
     {{ block.super }}
@@ -23,45 +23,140 @@
     {{ block.super }}
     <!-- Custom css -->
     <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/homepage.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/dropdown3D.css' %}">
     <style>
         div#email-error {display: none}
     </style>
 {% endblock %}
 
+
+{% block header %}
+    {% with collaborates_on=user.collaborates_on %}
+        {% url "ikwen:account_setup" as account_setup_url %}
+        <nav id="navbar" class="navbar navbar-default navbar-static-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <div class="container-fluid">
+                        <i class="glyphicon glyphicon-menu-left back"></i>
+                        <div class="menu-button">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </div>
+                        {% block header_brand %}
+                            <a class="navbar-brand navbar-brand-screen hidden-xs" href="{{ service.url }}">
+                                <img src="{% static "econnect/img/creolink_logo.png" %}">
+                            </a>
+{#                                    <a class="navbar-brand hidden-xs" href="{{ service.url }}">#}
+{#                                        <strong>{{ service.project_name }}</strong>#}
+{#                                    </a>#}
+                            <strong class="navbar-brand visible-xs">{{ service.project_name }}</strong>
+                        {% endblock %}
+                        {% block site_menu_xs %}
+                            <nav class="visible-xs pull-right">
+                                <ul id="nav-xs" class="nav navbar-nav navbar-right">
+                                    {% comment %}<li class="show-search">
+                                        <a>
+                                            <i class="glyphicon glyphicon-search"></i>
+                                        </a>
+                                    </li>{% endcomment %}
+                                    {% if user.is_authenticated %}
+                                        <li class="home">
+                                            <a href="{{ settings.IKWEN_CONSOLE_URL }}">
+                                                <i class="glyphicon glyphicon-bell" aria-hidden="true"></i>
+                                                {% if user.personal_notices > 0 %}
+                                                    <span class="label label-danger">{{ user.personal_notices }}</span>
+                                                {% endif %}
+                                            </a>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a id="user-menu-xs" class="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="glyphicon glyphicon-user"></i>
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="user-menu-xs">
+                                                <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                                                <li role="separator" class="divider"></li>
+                                                <li>
+                                                    <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
+                                                </li>
+                                                <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
+                                            </ul>
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            <a href="{% url 'ikwen:sign_in' %}" style="float: left">{% trans "Login" %}</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        {% endblock %}
+                    </div>
+                </div>
+                {% block site_menu %}
+                    <div id="site-menu" class="collapse navbar-collapse">
+                        <div class="container-fluid">
+                            <ul class="nav navbar-nav navbar-right" style="margin: 0 -15px 0 0">
+                                <li class="dropdown">
+                                    <div class="dropbtn nav-menu nav-menu-img animated fadeIn" data-toggle="dropdown"><img class="nav-menu-img" src="{% static 'econnect/img/numerilink-home.png' %}"></div>
+                                    <div class="dropdown-content">
+                                        <a href="{% url 'econnect:numerilink-home' %}" class="animated fadeIn">{% trans 'NumeriLink Home' %}</a>
+                                        <a href="{% url 'econnect:numerilink-hotel' %}" class="animated fadeIn">{% trans 'NumeriLink Hotel' %}</a>
+                                    </div>
+                                </li>
+                                <li><a href="{% url 'econnect:homelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/homelink.png' %}"></a></li>
+                                <li><a href="{% url 'econnect:officelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/officelink.png' %}"></a></li>
+                                <li><a href="{% url 'econnect:corporatelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/corporatelink.png' %}"></a></li>
+{#                                <li><a href="{% url 'blog:home' %}" class="nav-menu nav-menu-custom">{% trans "Blog" %}</a></li>#}
+                                <li></li>
+                                {% if user.is_authenticated %}
+                                    <li id="user-menu" class="dropdown">
+                                        <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="glyphicon glyphicon-user"></i>
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="user-menu">
+                                            <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                                            <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
+                                            {% if user.is_staff %}
+                                                <li>
+                                                    <a href="{% url 'econnect:admin' %}">Admin</a>
+                                                </li>
+                                            {% endif %}
+                                            <li>
+                                                <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
+                                            </li>
+                                            <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
+                                        </ul>
+                                    </li>
+                                {% else %}
+                                    <li class="hidden-xs">
+                                        <a href="{% url 'ikwen:sign_in' %}" class="btn btn-outline-success menu animated fadeIn" style="border-radius: 2px; border-width: 1px; display:block; height: 4.5vh!important; line-height: 4.5vh; padding: 0; width: 120px">{% trans "Login" %}</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+
+{#                                <div id="select" ng-model=""></div>#}
+                        </div>
+                    </div>
+                {% endblock %}
+            </div>
+        </nav>
+    {% endwith %}
+{% endblock %}
+
+
 {% block content %}
     <div id="section-header-general-view" class="container-fluid section-header" style="padding-top: 6vh;">
         <img class="img-responsive" alt="logo_ikwen_TSUNAMI" src="{% static 'econnect/img/background_decodeur_crop.png' %}"/>
-    </div>
-    <div id="section-header-iPad-view" class="container-fluid section-header" style="display: none;">
-        {% comment %}<div class="row">
-            <div class="col-md-10 col-md-offset-1 text-center mobile-adjust" style="padding-top: 20vh">
-                <img style="max-width: 120px" alt="logo_ikwen_TSUNAMI" src="{% static 'tsunami/img/Logo-IKWEN-Tsunami.png' %}"/>
-                <h1 class="mobile-adjust" style="font-size: 3.5vw;">{% trans 'The best of internet' %}</h1>
-                <h1 class="mobile-adjust" style="font-size: 3.5vw;">{% trans 'The best of TV' %}</h1>
-                <p class="mobile-adjust" style="">
-                    {% trans 'Tsunami builds for you a persistent customer base and offers your products to this community via continuous automated Mail and SMS reminders.You should consider increasing your available stocks.... ' %}
-                </p>
-                {% if request.user.is_authenticated %}
-                    <a  href='#'>
-                        <button type="button" class="btn btn-outline-primary animated pulse mobile-adjust" style="margin-top: 20px; height: 45px;">{% trans "Locate myself" %}</button>
-                    </a>
-                {% else %}
-                     <button type="button" class="btn btn-outline-primary animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px;">{% trans "Locate myself" %}</button>
-                {% endif %}
-               <div class="anchor">
-                    <a class="js-scrollTo" href="#banniere-top" style="text-decoration: none"><i class="fa fa-arrow-circle-down"></i></a>
-                </div>
-            </div>
-        </div>{% endcomment %}
     </div>
     <div id="banniere-top" class="container-fluid">
         <div class="row section-banniere-top" style="margin-top: 0;">
             <div class="col-md-8 col-sm-8 col-md-offset-2 col-sm-offset-2 text-center">
               <h1 class="mobile-adjust" style="font-size: 3.5vw; color: #464646 ">{% trans 'The best of internet, the best of TV' %}</h1>
                 {% if request.user.is_authenticated %}
-                    <a  href='{% url 'econnect:maps' %}?next={{ request.path }}' class="btn btn-outline-success btn-set-location animated pulse mobile-adjust" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style=" font-size:larger; word-spacing: -7px">&nbsp;&nbsp;{% trans " Set my location" %}</i></a>
+                    <a  href='{% url 'econnect:maps' %}?next={{ request.path }}' class="btn btn-outline-success btn-set-location animated pulse mobile-adjust" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style="font-size:medium; word-spacing: -6px;">&nbsp;&nbsp;&nbsp;&nbsp;{% trans "Set my location" %}</i></a>
                 {% else %}
-                     <button type="button" class="btn btn-outline-success btn-set-location animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style=" font-size:larger; word-spacing: -6px"></i>&nbsp;&nbsp;{% trans "Set my location" %}</button>
+                     <button type="button" class="btn btn-outline-success btn-set-location animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style="font-size:medium; word-spacing: -6px;">&nbsp;&nbsp;&nbsp;&nbsp;{% trans "Set my location" %}</i></button>
                 {% endif %}
             </div>
         </div>
@@ -69,9 +164,9 @@
             <div class="col-md-8 col-md-offset-2 text-center">
               <h1 class="mobile-adjust">{% trans "The best of internet, the best of TV" %}</h1>
                 {% if request.user.is_authenticated %}
-                    <a  href='{% url 'econnect:maps' %}?next={{ request.path }}' class="btn btn-outline-success btn-set-location animated pulse mobile-adjust" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style=" font-size:larger; margin: 0 1vw 0 -.5vw;"></i>&nbsp;&nbsp;{% trans "Set my location" %}</a>
+                    <a  href='{% url 'econnect:maps' %}?next={{ request.path }}' class="btn btn-outline-success btn-set-location animated pulse mobile-adjust" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style="font-size:medium; word-spacing: -6px;">&nbsp;&nbsp;&nbsp;&nbsp;{% trans "Set my location" %}</i></a>
                 {% else %}
-                     <button type="button" class="btn btn-outline-success btn-set-location animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style=" font-size:larger; margin: 0 1vw 0 -.5vw;"></i>&nbsp;&nbsp;{% trans "Set my location" %}</button>
+                     <button type="button" class="btn btn-outline-success btn-set-location animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style="font-size:medium; word-spacing: -6px;">&nbsp;&nbsp;&nbsp;&nbsp;{% trans "Set my location" %}</i></button>
                 {% endif %}
 
             </div>
@@ -80,16 +175,54 @@
     <section>
         <h2 class="mobile-adjust title-section text-center">{% trans "Découvrez nos services" %}</h2>
         <br>
-        <div class="container hidden-xs text-centert" style="">
+        <div class="container text-center visible-md visible-lg" style="padding-left: 5vw;">
         {% for product in product_list %}
+            {% if forloop.first %}
             <div class="col-md-6 f_container" style="" >
                 <div class="f_card shadow">
                   <div class="front face">
                       <img class="img-responsive mobile-adjust" style="width: 500px; height: 500px" src="{% get_media_prefix  %}{{ product.logo.name }}"/>
+                      <div class="front-ribbon v-align">
+                          <h3 class="ribbon-label">NumeriLink</h3>
+                      </div>
                   </div>
                   <div class="back face center">
-                      <h3 class="product-title">{{ product.name }}</h3>
-                      {% url product.slug as product_url  %}
+{#                      <h3 class="product-title">{{ product.name }}</h3>#}
+                    <img class="product-logo-img" src="{% get_static_prefix  %}econnect/img/{{ product.name|slugify }}.png">
+                      <div class="product-description">
+                        <div class="col-md-6">
+{#                        {% url product.slug as product_url  %}#}
+                            <h4>{{ product.name }}</h4>
+                            {% blocktrans with product_url=product.url product_description=product.description product_cta=product.cta_label %}
+                              <p class="mobile-adjust">{{ product_description }}</p>
+                              <p class="mobile-adjust"><a class="product-link" href="{{product_url}}">{{ product_cta }}</a></p>
+                            {% endblocktrans %}
+                        </div>
+                        <div class="col-md-6">
+{#                        {% url product_numeri_hotel.slug as product_url  %}#}
+                            <h4>{{ product_numeri_hotel.name }}</h4>
+                            {% blocktrans with product_url=product_numeri_hotel.url product_description=product_numeri_hotel.description product_cta=product_numeri_hotel.cta_label %}
+                              <p class="mobile-adjust">{{ product_description }}</p>
+                              <p class="mobile-adjust"><a class="product-link" href="{{product_url}}">{{ product_cta }}</a></p>
+                            {% endblocktrans %}
+                        </div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-md-6 f_container" style="" >
+                <div class="f_card shadow">
+                  <div class="front face">
+                      <img class="img-responsive mobile-adjust" style="width: 500px; height: 500px" src="{% get_media_prefix  %}{{ product.logo.name }}"/>
+                      <div class="front-ribbon v-align">
+                          <h3 class="ribbon-label">{{ product.name }}</h3>
+                      </div>
+                  </div>
+                  <div class="back face back-face center">
+{#                      <h3 class="product-title">{{ product.name }}</h3>#}
+                    <img class="product-logo-img" src="{% get_static_prefix  %}econnect/img/{{ product.name|slugify }}.png">
+{#                      {% url product.slug as product_url  %}#}
                       <div class="product-description">
                       {% blocktrans with product_url=product.url product_description=product.description product_cta=product.cta_label %}
                           <p class="mobile-adjust">{{ product_description }}</p>
@@ -99,19 +232,37 @@
                   </div>
                 </div>
             </div>
+            {% endif %}
         {% endfor %}
         </div>
 
-        <div class="container visible-xs">
+        <div class="container hidden-lg hidden-md">
+            <div class="card card-default green">
+                <div class="card-header text-center" style="font-size: 25px">{{ product_numeri_hotel.name }}</div>
+                <div class="card-body card-5-7 v-align">
+                    <div class="card-left">
+                        <img src="{% get_media_prefix  %}{{ product_numeri_hotel.logo.name }}" class="img-responsive">
+                    </div>
+                {% blocktrans with product_url=product_numeri_hotel.url product_description=product_numeri_hotel.description product_cta=product_numeri_hotel.cta_label %}
+                    <div class="card-right v-align-center">
+                        <p class="mobile-adjust">{{ product_description }}</p>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <a  href='{{product_url}}' class="btn btn-outline-success animated pulse mobile-adjust" style="margin: 2vh 0 3vh 0; height: 45px; min-width: 200px">{{ product_cta }}</a>
+                </div>
+
+                {% endblocktrans %}
+            </div>
             {% for product in product_list %}
             <div class="card card-default green">
                 <div class="card-header text-center" style="font-size: 25px">{{ product.name }}</div>
-                <div class="card-body card-5-7">
+                <div class="card-body card-5-7 v-align">
                     <div class="card-left">
                         <img src="{% get_media_prefix  %}{{ product.logo.name }}" class="img-responsive">
                     </div>
                 {% blocktrans with product_url=product.url product_description=product.description product_cta=product.cta_label %}
-                    <div class="card-right">
+                    <div class="card-right v-align-center">
                         <p class="mobile-adjust">{{ product_description }}</p>
                     </div>
                 </div>
@@ -203,10 +354,11 @@
 
 {% block js %}
     {{ block.super }}
+    <script src="{% static 'econnect/js/dropdown3D.js' %}"></script>
     <script>
         (function () {
             // redirect to Tsunami signIn page
-            $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:home' %}");
+            $('#site-menu a.btn.menu').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:home' %}");
 
             // set focus when modal is opened
             $('#modal-get-email').on('shown.bs.modal', function () {
@@ -227,7 +379,7 @@
                 }
             });
 
-            $('.back.face').click(function () {
+            $('.back-face').click(function () {
                 {#window.location = $(this).find("a:first").attr("href");#}
                 window.open($(this).find("a:first").attr("href"));
                 return false;

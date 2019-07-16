@@ -94,7 +94,7 @@
                 <div class="clearfix"></div>
             </section>
 
-            <section id="sectionEquipment" class="pricing-section">
+            <section id="sectionEquipment" class="pricing-section" style="min-height: 55vh">
                 <input type="hidden" name="installCost" value="{{ product.install_cost }}">
                 <input type="hidden" name="equipmentPurchaseCost" value="{{ equipment_purchase_cost }}">
                 <h3 class="col-md-8 section-title">{% trans "Equipements" %}<label class="cost {{ product.name }} equipment-cost">{{ default_equipment_cost|intcomma }} XAF</label></h3>
@@ -368,7 +368,7 @@
             $('a.cta').addClass('{{ product.name }}');
             $('.faq-answer').addClass('{{ product.name }}');
             $('.faq-question').addClass('{{ product.name }}');
-            $('.fa-chevron-circle-up').css('color', '#cddc39');
+            $('.fa-chevron-circle-up').css('color', '#9aa853');
             //Dynamic color for menu items and faq: END
 
 

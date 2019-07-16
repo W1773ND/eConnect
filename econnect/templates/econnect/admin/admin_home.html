@@ -50,7 +50,8 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <a href="{% url 'econnect:admin_order' %}" class="btn btn-outline-success" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Manage orders" %}</a>
+                        <a href="{% url 'econnect:pending_order' %}" class="btn btn-outline-success" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Pending orders" %}</a>
+                        <a href="{% url 'econnect:paid_order' %}" class="btn btn-outline-success" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Paid orders" %}</a>
 {#                        <a href="{% url 'econnect:admin_request' %}" class="btn btn-outline-success" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Manage requests" %}</a>#}
 {#                        <a href="{% url 'econnect:admin_payment' %}" class="btn btn-outline-success" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Manage payment" %}</a>#}
                     </div>

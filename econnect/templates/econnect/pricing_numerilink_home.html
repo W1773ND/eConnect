@@ -1,0 +1,797 @@
+{% extends 'base.html' %}
+{% load i18n static humanize %}
+
+{% block meta %}
+    {{ block.super }}
+    <link rel="shortcut icon" type="image/png" href="{% static "tsunami/img/favicon_Tsunami.ico" %}">
+    <meta name="theme-color" content="#233682">
+    <meta name="msapplication-navbutton-color" content="#233682">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#233682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://www.ikwen.com/tsunami/" />
+    <meta property="og:image" content="{% static 'tsunami/img/Logo-IKWEN-Tsunami_og.png' %}" />
+    <meta property="og:title" content="{% trans "CREOLINK Communications" %}"/>
+    <meta property="og:description" content="{% trans "The best of internet, the best of TV" %}">
+    <meta property="description" content="{% trans "The best of internet, the best of TV" %}" />
+{% endblock %}
+
+{% block page_title %}
+    <title> {{ service.project_name }} - Numeri | Link Home</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <!-- Custom css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/bootstrap-slider.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/homepage.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/econnect_pricing.css' %}?v=1">
+    <style>
+        div#email-error {display: none}
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div id="section-header-general-view" class="container-fluid container-fluid-custom">
+        <div class="row section-banniere-top" style="margin-top: 0 !important;">
+            <div class="col-lg-6 col-sm-6 col-lg-offset-3 col-sm-offset-3 text-center text-header" style="padding-top: 10vh">
+              <h1>{% trans "Get the best of Internet and TV" %}</h1>
+                {% if request.user.is_authenticated %}
+                    <a  href='{% url 'econnect:maps' %}?next={{ request.path }}' class="btn btn-outline white btn-set-location animated pulse mobile-adjust" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style="font-size:medium; word-spacing: -6px;">&nbsp;&nbsp;&nbsp;&nbsp;{% trans "Set my location" %}</i></a>
+                {% else %}
+                     <button type="button" class="btn btn-outline white btn-set-location animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style="font-size:medium; word-spacing: -6px;">&nbsp;&nbsp;&nbsp;&nbsp;{% trans "Set my location" %}</i></button>
+                {% endif %}
+            </div>
+        </div>
+        <div id="section-banniere-top-iPad-view" class="row section-banniere-top" style="display: none">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+              <h1>{% trans "Get the best of Internet and TV" %}</h1>
+                {% if request.user.is_authenticated %}
+                    <a  href='{% url 'econnect:maps' %}?next={{ request.path }}' class="btn btn-outline white btn-set-location animated pulse mobile-adjust" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style="font-size:medium; word-spacing: -6px;">&nbsp;&nbsp;&nbsp;&nbsp;{% trans "Set my location" %}</i></a>
+                {% else %}
+                     <button type="button" class="btn btn-outline white btn-set-location animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; height: 45px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style="font-size:medium; word-spacing: -6px;">&nbsp;&nbsp;&nbsp;&nbsp;{% trans "Set my location" %}</i></button>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+    <section class="pricing-area">
+
+        <nav class="col-lg-2 pricing-menu visible-lg">
+            <ul style="list-style-type: none">
+                <li><a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-pack is-active"href="#sectionPack"> {% trans "Pack" %}</a></li>
+                <li><a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-equipment" href="#sectionEquipment"> {% trans "Equipement" %}</a></li>
+                <li><a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-addon" href="#sectionAddOn"> {% trans "Add-ons" %}</a></li>
+                <li><a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-faq" href="#sectionFaq"> {% trans "FAQs" %}</a></li>
+            </ul>
+        </nav>
+        <div id="menu-md" class="col-md-12 pricing-menu scroll-menu {{ product.name }} text-center visible-md" style="line-height: 1">
+            <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-md-pack is-active"href="#mdAnchorPack"> {% trans "Pack" %}</a>
+            <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-md-equipment" href="#mdAnchorEquipment"> {% trans "Equipement" %}</a>
+            <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-md-addon" href="#mdAnchorAddon"> {% trans "Add-ons" %}</a>
+            <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-md-faq" href="#mdAnchorFAQ"> {% trans "FAQs" %}</a>
+        </div>
+        <div id="mobileAnchorPack"></div>
+        <div id="mdAnchorPack"></div>
+        <div id="menuMobile" class="col-md-12 pricing-menu scroll-menu {{ product.name }} hidden-md hidden-lg ">
+            <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-mobile-pack is-active"href="#mobileAnchorPack"> {% trans "Pack" %}</a>
+            <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-mobile-equipment" href="#mobileAnchorEquipment"> {% trans "Equipement" %}</a>
+            <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-mobile-addon" href="#mobileAnchorAddon"> {% trans "Add-ons" %}</a>
+            <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-mobile-invoice" href="#mobileAnchorInvoice"> {% trans "Invoice" %}</a>
+            <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-mobile-faq" href="#mobileAnchorFAQ"> {% trans "FAQs" %}</a>
+        </div>
+
+        <div class="col-lg-8 col-md-9 pricing-items" style="">
+            <section id="sectionPack" class="pricing-section" style="margin-top: 0">
+                <h3 class="col-lg-8 section-title">{% trans "Pack" %}<label class="cost {{ product.name }} bouquet-cost">{% trans "Choose one below" %}</label></h3>
+                <div class="clearfix"></div>
+                <hr class="section-border-top">
+                <div id="accordion-pack" role="tablist" aria-multiselectable="true" style="position: absolute; width: 100%">
+                {% for package in product.package_set.all %}
+                    <div class="col-lg-2 col-md-2 panel panel-pack panel-pack-styling {{ product.name }} pricing-container text-center" data-cost="{{ package.cost }}" data-package-id="{{ package.id }}" data-target="{{ package.target }}" data-optional-target-cost="{{ package.optional_target_cost }}" style="cursor: pointer; {% if forloop.counter == 1 %}margin-left: .6vw;{% endif %}">
+                            <div class="panel-title panel-title text-center collapsed" role="tab" id="heading{{ package.id }}"  data-toggle="collapse" data-parent="#accordion-pack" data-target="#{{ package.id }}">
+                                <a data-toggle="collapse" data-parent="#accordion-pack" href="#{{ package.id }}">
+                                  <h5 class="pricing-title {{ product.name }}">{{ product.name|slice:":10" }}&nbsp;<span class="pricing-pack small {{ product.name }}">{{ package.name }}</span></h5>
+                                </a>
+                            </div>
+                            <div id="{{ package.id }}" class="collapse" role="tabpanel" aria-labelledby="heading{{ package.id }}">
+                                <div class="pack-detail {{ product.name }} text-center">
+                                    <p class="pricing-content mobile-adjust text-center" style="">{{ package.description|safe }}</p>
+                                    <h4 class="pricing-value text-center">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
+                                </div>
+                            </div>
+                            <div class="callout-item">
+                                <div class="pack-detail {{ product.name }} text-center">
+                                    <a data-toggle="collapse" data-parent="#accordion-pack" href="#{{ package.id }}" style="color: inherit">
+                                        <p class="pricing-content mobile-adjust text-center" style="">{{ package.description|safe }}</p>
+                                        <h4 class="pricing-value-tpl text-center">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                {% comment %}<div class="col-lg-4{% if forloop.counter == 4 %} col-lg-offset-2{% endif %}">
+                    <div class="panel panel-custom panel-custom-styling {{ product.name }}">
+                        <div class="pricing-container" data-cost="{{ package.cost }}" data-package-id="{{ package.id }}">
+                            <h3 class="pricing-title {{ product.name }}">{{ product.name }}&nbsp;<span class="pricing-pack {{ product.name }}">{{ package.name }}</span></h3>
+                            <h4 class="pricing-value">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
+                            <h5 class="pricing-content mobile-adjust">{{ package.description|safe }}</h5>
+                        </div>
+                    </div>
+                </div>{% endcomment %}
+                {% if forloop.counter == 4 %}
+                    <div id="mdAnchorEquipment"></div>
+                {% endif %}
+                {% endfor %}
+                    <div id="mobileAnchorEquipment"></div>
+                </div>
+                <div class="clearfix"></div>
+            </section>
+
+            <section id="sectionEquipment" class="pricing-section" style="min-height: 45vh; padding-top: 10vh">
+                <input type="hidden" name="installCost" value="{{ product.install_cost }}">
+                <input type="hidden" name="equipmentPurchaseCost" value="{{ equipment_purchase_cost }}">
+                <h3 class="col-lg-8 section-title">{% trans "Equipements" %}<label class="cost {{ product.name }} equipment-cost">{{ default_equipment_cost|intcomma }} XAF</label></h3>
+                <div class="clearfix"></div>
+                <hr class="section-border-top">
+                <div class="col-md-8">
+                    <h4><label class="checkbox-inline disabled"><input type="checkbox" checked="checked" disabled><span class="text-muted">{% trans "Installation" %}</span></label></h4>
+                </div>
+
+                {% for equipment in product.equipment_set.all %}
+                <div class="col-md-8 v-align equipment" style="padding: 5vh 0">
+                    <div class="col-md-4 v-align-center" style="">
+                        <h4 class="equipment-name">{{ equipment.name }}</h4>
+                    </div>
+                    <div class="col-md-8 equipment-billing" style="border-left: #e5e8ed 2px solid">
+                       <div class="radio">
+                           <h4><label><input type="radio" name="option{{ equipment.slug }}" class="option option-achat {{ equipment.slug }}" checked data-cost="{{ equipment.purchase_cost }}" data-equipment-id="{{ equipment.id }}">{% trans "Achat" %}</label></h4>
+                       </div>
+                        <div class="radio">
+                            <h4><label><input type="radio" name="option{{ equipment.slug }}" class="option option-location {{ equipment.slug }}" data-cost="{{ equipment.rent_cost }}" data-equipment-id="{{ equipment.id }}">{% trans "Location" %}</label></h4>
+                        </div>
+                    </div>
+                </div>
+                {% if forloop.counter >= 1 %}
+                    <div id="mobileAnchorAddon"></div>
+                {% endif %}
+                {% endfor %}
+
+            </section>
+
+            <div id="mdAnchorAddon"></div>
+
+            <section id="sectionAddOn" class="pricing-section" style="min-height: 50vh">
+                <fieldset class="section-addon disabled" style="width: 100%">
+                    <h3 class="col-xs-8 section-title">{% trans "Add-ons" %}<label class="cost {{ product.name }} addons-cost" style="display: none" ></label></h3>
+                    <div class="clearfix"></div>
+                    <hr class="section-border-top">
+                    <div class="addon-item" style="padding-bottom: 3vh">
+                        <div class="col-lg-5" style="padding-right: 2vw">
+                            <h4 style="border-right: #3c3c3c 2px solid" >
+                                <label  style="cursor: pointer"><input id="OptionalTvEnabled" type="checkbox"/> {% trans "Je dispose de plusieurs TV" %}</label>
+                            </h4>
+                        </div>
+                        <div class="col-lg-7">
+                            <h4 id="CurrentSliderPriceValLabel" style=""><label>{% trans "Indiquez le nombre de TV à connecter..." %}</label></h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-10" style="padding-bottom: 5.5vh">
+                        <input id="optionalTvNumber" type="range" data-slider-min="1" data-slider-max="15" data-slider-step="1" data-slider-value="1" data-slider-enabled="false"/>
+                    </div>
+
+                    <div id="mobileAnchorInvoice"></div>
+
+                    <div class="clearfix"></div>
+
+                    <div id="mdAnchorFAQ"></div>
+
+                    {% for extra in product.extra_set.all %}
+                        <div class=" col-lg-8 addon-item">
+                            <input type="checkbox" id="{{ extra.id }}" value="{{ extra.id }}" name="OptionalBouquet" data-addon-cost = "{{ extra.cost }}" data-addon-id="{{ extra.id }}" class="addon" >
+                            <h4 style="display: inline">
+                                <label style="cursor: pointer" for="{{ extra.id }}" class="checkbox-label">{{ extra.name|safe }}</label>
+                            </h4>
+                        </div>
+                    {% endfor %}
+                    <div class="clearfix"></div>
+                </fieldset>
+            </section>
+
+            <section id="invoice" class="section-invoice visible-sm visible-xs">
+                <div class=" panel panel-pricing-resume {{ product.name }} text-center" style="overflow: hidden">
+                    <div class="panel-title pricing-resume-title {{ product.name }}">
+                        <h4 class="">{% trans "General Invoice" %}</h4>
+                    </div>
+                    <form class="mobile-adjust" method="post">
+                        {% csrf_token %}
+                        {% if order %}
+                            <input type="hidden" name="order_id" value="{{ order.id }}">
+                            <input type="hidden" name="product_id" value="{{ order.package.product.id }}">
+                            <input type="hidden" name="customer_id" value="{{ order.member_id }}">
+                            <input type="hidden" name="customer_lat" value="{{ order.location_lat }}">
+                            <input type="hidden" name="customer_lng" value="{{ order.location_lng }}">
+                            <input type="hidden" name="formatted_address" value="{{ order.formatted_adress }}">
+                            <input type="hidden" name="pack_id" value="{{ order.package_id }}">
+                            <input type="hidden" name="equipment" value="{{ equipment_order_entry }}">
+                            <input type="hidden" name="extra" value="{{ extra }}">
+                            {% if not order.optional_tv == None %}
+                                <input type="hidden" name="optional_tv" value="{{ order.optional_tv }}">
+                            {% endif %}
+                        {% else %}
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <input type="hidden" name="customer_id" value="{{ user.id }}">
+                            <input type="hidden" name="customer_lat">
+                            <input type="hidden" name="customer_lng">
+                            <input type="hidden" name="formatted_address">
+                            <input type="hidden" name="pack_id">
+                            <input type="hidden" name="equipment" value="{% for equipment in product.equipment_set.all %}{{ equipment.id }}|achat;{% endfor %}">
+                            <input type="hidden" name="extra">
+                            <input type="hidden" name="optional_tv">
+                        {% endif %}
+                        <div class="invoice-item invoice-item-tv">
+                            <h5>
+                                <div class=" invoice-items-title"> {% trans "Pack" %} </div>
+                                <div class=" invoice-items-name" style="display: none">{{ product.name }}&nbsp;<span class="pricing-pack {{ product.name }}" style="display: none"></span></div>
+                                <div class="invoice-items-cost">  </div>
+                            </h5>
+                        </div>
+                        <div class="separator"></div>
+                        <div id="mobileAnchorFAQ"></div>
+                        <div class="invoice-item invoice-item-equipments">
+                            <h5>
+                                <div class=" invoice-items-title"> {% trans "Equipements" %} </div>
+                                <div class="invoice-items-cost" style="display: none;" >{{ default_equipment_cost|intcomma }} XAF</div>
+                            </h5>
+                        </div>
+                        <div class="separator"></div>
+                        <div class="invoice-item invoice-item-addons">
+                            <h5>
+                                <div class=" invoice-items-title"> {% trans "Add-ons" %} </div>
+                                <div class="invoice-items-cost"></div>
+                            </h5>
+                        </div>
+                        <div class="separator"></div>
+                        <div class="invoice-item invoice-item-total" style="display: none;">
+                            <h5>
+                                <div class=" invoice-items-title"> {% trans "Total" %} </div>
+                                <div class="invoice-items-cost {{ product.name }}"></div>
+                            </h5>
+                        </div>
+                        <!-- Submit Button -->
+                       {% comment %} <div class="form-group">
+                            <button type="button" class="btn btn-outline {{ product.name }} btn-general-invoice mobile-adjust tpl">{% trans "Check Out" %}</button>
+                        </div>{% endcomment %}
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-outline {{ product.name }} btn-general-invoice mobile-adjust tpl">{% trans "Check Out" %}</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+            </section>
+
+            <section id="sectionFaq" class="section-faq">
+                <div class="col-lg-12">
+                    <h3 class="col-lg-8 section-title">FAQs</h3>
+                    <div id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="col-lg-6 panel panel-custom" style="cursor: pointer;">
+                            <div class="panel-title faq-title text-center" role="tab" id="headingOne"  data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
+                                <h5 class="mb-0">
+                                <a class="faq-question" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" >
+                                  {% trans "Question 1 ?" %}
+                                </a>
+                              </h5>
+                            </div>
+
+                            <div id="collapseOne" class="collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="faq-answer" style="cursor: default">
+                                    {% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est eros, vulputate eget sodales nec, malesuada vel ante. Quisque volutpat risus in dolor sollicitudin a commodo libero suscipit. Nunc ultrices risus ut arcu hendrerit aliquet. Integer sit amet eros eu augue porttitor dictum. Quisque vel ante est, at lacinia tortor. Curabitur lacus purus, malesuada sit amet dapibus ac, placerat id leo. Nullam vel ultrices augue. Donec posuere convallis purus, sit amet imperdiet leo laoreet at. Quisque aliquam, urna non interdum lobortis, leo diam tincidunt lectus, non ultricies quam purus eget quam." %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 panel panel-custom" style="cursor: pointer;">
+                            <div class="panel-title faq-title text-center" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo">
+                                <h5 class="mb-0">
+                                <a class="collapsed faq-question" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                  {% trans "Question 2 ?" %}
+                                </a>
+                              </h5>
+                            </div>
+                            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                <div class="faq-answer" style="cursor: default">
+                                    {% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est eros, vulputate eget sodales nec, malesuada vel ante. Quisque volutpat risus in dolor sollicitudin a commodo libero suscipit. Nunc ultrices risus ut arcu hendrerit aliquet. Integer sit amet eros eu augue porttitor dictum. Quisque vel ante est, at lacinia tortor. Curabitur lacus purus, malesuada sit amet dapibus ac, placerat id leo. Nullam vel ultrices augue. Donec posuere convallis purus, sit amet imperdiet leo laoreet at. Quisque aliquam, urna non interdum lobortis, leo diam tincidunt lectus, non ultricies quam purus eget quam." %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 panel panel-custom" style="cursor: pointer;">
+                            <div class="panel-title faq-title text-center" role="tab" id="headingThree" data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree">
+                                <h5 class="mb-0">
+                                <a class="collapsed faq-question" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                  {% trans "Question 3 ?" %}
+                                </a>
+                              </h5>
+                            </div>
+                            <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                                <div class="faq-answer" style="cursor: default">
+                                    {% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est eros, vulputate eget sodales nec, malesuada vel ante. Quisque volutpat risus in dolor sollicitudin a commodo libero suscipit. Nunc ultrices risus ut arcu hendrerit aliquet. Integer sit amet eros eu augue porttitor dictum. Quisque vel ante est, at lacinia tortor. Curabitur lacus purus, malesuada sit amet dapibus ac, placerat id leo. Nullam vel ultrices augue. Donec posuere convallis purus, sit amet imperdiet leo laoreet at. Quisque aliquam, urna non interdum lobortis, leo diam tincidunt lectus, non ultricies quam purus eget quam." %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 panel panel-custom" style="cursor: pointer;">
+                            <div class="panel-title faq-title text-center" role="tab" id="headingFour" data-toggle="collapse" data-parent="#accordion" data-target="#collapseFour">
+                                <h5 class="mb-0">
+                                <a class="collapsed faq-question" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                  {% trans "Question 4 ?" %}
+                                </a>
+                              </h5>
+                            </div>
+                            <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour">
+                                <div class="faq-answer" style="cursor: default">
+                                    {% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est eros, vulputate eget sodales nec, malesuada vel ante. Quisque volutpat risus in dolor sollicitudin a commodo libero suscipit. Nunc ultrices risus ut arcu hendrerit aliquet. Integer sit amet eros eu augue porttitor dictum. Quisque vel ante est, at lacinia tortor. Curabitur lacus purus, malesuada sit amet dapibus ac, placerat id leo. Nullam vel ultrices augue. Donec posuere convallis purus, sit amet imperdiet leo laoreet at. Quisque aliquam, urna non interdum lobortis, leo diam tincidunt lectus, non ultricies quam purus eget quam." %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="errors">
+                {{ form.errors }}
+                {% if form.error %}
+                    {% for error in form.error %}
+                        {{ error }}
+                    {% endfor %}
+                {% endif %}
+            </section>
+
+        </div>
+
+        <div class="col-lg-2 col-md-3 pricing-resume hidden-sm hidden-xs">
+            <div class=" panel panel-pricing-resume {{ product.name }} text-center" style="overflow: hidden">
+                <div class="panel-title pricing-resume-title {{ product.name }}">
+                    <h4 class="">{% trans "General Invoice" %}</h4>
+                </div>
+                <form class="mobile-adjust" method="post">
+                    {% csrf_token %}
+                    {% if order %}
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <input type="hidden" name="product_id" value="{{ order.package.product.id }}">
+                        <input type="hidden" name="customer_id" value="{{ order.member_id }}">
+                        <input type="hidden" name="customer_lat" value="{{ order.location_lat }}">
+                        <input type="hidden" name="customer_lng" value="{{ order.location_lng }}">
+                        <input type="hidden" name="formatted_address" value="{{ order.formatted_adress }}">
+                        <input type="hidden" name="pack_id" value="{{ order.package_id }}">
+                        <input type="hidden" name="equipment" value="{{ equipment_order_entry }}">
+                        <input type="hidden" name="extra" value="{{ extra }}">
+                        {% if not order.optional_tv == None %}
+                            <input type="hidden" name="optional_tv" value="{{ order.optional_tv }}">
+                        {% endif %}
+                    {% else %}
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        <input type="hidden" name="customer_id" value="{{ user.id }}">
+                        <input type="hidden" name="customer_lat">
+                        <input type="hidden" name="customer_lng">
+                        <input type="hidden" name="formatted_address">
+                        <input type="hidden" name="pack_id">
+                        <input type="hidden" name="equipment" value="{% for equipment in product.equipment_set.all %}{{ equipment.id }}|achat;{% endfor %}">
+                        <input type="hidden" name="extra">
+                        <input type="hidden" name="optional_tv">
+                    {% endif %}
+                    <div class="invoice-item invoice-item-tv">
+                        <h5>
+                            <div class=" invoice-items-title"> {% trans "Pack" %} </div>
+                            <div class=" invoice-items-name" style="display: none">{{ product.name }}&nbsp;<span class="pricing-pack {{ product.name }}" style="display: none"></span></div>
+                            <div class="invoice-items-cost">  </div>
+                        </h5>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="invoice-item invoice-item-equipments">
+                        <h5>
+                            <div class=" invoice-items-title"> {% trans "Equipements" %} </div>
+                            <div class="invoice-items-cost" style="display: none;" >{{ default_equipment_cost|intcomma }} XAF</div>
+                        </h5>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="invoice-item invoice-item-addons">
+                        <h5>
+                            <div class=" invoice-items-title"> {% trans "Add-ons" %} </div>
+                            <div class="invoice-items-cost"></div>
+                        </h5>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="invoice-item invoice-item-total" style="display: none;">
+                        <h5>
+                            <div class=" invoice-items-title"> {% trans "Total" %} </div>
+                            <div class="invoice-items-cost {{ product.name }}"></div>
+                        </h5>
+                    </div>
+                    <!-- Submit Button -->
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-outline {{ product.name }} btn-general-invoice mobile-adjust animated fadeIn tpl">{% trans "Check Out" %}</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
+
+            </div>
+        </div>
+    </section>
+
+    <a class="js-scrollTo back-to-top hiding" href="#section-header-general-view" style="text-decoration: none; color: #3F3F3F">
+        <i class="fa fa-chevron-circle-up"></i>
+    </a>
+
+   {% include 'econnect/snippets/get_email_modal.html' %}
+   {% include 'econnect/snippets/set_location_modal.html' %}
+
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'econnect/js/bootstrap-slider.min.js' %}"></script>
+    <script>
+        (function () {
+            // redirect to signIn page
+            $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:numerilink-home' %}");
+
+            // set focus when modal is opened
+            $('#modal-get-email').on('shown.bs.modal', function () {
+                $("#visitor-email").focus();
+            });
+
+            $('#visitor-email').focusin(function () {
+                $('div#email-error').fadeOut().hide()
+            });
+
+            // get the email for Tsunami relaunch mails
+            $('.btn-process').click(function () {
+                let visitor_email = $('#visitor-email').val();
+                if (visitor_email !== ''){
+                    $('#get-user-email').submit();
+                    window.location("{% url 'econnect:maps' %}?next={{ request.path }}")
+                }else {
+                    $('div#email-error').fadeIn().show()
+                }
+            });
+
+            //Dynamic color for menu items and faq: BEGIN
+            $('.nav-menu').addClass('{{ product.name }}');
+            $('.glyphicon').addClass('{{ product.name }}');
+            $('a.cta').addClass('{{ product.name }}');
+            $('.faq-answer').addClass('{{ product.name }}');
+            $('.pack-detail').addClass('{{ product.name }}');
+            $('.faq-question').addClass('{{ product.name }}');
+            $('.fa-chevron-circle-up').css('color', '#009b94');
+            //Dynamic color for menu items and faq: END
+
+            //Dynamic styling for vertical navbar :BEGIN
+
+            //Get the position of an element relative to the document
+            function offset(el) {
+                let rect = el[0].getBoundingClientRect(),
+                scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+                scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                return { top: parseInt(rect.top + scrollTop), left: parseInt(rect.left + scrollLeft) }
+            }
+
+            let sectionPackPosition = offset($('#sectionPack'));
+            let sectionEquipmentPosition = offset($('#sectionEquipment'));
+            let sectionAddonPosition = offset($('#sectionAddOn'));
+            let sectionFaqPosition = offset($('#sectionFaq'));
+
+            let sectionMdPackPosition = offset($('#mdAnchorPack'));
+            let sectionMdEquipmentPosition = offset($('#mdAnchorEquipment'));
+            let sectionMdAddonPosition = offset($('#mdAnchorAddon'));
+            let sectionMdFaqPosition = offset($('#mdAnchorFAQ'));
+
+            let sectionMobilePackPosition = offset($('#mobileAnchorPack'));
+            let sectionMobileEquipmentPosition = offset($('#mobileAnchorEquipment'));
+            let sectionMobileAddonPosition = offset($('#mobileAnchorAddon'));
+            let sectionMobileFaqPosition = offset($('#mobileAnchorFAQ'));
+            let divInvoice = offset($('#mobileAnchorInvoice'));
+
+            $(window).scroll(function() {
+                if ($('#menuMobile').is(':hidden') && $("#menu-md").is(':hidden')) {
+                    if(parseInt($(window).scrollTop()+1) >= sectionPackPosition.top && (parseInt($(window).scrollTop()) < sectionEquipmentPosition.top)) {
+                        $('.in-page-nav-link-pack').addClass('is-active');
+                        $('.in-page-nav-link-equipment').removeClass('is-active');
+                        $('.in-page-nav-link-addon').removeClass('is-active');
+                        $('.in-page-nav-link-faq').removeClass('is-active');
+
+                    }
+                    if((parseInt($(window).scrollTop()+1) >= sectionEquipmentPosition.top) && (parseInt($(window).scrollTop()+1) < sectionAddonPosition.top)) {
+                        $('.in-page-nav-link-pack').removeClass('is-active');
+                        $('.in-page-nav-link-equipment').addClass('is-active');
+                        $('.in-page-nav-link-addon').removeClass('is-active');
+                        $('.in-page-nav-link-faq').removeClass('is-active');
+
+                    }
+                    if((parseInt($(window).scrollTop()+1) >= sectionAddonPosition.top) && (parseInt($(window).scrollTop()) < sectionFaqPosition.top)) {
+                        $('.in-page-nav-link-pack').removeClass('is-active');
+                        $('.in-page-nav-link-equipment').removeClass('is-active');
+                        $('.in-page-nav-link-addon').addClass('is-active');
+                        $('.in-page-nav-link-faq').removeClass('is-active');
+
+                    }
+
+                    if(parseInt($(window).scrollTop()) >= sectionFaqPosition.top) {
+                        $('.in-page-nav-link-pack').removeClass('is-active');
+                        $('.in-page-nav-link-equipment').removeClass('is-active');
+                        $('.in-page-nav-link-addon').removeClass('is-active');
+                        $('.in-page-nav-link-faq').addClass('is-active');
+                    }
+                }
+                else if ($('#menuMobile').is(':visible')) {
+                    if(parseInt($(window).scrollTop()) >= sectionMobilePackPosition.top && (parseInt($(window).scrollTop()) < sectionMobileEquipmentPosition.top)) {
+                        $('.in-page-nav-link-mobile-pack').addClass('is-active');
+                        $('.in-page-nav-link-mobile-equipment').removeClass('is-active');
+                        $('.in-page-nav-link-mobile-addon').removeClass('is-active');
+                        $('.in-page-nav-link-mobile-invoice').removeClass('is-active');
+                        $('.in-page-nav-link-mobile-faq').removeClass('is-active');
+
+                    }
+                    if((parseInt($(window).scrollTop()) >= sectionMobileEquipmentPosition.top) && (parseInt($(window).scrollTop()) < sectionMobileAddonPosition.top)) {
+                        $('.in-page-nav-link-mobile-pack').removeClass('is-active');
+                        $('.in-page-nav-link-mobile-equipment').addClass('is-active');
+                        $('.in-page-nav-link-mobile-addon').removeClass('is-active');
+                        $('.in-page-nav-link-mobile-invoice').removeClass('is-active');
+                        $('.in-page-nav-link-mobile-faq').removeClass('is-active');
+
+                    }
+                    if((parseInt($(window).scrollTop()) >= sectionMobileAddonPosition.top) && (parseInt($(window).scrollTop()) < divInvoice.top)) {
+                        $('.in-page-nav-link-mobile-pack').removeClass('is-active');
+                        $('.in-page-nav-link-mobile-equipment').removeClass('is-active');
+                        $('.in-page-nav-link-mobile-addon').addClass('is-active');
+                        $('.in-page-nav-link-mobile-invoice').removeClass('is-active');
+                        $('.in-page-nav-link-mobile-faq').removeClass('is-active');
+                        $('.scroll-menu').css('margin-left', 'auto')
+
+                    }
+                    if($(window).scrollTop() >= divInvoice.top && $(window).scrollTop() < sectionMobileFaqPosition.top) {
+                        $('.in-page-nav-link-mobile-pack').removeClass('is-active');
+                        $('.in-page-nav-link-mobile-equipment').removeClass('is-active');
+                        $('.in-page-nav-link-mobile-addon').removeClass('is-active');
+                        $('.in-page-nav-link-mobile-invoice').addClass('is-active');
+                        $('.in-page-nav-link-mobile-faq').removeClass('is-active');
+                        $('.scroll-menu').css('margin-left', '-50vw')
+                    }
+                    if($(window).scrollTop() >= sectionMobileFaqPosition.top) {
+                        $('.in-page-nav-link-mobile-pack').removeClass('is-active');
+                        $('.in-page-nav-link-mobile-equipment').removeClass('is-active');
+                        $('.in-page-nav-link-mobile-addon').removeClass('is-active');
+                        $('.in-page-nav-link-mobile-invoice').removeClass('is-active');
+                        $('.in-page-nav-link-mobile-faq').addClass('is-active');
+                    }
+                }
+                else if ($('#menu-md').is(':visible')) {
+
+                    if(parseInt($(window).scrollTop()) >= sectionMdPackPosition.top && (parseInt($(window).scrollTop()) < sectionMdEquipmentPosition.top)) {
+                        $('.in-page-nav-link-md-pack').addClass('is-active');
+                        $('.in-page-nav-link-md-equipment').removeClass('is-active');
+                        $('.in-page-nav-link-md-addon').removeClass('is-active');
+                        $('.in-page-nav-link-md-faq').removeClass('is-active');
+
+                    }
+                    if((parseInt($(window).scrollTop()) >= sectionMdEquipmentPosition.top) && (parseInt($(window).scrollTop()) < sectionMdAddonPosition.top)) {
+                        $('.in-page-nav-link-md-pack').removeClass('is-active');
+                        $('.in-page-nav-link-md-equipment').addClass('is-active');
+                        $('.in-page-nav-link-md-addon').removeClass('is-active');
+                        $('.in-page-nav-link-md-faq').removeClass('is-active');
+
+                    }
+                    if((parseInt($(window).scrollTop()) >= sectionMdAddonPosition.top) && (parseInt($(window).scrollTop()) < sectionMdFaqPosition.top)) {
+                        $('.in-page-nav-link-md-pack').removeClass('is-active');
+                        $('.in-page-nav-link-md-equipment').removeClass('is-active');
+                        $('.in-page-nav-link-md-addon').addClass('is-active');
+                        $('.in-page-nav-link-md-faq').removeClass('is-active');
+
+                    }
+
+                    if(parseInt($(window).scrollTop()) >= sectionMdFaqPosition.top) {
+                        $('.in-page-nav-link-md-pack').removeClass('is-active');
+                        $('.in-page-nav-link-md-equipment').removeClass('is-active');
+                        $('.in-page-nav-link-md-addon').removeClass('is-active');
+                        $('.in-page-nav-link-md-faq').addClass('is-active');
+                    }
+                }
+
+            });
+            //Dynamic styling for vertical navbar :END
+
+            let invoiceCost = 0;
+            let bouquetCost = 0;
+
+            let equipmentCost = parseInt($('input[name=equipmentPurchaseCost]').val());
+            let equipmentRentCost = 0;
+            let equipmentBuyCost = 0;
+            let rentChoice = false;
+
+            let addonCost = 0;
+            let addonItemCost = 0;
+            let packageTarget = 0;
+            let optionalTargetCost = 0;
+            let installCost = parseInt($('input[name=installCost]').val());
+
+            $('.invoice-item-equipments').find('.invoice-items-cost').text($('.equipment-cost').text());
+
+            function calculateInvoiceCost(){
+                invoiceCost = bouquetCost + installCost + equipmentCost + addonCost;
+                $('.invoice-item-total').css('display', 'block').find('.invoice-items-cost').text(invoiceCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF");
+                $('.total-separator').css('display', 'block');
+                if ($('.invoice-item-tv').find('.invoice-items-cost').text().length > 10) $('.btn-general-invoice').removeClass('tpl');
+            }
+
+            function calculateEquipmentCost(){
+                if (localStorage.getItem('Location') === null){
+                    $('#modal-set-location').modal('show');
+                }else {
+                    installCost = parseInt($('input[name=installCost]').val());
+                    equipmentRentCost = 0;
+                    equipmentBuyCost = 0;
+                    let equipmentList = "";
+
+                    rentChoice = false;
+                    $(".option:checked").each(function() {
+                        let equipmentId = $(this).data('equipment-id');
+                        if ($(this).hasClass('option-location')){
+                            equipmentRentCost += parseInt($(this).data('cost'));
+                            rentChoice = true;
+                            var item = equipmentId + '|' + 'rental;'
+                        }
+                        else if ($(this).hasClass('option-achat')) {
+                            equipmentBuyCost += parseInt($(this).data('cost'));
+                            var item = equipmentId + '|' + 'purchase;'
+                        }
+                        equipmentCost = equipmentRentCost + equipmentBuyCost;
+                        equipmentList += item;
+                        $('input[name=equipment]').val(equipmentList)
+                    });
+                    if (rentChoice){
+                        let installationCost = installCost;
+                        installationCost += equipmentBuyCost;
+                        $(".equipment-cost").text("  " + installationCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}')
+                            + " XAF" + " + " + equipmentRentCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
+                        $('.invoice-item-equipments').find('.invoice-items-cost').text($('.equipment-cost').text())
+                    }
+                    else {
+                        let installationCost = installCost;
+                        installationCost += equipmentCost;
+                        $(".equipment-cost").text("  " + installationCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF");
+                        $('.invoice-item-equipments').find('.invoice-items-cost').text($('.equipment-cost').text())
+                    }
+                    $('.invoice-item-equipments').find('.invoice-items-cost').css('display', 'inline');
+                    calculateInvoiceCost();
+                    $('.in-page-nav-link-addon').click()
+                }
+
+            }
+
+            function calculateAddonCost() {
+                if (localStorage.getItem('Location') === null){
+                    $('#modal-set-location').modal('show');
+                }else {
+                    addonItemCost = 0;
+                    $(".addon").each(function () {
+                        if (this.checked) {
+                            addonItemCost += ($(this).data('addon-cost'));
+                        }
+                    });
+                    let extraIdSelectedList = "";
+                    $(".addon:checked").each(function () {
+                        let extraId = $(this).data('addon-id');
+                        extraIdSelectedList += extraId + ';'
+                    });
+                    $('input[name=extra]').val(extraIdSelectedList);
+
+                    addonCost = addonTvCost + addonItemCost;
+                    $('.invoice-item-addons').find('.invoice-items-cost').text(addonCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
+                    if (addonCost === 0) {
+                        $('.addons-cost').css('display', 'none');
+                        {#$('.invoice-items-cost').css('display', 'none');#}
+                    } else {
+                        $('.invoice-item-equipments').find('.invoice-items-cost').css('display', 'inline');
+                        $('.addons-cost').css('display', 'inline').text(addonCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
+                        {#$('.invoice-items-cost').css('display', 'none');#}
+                        {#$('.invoice-item-addons').find('.invoice-items-cost').text($('.addons-cost').text());#}
+                    }
+                    calculateInvoiceCost();
+                }
+            }
+
+
+            $('.pricing-container').hover(function () {
+                if ($(this).find('.panel-title').hasClass('collapsed')) {
+                    $(this).find('.callout-item').slideDown(250);
+                }
+            }, function () {
+                $(this).find('.callout-item').slideUp(250);
+
+            }).click(function () {
+                $('fieldset.section-addon').removeClass('disabled');
+                if (localStorage.getItem('Location') === null){
+                    $('#modal-set-location').modal('show');
+                }else {
+                    $(this).find('.callout-item').slideUp(250);
+                    bouquetCost = parseInt($(this).data('cost'));
+                    let packageId = $(this).data('package-id');
+                    packageTarget = parseInt($(this).data('target'));
+                    optionalTargetCost = parseInt($(this).data('optional-target-cost'));
+                    $("#optionalTvNumber").slider({
+                        min: packageTarget,
+                        max: packageTarget*15,
+                        tooltip: 'always',
+                        handle: 'square',
+                        tooltip_position: 'bottom'
+                    });
+                    $("#optionalTvNumber").slider("refresh");
+                    $('input[name=pack_id]').val(packageId);
+                    $('.invoice-item-equipments').find('.invoice-items-cost').css('display', 'inline');
+                    $('.bouquet-cost').text(bouquetCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
+                    $('.invoice-item-tv').find('.invoice-items-name').css('display', 'inline');
+                    $('.invoice-item-tv').find('.pricing-pack').css('display', 'inline').text($(this).find('.pricing-pack').text());
+                    $('.invoice-item-tv').find('.invoice-items-cost').text($(this).find('.pricing-value').text() + "/mois");
+                    calculateInvoiceCost();
+                    $('.in-page-nav-link-equipment').click()
+                }
+            });
+
+            $(".option").click(calculateEquipmentCost);
+
+            $(".addon").click(function () {
+                //Secure path selection: BEGIN
+                if ($('fieldset.section-addon').hasClass('disabled')){
+                    ikwen.showFloatingNotice('Choose a pack first...', '', 2);
+                    $('.addon').prop('checked', false);
+                    $('.in-page-nav-link-pack').trigger('click');
+                    return
+                }
+                //Secure path selection: END
+                calculateAddonCost()
+            });
+
+
+            let addonTvCost = 0;
+
+            //Optional TV adding slider gesture
+
+            $("#optionalTvNumber").slider({
+                tooltip: 'always',
+                handle: 'square',
+                tooltip_position: 'bottom'
+            });
+            $("#OptionalTvEnabled").click(function() {
+                //Secure path selection: BEGIN
+                if ($('fieldset.section-addon').hasClass('disabled')){
+                    ikwen.showFloatingNotice('Choose a pack first...', '', 2);
+                    $('#OptionalTvEnabled').prop('checked', false);
+                    $('.in-page-nav-link-pack').trigger('click');
+                    return
+                }
+                //Secure path selection: END
+                if(this.checked) {
+                    $("#optionalTvNumber").slider("enable");
+                    $("#optionalTvNumber").slider("setValue", packageTarget+1);
+                    addonTvCost= (parseInt($("#optionalTvNumber").slider("getValue") * optionalTargetCost)) - (optionalTargetCost * packageTarget);
+                    $("#CurrentSliderPriceValLabel").text("  " + addonTvCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
+                    calculateAddonCost();
+                }
+                else {
+                    $("#optionalTvNumber").slider("refresh");
+                    addonTvCost= 0;
+                    $("#CurrentSliderPriceValLabel").text(optionalTargetCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF / TV supplémentaires / mois");
+                    $("#optionalTvNumber").slider("disable");
+                    calculateAddonCost();
+                }
+                if (parseInt($('#optionalTvNumber').slider('getValue')) > 1) $('input[name=optional_tv]').val($("#optionalTvNumber").slider("getValue"));
+                else $('input[name=optional_tv]').val('')
+
+            });
+            $("#optionalTvNumber").on("change", function(slideEvt) {
+                addonTvCost = (parseInt(slideEvt.value.newValue * optionalTargetCost)) - (optionalTargetCost * packageTarget);
+                $("#CurrentSliderPriceValLabel").text("  " + addonTvCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
+                $('input[name=optional_tv]').val(slideEvt.value.newValue - packageTarget);
+                calculateAddonCost();
+            });
+
+        })()
+    </script>
+{% endblock %}

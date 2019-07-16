@@ -1,12 +1,14 @@
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 
 
 class ProductAdmin(admin.ModelAdmin):
-    fields = ('name', 'summary', 'description', 'cta_label', 'install_cost', )
+    fields = ('name', 'summary', 'description', 'cta_label', 'install_cost',)
 
 
 class PackageAdmin(admin.ModelAdmin):
-    fields = ('product', 'name', 'description', 'cost',)
+    fields = ('product', 'type', 'name', 'target', 'optional_target_cost', 'description', 'cost', 'duration',
+              'duration_text')
 
 
 class EquipmentAdmin(admin.ModelAdmin):
@@ -16,3 +18,13 @@ class EquipmentAdmin(admin.ModelAdmin):
 class ExtraAdmin(admin.ModelAdmin):
     fields = ('product', 'name', 'cost',)
 
+
+class ConfigAdmin(admin.ModelAdmin):
+    list_display = ('company_name', 'short_description', 'contact_email', 'contact_phone')
+    fieldsets = (
+        (_('General'), {'fields': ('company_name', 'short_description', 'slogan', 'description', 'payment_delay')}),
+        (_('Address & Contact'), {'fields': ('contact_email', 'contact_phone', 'address', 'country', 'city')}),
+        (_('Social'), {'fields': ('facebook_link', 'twitter_link', 'google_plus_link', 'instagram_link',
+                                  'linkedin_link',)}),
+        (_('Mailing'), {'fields': ('welcome_message', 'signature',)}),
+    )

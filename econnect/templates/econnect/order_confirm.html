@@ -86,8 +86,8 @@
 
             <div class="clearfix"></div>
             <div class="text-center order action">
-                <a href="{% url 'econnect:maps' %}?next={{ request.path }}&order_id={{ order.id }}&lat={{ order.location_lat }}&lng={{ order.location_lng }}" class="btn btn-outline grey" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Change location" %}</a>
-                <a href="{{ product_url }}" class="btn btn-outline grey" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Change order" %}</a>
+                <a href="{% url 'econnect:maps' %}?next={{ request.path }}&order_id={{ order.id }}&lat={{ order.location_lat }}&lng={{ order.location_lng }}" class="btn btn-outline grey animated fadeIn" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Change location" %}</a>
+                <a href="{{ product_url }}" class="btn btn-outline grey animated fadeIn" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Change order" %}</a>
                 <button class="btn btn-outline-success animated infinite pulse order-confirm" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Confirm order" %}</button>
             </div>
         </div>

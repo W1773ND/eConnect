@@ -83,21 +83,34 @@
                 })
 
             });
-            $('.order-reject').click(function () {
+            $('.order-report').click(function () {
                 let orderId = $(this).parents('.event-action').data('order-id');
-                let params = {action: 'reject_order', order_id: orderId};
+                let params = {action: 'report_order', order_id: orderId};
                 $.getJSON('', params, function (data) {
                     if (data.success) {
-                        ikwen.showFloatingNotice('Order rejected', '', 3);
+                        ikwen.showFloatingNotice('Order reported', '', 3);
                     }
                     else {
-                        ikwen.showFloatingNotice('Error occurs when rejecting this order, please try again...', '', 3);
+                        ikwen.showFloatingNotice('Error occurs when reporting this order, please try again...', '', 3);
                     }
                 })
 
             });
-            $('.order-relaunch').click(function () {
-               {% comment %} let orderId = $(this).parents('.event-action').data('order-id');
+            $('.order-finish').click(function () {
+                let orderId = $(this).parents('.event-action').data('order-id');
+                let params = {action: 'finish_order', order_id: orderId};
+                $.getJSON('', params, function (data) {
+                    if (data.success) {
+                        ikwen.showFloatingNotice('Order classified', '', 3);
+                    }
+                    else {
+                        ikwen.showFloatingNotice('Error occurs when classifying this order, please try again...', '', 3);
+                    }
+                })
+
+            });
+            {% comment %}$('.order-relaunch').click(function () {
+                let orderId = $(this).parents('.event-action').data('order-id');
                 let params = {action: 'reject_order', order_id: orderId};
                 $.getJSON('', params, function (data) {
                     if (data.success) {
@@ -106,9 +119,9 @@
                     else {
                         ikwen.showFloatingNotice('Error occurs when rejecting this order, please try again...', '', 3);
                     }
-                }){% endcomment %}
+                })
 
-            })
+            }){% endcomment %}
         })();
     </script>
 

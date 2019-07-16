@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime, timedelta
+
 from django.core import mail
 from django.core.mail import EmailMessage
 
 __author__ = 'W1773ND (wilfriedwillend@gmail.com)'
 
-import json
 import os
+import time
+import json
 from threading import Thread
 
 from currencies.models import Currency
@@ -17,22 +20,22 @@ from django.db import transaction
 
 
 from django.core.urlresolvers import reverse
-from django.forms import ModelForm
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.template.defaultfilters import slugify
 from django.utils.translation import gettext as _
-from django.utils.http import urlquote
-from django_mongodb_engine.contrib import _compiler_for_queryset
 
 from ikwen.conf import settings as ikwen_settings
 from ikwen.conf.settings import WALLETS_DB_ALIAS
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.accesscontrol.models import Member
+from ikwen.core.models import Service
 from ikwen.core.views import HybridListView, ChangeObjectBase
 from ikwen.core.constants import PENDING, PENDING_FOR_PAYMENT, STARTED
-from ikwen.core.utils import get_model_admin_instance, get_service_instance, get_item_list, get_model, get_mail_content
-from ikwen.billing.models import Payment
+from ikwen.core.utils import get_model_admin_instance, get_service_instance, get_item_list, get_model, get_mail_content, \
+    XEmailMessage
+from ikwen.billing.models import Invoice, InvoiceItem, InvoiceEntry
+from ikwen.billing.utils import get_next_invoice_number
 
 from django.views.generic import TemplateView
 
@@ -42,8 +45,9 @@ from echo.admin import MailCampaignAdmin
 
 from econnect.admin import ProductAdmin, PackageAdmin, EquipmentAdmin, ExtraAdmin
 from econnect.forms import OrderForm
-from econnect.models import Order, CustomerRequest, Product, Package, Equipment, EquipmentOrderEntry, Extra, RENTAL, \
-    NUMERI, HOME, OFFICE, CORPORATE, OPTIONAL_TV_COST, PURCHASE, REJECTED
+from econnect.models import Subscription, Order, CustomerRequest, Product, Package, Equipment, EquipmentOrderEntry, \
+    Extra, RENTAL, \
+    NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, PURCHASE, REPORTED, FINISHED, ANALOG, DIGITAL
 
 
 class PostView(TemplateView):
@@ -65,6 +69,8 @@ class PostView(TemplateView):
             extra_id_list = request.POST.get('extra').strip(";").split(";")
             optional_tv = request.POST.get('optional_tv')
             product = get_object_or_404(Product, pk=product_id)
+            member = get_object_or_404(Member, pk=customer_id)
+            package = get_object_or_404(Package, pk=pack_id)
             order_cost = product.install_cost
             for equipment_entry in equipment_entry_list:
                 tokens = equipment_entry.split("|")
@@ -86,12 +92,10 @@ class PostView(TemplateView):
                     order_cost += extra.cost
             if optional_tv and optional_tv >= 2:
                 optional_tv = int(optional_tv)
-                optional_tv_cost = (optional_tv - 1) * OPTIONAL_TV_COST
+                optional_tv_cost = optional_tv * package.optional_target_cost
                 order_cost += optional_tv_cost
             else:
                 optional_tv = None
-            member = get_object_or_404(Member, pk=customer_id)
-            package = get_object_or_404(Package, pk=pack_id)
             order_cost += package.cost
             if order_id:
                 order = get_object_or_404(Order, pk=order_id)
@@ -145,14 +149,14 @@ class Maps(PostView):
         return context
 
 
-class AdminView(TemplateView):
+class Admin(TemplateView):
     template_name = 'econnect/admin/admin_home.html'
 
 
-class OrderList(HybridListView):
+class PendingOrderList(HybridListView):
     template_name = 'econnect/admin/order_list.html'
     html_results_template_name = 'econnect/admin/snippets/order_list_results.html'
-    model = Order
+    queryset = Order.objects.exclude(status__in=[Invoice.PAID, FINISHED])
     search_field = 'member'
     list_filter = ('created_on', 'status')
     context_object_name = 'order'
@@ -161,9 +165,9 @@ class OrderList(HybridListView):
         action = request.GET.get('action')
         if action == 'accept_order':
             return self.accept_order(request)
-        elif action == 'reject_order':
-            return self.reject_order(request)
-        return super(OrderList, self).get(request, *args, **kwargs)
+        elif action == 'report_order':
+            return self.report_order(request)
+        return super(PendingOrderList, self).get(request, *args, **kwargs)
 
     @staticmethod
     def accept_order(request):
@@ -171,6 +175,38 @@ class OrderList(HybridListView):
         order = get_object_or_404(Order, id=order_id)
         order.status = PENDING_FOR_PAYMENT
         order.save()
+        install_cost = order.package.product.install_cost
+        amount = order.cost - install_cost
+        member = order.member
+        config = get_service_instance().config
+        number = get_next_invoice_number()
+        product_name = order.package.product.name
+        package_name = order.package.name
+        label = product_name + ' [' + package_name + ']'
+        order_location = order.formatted_address
+
+        item1 = InvoiceItem(label='Installation', amount=install_cost)
+        entry1 = InvoiceEntry(item=item1, quantity=1, quantity_unit='', total=install_cost)
+        item2 = InvoiceItem(label=label, amount=amount)
+        entry2 = InvoiceEntry(item=item2, short_description='For ' + member.full_name, quantity=1, total=amount)
+
+        entries = [entry1, entry2]
+        due_date = datetime.now() + timedelta(days=config.payment_delay)
+        subscription = Subscription.objects.create(member=member, product=order.package, monthly_cost=amount,
+                                                   billing_cycle=Service.MONTHLY, details='', order=order)
+        invoice = Invoice.objects.create(subscription=subscription, member=member, number=number, amount=order.cost,
+                                         months_count=1, due_date=due_date.date(), is_one_off=True, entries=entries)
+        subject = _("Dear " + member.full_name + ", we are ready to come and install your service.")
+        invoice_url = 'http://creolink.com' + reverse('billing:invoice_detail', args=(invoice.id,))
+        html_content = get_mail_content(subject, template_name='econnect/mails/order_accepted.html',
+                                        extra_context={'invoice_url': invoice_url,
+                                                       'order_label': label,
+                                                       'order_location': order_location
+                                                       })
+        sender = 'Creolink Communications <no-reply@creolink.com>'
+        msg = XEmailMessage(subject, html_content, sender, [member.email])
+        msg.content_subtype = "html"
+        Thread(target=lambda m: m.send(), args=(msg,)).start()
         response = {"success": True}
         return HttpResponse(
             json.dumps(response),
@@ -178,10 +214,37 @@ class OrderList(HybridListView):
         )
 
     @staticmethod
-    def reject_order(request):
+    def report_order(request):
         order_id = request.GET['order_id']
         order = get_object_or_404(Order, id=order_id)
-        order.status = REJECTED
+        order.status = REPORTED
+        order.save()
+        response = {"success": True}
+        return HttpResponse(
+            json.dumps(response),
+            'content-type: text/json'
+        )
+
+
+class PaidOrderList(HybridListView):
+    template_name = 'econnect/admin/order_list.html'
+    html_results_template_name = 'econnect/admin/snippets/order_list_results.html'
+    queryset = Order.objects.filter(status=Invoice.PAID)
+    search_field = 'member'
+    list_filter = ('created_on', )
+    context_object_name = 'order'
+
+    def get(self, request, *args, **kwargs):
+        action = request.GET.get('action')
+        if action == 'finish_order':
+            return self.finish_order(request)
+        return super(PaidOrderList, self).get(request, *args, **kwargs)
+
+    @staticmethod
+    def finish_order(request):
+        order_id = request.GET['order_id']
+        order = get_object_or_404(Order, id=order_id)
+        order.status = FINISHED
         order.save()
         response = {"success": True}
         return HttpResponse(
@@ -205,10 +268,14 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
         product_list = []
-        for product in Product.objects.all():
+        for product in Product.objects.all().exclude(name=NUMERIHOTEL):
             product.url = reverse('econnect:' + product.slug)
             product_list.append(product)
+        product_numeri_hotel = Product.objects.get(name=NUMERIHOTEL)
+        # product_numeri_hotel.slug = slugify(product_numeri_hotel.name)
+        product_numeri_hotel.url = reverse('econnect:' + product_numeri_hotel.slug)
         context['product_list'] = product_list
+        context['product_numeri_hotel'] = product_numeri_hotel
         return context
 
 
@@ -255,13 +322,13 @@ class ChangeExtra(ChangeObjectBase):
     model_admin = ExtraAdmin
 
 
-class PricingNumerilinkView(PostView):
-    template_name = 'econnect/pricing_numerilink.html'
+class PricingNumerilink(PostView):
+    template_name = 'econnect/pricing_numerilink_home.html'
 
     def get_context_data(self, **kwargs):
-        context = super(PricingNumerilinkView, self).get_context_data(**kwargs)
+        context = super(PricingNumerilink, self).get_context_data(**kwargs)
         order_id = self.request.GET.get('order_id')
-        product = get_object_or_404(Product, name=NUMERI)
+        product = get_object_or_404(Product, name=NUMERIHOME)
         equipment_order_entry_list = []
         extra_id_list = []
         equipment_purchase_cost = 0
@@ -295,11 +362,59 @@ class PricingNumerilinkView(PostView):
         return context
 
 
-class PricingHomelinkView(PostView):
+class PricingNumerilinkHotel(PostView):
+    template_name = 'econnect/pricing_numerilink_hotel.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PricingNumerilinkHotel, self).get_context_data(**kwargs)
+        order_id = self.request.GET.get('order_id')
+        product = get_object_or_404(Product, name=NUMERIHOTEL)
+        package_analog_list = []
+        package_digital_list = []
+        equipment_order_entry_list = []
+        extra_id_list = []
+        equipment_purchase_cost = 0
+        for package_analog in product.package_set.filter(type=ANALOG):
+            package_analog_list.append(package_analog)
+        for package_digital in product.package_set.filter(type=DIGITAL):
+            package_digital_list.append(package_digital)
+        for equipment in product.equipment_set.all():
+            equipment_purchase_cost += equipment.purchase_cost
+            equipment.slug = slugify(equipment.name)
+            equipment.save()
+        for extra in product.extra_set.all():
+            extra.slug = slugify(extra.name)
+            extra.save()
+        if order_id:
+            order = get_object_or_404(Order, pk=order_id)
+            for equipment_order_entry in order.equipment_order_entry_list:
+                equipment_order_entry_id = equipment_order_entry.equipment_id
+                if equipment_order_entry.is_rent:
+                    equipment_order_entry_id += '|' + RENTAL
+                else:
+                    equipment_order_entry_id += '|' + PURCHASE
+                equipment_order_entry_list.append(equipment_order_entry_id)
+            equipment_order_entry = ';'.join(equipment_order_entry_list)
+            for extra in order.extra_list:
+                extra_id = extra.id
+                extra_id_list.append(extra_id)
+            extra = ';'.join(extra_id_list)
+            context['equipment_order_entry'] = equipment_order_entry
+            context['extra'] = extra
+            context['order'] = order
+        context['equipment_purchase_cost'] = equipment_purchase_cost
+        context['default_equipment_cost'] = product.install_cost + equipment_purchase_cost
+        context['product'] = product
+        context['package_analog_list'] = package_analog_list
+        context['package_digital_list'] = package_digital_list
+        return context
+
+
+class PricingHomelink(PostView):
     template_name = 'econnect/pricing_homelink.html'
 
     def get_context_data(self, **kwargs):
-        context = super(PricingHomelinkView, self).get_context_data(**kwargs)
+        context = super(PricingHomelink, self).get_context_data(**kwargs)
         product = get_object_or_404(Product, name=HOME)
         equipment_purchase_cost = 0
         for equipment in product.equipment_set.all():
@@ -315,11 +430,11 @@ class PricingHomelinkView(PostView):
         return context
 
 
-class PricingOfficelinkView(PostView):
+class PricingOfficelink(PostView):
     template_name = 'econnect/pricing_officelink.html'
 
     def get_context_data(self, **kwargs):
-        context = super(PricingOfficelinkView, self).get_context_data(**kwargs)
+        context = super(PricingOfficelink, self).get_context_data(**kwargs)
         product = get_object_or_404(Product, name=OFFICE)
         equipment_list = Equipment.objects.filter(product=product)
         equipment_purchase_cost = 0
@@ -337,11 +452,11 @@ class PricingOfficelinkView(PostView):
         return context
 
 
-class PricingCorporatelinkView(PostView):
+class PricingCorporatelink(PostView):
     template_name = 'econnect/pricing_corporatelink.html'
 
     def get_context_data(self, **kwargs):
-        context = super(PricingCorporatelinkView, self).get_context_data(**kwargs)
+        context = super(PricingCorporatelink, self).get_context_data(**kwargs)
         product = get_object_or_404(Product, name=CORPORATE)
         equipment_list = Equipment.objects.filter(product=product)
         equipment_purchase_cost = 0
@@ -359,24 +474,29 @@ class PricingCorporatelinkView(PostView):
         return context
 
 
-class OrderConfirmView(TemplateView):
+class OrderConfirm(TemplateView):
     template_name = 'econnect/order_confirm.html'
 
     def get_context_data(self, **kwargs):
-        context = super(OrderConfirmView, self).get_context_data(**kwargs)
+        context = super(OrderConfirm, self).get_context_data(**kwargs)
         order_id = self.request.GET.get('order_id')
         if order_id:
-            order = get_object_or_404(Order, pk=order_id)
-            product = order.package.product
-            context['order'] = order
-            context['product_url'] = reverse('econnect:' + product.slug) + '?order_id=' + order.id
+            while True:
+                try:
+                    order = Order.objects.get(pk=order_id)
+                    product = order.package.product
+                    context['order'] = order
+                    context['product_url'] = reverse('econnect:' + product.slug) + '?order_id=' + order.id
+                    break
+                except Order.DoesNotExist:
+                    time.sleep(0.5)
         return context
 
     def get(self, request, *args, **kwargs):
         action = request.GET.get('action')
         if action == 'confirm_order':
             return self.confirm_order(request, *args, **kwargs)
-        return super(OrderConfirmView, self).get(request, *args, **kwargs)
+        return super(OrderConfirm, self).get(request, *args, **kwargs)
 
     @staticmethod
     def confirm_order(request):

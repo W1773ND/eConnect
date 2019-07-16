@@ -1,79 +1,143 @@
 
 .btn-general-invoice, .btn-general-invoice-ready { width: 100% !important; }
 
-.in-page-nav-link { border-left: 2px solid #e5e8ed; color: rgba(3,27,78,.6); display: block; font-size: 20px; padding: 16px; }
-.in-page-nav-link.NumeriLink.is-active { border-left-color: #2ab732; color: #2ab732; }
-.in-page-nav-link.HomeLink.is-active { border-left-color: #ff9800; color: #ff9800; }
-.in-page-nav-link.OfficeLink.is-active { border-left-color: #cddc39; color: #cddc39; }
+.in-page-nav-link {border-left: 2px solid #e5e8ed;color: rgba(3,27,78,.6);display: block;/* font-size: 20px; */padding: 16px;}
+.in-page-nav-link.NumeriLink.is-active { border-left-color: #009b94; color: #009b94; }
+.in-page-nav-link.HomeLink.is-active { border-left-color: #df8568; color: #df8568; }
+.in-page-nav-link.OfficeLink.is-active { border-left-color: #9aa853; color: #9aa853; }
 .in-page-nav-link.CorporateLink.is-active { border-left-color: #29b6f6; color: #29b6f6; }
 .invoice-items-name { line-height: 3 }
 .invoice-items-title { font-weight: 700; line-height: 2; padding-bottom: 1vh; }
-.invoice-items-cost.NumeriLink { color: #2ab732; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
-.invoice-items-cost.HomeLink { color: #ff9800; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
-.invoice-items-cost.OfficeLink { color: #cddc39; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
+.invoice-items-cost.NumeriLink { color: #009b94; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
+.invoice-items-cost.HomeLink { color: #df8568; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
+.invoice-items-cost.OfficeLink { color: #9aa853; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
 .invoice-items-cost.CorporateLink { color: #29b6f6; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
 
-.panel-pricing-resume.NumeriLink {border-color: #2ab732; padding: 0vh 2vh 1vh 2vh !important;position: relative !important; width: 95%; }
-.panel-pricing-resume.HomeLink {border-color: #ff9800;padding: 0vh 2vh 1vh 2vh !important;position: relative !important;width: 95%;}
-.panel-pricing-resume.OfficeLink {border-color: #cddc39; padding: 0vh 2vh 1vh 2vh !important;position: relative !important; width: 95%; }
+.callout-item {display: none;}
+.container-fluid-custom { margin-left: 0 !important; margin-right: 0 !important;}
+
+.panel-pricing-resume.NumeriLink {border-color: #009b94;padding: 0vh 2vh 1vh 2vh !important;position: relative !important;width: 95%;}
+.panel-pricing-resume.HomeLink {border-color: #df8568;padding: 0vh 2vh 1vh 2vh !important;position: relative !important;width: 95%;}
+.panel-pricing-resume.OfficeLink {border-color: #9aa853; padding: 0vh 2vh 1vh 2vh !important;position: relative !important; width: 95%; }
 .panel-pricing-resume.CorporateLink {border-color: #29b6f6; padding: 0vh 2vh 1vh 2vh !important;position: relative !important; width: 95%; }
-.panel-custom-styling.NumeriLink:active { background-color: rgba(42, 183, 50, 0.12); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
+.panel-custom-styling.NumeriLink:active, .panel-pack-styling.NumeriLink:active { background-color: rgba(42, 183, 50, 0.12); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
 .panel-custom-styling.HomeLink:active { background-color: rgba(255, 152, 0, 0.26); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
 .panel-custom-styling.OfficeLink:active { background-color: rgba(114, 122, 32, 0.12); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
 .panel-custom-styling.CorporateLink:active { background-color: rgba(32, 97, 130, 0.12); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
-.panel-custom-styling:hover { box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); -webkit-box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); -moz-box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);  transition-duration: .3s; }
+.panel-custom-styling:hover, .panel-pack-styling:hover { box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); -webkit-box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); -moz-box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);  transition-duration: .3s; }
 
-.pricing-container { cursor: pointer; padding: 2px 16px; }
-.pricing-menu { display: block; position: sticky; position: -webkit-sticky; top: 10vh; }
-.pricing-title.NumeriLink { color: #2ab732; }
-.pricing-title.HomeLink { color: #ff9800; }
-.pricing-title.OfficeLink { color: #cddc39; }
+.pricing-container {cursor: pointer;padding: 2px 8px;}
+.pricing-menu {display: block;position: sticky;position: -webkit-sticky;top: 10vh;}
+.pricing-title.NumeriLink { color: #009b94; }
+.pricing-title.HomeLink { color: #df8568; }
+.pricing-title.OfficeLink { color: #9aa853; }
 .pricing-title.CorporateLink { color: #29b6f6; }
-.pricing-pack.NumeriLink { background: #2ab732; color: #ffffff; padding: .7vh 1vw; }
-.pricing-pack.HomeLink { background: #ff9800; color: #ffffff; padding: .7vh 1vw; }
-.pricing-pack.OfficeLink { background: #cddc39; color: #ffffff; padding: .7vh 1vw; }
+.pricing-pack.NumeriLink {background: #009b94;color: #ffffff;padding: .7vh 1vw;}
+.pricing-pack.HomeLink { background: #df8568; color: #ffffff; padding: .7vh 1vw; }
+.pricing-pack.OfficeLink { background: #9aa853; color: #ffffff; padding: .7vh 1vw; }
 .pricing-pack.CorporateLink { background: #29b6f6; color: #ffffff; padding: .7vh 1vw; }
-.pricing-resume { margin-top: 10vh; padding: 0 !important; position: sticky; position: -webkit-sticky; top: 10vh; }
-.pricing-resume-title.NumeriLink { background-color: #2ab732; color: #ffffff; margin: 0 -20px 3vh ; padding:1vh; }
-.pricing-resume-title.HomeLink {background-color: #ff9800;color: #ffffff;margin: 0 -25px 3vh;padding:1vh;}
-.pricing-resume-title.OfficeLink { background-color: #cddc39; color: #ffffff; margin: 0 -20px 3vh ; padding:1vh; }
+.pricing-pack.small {padding: .7vh .7vw;}
+.pricing-resume {/* margin-top: 10vh; */padding: 0 !important;position: sticky;position: -webkit-sticky;top: 10vh;}
+.pricing-resume-title.NumeriLink {background-color: #009b94;color: #ffffff;margin: 0 -50px 3vh;padding:1vh;}
+.pricing-resume-title.HomeLink {background-color: #df8568;color: #ffffff;margin: 0 -25px 3vh;padding:1vh;}
+.pricing-resume-title.OfficeLink { background-color: #9aa853; color: #ffffff; margin: 0 -20px 3vh ; padding:1vh; }
 .pricing-resume-title.CorporateLink { background-color: #29b6f6; color: #ffffff; margin: 0 -20px 3vh ; padding:1vh; }
-.pricing-value { font-weight: 700; margin: 2vh 0 3vh 0 }
+.pricing-value, .pricing-value-tpl { font-weight: 700; margin: 2vh 0 3vh 0 }
 
-.slider-handle { background-color: #2ab732; background-image: -webkit-linear-gradient(top,#00280f 0, #183625 100%);
+.slider-handle { background-color: #009b94; background-image: -webkit-linear-gradient(top,#00280f 0, #183625 100%);
                 background-image: -o-linear-gradient(top,#00280f 0, #183625 100%);
                 background-image: linear-gradient(to bottom,#00280f 0,#183625 100%); }
-.slider-selection { background-image: linear-gradient(to bottom,#2ab732 0,#318131 100%); }
+.slider-selection { background-image: linear-gradient(to bottom,#009b94 0,#318131 100%); }
 
-.canalP { background-color: #000000; color: #ffffff; letter-spacing: 3px; padding: .5vh; }
-.cost.NumeriLink { background-color: #2ab732; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
-.cost.HomeLink { background-color: #ff9800; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
-.cost.OfficeLink { background-color: #cddc39; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
+
+.section-banniere { background: url(../img/econnect-banniere-top.jpg) center center no-repeat;
+					-webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;
+					background-size: cover; color: white; height: 251px; margin-top: 5vh; }
+.section-banniere-top {
+					background: url(../img/econnect-banniere-top.jpg) center center;
+					-webkit-background-size: cover;
+					-moz-background-size: cover;
+					-o-background-size: cover;
+					background-size: cover;
+					box-shadow:inset 0 0 0 2000px rgba(18, 43, 44, 0.67);
+					color: white;
+					height: 300px;
+					margin-top: 6.5vh !important;
+					}
+.section-features-text { padding-top: 10vh; }
+
+
+.pack-detail.NumeriLink { color: #828282; border-top: #00cec7 1px solid; padding-top: 1vh  }
+.pack-detail.HomeLink { color: #828282; border-top: #f5966d 1px solid; padding-top: 1vh  }
+.pack-detail.OfficeLink { color: #828282; border-top: #c9d755 1px solid; padding-top: 1vh  }
+.pack-detail.CorporateLink { color: #828282; border-top: #29bcff 1px solid; padding-top: 1vh  }
+
+.canalP {background-color: #000000;color: #ffffff;letter-spacing: 3px;padding: .5vh;}
+.cost.NumeriLink { background-color: #009b94; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
+.cost.HomeLink { background-color: #df8568; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
+.cost.OfficeLink { background-color: #9aa853; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
 .cost.CorporateLink { background-color: #29b6f6; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
 .addon-item { margin-bottom: 2vh; }
-.tooltip .tooltip-arrow { border-bottom-color: #2ab732 !important; }
-.tooltip-inner { background-color: #2ab732; }
+.tooltip .tooltip-arrow { border-bottom-color: #009b94 !important; }
+.tooltip-inner { background-color: #009b94; }
 
 
 
 
 /* Media query */
 
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
+/* All device except Lg */
+@media only screen and (min-width: 320px) and (max-width:480px)  {
 
     a:hover, a:focus { color: rgba(3,27,78,.6); }
 
+    #accordion-pack { position: inherit !important; }
+    #sectionEquipment {padding-top: 0 !important;min-height: 20vh !important;}
+    #sectionEquipment.equipment-hotel {padding-top: 50vh !important;min-height: 20vh !important;}
+    #sectionAddOn {padding-top: 0 !important;min-height: 20vh !important;}
+
+    .addon-item {/* margin-bottom: 0 */}
+    .digital-pack.equipment-hotel {padding-top: 55vh !important;}
     .in-page-nav-link { border-bottom: 2px solid #183625 ;border-left: none; }
-    .in-page-nav-link.is-active { border-bottom-color: #ffffff; color: #ffffff; }
-    .scroll-menu.NumeriLink { background: #2ab732; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
-    .scroll-menu.HomeLink { background: #ff9800; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
-    .scroll-menu.OfficeLink { background: #cddc39; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
+    .in-page-nav-link.is-active { border-bottom-color: #ffffff; color: #ffffff !important; }
+
+    .pricing-menu {/* height: 60px; */padding: 0.5vh;position: sticky;position: -webkit-sticky;top: 8vh;z-index: 1071;}
+    .panel-pricing-resume.NumeriLink {width: 92%;margin: auto;}
+    .pricing-resume {margin-top: 10vh !important;padding: inherit !important;/* position: inherit; */top: 20vh;}
+    .pricing-area { margin-top: 0 !important;}
+    .pricing-items {/* margin-top: 15vh; */}
+
+    .scroll-menu.NumeriLink {background: #009b94;webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);-moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);overflow: auto;white-space: nowrap;}
+    .scroll-menu.HomeLink { background: #df8568; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
+    .scroll-menu.OfficeLink { background: #9aa853; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
     .scroll-menu.CorporateLink { background: #29b6f6; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
     .scroll-menu a{ display: inline-block !important; margin: auto 3vw; padding: 2vw !important; text-align: center !important; }
-    .pricing-menu { display: block; padding: 1vh; position: sticky; position: -webkit-sticky; top: 7.8vh; z-index: 1071; }
-    .panel-pricing-resume {border-color: #ecf0f1; padding: 0vh 2vh 1vh 2vh !important;position: inherit !important; width: 100%; }
-    .pricing-resume { margin-top: 0 !important; padding: inherit !important; position: inherit; }
-    .pricing-area { margin-top: 0 !important;}
 
+    .text-header { padding-top: 6vh !important;}
+}
+@media only screen and (min-width: 481px) and (max-width:1199px)  {
+
+    a:hover, a:focus { color: rgba(3,27,78,.6); }
+
+    #accordion-pack { position: inherit !important; }
+    #sectionEquipment {padding-top: 15vh !important;min-height: 20vh !important;}
+    #sectionAddOn {padding-top: 0 !important;min-height: 20vh !important;}
+
+    .addon-item {/* margin-bottom: 0 */}
+    .in-page-nav-link { border-bottom: 2px solid #183625 ;border-left: none; }
+    .in-page-nav-link.is-active { border-bottom-color: #ffffff; color: #ffffff !important; }
+
+    .pricing-menu {/* height: 90px; */padding: 0.5vh;position: sticky;position: -webkit-sticky;top: 7.5vh;z-index: 1071;}
+    .panel-pricing-resume.NumeriLink {width: 92%;margin: auto;}
+    .pricing-resume {margin-top: 10vh !important;padding: inherit !important;/* position: inherit; */top: 20vh;}
+    .pricing-area { margin-top: 0 !important;}
+    .pricing-items {/* margin-top: 15vh; */}
+
+    .scroll-menu.NumeriLink {background: #009b94;webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);-moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);overflow: auto;white-space: nowrap;}
+    .scroll-menu.HomeLink { background: #df8568; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
+    .scroll-menu.OfficeLink { background: #9aa853; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
+    .scroll-menu.CorporateLink { background: #29b6f6; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
+    .scroll-menu a{display: inline-block !important;margin: 0.5vh 2vw 1vh;padding: 2vh 0 0.5vh !important;/* text-align: center !important; */}
+
+    .text-header { padding-top: 6vh !important;}
 }
