@@ -47,7 +47,7 @@
                                 </div>
                                 {% block header_brand %}
                                     <a class="navbar-brand navbar-brand-screen img-default hidden-xs" href="{{ service.url }}">
-                                        <img class="" src="{% static "econnect/img/creolink_logo_white.png" %}">
+                                        <img src="{% static "econnect/img/creolink_logo.png" %}">
                                     </a>
                                     <a class="navbar-brand navbar-brand-screen img-active tpl hidden-xs" href="{{ service.url }}">
                                         <img class="" src="{% static "econnect/img/creolink_logo.png" %}">
@@ -202,8 +202,8 @@
                             <ul style="font-size: 1.2vw; line-height: 1.7; list-style-type: none; padding-left: 0">
 {#                                <li><a style="color: #d2d1d1;" href="{% url 'econnect:home' %}">{% trans 'Home' %}</a></li>#}
                                 <li><a style="color: #d2d1d1;" href="{% url 'blog:home' %}" target="_blank">Blog</a></li>
-                                <li><a style="color: #d2d1d1;" href="http://www.creolink.cm/about" target="_blank">{% trans 'About Us' %}</a></li>
-                                <li><a style="color: #d2d1d1;" href="{% url 'ikwen:sign_in' %}" target="_blank">{% trans 'Sign In' %}</a></li>
+                                <li><a style="color: #d2d1d1;" href="http://www.creolink.com/about" target="_blank">{% trans 'About Us' %}</a></li>
+                                <li><a style="color: #d2d1d1;" href="http://www.creolink.com/" target="_blank">{% trans 'Sign In' %}</a></li>
         {#                        <li><a style="color: #d2d1d1;" href="#" target="_blank">{% trans 'Downloads' %}</a></li>#}
                             </ul>
                         </div>

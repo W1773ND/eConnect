@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block page_title %}
-    <title> {{ service.project_name }} - Numeri | Link Home</title>
+    <title> {{ service.project_name }} - {{ product.name }}</title>
 {% endblock %}
 
 {% block head_style %}
@@ -95,18 +95,17 @@
                                   <h5 class="pricing-title {{ product.name }}">{{ product.name|slice:":10" }}&nbsp;<span class="pricing-pack small {{ product.name }}">{{ package.name }}</span></h5>
                                 </a>
                             </div>
-                            <div id="{{ package.id }}" class="collapse" role="tabpanel" aria-labelledby="heading{{ package.id }}">
-                                <div class="pack-detail {{ product.name }} text-center">
-                                    <p class="pricing-content mobile-adjust text-center" style="">{{ package.description|safe }}</p>
-                                    <h4 class="pricing-value text-center">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
-                                </div>
-                            </div>
                             <div class="callout-item">
                                 <div class="pack-detail {{ product.name }} text-center">
                                     <a data-toggle="collapse" data-parent="#accordion-pack" href="#{{ package.id }}" style="color: inherit">
                                         <p class="pricing-content mobile-adjust text-center" style="">{{ package.description|safe }}</p>
-                                        <h4 class="pricing-value-tpl text-center">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
+                                        <h4 class="pricing-value text-center">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
                                     </a>
+                                </div>
+                            </div>
+                            <div id="{{ package.id }}" class="collapse" role="tabpanel" aria-labelledby="heading{{ package.id }}">
+                                <div class="pack-detail {{ product.name }} text-center">
+                                    <h4 class="pricing-value text-center">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
                                 </div>
                             </div>
                         </div>
@@ -697,13 +696,19 @@
                 }
             }
 
-
             $('.pricing-container').hover(function () {
-                if ($(this).find('.panel-title').hasClass('collapsed')) {
+                if ($(this).find('.collapse').hasClass('in')) {
+                    $('.callout-item').find('.pricing-value').css('display', 'none');
                     $(this).find('.callout-item').slideDown(250);
                 }
+                else {
+                    $('.callout-item').find('.pricing-value').css('display', 'block');
+                    $(this).find('.callout-item').slideDown(250);
+                }
+
             }, function () {
                 $(this).find('.callout-item').slideUp(250);
+                $('.callout-item').find('.pricing-value').css('display', 'block')
 
             }).click(function () {
                 $('fieldset.section-addon').removeClass('disabled');
@@ -728,7 +733,7 @@
                     $('.bouquet-cost').text(bouquetCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
                     $('.invoice-item-tv').find('.invoice-items-name').css('display', 'inline');
                     $('.invoice-item-tv').find('.pricing-pack').css('display', 'inline').text($(this).find('.pricing-pack').text());
-                    $('.invoice-item-tv').find('.invoice-items-cost').text($(this).find('.pricing-value').text() + "/mois");
+                    $('.invoice-item-tv').find('.invoice-items-cost').text($('label.bouquet-cost').text());
                     calculateInvoiceCost();
                     $('.in-page-nav-link-equipment').click()
                 }

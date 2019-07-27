@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block page_title %}
-    <title> {{ service.project_name }} - Numeri | Link Hotel</title>
+    <title> {{ service.project_name }} - {{ product.name }}</title>
 {% endblock %}
 
 {% block head_style %}
@@ -96,18 +96,17 @@
                                   <h5 class="pricing-title {{ product.name }}">{{ product.name|slice:":10" }}&nbsp;<span class="pricing-pack small {{ product.name }}">{{ package.name }}</span></h5>
                                 </a>
                             </div>
-                            <div id="{{ package.id }}" class="pricing-pack-collapse collapse" role="tabpanel" aria-labelledby="heading{{ package.id }}">
-                                <div class="pack-detail {{ product.name }} text-center">
-                                    <p class="pricing-content mobile-adjust" style="font-size: 11px">{{ package.description|safe }}</p>
-                                    <h4 class="pricing-value text-center">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
-                                </div>
-                            </div>
                             <div class="callout-item">
                                 <div class="pack-detail {{ product.name }} text-center">
                                     <a data-toggle="collapse" data-parent="#accordion-analog-pack" href="#{{ package.id }}" style="color: inherit">
                                         <p class="pricing-content mobile-adjust" style="font-size: 11px">{{ package.description|safe }}</p>
-                                        <h4 class="pricing-value-tpl text-center">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
+                                        <h4 class="pricing-value text-center">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
                                     </a>
+                                </div>
+                            </div>
+                            <div id="{{ package.id }}" class="pricing-pack-collapse collapse" role="tabpanel" aria-labelledby="heading{{ package.id }}">
+                                <div class="pack-detail {{ product.name }} text-center">
+                                    <h4 class="pricing-value text-center">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
                                 </div>
                             </div>
                         </div>
@@ -126,18 +125,17 @@
                                   <h5 class="pricing-title {{ product.name }}">{{ product.name|slice:":10" }}&nbsp;<span class="pricing-pack small {{ product.name }}">{{ package.name }}</span></h5>
                                 </a>
                             </div>
-                            <div id="{{ package.id }}" class="pricing-pack-collapse collapse" role="tabpanel" aria-labelledby="heading{{ package.id }}">
-                                <div class="pack-detail {{ product.name }} text-center">
-                                    <p class="pricing-content mobile-adjust" style="font-size: 11px">{{ package.description|safe }}</p>
-                                    <h4 class="pricing-value text-center">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
-                                </div>
-                            </div>
                             <div class="callout-item">
                                 <div class="pack-detail {{ product.name }} text-center">
                                     <a data-toggle="collapse" data-parent="#accordion-digital-pack" href="#{{ package.id }}" style="color: inherit">
                                         <p class="pricing-content mobile-adjust" style="font-size: 11px">{{ package.description|safe }}</p>
-                                        <h4 class="pricing-value-tpl text-center">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
+                                        <h4 class="pricing-value text-center">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
                                     </a>
+                                </div>
+                            </div>
+                            <div id="{{ package.id }}" class="pricing-pack-collapse collapse" role="tabpanel" aria-labelledby="heading{{ package.id }}">
+                                <div class="pack-detail {{ product.name }} text-center">
+                                    <h4 class="pricing-value text-center">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
                                 </div>
                             </div>
                         </div>
@@ -685,7 +683,7 @@
                     }
                     $('.invoice-item-equipments').find('.invoice-items-cost').css('display', 'inline');
                     calculateInvoiceCost();
-                    $('.in-page-nav-link-addon').click()
+                    {#$('.in-page-nav-link-addon').click()#}
                 }
 
             }
@@ -722,16 +720,23 @@
                 }
             }
 
-
             $('.pricing-container.analog').hover(function () {
-                if ($(this).find('.panel-title').hasClass('collapsed')) {
+                if ($(this).find('.collapse').hasClass('in')) {
+                    $('.callout-item').find('.pricing-value').css('display', 'none');
                     $(this).find('.callout-item').slideDown(250);
                 }
+                else {
+                    $('.callout-item').find('.pricing-value').css('display', 'block');
+                    $(this).find('.callout-item').slideDown(250);
+                }
+
             }, function () {
                 $(this).find('.callout-item').slideUp(250);
+                $('.callout-item').find('.pricing-value').css('display', 'block')
 
             }).click(function () {
                 $('#accordion-digital-pack').find('.pricing-pack-collapse.in').collapse('hide');
+                $('.invoice-item-tv').find('.invoice-items-title').text('{% trans "Analogical pack" %}');
                 $('.analog-pack').find('.bouquet-cost').css('display', 'inline-block');
                 $('.digital-pack').find('.bouquet-cost').css('display', 'none');
                 $('fieldset.section-addon').removeClass('disabled');
@@ -756,22 +761,29 @@
                     $('.bouquet-cost').text(bouquetCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
                     $('.invoice-item-tv').find('.invoice-items-name').css('display', 'inline');
                     $('.invoice-item-tv').find('.pricing-pack').css('display', 'inline').text($(this).find('.pricing-pack').text());
-                    $('.invoice-item-tv').find('.invoice-items-cost').text($(this).find('.pricing-value').text() + "/mois");
+                    $('.invoice-item-tv').find('.invoice-items-cost').text($('label.bouquet-cost').first().text());
                     calculateInvoiceCost();
                     $('.in-page-nav-link-equipment').click()
                 }
             });
 
-
             $('.pricing-container.digital').hover(function () {
-                if ($(this).find('.panel-title').hasClass('collapsed')) {
+                if ($(this).find('.collapse').hasClass('in')) {
+                    $('.callout-item').find('.pricing-value').css('display', 'none');
                     $(this).find('.callout-item').slideDown(250);
                 }
+                else {
+                    $('.callout-item').find('.pricing-value').css('display', 'block');
+                    $(this).find('.callout-item').slideDown(250);
+                }
+
             }, function () {
                 $(this).find('.callout-item').slideUp(250);
+                $('.callout-item').find('.pricing-value').css('display', 'block')
 
             }).click(function () {
                 $('#accordion-analog-pack').find('.pricing-pack-collapse.in').collapse('hide');
+                $('.invoice-item-tv').find('.invoice-items-title').text('{% trans "Digital pack" %}');
                 $('.digital-pack').find('.bouquet-cost').css('display', 'inline-block');
                 $('.analog-pack').find('.bouquet-cost').css('display', 'none');
                 $('fieldset.section-addon').removeClass('disabled');
@@ -796,7 +808,7 @@
                     $('.bouquet-cost').text(bouquetCost.formatMoney(0, '{{ settings.THOUSAND_SEPARATOR }}', '{{ settings.DECIMAL_SEPARATOR }}') + " XAF/mois");
                     $('.invoice-item-tv').find('.invoice-items-name').css('display', 'inline');
                     $('.invoice-item-tv').find('.pricing-pack').css('display', 'inline').text($(this).find('.pricing-pack').text());
-                    $('.invoice-item-tv').find('.invoice-items-cost').text($(this).find('.pricing-value').text() + "/mois");
+                    $('.invoice-item-tv').find('.invoice-items-cost').text($('label.bouquet-cost').first().text());
                     calculateInvoiceCost();
                     $('.in-page-nav-link-equipment').click()
                 }
@@ -807,7 +819,7 @@
             $(".addon").click(function () {
                 //Secure path selection: BEGIN
                 if ($('fieldset.section-addon').hasClass('disabled')){
-                    ikwen.showFloatingNotice('Choose a pack first...', '', 2);
+                    ikwen.showFloatingNotice("{% trans 'Choose a pack first...' %}", '', 2);
                     $('.addon').prop('checked', false);
                     $('.in-page-nav-link-pack').trigger('click');
                     return
@@ -829,7 +841,7 @@
             $("#OptionalTvEnabled").click(function() {
                 //Secure path selection: BEGIN
                 if ($('fieldset.section-addon').hasClass('disabled')){
-                    ikwen.showFloatingNotice('Choose a pack first...', '', 2);
+                    ikwen.showFloatingNotice("{% trans 'Choose a pack first...' %}", '', 2);
                     $('#OptionalTvEnabled').prop('checked', false);
                     $('.in-page-nav-link-pack').trigger('click');
                     return

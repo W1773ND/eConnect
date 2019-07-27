@@ -171,7 +171,7 @@
                 autoCenter();
                 marker.addListener('click', function() {
                     map.setZoom(15);
-                    ikwen.showFloatingNotice('Redirection to the order admin page...', '', 3);
+                    ikwen.showFloatingNotice("{% trans 'Redirection to the order admin page...' %}", '', 3);
                     setTimeout(redirect, 2000);
                 });
                 map.setCenter(pos);
@@ -374,7 +374,7 @@
             var savedFormattedAddress = $('input[name=formatted_address]').val();
             localStorage.setItem('Location', JSON.stringify(savedLocation));
             localStorage.setItem('FormattedAddress', savedFormattedAddress);
-            ikwen.showFloatingNotice('Location saved successfully!', '', 3);
+            ikwen.showFloatingNotice("{% trans 'Location saved successfully!'%}", '', 3);
             setTimeout(redirect, 2000);
 
         });
@@ -388,7 +388,7 @@
             var updatedFormattedAddress = $('input[name=formatted_address]').val();
             localStorage.setItem('Location', JSON.stringify(updatedLocation));
             localStorage.setItem('FormattedAddress', updatedFormattedAddress);
-            ikwen.showFloatingNotice('Location updated successfully!', '', 3);
+            ikwen.showFloatingNotice("{% trans 'Location updated successfully!'%}", '', 3);
             $('#order').submit();
             setTimeout(redirect, 2000);
 

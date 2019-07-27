@@ -14,8 +14,6 @@ section {margin: 5vh 0;}
 #navbar.active { background: #ffffff !important; }
 #navbar-search.active input { background: lightgray; color: dimgrey; }
 
-a {color: green;}
-a:hover, a:focus { color: #28a745; }
 
 .anchor { font-size: 4vw; padding-top: 6vh; }
 

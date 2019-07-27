@@ -1,0 +1,96 @@
+{% extends 'base_black.html' %}
+{% load staticfiles auth_tokens %}{% block head_style %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/homepage.css' %}">
+    <link href="{% static 'econnect/css/blog.css' %}?version=1.0" rel="stylesheet">
+
+{% endblock %}
+{% block content %}
+    {% block page_header %}
+    {% endblock %}
+    <section id="blog" class="container blog">
+        <div class="row blog-content">
+            <div  class="col-md-8" style="">
+            {% block blog_content %}
+            {% endblock %}
+            </div>
+            <aside class="col-md-4">
+                <div class="widget search">
+                    <form role="form" action="{% url 'blog:search'   %}" method="get" autocomplete="off">
+                        <input type="text"  name="radix" class="form-control search_box" autocomplete="off" placeholder="Search blog">
+                    </form>
+                </div><!--/.search-->
+                {% if suggestions %}
+                <div class="widget categories">
+                    <h3>Post suggestions</h3>
+                    <div class="row" style="">
+                        <div class="col-sm-12">
+                            {% for suggestion in suggestions %}
+                            <div class="single_comments col-lg-12">
+                                <a href="{% url 'blog:details' suggestion.slug %}"  style="color: #0f0f0f">
+                                    {% if suggestion.image.name %}
+                                        <img src="{{ suggestion.image.url }}" width="100" alt=""  />
+                                    {% endif %}
+                                    <p>{{ suggestion.title }} </p>
+                                </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div><!--/.recent comments-->
+                {% endif %}
+
+
+                <div class="widget categories">
+                    <h3>Categories</h3>
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <ul class="blog_category">
+                                {% for category in categories %}
+                                    {% if  category.slug %}
+                                        <li><a href="{% url 'blog:post_per_category' category.slug %}">{{ category.name }}<span class="badge badge-success">{{ category.post_count }}</span></a></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div><!--/.categories-->
+                {% if recent_posts %}
+                <div class="widget categories">
+                    <h3>Most consulted</h3>
+                    <div class="row">
+                        {% for suggestion in recent_posts %}
+                        <div class="single_comments  col-lg-12">
+                            <a href="{% url 'blog:details' suggestion.slug %}" style="color: #0f0f0f">
+                                {% if suggestion.image.name %}
+                                    <img src="{{ suggestion.image.url }}" width="100" alt=""  />
+                                {% endif %}
+                                <p>{{ suggestion.title }} </p>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </aside>
+        </div>
+    </section>
+        <!-- /#page-content-wrapper -->
+{% endblock %}
+
+    <!-- jQuery -->
+{#    <script src="{% static 'js/jquery-1.12.4.min.js' %}"></script>#}
+
+    <!-- Bootstrap Core JavaScript -->
+{#    <script src="{% static 'js/bootstrap.min.js' %}"></script>#}
+
+    {% block js %}
+        {{ block.super }}
+        <script type="text/javascript">
+        (function() {
+            {#$('form#search input.input-sm').attr('placeholder', 'Search ikwen')#}
+             $('ul.navbar-nav li').removeClass('active')
+            $('ul.navbar-nav li.module_blog').addClass('active')
+        })()
+    </script>
+    {% endblock %}

@@ -7,8 +7,8 @@
 html {height: 100%; padding-bottom: 1px} /* Forces right side scrollbar */
 h1, h2, h3, h4, h5, h6, p, ul {margin: 0; padding: 0}
 /*input, select, button {font-family: arial, sans-serif}*/
-a {color: #333}
-a:hover, a:focus {color: #333}
+a {color: green; text-decoration: none !important;}
+a:hover, a:focus { color: #28a745; }
 a.button {text-decoration: none}
 /*span {float: left}*/
 .close {cursor: pointer; padding: 5px 5px 0 0; text-align: right}
@@ -189,7 +189,7 @@ form em {color: #eb0f00; display: none}
 .blog_category li a {
   background-color: transparent;
   background-image: none;
-  border: 1px solid #28a745 ;
+  border: 1px solid #28a745;
   border-radius: 4px;
   color: #28a745;
   display: inline-block;
@@ -247,18 +247,18 @@ form em {color: #eb0f00; display: none}
 /*  font-weight: normal;*/
 /*}*/
 
-.blog_archieve {
+.blog_archive {
   list-style: none outside none;
   margin: 0;
   padding: 0;
 }
 
-.blog_archieve li {
+.blog_archive li {
   padding: 10px 0;
   border-bottom: 1px solid #f5f5f5;
 }
 
-.blog_archieve li:first-child {
+.blog_archive li:first-child {
   padding-top: 0;
 }
 

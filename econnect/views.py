@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, timedelta
 
+import requests
+import urlparse
 from django.core import mail
 from django.core.mail import EmailMessage
 
@@ -47,7 +49,7 @@ from econnect.admin import ProductAdmin, PackageAdmin, EquipmentAdmin, ExtraAdmi
 from econnect.forms import OrderForm
 from econnect.models import Subscription, Order, CustomerRequest, Product, Package, Equipment, EquipmentOrderEntry, \
     Extra, RENTAL, \
-    NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, PURCHASE, REPORTED, FINISHED, ANALOG, DIGITAL
+    NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, PURCHASE, REPORTED, FINISHED, ANALOG, DIGITAL, DEVICE_ID
 
 
 class PostView(TemplateView):
@@ -149,8 +151,82 @@ class Maps(PostView):
         return context
 
 
-class Admin(TemplateView):
-    template_name = 'econnect/admin/admin_home.html'
+class OrderConfirm(TemplateView):
+    template_name = 'econnect/order_confirm.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderConfirm, self).get_context_data(**kwargs)
+        order_id = self.request.GET.get('order_id')
+        if order_id:
+            while True:
+                try:
+                    order = Order.objects.get(pk=order_id)
+                    product = order.package.product
+                    context['order'] = order
+                    context['product_url'] = reverse('econnect:' + product.slug) + '?order_id=' + order.id
+                    break
+                except Order.DoesNotExist:
+                    time.sleep(0.5)
+        return context
+
+    def get(self, request, *args, **kwargs):
+        action = request.GET.get('action')
+        if action == 'confirm_order':
+            return self.confirm_order(request, *args, **kwargs)
+        return super(OrderConfirm, self).get(request, *args, **kwargs)
+
+    @staticmethod
+    def confirm_order(request):
+        order_id = request.GET['order_id']
+        order = get_object_or_404(Order, id=order_id)
+        order.status = PENDING
+        order.save()
+        member = order.member
+        lat = order.location_lat
+        lng = order.location_lng
+
+        if getattr(settings, 'DEBUG', False):
+            prospect_url = getattr(settings, "LOCAL_MAPS_URL") + 'save_prospect'
+            payload = {
+                'customer_name': member,
+                'lat': lat,
+                'lng': lng,
+                'order_id': order_id
+            }
+
+            def set_prospect(url):
+                resp = requests.get(url, params=payload)
+                order.maps_url = resp.text
+                parsed_query = urlparse.urlparse(resp.text).query
+                query = urlparse.parse_qs(parsed_query)
+                device_id = query[DEVICE_ID][0]
+                order.maps_id = device_id
+                order.save()
+            Thread(target=set_prospect, args=(prospect_url,)).start()
+        else:
+            prospect_url = getattr(settings, "CREOLINK_MAPS_URL") + 'save_prospect'
+            payload = {
+                'customer_name': member,
+                'lat': lat,
+                'lng': lng,
+                'order_id': order_id
+            }
+
+            def set_prospect(url):
+                resp = requests.get(url, params=payload)
+                order.maps_url = resp.text
+                parsed_query = urlparse.urlparse(resp.text).query
+                query = urlparse.parse_qs(parsed_query)
+                device_id = query['device_id'][0]
+                order.maps_id = device_id
+                order.save()
+            Thread(target=set_prospect, args=(prospect_url,)).start()
+
+        response = {"success": True}
+        return HttpResponse(
+            json.dumps(response),
+            'content-type: text/json'
+        )
 
 
 class PendingOrderList(HybridListView):
@@ -207,6 +283,26 @@ class PendingOrderList(HybridListView):
         msg = XEmailMessage(subject, html_content, sender, [member.email])
         msg.content_subtype = "html"
         Thread(target=lambda m: m.send(), args=(msg,)).start()
+
+        if getattr(settings, 'DEBUG', False):
+            customer_url = getattr(settings, "LOCAL_MAPS_URL") + 'update_prospect'
+            payload = {'device_id': order.maps_id}
+
+            # def set_client(url):
+            #     requests.get(url, params=payload)
+            # Thread(target=set_client, args=(customer_url,)).start()
+            Thread(target=lambda set_client: requests.get, args=(customer_url, payload)).start()
+
+        else:
+            customer_url = getattr(settings, "CREOLINK_MAPS_URL") + 'update_prospect'
+            payload = {'device_id': order.maps_id}
+
+            # def set_client(url):
+            #     requests.get(url, params=payload)
+            # Thread(target=set_client, args=(customer_url,)).start()
+
+            Thread(target=lambda set_client: requests.get, args=(customer_url, payload)).start()
+
         response = {"success": True}
         return HttpResponse(
             json.dumps(response),
@@ -251,6 +347,10 @@ class PaidOrderList(HybridListView):
             json.dumps(response),
             'content-type: text/json'
         )
+
+
+class Admin(TemplateView):
+    template_name = 'econnect/admin/admin_home.html'
 
 
 class CustomerRequestList(HybridListView):
@@ -472,43 +572,6 @@ class PricingCorporatelink(PostView):
         context['equipment_list'] = equipment_list
         context['product'] = product
         return context
-
-
-class OrderConfirm(TemplateView):
-    template_name = 'econnect/order_confirm.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(OrderConfirm, self).get_context_data(**kwargs)
-        order_id = self.request.GET.get('order_id')
-        if order_id:
-            while True:
-                try:
-                    order = Order.objects.get(pk=order_id)
-                    product = order.package.product
-                    context['order'] = order
-                    context['product_url'] = reverse('econnect:' + product.slug) + '?order_id=' + order.id
-                    break
-                except Order.DoesNotExist:
-                    time.sleep(0.5)
-        return context
-
-    def get(self, request, *args, **kwargs):
-        action = request.GET.get('action')
-        if action == 'confirm_order':
-            return self.confirm_order(request, *args, **kwargs)
-        return super(OrderConfirm, self).get(request, *args, **kwargs)
-
-    @staticmethod
-    def confirm_order(request):
-        order_id = request.GET['order_id']
-        order = get_object_or_404(Order, id=order_id)
-        order.status = PENDING
-        order.save()
-        response = {"success": True}
-        return HttpResponse(
-            json.dumps(response),
-            'content-type: text/json'
-        )
 
 
 class ChangeMailCampaign(CampaignBaseView, ChangeObjectBase):

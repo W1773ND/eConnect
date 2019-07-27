@@ -17,6 +17,7 @@ RENTAL = "rental"
 PURCHASE = "purchase"
 REPORTED = "Reported"
 FINISHED = "Finished"
+DEVICE_ID = "device_id"
 
 ANALOG = 'Analog'
 DIGITAL = 'Digital'
@@ -124,6 +125,8 @@ class Order(Model):
     extra_list = ListField(EmbeddedModelField('Extra'), editable=False, blank=True, null=True)
     location_lat = models.FloatField(default=0.0)
     location_lng = models.FloatField(default=0.0)
+    maps_url = models.URLField(blank=True, null=True)
+    maps_id = models.CharField(max_length=20, blank=True, null=True)
     formatted_address = models.CharField(max_length=250)
     cost = models.IntegerField(default=0)
     status = models.CharField(max_length=30, default=STARTED)

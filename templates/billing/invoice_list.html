@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+{% load i18n humanize static auth_tokens %}
+
+{% block page_title %}
+    <title> {% trans "My Creolink" %}</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'embed-doc/css/embed-doc.css' %}"/>
+    <style>
+        #pending-invoices {margin-top: 10px;}
+        .v-align { display: flex; align-items: center; justify-content: flex-start }
+        .v-align-center { align-self: center; }
+        .event-icon {height: 60%}
+        .due-date.pending .event-title {color: #888}
+        .due-date.overdue .event-title, .due-date.exceeded .event-title {color: #d31b00}
+        @media (min-width: 768px) {
+            #pending-invoices {margin-top: 30px;}
+        }
+        @media (max-width: 767px) {
+            #pending-invoices .payment-start {margin-top: 10px;}
+        }
+    </style>
+{% endblock %}
+
+{% block header %}
+    {% with collaborates_on=user.collaborates_on %}
+        {% url "ikwen:account_setup" as account_setup_url %}
+        <nav id="navbar" class="navbar navbar-default navbar-static-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <div class="container-fluid">
+                        <i class="glyphicon glyphicon-menu-left back"></i>
+                        <div class="menu-button">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </div>
+                        {% block header_brand %}
+                            <a class="navbar-brand navbar-brand-screen hidden-xs" href="{{ service.url }}">
+                                <img src="{% static "econnect/img/creolink_logo.png" %}">
+                            </a>
+{#                                    <a class="navbar-brand hidden-xs" href="{{ service.url }}">#}
+{#                                        <strong>{{ service.project_name }}</strong>#}
+{#                                    </a>#}
+                            <strong class="navbar-brand visible-xs" style="max-width: 100%">{% trans "My Creolink" %}</strong>
+                        {% endblock %}
+                        {% block site_menu_xs %}
+                            <nav class="visible-xs pull-right">
+                                <ul id="nav-xs" class="nav navbar-nav navbar-right">
+                                    {% comment %}<li class="show-search">
+                                        <a>
+                                            <i class="glyphicon glyphicon-search"></i>
+                                        </a>
+                                    </li>{% endcomment %}
+                                    {% if user.is_authenticated %}
+                                        <li class="home">
+                                            <a href="{{ settings.IKWEN_CONSOLE_URL }}">
+                                                <i class="glyphicon glyphicon-bell" aria-hidden="true"></i>
+                                                {% if user.personal_notices > 0 %}
+                                                    <span class="label label-danger">{{ user.personal_notices }}</span>
+                                                {% endif %}
+                                            </a>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a id="user-menu-xs" class="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="glyphicon glyphicon-user"></i>
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="user-menu-xs">
+                                                <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                                                <li role="separator" class="divider"></li>
+                                                <li>
+                                                    <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
+                                                </li>
+                                                <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
+                                            </ul>
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            <a href="{% url 'ikwen:sign_in' %}" style="float: left">{% trans "Login" %}</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        {% endblock %}
+                    </div>
+                </div>
+                {% block site_menu %}
+                    <div id="site-menu" class="collapse navbar-collapse">
+                        <div class="container-fluid">
+                            <ul class="nav navbar-nav navbar-right" style="margin: 0 -15px 0 0">
+                                <li class="dropdown">
+                                    <div class="dropbtn nav-menu nav-menu-img animated fadeIn" data-toggle="dropdown"><img class="nav-menu-img" src="{% static 'econnect/img/numerilink-home.png' %}"></div>
+                                    <div class="dropdown-content">
+                                        <a href="{% url 'econnect:numerilink-home' %}" class="animated fadeIn">{% trans 'NumeriLink Home' %}</a>
+                                        <a href="{% url 'econnect:numerilink-hotel' %}" class="animated fadeIn">{% trans 'NumeriLink Hotel' %}</a>
+                                    </div>
+                                </li>
+                                <li><a href="{% url 'econnect:homelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/homelink.png' %}"></a></li>
+                                <li><a href="{% url 'econnect:officelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/officelink.png' %}"></a></li>
+                                <li><a href="{% url 'econnect:corporatelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/corporatelink.png' %}"></a></li>
+                                <li><a href="{% url 'blog:home' %}" class="nav-menu nav-menu-custom">{% trans "Blog" %}</a></li>
+                                {% if user.is_authenticated %}
+                                    <li id="user-menu" class="dropdown">
+                                        <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="glyphicon glyphicon-user"></i>
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="user-menu">
+                                            <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                                            <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
+                                            <li>
+                                                <a href="{% url 'econnect:my_creolink' %}">My Creolink</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
+                                            </li>
+                                            {% if user.is_staff %}
+                                                <li>
+                                                    <a href="{% url 'econnect:admin' %}">Admin</a>
+                                                </li>
+                                            {% endif %}
+                                            <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
+                                        </ul>
+                                    </li>
+                                {% else %}
+                                    <li class="hidden-xs">
+                                        <a href="{% url 'ikwen:sign_in' %}" class="btn btn-outline-success menu animated fadeIn" style="border-radius: 2px; border-width: 1px; display:block; height: 4.5vh!important; line-height: 4.5vh; padding: 0; width: 120px">{% trans "Login" %}</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+
+{#                                <div id="select" ng-model=""></div>#}
+                        </div>
+                    <div class="container-fluid">
+                        <h3 style="color: #039B03">
+                            {% trans "My Creolink" %}
+                        </h3>
+                    </div>
+
+                    </div>
+                {% endblock %}
+
+            </div>
+        </nav>
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+    <div id="content" class="container" style="padding-top: 20vh">
+        <div class="col-sm-8 col-sm-offset-2">
+
+            <div style="margin-bottom: 5vh;">
+                <div class="text-center">
+                    <img class="img-square img-thumbnail" src="{% static 'ikwen/img/login-avatar.jpg' %}" style="margin-top: 1vh;">
+                    <h2 class="welcome-title">{% trans "Welcome " %} {{ user.first_name }}</h2>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+{#            <h3>#}
+{#                <strong>{% trans "Billing" %}</strong>#}
+{#            </h3>#}
+            <section id="pending-invoices">
+                {% with pending_count=pending_invoice_list|length %}
+                    <h4 style="margin-bottom: 20px">{{ pending_count }} pending invoice(s)</h4>
+                {% endwith %}
+                {% for invoice in pending_invoice_list %}
+                    {% url 'billing:invoice_detail' invoice.id as invoice_url %}
+                    <div class="event">
+                        <div class="subtle-shade event-detail">
+                            <div class="event-icon pull-left">
+                                <img src="{% static 'ikwen/img/invoice-icon.png' %}" />
+                            </div>
+                            <div class="event-content">
+                                <div>
+                                    <a href="{{ invoice_url }}" class="col-sm-6 row" style="font-size: 1.2em">{{ invoice }}</a>
+                                    <div class="col-sm-4 event-date text-muted pull-right text-right hidden-xs" style="padding-right: 0;">{{ invoice.created_on|date }}</div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="due-date {{ invoice.status|lower }}">
+                                    <span>{% trans "Due date" %}: </span>
+                                    <span class="event-title">{{ invoice.due_date|date }}</span>
+                                </div>
+                                <h3>
+                                    <strong>{{ invoice.amount|intcomma }}</strong>
+                                    <span class="text-muted" style="font-size: .6em">{{ currency_symbol }}</span>
+                                </h3>
+                                <div class="actions">
+                                    <button class="btn btn-success pull-right btn-sm payment-start"
+                                            data-product-id="{{ invoice.id }}"> {% trans "Pay now" %}</button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                {% endfor %}
+            </section>
+            <section id="results" style="padding-top: 0; padding-bottom: 25vh">
+                {% include 'billing/snippets/invoice_list_results.html' %}
+            </section>
+        </div>
+    </div>
+    {% with payment_conf='invoice_payment' %}
+        {% include 'billing/snippets/modal_payment_options.html' %}
+    {% endwith %}
+{% endblock %}
