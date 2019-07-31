@@ -191,7 +191,8 @@ class OrderConfirm(TemplateView):
                 'customer_name': member,
                 'lat': lat,
                 'lng': lng,
-                'order_id': order_id
+                'order_id': order_id,
+                'debug': 'true'
             }
 
             def set_prospect(url):
@@ -619,7 +620,12 @@ class ChangeMailCampaign(CampaignBaseView, ChangeObjectBase):
         member = request.user
         mbr = Member.objects.using(UMBRELLA).get(pk=member.id)
         if object_id:
-            obj = MailCampaign.objects.using(UMBRELLA).get(pk=object_id)
+            while True:
+                try:
+                    obj = MailCampaign.objects.using(UMBRELLA).get(pk=object_id)
+                    break
+                except MailCampaign.DoesNotExist:
+                    time.sleep(0.5)
         else:
             obj = self.model()
         model_form = object_admin.get_form(request)
