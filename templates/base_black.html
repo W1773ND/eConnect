@@ -333,6 +333,7 @@
                         $('input[name=customer_lng]').val(retrievedLocation['Longitude']);
                         $('input[name=formatted_address]').val(localStorage.getItem('FormattedAddress').replace('Current location: ', ''));
                     }
+                    else $('.location-set').text('{% trans " Set my location" %}');
                     //Retrieving location: END
 
                     //Cleaning local Storage

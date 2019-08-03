@@ -64,7 +64,7 @@
                 <hr class="section-border-top">
                 <div id="accordion-pack" role="tablist" aria-multiselectable="true" style="position: absolute; width: 100%">
                 {% for package in product.package_set.all %}
-                    <div class="col-lg-2 col-md-2 panel panel-pack panel-pack-styling {{ product.name }} pricing-container text-center" data-cost="{{ package.cost }}" data-package-id="{{ package.id }}" data-target="{{ package.target }}" data-optional-target-cost="{{ package.optional_target_cost }}" style="cursor: pointer; {% if forloop.counter == 1 %}margin-left: .6vw;{% endif %} z-index: 1">
+                    <div class="col-md-2 col-xs-10 col-md-offset-0 col-xs-offset-1 panel panel-pack panel-pack-styling {{ product.name }} pricing-container text-center" data-cost="{{ package.cost }}" data-package-id="{{ package.id }}" data-target="{{ package.target }}" data-optional-target-cost="{{ package.optional_target_cost }}" style="cursor: pointer; z-index: 1">
                         <div class="callout-container">
                             <div class="panel-title panel-title text-center collapsed" role="tab" id="heading{{ package.id }}"  data-toggle="collapse" data-parent="#accordion-pack" data-target="#{{ package.id }}">
                                 <a data-toggle="collapse" data-parent="#accordion-pack" href="#{{ package.id }}">

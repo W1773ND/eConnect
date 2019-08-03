@@ -37,9 +37,9 @@
             <div class="col-md-8 col-sm-8 col-md-offset-2 col-sm-offset-2 text-center">
               <h1 class="mobile-adjust" style="font-size: 3.5vw; color: #464646 ">{% trans 'The best of internet, the best of TV' %}</h1>
                 {% if request.user.is_authenticated %}
-                    <a  href='{% url 'econnect:maps' %}?next={{ request.path }}' class="btn btn-outline-success btn-set-location animated pulse mobile-adjust" style="margin-top: 20px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style="font-size:large;"></i><strong style="font-size:large; padding-left: .5vw;">{% trans "Set my location" %}</strong></a>
+                    <a  href='{% url 'econnect:maps' %}?next={{ request.path }}' class="btn btn-outline-success btn-set-location animated pulse mobile-adjust" style="margin-top: 20px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style="font-size:large;"></i><strong style="font-size:large; padding-left: .5vw;"></strong></a>
                 {% else %}
-                     <button type="button" class="btn btn-outline-success btn-set-location animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style="font-size:large;"></i><strong style="font-size:large; padding-left: .5vw;">{% trans "Set my location" %}</strong></button>
+                     <button type="button" class="btn btn-outline-success btn-set-location animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style="font-size:large;"></i><strong style="font-size:large; padding-left: .5vw;"></strong></button>
                 {% endif %}
             </div>
         </div>
@@ -47,9 +47,9 @@
             <div class="col-md-8 col-md-offset-2 text-center">
               <h1 class="mobile-adjust">{% trans "The best of internet, the best of TV" %}</h1>
                 {% if request.user.is_authenticated %}
-                    <a  href='{% url 'econnect:maps' %}?next={{ request.path }}' class="btn btn-outline-success btn-set-location animated pulse mobile-adjust" style="margin-top: 20px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style="font-size:large;"></i><span style="font-size:large; padding-left: .5vw;">{% trans "Set my location" %}</span></a>
+                    <a  href='{% url 'econnect:maps' %}?next={{ request.path }}' class="btn btn-outline-success btn-set-location animated pulse mobile-adjust" style="margin-top: 20px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style="font-size:large;"></i><span style="font-size:large; padding-left: .5vw;"></span></a>
                 {% else %}
-                     <button type="button" class="btn btn-outline-success btn-set-location animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style="font-size:large;"></i><span style="font-size:large; padding-left: .5vw;">{% trans "Set my location" %}</span></button>
+                     <button type="button" class="btn btn-outline-success btn-set-location animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style="font-size:large;"></i><span style="font-size:large; padding-left: .5vw;"></span></button>
                 {% endif %}
 
             </div>
