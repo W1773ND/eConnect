@@ -57,7 +57,7 @@
                 </a>
                 <div class="clearfix"></div>{% endcomment %}
             </div>
-            <div id="results" class="col-sm-8 col-sm-offset-2">
+            <div id="results" class="col-md-8 col-sm-10 col-md-offset-2 col-sm-offset-1">
                 {% include 'core/snippets/spinner.html' %}
                 {% include 'econnect/admin/snippets/order_list_results.html' %}
             </div>
@@ -70,6 +70,22 @@
     <script src="{% static 'embed-doc/js/embed-doc.js' %}" ></script>
     <script type="text/javascript">
         (function () {
+            $('.set-equipment').mouseover(function () {$(this).removeClass('animated')
+            }).mouseout(function () {$(this).addClass('animated')
+            }).click(function () {
+                let orderId = $(this).parents('.event-action').data('order-id');
+                let params = {action: 'set_equipment', order_id: orderId};
+                $.getJSON('', params, function (data) {
+                    if (data.success) {
+                        ikwen.showFloatingNotice('Request sent', '', 2);
+                        $('.set-equipment').addClass('tpl');
+                        location.reload()
+                    }
+                    else {
+                        ikwen.showFloatingNotice('Error occurs when sending request, please try again...', '', 3);
+                    }
+                })
+            });
             $('.order-accept').click(function () {
                 let orderId = $(this).parents('.event-action').data('order-id');
                 let params = {action: 'accept_order', order_id: orderId};

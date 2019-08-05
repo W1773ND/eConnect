@@ -1,36 +1,37 @@
 # -*- coding: utf-8 -*-
+
+__author__ = 'W1773ND (wilfriedwillend@gmail.com)'
+
 from datetime import datetime, timedelta
 
 import requests
 import urlparse
-from django.core import mail
-from django.core.mail import EmailMessage
-
-__author__ = 'W1773ND (wilfriedwillend@gmail.com)'
-
 import os
 import time
 import json
+
 from threading import Thread
 
 from currencies.models import Currency
 
 
 from django.conf import settings
-from django.contrib import messages
-from django.db import transaction
-
-
-from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404
+from django.contrib import messages
+from django.db import transaction
+from django.core import mail
+from django.views.generic import TemplateView
+from django.core.mail import EmailMessage
+from django.core.urlresolvers import reverse
+from django.core.exceptions import MultipleObjectsReturned
 from django.template.defaultfilters import slugify
 from django.utils.translation import gettext as _
 
 from ikwen.conf import settings as ikwen_settings
 from ikwen.conf.settings import WALLETS_DB_ALIAS
 from ikwen.accesscontrol.backends import UMBRELLA
-from ikwen.accesscontrol.models import Member
+from ikwen.accesscontrol.models import Member, DEFAULT_GHOST_PWD
 from ikwen.core.models import Service
 from ikwen.core.views import HybridListView, ChangeObjectBase
 from ikwen.core.constants import PENDING, PENDING_FOR_PAYMENT, STARTED
@@ -38,8 +39,7 @@ from ikwen.core.utils import get_model_admin_instance, get_service_instance, get
     XEmailMessage
 from ikwen.billing.models import Invoice, InvoiceItem, InvoiceEntry
 from ikwen.billing.utils import get_next_invoice_number
-
-from django.views.generic import TemplateView
+from ikwen.revival.models import ProfileTag, MemberProfile
 
 from echo.views import CampaignBaseView, File, batch_send_mail
 from echo.models import MailCampaign, Balance
@@ -48,8 +48,30 @@ from echo.admin import MailCampaignAdmin
 from econnect.admin import ProductAdmin, PackageAdmin, EquipmentAdmin, ExtraAdmin
 from econnect.forms import OrderForm
 from econnect.models import Subscription, Order, CustomerRequest, Product, Package, Equipment, EquipmentOrderEntry, \
-    Extra, RENTAL, \
-    NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, PURCHASE, REPORTED, FINISHED, ANALOG, DIGITAL, DEVICE_ID
+    Extra, RENTAL, PURCHASE, REPORTED, FINISHED,  DEVICE_ID, \
+    NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, ANALOG, DIGITAL, CREOLINK
+
+
+def set_prospect(order, url, payload):
+    resp = requests.get(url, params=payload)
+    if DEVICE_ID in resp.text:
+        order.maps_url = resp.text
+        parsed_query = urlparse.urlparse(resp.text).query
+        query = urlparse.parse_qs(parsed_query)
+        device_id = query[DEVICE_ID][0]
+        order.maps_id = device_id
+        order.save()
+        response = {"success": True}
+        return HttpResponse(
+            json.dumps(response),
+            'content-type: text/json'
+        )
+    else:
+        response = {"error": True}
+        return HttpResponse(
+            json.dumps(response),
+            'content-type: text/json'
+        )
 
 
 class PostView(TemplateView):
@@ -92,7 +114,7 @@ class PostView(TemplateView):
                     extra = get_object_or_404(Extra, pk=extra_id)
                     extra_list.append(extra)
                     order_cost += extra.cost
-            if optional_tv and optional_tv >= 2:
+            if optional_tv:
                 optional_tv = int(optional_tv)
                 optional_tv_cost = optional_tv * package.optional_target_cost
                 order_cost += optional_tv_cost
@@ -181,7 +203,7 @@ class OrderConfirm(TemplateView):
         order = get_object_or_404(Order, id=order_id)
         order.status = PENDING
         order.save()
-        member = order.member
+        member = order.member.full_name
         lat = order.location_lat
         lng = order.location_lng
 
@@ -194,16 +216,6 @@ class OrderConfirm(TemplateView):
                 'order_id': order_id,
                 'debug': 'true'
             }
-
-            def set_prospect(url):
-                resp = requests.get(url, params=payload)
-                order.maps_url = resp.text
-                parsed_query = urlparse.urlparse(resp.text).query
-                query = urlparse.parse_qs(parsed_query)
-                device_id = query[DEVICE_ID][0]
-                order.maps_id = device_id
-                order.save()
-            Thread(target=set_prospect, args=(prospect_url,)).start()
         else:
             prospect_url = getattr(settings, "CREOLINK_MAPS_URL") + 'save_prospect'
             payload = {
@@ -212,39 +224,59 @@ class OrderConfirm(TemplateView):
                 'lng': lng,
                 'order_id': order_id
             }
-
-            def set_prospect(url):
-                resp = requests.get(url, params=payload)
-                order.maps_url = resp.text
-                parsed_query = urlparse.urlparse(resp.text).query
-                query = urlparse.parse_qs(parsed_query)
-                device_id = query['device_id'][0]
-                order.maps_id = device_id
-                order.save()
-            Thread(target=set_prospect, args=(prospect_url,)).start()
-
-        response = {"success": True}
-        return HttpResponse(
-            json.dumps(response),
-            'content-type: text/json'
-        )
+        Thread(target=set_prospect, args=(order, prospect_url, payload)).start()
 
 
 class PendingOrderList(HybridListView):
     template_name = 'econnect/admin/order_list.html'
     html_results_template_name = 'econnect/admin/snippets/order_list_results.html'
-    queryset = Order.objects.exclude(status__in=[Invoice.PAID, FINISHED])
+    queryset = Order.objects.exclude(status__in=[REPORTED, Invoice.PAID, FINISHED])
     search_field = 'member'
     list_filter = ('created_on', 'status')
     context_object_name = 'order'
 
     def get(self, request, *args, **kwargs):
         action = request.GET.get('action')
+        if action == 'set_equipment':
+            return self.availability_check(request)
         if action == 'accept_order':
             return self.accept_order(request)
         elif action == 'report_order':
             return self.report_order(request)
         return super(PendingOrderList, self).get(request, *args, **kwargs)
+
+    @staticmethod
+    def set_equipment(request):
+        order_id = request.GET['order_id']
+        order = get_object_or_404(Order, id=order_id)
+        member = order.member.full_name
+        lat = order.location_lat
+        lng = order.location_lng
+
+        if getattr(settings, 'DEBUG', False):
+            prospect_url = getattr(settings, "LOCAL_MAPS_URL") + 'save_prospect'
+            payload = {
+                'customer_name': member,
+                'lat': lat,
+                'lng': lng,
+                'order_id': order_id,
+                'debug': 'true'
+            }
+        else:
+            prospect_url = getattr(settings, "CREOLINK_MAPS_URL") + 'save_prospect'
+            payload = {
+                'customer_name': member,
+                'lat': lat,
+                'lng': lng,
+                'order_id': order_id
+            }
+        Thread(target=set_prospect, args=(order, prospect_url, payload)).start()
+
+        response = {"success": True}
+        return HttpResponse(
+            json.dumps(response),
+            'content-type: text/json'
+        )
 
     @staticmethod
     def accept_order(request):
@@ -254,7 +286,7 @@ class PendingOrderList(HybridListView):
         order.save()
         install_cost = order.package.product.install_cost
         amount = order.cost - install_cost
-        member = order.member
+        member = order.member.full_name
         config = get_service_instance().config
         number = get_next_invoice_number()
         product_name = order.package.product.name
@@ -274,7 +306,7 @@ class PendingOrderList(HybridListView):
         invoice = Invoice.objects.create(subscription=subscription, member=member, number=number, amount=order.cost,
                                          months_count=1, due_date=due_date.date(), is_one_off=True, entries=entries)
         subject = _("Dear " + member.full_name + ", we are ready to come and install your service.")
-        invoice_url = 'http://creolink.com' + reverse('billing:invoice_detail', args=(invoice.id,))
+        invoice_url = 'https://creolink.com' + reverse('billing:invoice_detail', args=(invoice.id,))
         html_content = get_mail_content(subject, template_name='econnect/mails/order_accepted.html',
                                         extra_context={'invoice_url': invoice_url,
                                                        'order_label': label,
@@ -287,22 +319,13 @@ class PendingOrderList(HybridListView):
 
         if getattr(settings, 'DEBUG', False):
             customer_url = getattr(settings, "LOCAL_MAPS_URL") + 'update_prospect'
-            payload = {'device_id': order.maps_id}
-
-            # def set_client(url):
-            #     requests.get(url, params=payload)
-            # Thread(target=set_client, args=(customer_url,)).start()
-            Thread(target=lambda set_client: requests.get, args=(customer_url, payload)).start()
+            payload = {DEVICE_ID: order.maps_id}
 
         else:
             customer_url = getattr(settings, "CREOLINK_MAPS_URL") + 'update_prospect'
-            payload = {'device_id': order.maps_id}
+            payload = {DEVICE_ID: order.maps_id}
 
-            # def set_client(url):
-            #     requests.get(url, params=payload)
-            # Thread(target=set_client, args=(customer_url,)).start()
-
-            Thread(target=lambda set_client: requests.get, args=(customer_url, payload)).start()
+        Thread(target=requests.get, args=(customer_url, payload)).start()
 
         response = {"success": True}
         return HttpResponse(
@@ -316,6 +339,20 @@ class PendingOrderList(HybridListView):
         order = get_object_or_404(Order, id=order_id)
         order.status = REPORTED
         order.save()
+        member = order.member.full_name
+        product_name = order.package.product.name
+        package_name = order.package.name
+        order_location = order.formatted_address
+        subject = _("Dear " + member.full_name + ", we'll come soon as possible to install your service.")
+        html_content = get_mail_content(subject, template_name='econnect/mails/order_reported.html',
+                                        extra_context={'order_product': product_name,
+                                                       'order_package': package_name,
+                                                       'order_location': order_location
+                                                       })
+        sender = 'Creolink Communications <no-reply@creolink.com>'
+        msg = XEmailMessage(subject, html_content, sender, [member.email])
+        msg.content_subtype = "html"
+        Thread(target=lambda m: m.send(), args=(msg,)).start()
         response = {"success": True}
         return HttpResponse(
             json.dumps(response),
@@ -328,7 +365,7 @@ class PaidOrderList(HybridListView):
     html_results_template_name = 'econnect/admin/snippets/order_list_results.html'
     queryset = Order.objects.filter(status=Invoice.PAID)
     search_field = 'member'
-    list_filter = ('created_on', )
+    list_filter = ('created_on',)
     context_object_name = 'order'
 
     def get(self, request, *args, **kwargs):
@@ -343,11 +380,34 @@ class PaidOrderList(HybridListView):
         order = get_object_or_404(Order, id=order_id)
         order.status = FINISHED
         order.save()
+        member = order.member.full_name
+        product_name = order.package.product.name
+        package_name = order.package.name
+        order_location = order.formatted_address
+        subject = _("Dear " + member.full_name + ", thanks to business with Creolink Communications.")
+        html_content = get_mail_content(subject, template_name='econnect/mails/service_completed.html',
+                                        extra_context={'order_product': product_name,
+                                                       'order_package': package_name,
+                                                       'order_location': order_location
+                                                       })
+        sender = 'Creolink Communications <no-reply@creolink.com>'
+        msg = XEmailMessage(subject, html_content, sender, [member.email])
+        msg.content_subtype = "html"
+        Thread(target=lambda m: m.send(), args=(msg,)).start()
         response = {"success": True}
         return HttpResponse(
             json.dumps(response),
             'content-type: text/json'
         )
+
+
+class ReportedOrderList(HybridListView):
+    template_name = 'econnect/admin/order_list.html'
+    html_results_template_name = 'econnect/admin/snippets/order_list_results.html'
+    queryset = Order.objects.filter(status=REPORTED)
+    search_field = 'member'
+    list_filter = ('created_on',)
+    context_object_name = 'order'
 
 
 class Admin(TemplateView):
@@ -373,11 +433,53 @@ class HomeView(TemplateView):
             product.url = reverse('econnect:' + product.slug)
             product_list.append(product)
         product_numeri_hotel = Product.objects.get(name=NUMERIHOTEL)
-        # product_numeri_hotel.slug = slugify(product_numeri_hotel.name)
+        product_numeri_hotel.slug = slugify(product_numeri_hotel.name)
         product_numeri_hotel.url = reverse('econnect:' + product_numeri_hotel.slug)
         context['product_list'] = product_list
         context['product_numeri_hotel'] = product_numeri_hotel
         return context
+
+    def get(self, request, *args, **kwargs):
+        action = request.GET.get('action')
+        if action == 'send_mail_to_visitor':
+            return self.send_mail_to_visitor(request)
+        return super(HomeView, self).get(request, *args, **kwargs)
+
+    def send_mail_to_visitor(self, request):
+        service = get_service_instance()
+        config = service.config
+        visitor_email = request.GET.get('visitor_email')
+        if not visitor_email:
+            response = {'error': 'No Email found'}
+            return HttpResponse(json.dumps(response), 'content-type: text/json')
+        try:
+            member = Member.objects.get(email=visitor_email)
+        except MultipleObjectsReturned:
+            member = Member.objects.filter(email=visitor_email)[0]
+        except Member.DoesNotExist:
+            username = visitor_email
+            member = Member.objects.create_user(username, DEFAULT_GHOST_PWD, email=visitor_email, is_ghost=True)
+        tag_fk_list = []
+        tag = CREOLINK
+        tsunami_tag = ProfileTag.objects.get(slug=tag)
+        tag_fk_list.append(tsunami_tag.id)
+        member_profile = MemberProfile.objects.get(member=member)
+        member_profile.tag_fk_list.extend(tag_fk_list)
+        member_profile.save()
+
+        # To-do : complete implementation for creation of ghost user when visitor email was submitted
+        try:
+            subject = _("Do more with Creolink Communications !")
+            html_content = get_mail_content(subject, template_name='accesscontrol/mails/complete_registration.html',
+                                            extra_context={'member_email': visitor_email}, )
+            sender = '%s <no-reply@%s>' % (config.company_name, service.domain)
+            msg = EmailMessage(subject, html_content, sender, visitor_email)
+            msg.content_subtype = "html"
+            Thread(target=lambda m: m.send(), args=(msg,)).start()
+        except:
+            pass
+        next_url = reverse('tsunami:bundles')
+        return HttpResponseRedirect(next_url)
 
 
 class ProductList(HybridListView):

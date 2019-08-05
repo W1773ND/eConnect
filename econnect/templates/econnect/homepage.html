@@ -1,22 +1,8 @@
 {% extends 'base_black.html' %}
 {% load i18n static auth_tokens %}
 
-{% block meta %}
-    {{ block.super }}
-    <link rel="shortcut icon" type="image/png" href="{% static "tsunami/img/favicon_Tsunami.ico" %}">
-    <meta name="theme-color" content="#233682">
-    <meta name="msapplication-navbutton-color" content="#233682">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#233682">
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="http://www.ikwen.com/tsunami/" />
-    <meta property="og:image" content="{% static 'tsunami/img/Logo-IKWEN-Tsunami_og.png' %}" />
-    <meta property="og:title" content="{% trans "ikwen TSUNAMI, the cloud tools your business needs" %}"/>
-    <meta property="og:description" content="{% trans "Reach more csustomers and sell all your stocks with Tsunami" %}">
-    <meta property="description" content="{% trans "Reach more csustomers and sell all your stocks with Tsunami" %}" />
-{% endblock %}
-
 {% block page_title %}
-    <title> Creolink </title>
+    <title> Creolink Communications</title>
 {% endblock %}
 
 {% block head_style %}
@@ -39,7 +25,7 @@
                 {% if request.user.is_authenticated %}
                     <a  href='{% url 'econnect:maps' %}?next={{ request.path }}' class="btn btn-outline-success btn-set-location animated pulse mobile-adjust" style="margin-top: 20px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style="font-size:large;"></i><strong style="font-size:large; padding-left: .5vw;"></strong></a>
                 {% else %}
-                     <button type="button" class="btn btn-outline-success btn-set-location animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style="font-size:large;"></i><strong style="font-size:large; padding-left: .5vw;"></strong></button>
+                     <button type="button" class="btn btn-outline-success btn-set-location animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 20px; min-width: 200px"><i class="fas fa-map-marker-alt location-set" style="font-size:large;"></i><strong style="font-size:large;"></strong></button>
                 {% endif %}
             </div>
         </div>
@@ -56,7 +42,7 @@
         </div>
     </div>
     <section>
-        <h2 class="mobile-adjust title-section text-center">{% trans "Découvrez nos services" %}</h2>
+        <h2 class="mobile-adjust title-section text-center">{% trans "Choose the service you want" %}</h2>
         <br>
         <div class="container text-center visible-md visible-lg" style="padding-left: 5vw;">
         {% for product in product_list %}

@@ -1,20 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n static humanize %}
 
-{% block meta %}
-    {{ block.super }}
-    <link rel="shortcut icon" type="image/png" href="{% static "tsunami/img/favicon_Tsunami.ico" %}">
-    <meta name="theme-color" content="#233682">
-    <meta name="msapplication-navbutton-color" content="#233682">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#233682">
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="http://www.ikwen.com/tsunami/" />
-    <meta property="og:image" content="{% static 'tsunami/img/Logo-IKWEN-Tsunami_og.png' %}" />
-    <meta property="og:title" content="{% trans "CREOLINK Communications" %}"/>
-    <meta property="og:description" content="{% trans "The best of internet, the best of TV" %}">
-    <meta property="description" content="{% trans "The best of internet, the best of TV" %}" />
-{% endblock %}
-
 {% block page_title %}
     <title> {{ service.project_name }} - {{ product.name }}</title>
 {% endblock %}
@@ -39,14 +25,14 @@
         <nav class="col-lg-2 pricing-menu visible-lg">
             <ul style="list-style-type: none">
                 <li><a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-pack is-active"href="#sectionPack"> {% trans "Pack" %}</a></li>
-                <li><a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-equipment" href="#sectionEquipment"> {% trans "Equipement" %}</a></li>
+                <li><a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-equipment" href="#sectionEquipment"> {% trans "Equipment" %}</a></li>
                 <li><a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-addon" href="#sectionAddOn"> {% trans "Add-ons" %}</a></li>
                 <li><a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-faq" href="#sectionFaq"> {% trans "FAQs" %}</a></li>
             </ul>
         </nav>
         <div id="menu-md" class="col-md-12 pricing-menu scroll-menu {{ product.name }} text-center visible-md" style="line-height: 1">
             <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-md-pack is-active"href="#mdAnchorPack"> {% trans "Pack" %}</a>
-            <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-md-equipment" href="#mdAnchorEquipment"> {% trans "Equipement" %}</a>
+            <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-md-equipment" href="#mdAnchorEquipment"> {% trans "Equipment" %}</a>
             <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-md-addon" href="#mdAnchorAddon"> {% trans "Add-ons" %}</a>
             <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-md-faq" href="#mdAnchorFAQ"> {% trans "FAQs" %}</a>
         </div>
@@ -54,7 +40,7 @@
         <div id="mdAnchorPack"></div>
         <div id="menuMobile" class="col-md-12 pricing-menu scroll-menu {{ product.name }} hidden-md hidden-lg ">
             <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-mobile-pack is-active"href="#mobileAnchorPack"> {% trans "Pack" %}</a>
-            <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-mobile-equipment" href="#mobileAnchorEquipment"> {% trans "Equipement" %}</a>
+            <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-mobile-equipment" href="#mobileAnchorEquipment"> {% trans "Equipment" %}</a>
             <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-mobile-addon" href="#mobileAnchorAddon"> {% trans "Add-ons" %}</a>
             <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-mobile-invoice" href="#mobileAnchorInvoice"> {% trans "Invoice" %}</a>
             <a class="js-scrollTo in-page-nav-link {{ product.name }} in-page-nav-link-mobile-faq" href="#mobileAnchorFAQ"> {% trans "FAQs" %}</a>
@@ -103,7 +89,7 @@
             <section id="sectionEquipment" class="pricing-section" style="min-height: 45vh; padding-top: 10vh">
                 <input type="hidden" name="installCost" value="{{ product.install_cost }}">
                 <input type="hidden" name="equipmentPurchaseCost" value="{{ equipment_purchase_cost }}">
-                <h3 class="col-lg-8 section-title">{% trans "Equipements" %}<label class="cost {{ product.name }} equipment-cost">{{ default_equipment_cost|intcomma }} XAF</label></h3>
+                <h3 class="col-lg-8 section-title">{% trans "Equipments" %}<label class="cost {{ product.name }} equipment-cost">{{ default_equipment_cost|intcomma }} XAF</label></h3>
                 <div class="clearfix"></div>
                 <hr class="section-border-top">
                 <div class="col-md-8">
@@ -197,7 +183,7 @@
                         <div id="mobileAnchorFAQ"></div>
                         <div class="invoice-item invoice-item-equipments">
                             <h5>
-                                <div class=" invoice-items-title"> {% trans "Equipements" %} </div>
+                                <div class=" invoice-items-title"> {% trans "Equipments" %} </div>
                                 <div class="invoice-items-cost" style="display: none;" >{{ default_equipment_cost|intcomma }} XAF</div>
                             </h5>
                         </div>
@@ -344,7 +330,7 @@
                     <div class="separator"></div>
                     <div class="invoice-item invoice-item-equipments">
                         <h5>
-                            <div class=" invoice-items-title"> {% trans "Equipements" %} </div>
+                            <div class=" invoice-items-title"> {% trans "Equipments" %} </div>
                             <div class="invoice-items-cost" style="display: none;" >{{ default_equipment_cost|intcomma }} XAF</div>
                         </h5>
                     </div>

@@ -8,6 +8,7 @@ from ikwen.accesscontrol.models import Member
 
 from ikwen.billing.models import AbstractSubscription
 
+CREOLINK = 'Creolink'
 NUMERIHOME = 'NumeriLink Home'
 NUMERIHOTEL = 'NumeriLink Hotel'
 HOME = 'HomeLink'

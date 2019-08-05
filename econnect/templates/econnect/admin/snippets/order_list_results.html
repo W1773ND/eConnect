@@ -9,8 +9,8 @@
             </div>
             <div class="event-content">
                 <div>
-                    <div class="col-md-6 row">
-                       <span class="event-customer-name">{{ order.member }}</span> <i class="status-bullet {{ order.status|slugify }}"></i><span class="text-muted"> {{ order.member.email }} - {{ order.member.language|upper }}</span></div>
+                    <div class="col-md-6 col-sm-10 row">
+                       <span class="event-customer-name">{{ order.member.full_name }}</span> <i class="status-bullet {{ order.status|slugify }}"></i><span class="text-muted"> {{ order.member.email }} - {{ order.member.language|upper }}</span></div>
                     <time class="col-md-4 col-md-offset-2 event-date text-muted text-right" style="padding-right: 0;"> {{ order.created_on|date:"j M y, G:i" }} </time>
                     <div class="clearfix"></div>
                     <p class="event-title text-muted" style="border-bottom: 1px solid #b4bcc2; height: 80%"></p>
@@ -37,10 +37,13 @@
                             {% endif %}
                             <br>
                             <p class="customer-location text-muted">{% trans 'To be installed at' %}</p>
-                            {% if order.maps_url %}
+                            {% if order.maps_url and  'device_id' in order.maps_url %}
                             <a href='{{ order.maps_url }}' target="_blank">{{ order.formatted_address }}</a>
                             {% else %}
                             <a href='{% url 'econnect:maps' %}?next={{ request.path }}&availabilityCheck=1&lat={{ order.location_lat }}&lng={{ order.location_lng }}'>{{ order.formatted_address }}</a>
+                            <br>
+                            <br>
+                            <a href="javascript:;" class="animated infinite blink set-equipment" style="color: red;">{% trans "Set this equipment on Creolink MAPS..." %}</a>
                             {% endif %}
 
                         </div>
