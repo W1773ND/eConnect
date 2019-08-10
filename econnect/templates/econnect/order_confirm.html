@@ -1,20 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n static humanize %}
 
-{% block meta %}
-    {{ block.super }}
-    <link rel="shortcut icon" type="image/png" href="{% static "tsunami/img/favicon_Tsunami.ico" %}">
-    <meta name="theme-color" content="#233682">
-    <meta name="msapplication-navbutton-color" content="#233682">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#233682">
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="http://www.creolink.com/" />
-    <meta property="og:image" content="{% static 'tsunami/img/Logo-IKWEN-Tsunami_og.png' %}" />
-    <meta property="og:title" content="{% trans "CREOLINK Communications" %}"/>
-    <meta property="og:description" content="{% trans "The best of internet, the best of TV" %}">
-    <meta property="description" content="{% trans "The best of internet, the best of TV" %}" />
-{% endblock %}
-
 {% block page_title %}
 <title> {% trans "Order Confirm" %} - {{ service.project_name }} </title>
 {% endblock %}
@@ -23,7 +9,6 @@
     {{ block.super }}
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link href="{% static 'econnect/css/admin_home.css' %}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{% static 'tsunami/css/tsunami_homepage.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/homepage.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/econnect_pricing.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/order_confirm.css' %}">
@@ -34,21 +19,14 @@
 
 {% block content %}
     <section class="pricing-area">
-        <div class="container content" style="padding-top: 4vh">
+        <div class="container content hidden-xs" style="padding-top: 4vh">
             <div class="col-md-8 col-md-offset-2 text-center order title">
-                {% comment %}{% if user.photo.name %}
-                    <img class="img-circle img-thumbnail" src="{{ settings.IKWEN_MEDIA_URL }}{{ user.photo.small_name }}" style="margin-top: 1vh;width:100px;height:100px">
-                {% else %}
-                    <img class="img-circle img-thumbnail" src="{% static 'ikwen/img/login-avatar.jpg' %}" style="margin-top: 1vh;">
-                {% endif %}{% endcomment %}
-                <img class="img-circle img-thumbnail" src="{{ set }}" style="margin-top: 5vh;">
-                <h2 class="welcome-title">{% trans "Dear " %} {{ user.first_name }},</h2>
+                <h2 class="welcome-title">{% trans "Dear " %} {{ order.member.first_name }},</h2>
                 <h5 class="col-xs-12 welcome-subtitle"> {% trans "Thank you for your interest, please confirm your order details before submitting your request" %}</h5>
             </div>
             <div class="clearfix"></div>
             <div class="col-md-6 col-md-offset-3 v-align order item">
                 <div class="col-md-7" style="border-right: 1px solid #b4bcc2">
-
                     <p>
                         &#9642;&nbsp;{{ order.package.product.name }}&nbsp;<span class="pricing-pack {{ order.package.product.name }}">{{ order.package.name }}</span>
                     </p>
@@ -91,6 +69,55 @@
                 <button class="btn btn-outline-success animated infinite pulse order-confirm" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Confirm order" %}</button>
             </div>
         </div>
+        <div class="container content visible-xs" style="padding-top: 4vh">
+            <div class="text-center order title">
+                <h3 class="welcome-title">{% trans "Dear " %} {{ order.member.first_name }},</h3>
+                <h5 class="welcome-subtitle" style="line-height: 1.5em"> {% trans "Thank you for your interest, please confirm your order details before submitting your request" %}</h5>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-xs-10 col-xs-offset-1 order item">
+                <div class="row" style="border-bottom: 1px solid #b4bcc2; margin-bottom: 1vh">
+                    <p>
+                        &#9642;&nbsp;{{ order.package.product.name }}&nbsp;<span class="pricing-pack {{ order.package.product.name }}">{{ order.package.name }}</span>
+                    </p>
+                    {% for equipment_entry in order.equipment_order_entry_list %}
+                    <p>
+                       &#9642;&nbsp;{{ equipment_entry.equipment.name }}&nbsp;{% if equipment_entry.is_rent %}{% trans "on rental" %}{% else %}{% trans "on purchase" %}{% endif %}
+                    </p>
+                    {% endfor %}
+                    {% for extra in order.extra_list %}
+                    <p>
+                        &#9642;&nbsp;{{ extra.name|safe }}
+                    </p>
+                    {% endfor %}
+                    {% if order.optional_tv %}
+                    <p>
+                        &#9642;&nbsp;{% trans 'Optional Tv to connect: ' %}{{ order.optional_tv }}
+                    </p>
+                    {% endif %}
+                    <p class="customer-location text-muted">{% trans 'To be installed at:' %}</p>
+                    <p>{{ order.formatted_address }}</p>
+                </div>
+                <div class="col-xs-10 col-xs-offset-1 text-center" style="">
+                    <span class="pricing-value" style="font-size: 2em">{{ order.cost|intcomma }} </span><span class="text-muted" style="font-size: .8em">XAF</span>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row embed-map-disabled order map" style="border-top: 1px solid #b4bcc2; margin:auto; max-width: 100% ">
+                <div class="mapouter">
+                    <div class="gmap_canvas">
+                        <iframe width='100%' height='100%' id='mapcanvas' src='https://maps.google.com/maps?q={{ order.location_lat }},{{ order.location_lng }}&amp;t=&amp;z=17&amp;ie=UTF8&amp;iwloc=&amp;output=embed' frameborder='0' scrolling='no' marginheight='0' marginwidth='0'></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row text-center order">
+                <a href="{% url 'econnect:maps' %}?next={{ request.path }}&order_id={{ order.id }}&lat={{ order.location_lat }}&lng={{ order.location_lng }}" class="btn btn-outline grey animated fadeIn action" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Change location" %}</a>
+                <a href="{{ product_url }}" class="btn btn-outline grey animated fadeIn action" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Change order" %}</a>
+                <button class="btn btn-outline-success animated infinite pulse order-confirm action" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Confirm order" %}</button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
     </section>
 {% endblock %}
 
@@ -106,11 +133,12 @@
                 let params = {action: 'confirm_order', orderId: orderId};
                 $.getJSON('', params, function (data) {
                     if (data.success) {
-                        ikwen.showFloatingNotice('Your order has been successfully submitted', '', 1);
+                        ikwen.showFloatingNotice('{% trans "Your order has been successfully submitted" %}', '', 1);
                         setTimeout(redirect, 1000)
                     }
                     else {
-                        ikwen.showFloatingNotice('Error occurs when submitting your order, please try again...', '', 3);
+                        ikwen.showFloatingNotice('{% trans "Error occurs when submitting your order, please try again..." %}', '', 3);
+                        setTimeout(function () {location.reload()}, 2000)
                     }
 
                 })

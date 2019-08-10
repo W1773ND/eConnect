@@ -1,0 +1,58 @@
+/**
+    Document   : register
+    Created on : Oct 25, 2017, 05:05
+    Author     : Kom Sihon & W1773ND (wilfriedwillend@gmail.com)
+    Description:
+        Additional display rules for the eConnect register page
+*/
+
+#navbar { background-color: #fff;}
+#navbar .search, #navbar .navbar-right { display: none }
+.navbar-brand { color: #28a745 !important;}
+#content.form form {border: none; padding: 0}
+#rg-username {text-transform: lowercase}
+.dob .col-xs-4 {padding: 0 5px}
+.dob .col-xs-4:first-of-type {padding-left: 15px}
+.dob .col-xs-4:last-of-type {padding-right: 15px}
+.dob .errorlist {margin: -13px 0 0;text-align: right;}
+.why-dob {display: block; font-size: 11px; margin: -12px 0 10px 0; text-align: right}
+label {margin-top: 13px;}
+
+#terms-warning {
+    color: #999;
+    font-size: 11px
+}
+
+#register .brand, #register .title {
+    text-align: center
+}
+
+#register .brand img {
+    height: 90px
+}
+
+@media (min-width: 415px) {
+    #register .brand {
+        margin-top: 10%
+    }
+
+    #register .brand img {
+        max-width: 142px
+    }
+
+    #register .title {
+        text-align: left
+    }
+}
+
+@media (max-width: 767px) {
+    .form-group.gender label {margin-top: 25px;}
+}
+
+@media (min-width: 768px) {
+    label {margin-top: 13px;}
+    .form-horizontal .form-group.gender .checkbox {padding-top: 0}
+    #register .brand img {
+        height: auto
+    }
+}

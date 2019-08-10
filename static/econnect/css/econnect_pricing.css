@@ -89,8 +89,51 @@
 
 /* Media query */
 
-/* All device except Lg */
-@media only screen and (min-width: 320px) and (max-width:480px)  {
+
+/* Large Devices, Wide Screens */
+@media only screen and (max-width : 1199px) {
+
+    a:hover, a:focus { color: rgba(3,27,78,.6); }
+
+    #accordion-pack { position: inherit !important; }
+    #sectionEquipment {padding-top: 15vh !important;min-height: 20vh !important;}
+    #sectionAddOn {padding-top: 0 !important;min-height: 20vh !important;}
+
+    .addon-item {/* margin-bottom: 0 */}
+    .in-page-nav-link { border-bottom: 2px solid #183625 ;border-left: none; }
+    .in-page-nav-link.is-active { border-bottom-color: #ffffff; color: #ffffff !important; }
+
+    .pricing-menu {/* height: 90px; */padding: 0.5vh;position: sticky;position: -webkit-sticky;top: 7.5vh;z-index: 100;}
+    .panel-pricing-resume.NumeriLink {width: 92%;margin: auto;}
+    .pricing-resume {margin-top: 10vh !important;padding: inherit !important;/* position: inherit; */top: 20vh;}
+    .pricing-area { margin-top: 0 !important;}
+    .pricing-items {/* margin-top: 15vh; */}
+
+    .scroll-menu.NumeriLink {background: #009b94;webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);-moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);overflow: auto;white-space: nowrap;}
+    .scroll-menu.HomeLink { background: #df8568; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
+    .scroll-menu.OfficeLink { background: #9aa853; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
+    .scroll-menu.CorporateLink { background: #29b6f6; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
+    .scroll-menu a{display: inline-block !important;margin: 0.5vh 2vw 1vh;padding: 2vh 0 0.5vh !important;/* text-align: center !important; */}
+
+    .text-header { padding-top: 6vh !important;}
+
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (max-width : 991px) {
+    .callout-container {background-color: inherit; width: 100%; z-index: 2; }
+    .callout-container:hover {margin-left: -8%; width: 110%; z-index: 5; border: 1px solid transparent; border-radius: 4px; position: absolute; box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); transition-duration: 0.5s }
+    .callout-container.active:hover { margin-left: inherit; width: 100%; z-index: 5;}
+
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : 767px) {
+
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width : 479px) {
 
     a:hover, a:focus { color: rgba(3,27,78,.6); }
 
@@ -104,7 +147,7 @@
     .in-page-nav-link { border-bottom: 2px solid #183625 ;border-left: none; }
     .in-page-nav-link.is-active { border-bottom-color: #ffffff; color: #ffffff !important; }
 
-    .pricing-menu {/* height: 60px; */padding: 0.5vh;position: sticky;position: -webkit-sticky;top: 8vh;z-index: 1071;}
+    .pricing-menu {/* height: 60px; */padding: 0.5vh;position: sticky;position: -webkit-sticky;top: 8vh;z-index: 100;}
     .panel-pricing-resume.NumeriLink {width: 92%;margin: auto;}
     .pricing-resume {margin-top: 10vh !important;padding: inherit !important;/* position: inherit; */top: 20vh;}
     .pricing-area { margin-top: 0 !important;}
@@ -117,30 +160,10 @@
     .scroll-menu a{ display: inline-block !important; margin: auto 3vw; padding: 2vw !important; text-align: center !important; }
 
     .text-header { padding-top: 6vh !important;}
+
 }
-@media only screen and (min-width: 481px) and (max-width:1199px)  {
 
-    a:hover, a:focus { color: rgba(3,27,78,.6); }
+/* Custom, iPhone Retina */
+@media only screen and (max-width : 319px) {
 
-    #accordion-pack { position: inherit !important; }
-    #sectionEquipment {padding-top: 15vh !important;min-height: 20vh !important;}
-    #sectionAddOn {padding-top: 0 !important;min-height: 20vh !important;}
-
-    .addon-item {/* margin-bottom: 0 */}
-    .in-page-nav-link { border-bottom: 2px solid #183625 ;border-left: none; }
-    .in-page-nav-link.is-active { border-bottom-color: #ffffff; color: #ffffff !important; }
-
-    .pricing-menu {/* height: 90px; */padding: 0.5vh;position: sticky;position: -webkit-sticky;top: 7.5vh;z-index: 1071;}
-    .panel-pricing-resume.NumeriLink {width: 92%;margin: auto;}
-    .pricing-resume {margin-top: 10vh !important;padding: inherit !important;/* position: inherit; */top: 20vh;}
-    .pricing-area { margin-top: 0 !important;}
-    .pricing-items {/* margin-top: 15vh; */}
-
-    .scroll-menu.NumeriLink {background: #009b94;webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);-moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);overflow: auto;white-space: nowrap;}
-    .scroll-menu.HomeLink { background: #df8568; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
-    .scroll-menu.OfficeLink { background: #9aa853; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
-    .scroll-menu.CorporateLink { background: #29b6f6; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
-    .scroll-menu a{display: inline-block !important;margin: 0.5vh 2vw 1vh;padding: 2vh 0 0.5vh !important;/* text-align: center !important; */}
-
-    .text-header { padding-top: 6vh !important;}
 }

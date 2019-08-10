@@ -1,0 +1,83 @@
+{% load i18n humanize staticfiles cache auth_tokens %}
+<div class="edge-panel-left-container visible-xs">
+    <div id="side-nav" class="edge-panel-left subtle-shade" style="margin-left: -300px">
+        <div class="wrapper">
+            <div class="">
+                <div class="top-edge-panel" style>
+                    <div class="cover">
+                        <div class="company">
+                            <div class="logo">
+                                <a class="" href="{{ service.url }}">
+                                    <img class="img-responsive" src="{% static "econnect/img/creolink_logo.png" %}">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="{% url 'econnect:numerilink-home' %}"><img class="nav-menu-img" src="{% static 'econnect/img/numerilink-home.png' %}"></a></li>
+                <li><a href="{% url 'econnect:numerilink-hotel' %}"><img class="nav-menu-img" src="{% static 'econnect/img/numerilink-home.png' %}"></a></li>
+                <li><a href="{% url 'econnect:homelink' %}"><img class="nav-menu-img" src="{% static 'econnect/img/homelink.png' %}"></a></li>
+                <li><a href="{% url 'econnect:officelink' %}"><img class="nav-menu-img" src="{% static 'econnect/img/officelink.png' %}"></a></li>
+                <li><a href="{% url 'econnect:corporatelink' %}"><img class="nav-menu-img" src="{% static 'econnect/img/corporatelink.png' %}"></a></li>
+                <div class="divider"></div>
+                {% if user.is_authenticated %}
+                <li id="user-menu" class="dropdown">
+                    <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="glyphicon glyphicon-user"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="user-menu">
+                        <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                        <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
+                        <li>
+                            <a href="{% url 'econnect:my_creolink' %}">My Creolink</a>
+                        </li>
+                        <li>
+                            <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
+                        </li>
+                        {% if user.is_staff %}
+                            <li>
+                                <a href="{% url 'econnect:admin' %}">Admin</a>
+                            </li>
+                        {% endif %}
+                        <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
+                    </ul>
+                </li>
+            {% else %}
+                <li class="">
+                    <a href="{% url 'ikwen:sign_in' %}" class="" style="">{% trans "Login" %}</a>
+                </li>
+            {% endif %}
+                <li><a href="{% url 'econnect:home' %}">{% trans "Home" %}</a></li>
+                <li><a href="{% url 'blog:home' %}">{% trans 'Blog' %}</a> </li>
+                <div class="divider"></div>
+                <li><a style="color: #d2d1d1;" href="{% url 'econnect:privacy' %}" >{% trans 'Privacy policy' %}</a></li>
+                <li><a style="color: #d2d1d1;" href="{% url 'econnect:legal' %}" >{% trans 'Legal mention' %}</a></li>
+                {% if agreement_page %}
+{#                            <li><a href="{% url 'flatpage' agreement_page.url %}">{{ agreement_page.title }}</a></li>#}
+                {% endif %}
+            </ul>
+            <div class="clearfix"></div>
+            <div class="social-icon">
+                {% if config.facebook_link %}<a href="{{ config.facebook_link }}" target="_blank"><i class="fab fa-facebook-square"></i></a>{% endif %}
+                {% if config.linkedin_link %}<a href="{{ config.linkedin_link }}" target="_blank"><i class="fab fa-linkedin"></i></a>{% endif %}
+                {% if config.twitter_link %}<a href="{{ config.twitter_link }}" target="_blank"><i class="fab fa-twitter-square"></i></a>{% endif %}
+            </div>
+            <div class="language-switcher text-center">
+                {% include 'econnect/snippets/language_switcher.html' %}
+            </div>
+        </div>
+    </div>
+
+            <div id="footer">
+                &copy; {{ year }} <a class="company-name" href="{{ service.url }}"><strong>{{ config.company_name }}</strong></a>.
+                {% trans "All rights reserved." %}
+                {% if config.legal_mentions_url %}
+                - <a href="{{ config.legal_mentions_url }}" style="color: #666; text-decoration: none">{% trans "Legal mentions" %}</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

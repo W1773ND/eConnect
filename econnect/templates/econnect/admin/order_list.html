@@ -57,11 +57,12 @@
                 </a>
                 <div class="clearfix"></div>{% endcomment %}
             </div>
-            <div id="results" class="col-md-8 col-sm-10 col-md-offset-2 col-sm-offset-1">
+            <div id="results" class="col-lg-8 col-lg-offset-2">
                 {% include 'core/snippets/spinner.html' %}
                 {% include 'econnect/admin/snippets/order_list_results.html' %}
             </div>
         </div>
+        <p class="text-muted text-center order-confirmed tpl">{% trans 'This order is waiting for payment...' %}</p>
     </div>
 {% endblock %}
 
@@ -73,71 +74,63 @@
             $('.set-equipment').mouseover(function () {$(this).removeClass('animated')
             }).mouseout(function () {$(this).addClass('animated')
             }).click(function () {
-                let orderId = $(this).parents('.event-action').data('order-id');
+                let orderId = $(this).parents('.event').attr('id');
                 let params = {action: 'set_equipment', order_id: orderId};
                 $.getJSON('', params, function (data) {
                     if (data.success) {
-                        ikwen.showFloatingNotice('Request sent', '', 2);
-                        $('.set-equipment').addClass('tpl');
-                        location.reload()
+                        $('.set-equipment').removeClass('blink').text('{% trans "Sending request..." %}');
+                        setTimeout(function () {location.reload()}, 2000)
                     }
                     else {
                         ikwen.showFloatingNotice('Error occurs when sending request, please try again...', '', 3);
                     }
-                })
+                });
             });
             $('.order-accept').click(function () {
-                let orderId = $(this).parents('.event-action').data('order-id');
+                let orderId = $(this).parents('.event').attr('id');
                 let params = {action: 'accept_order', order_id: orderId};
                 $.getJSON('', params, function (data) {
                     if (data.success) {
                         ikwen.showFloatingNotice('Order accepted', '', 3);
+                        $('.order-accept').addClass('tpl');
+                        $('.order-report').addClass('tpl');
+                        $(this).parents('.event-action').append($('.order-confirmed').removeClass('tpl'));
                     }
                     else {
                         ikwen.showFloatingNotice('Error occurs when accepting this order, please try again...', '', 3);
+                        setTimeout(function () {location.reload()}, 2000)
                     }
-                })
-
+                });
             });
             $('.order-report').click(function () {
-                let orderId = $(this).parents('.event-action').data('order-id');
+                let orderId = $(this).parents('.event').attr('id');
                 let params = {action: 'report_order', order_id: orderId};
                 $.getJSON('', params, function (data) {
                     if (data.success) {
-                        ikwen.showFloatingNotice('Order reported', '', 3);
+                        ikwen.showFloatingNotice('Order reported', '', 2);
                     }
                     else {
                         ikwen.showFloatingNotice('Error occurs when reporting this order, please try again...', '', 3);
                     }
-                })
-
+                });
+                setTimeout(function () {location.reload()}, 2000)
             });
             $('.order-finish').click(function () {
-                let orderId = $(this).parents('.event-action').data('order-id');
+                let orderId = $(this).parents('.event').attr('id');
                 let params = {action: 'finish_order', order_id: orderId};
                 $.getJSON('', params, function (data) {
                     if (data.success) {
-                        ikwen.showFloatingNotice('Order classified', '', 3);
+                        ikwen.showFloatingNotice('Order classified', '', 2);
                     }
                     else {
                         ikwen.showFloatingNotice('Error occurs when classifying this order, please try again...', '', 3);
                     }
-                })
-
+                });
+                setTimeout(function () {location.reload()}, 2000)
             });
-            {% comment %}$('.order-relaunch').click(function () {
-                let orderId = $(this).parents('.event-action').data('order-id');
-                let params = {action: 'reject_order', order_id: orderId};
-                $.getJSON('', params, function (data) {
-                    if (data.success) {
-                        {#ikwen.showFloatingNotice('Contact customer...', '', 3);#}
-                    }
-                    else {
-                        ikwen.showFloatingNotice('Error occurs when rejecting this order, please try again...', '', 3);
-                    }
-                })
-
-            }){% endcomment %}
+            $('.order-member-email').click(function () {
+                {#To-DO: Set Email message to this member#}
+            })
         })();
     </script>
 

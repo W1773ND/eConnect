@@ -1,5 +1,11 @@
-{% extends 'base_black.html' %}
-{% load staticfiles auth_tokens %}{% block head_style %}
+{% extends 'base.html' %}
+{% load staticfiles auth_tokens %}
+
+{% block page_title %}
+    <title> Creolink - Blog</title>
+{% endblock %}
+
+{% block head_style %}
     {{ block.super }}
     <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/homepage.css' %}">
     <link href="{% static 'econnect/css/blog.css' %}?version=1.0" rel="stylesheet">

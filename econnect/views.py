@@ -61,17 +61,8 @@ def set_prospect(order, url, payload):
         device_id = query[DEVICE_ID][0]
         order.maps_id = device_id
         order.save()
-        response = {"success": True}
-        return HttpResponse(
-            json.dumps(response),
-            'content-type: text/json'
-        )
     else:
-        response = {"error": True}
-        return HttpResponse(
-            json.dumps(response),
-            'content-type: text/json'
-        )
+        pass
 
 
 class PostView(TemplateView):
@@ -203,14 +194,14 @@ class OrderConfirm(TemplateView):
         order = get_object_or_404(Order, id=order_id)
         order.status = PENDING
         order.save()
-        member = order.member.full_name
+        member = order.member
         lat = order.location_lat
         lng = order.location_lng
 
         if getattr(settings, 'DEBUG', False):
             prospect_url = getattr(settings, "LOCAL_MAPS_URL") + 'save_prospect'
             payload = {
-                'customer_name': member,
+                'customer_name': member.full_name,
                 'lat': lat,
                 'lng': lng,
                 'order_id': order_id,
@@ -219,12 +210,18 @@ class OrderConfirm(TemplateView):
         else:
             prospect_url = getattr(settings, "CREOLINK_MAPS_URL") + 'save_prospect'
             payload = {
-                'customer_name': member,
+                'customer_name': member.full_name,
                 'lat': lat,
                 'lng': lng,
                 'order_id': order_id
             }
         Thread(target=set_prospect, args=(order, prospect_url, payload)).start()
+
+        response = {"success": True}
+        return HttpResponse(
+            json.dumps(response),
+            'content-type: text/json'
+        )
 
 
 class PendingOrderList(HybridListView):
@@ -238,7 +235,7 @@ class PendingOrderList(HybridListView):
     def get(self, request, *args, **kwargs):
         action = request.GET.get('action')
         if action == 'set_equipment':
-            return self.availability_check(request)
+            return self.set_equipment(request)
         if action == 'accept_order':
             return self.accept_order(request)
         elif action == 'report_order':
@@ -249,14 +246,14 @@ class PendingOrderList(HybridListView):
     def set_equipment(request):
         order_id = request.GET['order_id']
         order = get_object_or_404(Order, id=order_id)
-        member = order.member.full_name
+        member = order.member
         lat = order.location_lat
         lng = order.location_lng
 
         if getattr(settings, 'DEBUG', False):
             prospect_url = getattr(settings, "LOCAL_MAPS_URL") + 'save_prospect'
             payload = {
-                'customer_name': member,
+                'customer_name': member.full_name,
                 'lat': lat,
                 'lng': lng,
                 'order_id': order_id,
@@ -265,13 +262,12 @@ class PendingOrderList(HybridListView):
         else:
             prospect_url = getattr(settings, "CREOLINK_MAPS_URL") + 'save_prospect'
             payload = {
-                'customer_name': member,
+                'customer_name': member.full_name,
                 'lat': lat,
                 'lng': lng,
                 'order_id': order_id
             }
         Thread(target=set_prospect, args=(order, prospect_url, payload)).start()
-
         response = {"success": True}
         return HttpResponse(
             json.dumps(response),
@@ -286,7 +282,7 @@ class PendingOrderList(HybridListView):
         order.save()
         install_cost = order.package.product.install_cost
         amount = order.cost - install_cost
-        member = order.member.full_name
+        member = order.member
         config = get_service_instance().config
         number = get_next_invoice_number()
         product_name = order.package.product.name
@@ -339,20 +335,29 @@ class PendingOrderList(HybridListView):
         order = get_object_or_404(Order, id=order_id)
         order.status = REPORTED
         order.save()
-        member = order.member.full_name
+        member = order.member
         product_name = order.package.product.name
         package_name = order.package.name
         order_location = order.formatted_address
-        subject = _("Dear " + member.full_name + ", we'll come soon as possible to install your service.")
-        html_content = get_mail_content(subject, template_name='econnect/mails/order_reported.html',
-                                        extra_context={'order_product': product_name,
-                                                       'order_package': package_name,
-                                                       'order_location': order_location
-                                                       })
-        sender = 'Creolink Communications <no-reply@creolink.com>'
-        msg = XEmailMessage(subject, html_content, sender, [member.email])
-        msg.content_subtype = "html"
-        Thread(target=lambda m: m.send(), args=(msg,)).start()
+
+        try:
+            subject = _("Dear " + member.full_name + ", we'll come soon as possible to install your service.")
+            html_content = get_mail_content(subject, template_name='econnect/mails/order_reported.html',
+                                            extra_context={'order_product': product_name,
+                                                           'order_package': package_name,
+                                                           'order_location': order_location
+                                                           })
+            sender = 'Creolink Communications <no-reply@creolink.com>'
+            msg = XEmailMessage(subject, html_content, sender, [member.email])
+            msg.content_subtype = "html"
+            Thread(target=lambda m: m.send(), args=(msg,)).start()
+        except:
+            response = {"success": True, "Mail": False}
+            return HttpResponse(
+                json.dumps(response),
+                'content-type: text/json'
+            )
+
         response = {"success": True}
         return HttpResponse(
             json.dumps(response),
@@ -380,20 +385,27 @@ class PaidOrderList(HybridListView):
         order = get_object_or_404(Order, id=order_id)
         order.status = FINISHED
         order.save()
-        member = order.member.full_name
+        member = order.member
         product_name = order.package.product.name
         package_name = order.package.name
         order_location = order.formatted_address
-        subject = _("Dear " + member.full_name + ", thanks to business with Creolink Communications.")
-        html_content = get_mail_content(subject, template_name='econnect/mails/service_completed.html',
-                                        extra_context={'order_product': product_name,
-                                                       'order_package': package_name,
-                                                       'order_location': order_location
-                                                       })
-        sender = 'Creolink Communications <no-reply@creolink.com>'
-        msg = XEmailMessage(subject, html_content, sender, [member.email])
-        msg.content_subtype = "html"
-        Thread(target=lambda m: m.send(), args=(msg,)).start()
+        try:
+            subject = _("Dear " + member.full_name + ", thanks to business with Creolink Communications.")
+            html_content = get_mail_content(subject, template_name='econnect/mails/service_completed.html',
+                                            extra_context={'order_product': product_name,
+                                                           'order_package': package_name,
+                                                           'order_location': order_location
+                                                           })
+            sender = 'Creolink Communications <no-reply@creolink.com>'
+            msg = XEmailMessage(subject, html_content, sender, [member.email])
+            msg.content_subtype = "html"
+            Thread(target=lambda m: m.send(), args=(msg,)).start()
+        except:
+            response = {"success": True, "Mail": False}
+            return HttpResponse(
+                json.dumps(response),
+                'content-type: text/json'
+            )
         response = {"success": True}
         return HttpResponse(
             json.dumps(response),
@@ -675,6 +687,18 @@ class PricingCorporatelink(PostView):
         context['equipment_list'] = equipment_list
         context['product'] = product
         return context
+
+
+class About(TemplateView):
+    template_name = 'econnect/about.html'
+
+
+class Legal(TemplateView):
+    template_name = 'econnect/legal.html'
+
+
+class Privacy(TemplateView):
+    template_name = 'econnect/privacy.html'
 
 
 class ChangeMailCampaign(CampaignBaseView, ChangeObjectBase):

@@ -161,7 +161,7 @@
                             <h4 id="CurrentSliderPriceValLabel" style=""><label>{% trans "Indiquez le nombre de TV à connecter..." %}</label></h4>
                         </div>
                     </div>
-                    <div class="col-lg-10" style="padding-bottom: 5.5vh">
+                    <div class="col-lg-10" style="padding-bottom: 5.5vh; z-index: 10">
                         <input id="optionalTvNumber" type="range" data-slider-min="1" data-slider-max="15" data-slider-step="1" data-slider-value="1" data-slider-enabled="false"/>
                     </div>
 
@@ -416,7 +416,7 @@
     <script>
         (function () {
             // redirect to signIn page
-            $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:numerilink-home' %}");
+            $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:numerilink-hotel' %}");
 
             // set focus when modal is opened
             $('#modal-get-email').on('shown.bs.modal', function () {
@@ -427,6 +427,7 @@
                 $('div#email-error').fadeOut().hide()
             });
 
+            $('li.NumeriLink').addClass('selected');
 
             //Dynamic color for menu items and faq: BEGIN
             $('.nav-menu').addClass('{{ product.name }}');

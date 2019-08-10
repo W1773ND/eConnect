@@ -121,7 +121,7 @@
 
             <section id="sectionAddOn" class="pricing-section" style="min-height: 50vh">
                 <fieldset class="section-addon disabled" style="width: 100%">
-                    <h3 class="col-xs-8 section-title">{% trans "Add-ons" %}<label class="cost {{ product.name }} addons-cost" style="display: none" ></label></h3>
+                    <h3 class="col-xs-12 section-title">{% trans "Add-ons" %}<label class="cost {{ product.name }} addons-cost" style="display: none" ></label></h3>
                     <div class="clearfix"></div>
                     <hr class="section-border-top">
 
@@ -374,7 +374,7 @@
     <script>
         (function () {
             // redirect to signIn page
-            $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:numerilink-home' %}");
+            $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:homelink' %}");
 
             // set focus when modal is opened
             $('#modal-get-email').on('shown.bs.modal', function () {
@@ -385,6 +385,7 @@
                 $('div#email-error').fadeOut().hide()
             });
 
+            $('li.HomeLink').addClass('selected');
 
             //Dynamic color for menu items and faq: BEGIN
             $('.nav-menu').addClass('{{ product.name }}');

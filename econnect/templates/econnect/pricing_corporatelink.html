@@ -16,6 +16,7 @@
     </style>
 {% endblock %}
 
+
 {% block content %}
 
 {% include 'econnect/snippets/set_location_header.html' %}
@@ -335,7 +336,7 @@
     <script>
         (function () {
             // redirect to signIn page
-            $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:numerilink-home' %}");
+            $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:corporatelink' %}");
 
             // set focus when modal is opened
             $('#modal-get-email').on('shown.bs.modal', function () {
@@ -346,6 +347,7 @@
                 $('div#email-error').fadeOut().hide()
             });
 
+            $('li.CorporateLink').addClass('selected');
 
             //Dynamic color for menu items and faq: BEGIN
             $('.nav-menu').addClass('{{ product.name }}');

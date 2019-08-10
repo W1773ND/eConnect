@@ -335,7 +335,7 @@
     <script>
         (function () {
             // redirect to signIn page
-            $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:numerilink-home' %}");
+            $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:officelink' %}");
 
             // set focus when modal is opened
             $('#modal-get-email').on('shown.bs.modal', function () {
@@ -345,6 +345,8 @@
             $('#visitor-email').focusin(function () {
                 $('div#email-error').fadeOut().hide()
             });
+
+            $('li.OfficeLink').addClass('selected');
 
             //Dynamic color for menu items and faq: BEGIN
             $('.nav-menu').addClass('{{ product.name }}');

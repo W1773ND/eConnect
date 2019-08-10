@@ -1,13 +1,14 @@
 
 
 .order {margin-bottom: 3vh;}
+.order .action {margin:auto; width: 90%}
+/*.order.item div p {font-size: .8em}*/
 
-.welcome-title { margin: 3vh 0 0 !important; }
+/*.welcome-title { font-size: 1.5em; margin: 3vh 0 0 !important; }*/
 
 
 
 /*Styling embed map*/
-/*.embed-map-disabled { pointer-events: none;}*/
 
 .gmap_canvas { background:none!important; height:auto; overflow:hidden; width:auto;}
 
