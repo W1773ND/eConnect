@@ -125,7 +125,7 @@ section {margin: 5vh 0;}
   margin-bottom: 24px;
 }
 .card-default.green > .card-header,
-.card-default.green > .card-footer{ color: #ddd; background-color: #28a745; }
+.card-default.green > .card-footer{color: #fff;background-color: #28a745;}
 .card-default.green > .card-header{ border-bottom: 1px solid #28a745; padding: 8px; }
 .card-default.green > .card-footer{ border-top: 1px solid #28a745; padding: 8px; }
 .card-default.green > .card-body{  }

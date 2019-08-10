@@ -7,7 +7,7 @@
     <meta name="msapplication-navbutton-color" content="#28a745">
     <meta name="apple-mobile-web-app-status-bar-style" content="#28a745">
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="{{ service.url }}" />
+    <meta property="og:url" content="{% url 'econnect:home' %}" />
     <meta property="og:image" content="{% static 'econnect/img/creolink_logo_portrait.png' %}" />
     <meta property="og:title" content="{% trans "Creolink Communications" %}"/>
     <meta property="og:description" content="{% trans "The best of internet, the best of TV" %}">
@@ -35,7 +35,7 @@
 {#        <span class="cta app-name">{{ service.app.name|upper }}</span>#}
         <ol class="breadcrumb">
             {% url 'ikwen:staff_router' as admin_home_url %}
-            <li><a href="{{ admin_home_url }}">{{ service.project_name }}</a></li>
+            <li><a href="{{ admin_home_url }}">{{ config.company_name }}</a></li>
             {% block breadcrumb_location %}{% endblock %}
         </ol>
         <a href="{% url 'home' %}" class="go-to-website pull-right" title="{% trans "Go to public website" %}">
@@ -46,7 +46,7 @@
 {% endblock %}
 
 {% block header_brand %}
-<a class="navbar-brand hidden-xs" href="{{ service.url }}">
+<a class="navbar-brand hidden-xs" href="{% url 'econnect:home' %}">
     <span class="app-nav cta app-logo">
         <img src="{% static 'econnect/img/creolink_logo.png' %}" class="img-responsive"  style="height: auto; width: 120px"/>
     </span>
@@ -125,7 +125,7 @@
 
 {% block footer %}
     <footer>
-        &copy; {{ year }} <a href="{{ service.url }}"><strong>{{ config.company_name }}</strong></a>. {% trans "All rights reserved." %} -
+        &copy; {{ year }} <a href="{% url 'econnect:home' %}"><strong>{{ config.company_name }}</strong></a>. {% trans "All rights reserved." %} -
         <a href="http://www.ikwen.com/legalMentions" style="text-decoration: underline">{% trans "Legal mentions" %}</a>
     </footer>
 {% endblock %}

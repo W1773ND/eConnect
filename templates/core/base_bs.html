@@ -45,10 +45,10 @@
                                     <span class="icon-bar"></span>
                                 </div>
                                 {% block header_brand %}
-                                    <a class="navbar-brand hidden-xs" href="{{ service.url }}">
-                                        <strong>{{ service.project_name }}</strong>
+                                    <a class="navbar-brand hidden-xs" href="{% url 'econnect:home' %}">
+                                        <strong>{{ config.company_name }}</strong>
                                     </a>
-                                    <strong class="navbar-brand visible-xs">{{ service.project_name }}</strong>
+                                    <strong class="navbar-brand visible-xs">{{ config.company_name }}</strong>
                                 {% endblock %}
                                 {% block site_menu_xs %}
                                     <nav class="visible-xs pull-right">
@@ -203,7 +203,7 @@
         {% block after_content %}{% endblock %}
         {% block footer %}
             <footer>
-                &copy; {{ year }} <a class="company-name" href="{{ service.url }}"><strong>{{ config.company_name }}</strong></a>.
+                &copy; {{ year }} <a class="company-name" href="{% url 'econnect:home' %}"><strong>{{ config.company_name }}</strong></a>.
                 {% trans "All rights reserved." %}
                 {% if config.legal_mentions_url %}
                 - <a href="{{ config.legal_mentions_url }}" style="color: #666; text-decoration: none">{% trans "Legal mentions" %}</a>
