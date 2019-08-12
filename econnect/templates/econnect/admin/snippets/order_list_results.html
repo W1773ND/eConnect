@@ -109,7 +109,7 @@
                             {% endif %}
                             <br>
                             <p class="customer-location text-muted">{% trans 'To be installed at' %}</p>
-                            {% if order.maps_url and  'device_id' in order.maps_url %}
+                            {% if order.maps_url and  'maps.creolink.com' in order.maps_url %}
                             <a href='{{ order.maps_url }}' target="_blank">{{ order.formatted_address }}</a>
                             {% else %}
                             <a href='{% url 'econnect:maps' %}?next={{ request.path }}&availabilityCheck=1&lat={{ order.location_lat }}&lng={{ order.location_lng }}'>{{ order.formatted_address }}</a>
@@ -137,10 +137,10 @@
                 {% else %}
                     <form action="{% url 'econnect:change_mailcampaign' %}" method="post">
                     {% csrf_token %}
-                    <input type="hidden" name="keep_editing" value="yes">
-                    <input type="hidden" name="order_id" value="{{ order.id }}">
-                    <input type="hidden" name="recipients" value="{{ order.member.email }}">
-                    <button href="{{ obj_url }}" class="btn btn-outline-primary order-relaunch btn-md">{% trans 'Contact customer' %}</button>
+                        <input type="hidden" name="keep_editing" value="yes">
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <input type="hidden" name="recipients" value="{{ order.member.email }}">
+                        <button href="{{ obj_url }}" class="btn btn-outline-primary order-relaunch btn-md">{% trans 'Contact customer' %}</button>
                     </form>
                 {% endif %}
                 </div>

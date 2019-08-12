@@ -62,7 +62,17 @@
                 {% include 'econnect/admin/snippets/order_list_results.html' %}
             </div>
         </div>
-        <p class="text-muted text-center order-confirmed tpl">{% trans 'This order is waiting for payment...' %}</p>
+        <section id="templates-section">
+            <p class="text-muted text-center order-confirmed tpl">{% trans 'This order is waiting for payment...' %}</p>
+            <form action="{% url 'econnect:change_mailcampaign' %}" method="post" class="order-reported tpl">
+            {% csrf_token %}
+                <input type="hidden" name="keep_editing" value="yes">
+                <input type="hidden" name="order_id" value="{{ order.id }}">
+                <input type="hidden" name="recipients" value="{{ order.member.email }}">
+                <button href="{{ obj_url }}" class="btn btn-outline-primary order-relaunch btn-sm pull-right">{% trans 'Contact customer' %}</button>
+            </form>
+        </section>
+
     </div>
 {% endblock %}
 
@@ -74,11 +84,12 @@
             $('.set-equipment').mouseover(function () {$(this).removeClass('animated')
             }).mouseout(function () {$(this).addClass('animated')
             }).click(function () {
-                let orderId = $(this).parents('.event').attr('id');
+                let currentOrder = $(this).parents('.event');
+                let orderId = currentOrder.attr('id');
                 let params = {action: 'set_equipment', order_id: orderId};
                 $.getJSON('', params, function (data) {
                     if (data.success) {
-                        $('.set-equipment').removeClass('blink').text('{% trans "Sending request..." %}');
+                        currentOrder.find('.set-equipment').removeClass('blink').text('{% trans "Sending request..." %}');
                         setTimeout(function () {location.reload()}, 2000)
                     }
                     else {
@@ -87,33 +98,40 @@
                 });
             });
             $('.order-accept').click(function () {
-                let orderId = $(this).parents('.event').attr('id');
+                let currentOrder = $(this).parents('.event');
+                let orderId = currentOrder.attr('id');
                 let params = {action: 'accept_order', order_id: orderId};
                 $.getJSON('', params, function (data) {
                     if (data.success) {
-                        ikwen.showFloatingNotice('Order accepted', '', 3);
-                        $('.order-accept').addClass('tpl');
-                        $('.order-report').addClass('tpl');
-                        $(this).parents('.event-action').append($('.order-confirmed').removeClass('tpl'));
+                        currentOrder.find('.order-accept').addClass('tpl');
+                        currentOrder.find('.order-report').addClass('tpl');
+                        currentOrder.find('.status-bullet').removeClass('pending').addClass('pendingforpayment');
+                        currentOrder.find('.event-action').append($('.order-confirmed').removeClass('tpl'));
+                        ikwen.showFloatingNotice('{% trans "Order accepted" %}', '', 3)
                     }
                     else {
-                        ikwen.showFloatingNotice('Error occurs when accepting this order, please try again...', '', 3);
+                        ikwen.showFloatingNotice('{% trans "Error occurs when accepting this order, please try again..." %}', '', 3);
                         setTimeout(function () {location.reload()}, 2000)
                     }
                 });
             });
             $('.order-report').click(function () {
-                let orderId = $(this).parents('.event').attr('id');
+                let currentOrder = $(this).parents('.event');
+                let orderId = currentOrder.attr('id');
                 let params = {action: 'report_order', order_id: orderId};
                 $.getJSON('', params, function (data) {
                     if (data.success) {
-                        ikwen.showFloatingNotice('Order reported', '', 2);
+                        currentOrder.find('.order-accept').addClass('tpl');
+                        currentOrder.find('.order-report').addClass('tpl');
+                        currentOrder.find('.status-bullet').removeClass('pending').addClass('reported');
+                        currentOrder.find('.event-action').append($('.order-reported').removeClass('tpl'))
+                        ikwen.showFloatingNotice('{% trans "Order reported" %}', '', 3)
                     }
                     else {
-                        ikwen.showFloatingNotice('Error occurs when reporting this order, please try again...', '', 3);
+                        ikwen.showFloatingNotice('{% trans "Error occurs when reporting this order, please try again..." %}', '', 3);
+                        setTimeout(function () {location.reload()}, 2000)
                     }
                 });
-                setTimeout(function () {location.reload()}, 2000)
             });
             $('.order-finish').click(function () {
                 let orderId = $(this).parents('.event').attr('id');
@@ -123,7 +141,7 @@
                         ikwen.showFloatingNotice('Order classified', '', 2);
                     }
                     else {
-                        ikwen.showFloatingNotice('Error occurs when classifying this order, please try again...', '', 3);
+                        ikwen.showFloatingNotice('{% trans "Error occurs when classifying this order, please try again..." %}', '', 3);
                     }
                 });
                 setTimeout(function () {location.reload()}, 2000)
