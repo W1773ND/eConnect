@@ -103,9 +103,12 @@
                 <li class="billing-configuration">{% url 'billing:configuration' as configuration_url %}
                     <a href="{{ configuration_url }}">{% trans "Configuration" %}</a>
                 </li>
+                <li class="billing-configuration">{% url 'billing:payment_mean_list' as payment_means_url %}
+                    <a href="{{ payment_means_url }}">{% trans "Payment means" %}</a>
+                </li>
                 {% endif %}
                 <li class="invoices">{% url 'billing:invoice_list' as invoice_list_url %}
-                    <a href="{{ invoice_list_url }}">{% trans "Invoices" %}</a>
+                    <a href="{{ invoice_list_url }}">{% trans "My invoices" %}</a>
                 </li>
             </ul>
         </li>

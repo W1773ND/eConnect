@@ -5,7 +5,7 @@
     <li class="col-md-12 row event hidden-xs{% if not order.is_paid %} pending{% endif %}" id= "{{ order.id }}">
         <div class="subtle-shade event-detail">
             <div class="event-icon v-align">
-                <img class="v-align-center" src="{% static 'echo/img/mail-icon.png' %}" />
+                <img class="v-align-center" src="{% static 'econnect/img/picto-registration-form.png' %}" />
             </div>
             <div class="event-content">
                 <div>
@@ -37,7 +37,7 @@
                             {% endif %}
                             <br>
                             <p class="customer-location text-muted">{% trans 'To be installed at' %}</p>
-                            {% if order.maps_url and  'device_id' in order.maps_url %}
+                            {% if order.maps_url and  'creolink' in order.maps_url %}
                             <a href='{{ order.maps_url }}' target="_blank">{{ order.formatted_address }}</a>
                             {% else %}
                             <a href='{% url 'econnect:maps' %}?next={{ request.path }}&availabilityCheck=1&lat={{ order.location_lat }}&lng={{ order.location_lng }}'>{{ order.formatted_address }}</a>

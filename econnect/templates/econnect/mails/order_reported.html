@@ -1,0 +1,181 @@
+{% load i18n humanize %}
+<!doctype html>
+<!-- notice.html -->
+<html style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;margin-top:0 !important;margin-bottom:0 !important;margin-right:0 !important;margin-left:0 !important;padding-top:0 !important;padding-bottom:0 !important;padding-right:0 !important;padding-left:0 !important;height:100% !important;width:100% !important;" >
+<head style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
+<meta charset="utf-8" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
+<!-- utf-8 works for most cases -->
+<meta name="viewport" content="width=device-width" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
+<!-- Forcing initial-scale shouldn't be necessary -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
+<!-- Use the latest (edge) version of IE rendering engine -->
+<title style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >{{ subject }} - {{ company_name }}</title>
+<!-- The title tag shows in email notifications, like Android 4.4. -->
+
+
+<!-- Progressive Enhancements -->
+<style type="text/css" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
+
+.button-td, .button-a {
+	transition: all 100ms ease-in;
+}
+.button-td:hover, .button-a:hover {
+	background: rgba(37, 218, 76, 0.78) !important;
+	border-color: rgba(37, 218, 76, 0.78) !important;
+}
+.button-ta:hover, .button-b:hover {
+	background:#222222!important;
+	border-color: #222222!important;
+}
+
+.screen-display{
+	margin-top: 10px;
+}
+
+
+
+@media screen and (max-width: 480px) {
+
+.fluid, .fluid-centered {
+	width: 100% !important;
+	max-width: 100% !important;
+	height: auto !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+
+.fluid-centered {
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+
+.stack-column, .stack-column-center {
+	display: block !important;
+	width: 100% !important;
+	max-width: 100% !important;
+	direction: ltr !important;
+}
+
+.stack-column-center {
+	text-align: center !important;
+}
+
+.center-on-narrow {
+	text-align: center !important;
+	display: block !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	float: none !important;
+	width: 200px !important;
+	height: auto !important;
+}
+table.center-on-narrow {
+	display: inline-block !important;
+}
+.screen-display{
+	margin-top: 0 !important;
+}
+}
+
+@media screen and (max-width: 767px) and (orientation: landscape){
+.screen-display{
+	margin-top: 0 !important;
+}
+}
+
+</style>
+</head>
+<body width="100%" bgcolor="#e0e0e0"  yahoo="yahoo" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;margin-top:0 !important;margin-bottom:0 !important;margin-right:0 !important;margin-left:0 !important;padding-top:0 !important;padding-bottom:0 !important;padding-right:0 !important;padding-left:0 !important;height:100% !important;width:100% !important;" >
+<table cellpadding="0" cellspacing="0" border="0" height="100%" width="100%" bgcolor="#e0e0e0" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;border-collapse:collapse !important;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;border-spacing:0 !important;table-layout:fixed !important;margin-top:0 !important;margin-bottom:0 !important;margin-right:auto !important;margin-left:auto !important;" >
+  <tr style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
+    <td style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;" ><center style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;width:100%;" >
+
+        <!-- Visually Hidden Preheader Text : BEGIN -->
+        <div style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;display:none;font-size:1px;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;mso-hide:all;font-family:'Myriad Pro','Lucida Sans Unicode' ,Verdana, Helvetica, Arial, sans-serif;" >{{ subject }} - {{ company_name }}</div>
+        <!-- Visually Hidden Preheader Text : END -->
+        <div class="screen-display" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;max-width:680px;box-shadow:6px 5px 5px  #bfbfbf;font-family:'Myriad Pro','Lucida Sans Unicode' ,Verdana, Helvetica, Arial, sans-serif;margin-top:10px;" >
+          <!--[if (gte mso 9)|(IE)]>
+            <table cellspacing="0" cellpadding="0" border="0" width="680" align="center" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;border-spacing:0 !important;border-collapse:collapse !important;table-layout:fixed !important;margin-top:0 !important;margin-bottom:0 !important;margin-right:auto !important;margin-left:auto !important;" >
+            <tr style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
+            <td style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;" >
+            <![endif]-->
+
+          <!-- Email Header : BEGIN -->
+				  <table cellspacing="0" cellpadding="0" border="0" align="center" bgcolor="#F3F3F3" width="100%" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;max-width:680px;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;border-spacing:0 !important;border-collapse:collapse !important;margin-top:0 !important;margin-bottom:0 !important;margin-right:auto !important;margin-left:auto !important;table-layout:fixed !important;" >
+					<tr style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
+					  <td style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;" >
+						<div style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;width:100%;margin-top:auto;margin-bottom:auto;margin-right:auto;margin-left:auto;padding-top:15px;padding-bottom:5px;padding-right:0;padding-left:0;text-align:left;border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:#EEEEEE;" >
+						    <a href="{{ service.url }}" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
+                                <img src="https://lh3.googleusercontent.com/YIgquZwVCQeTHy_2K1-Kj2c_UqQyqRCbeCf3PIOKM2XZkgQvbmj36kk0bLaok0xbxr6VxqavND1WyjmW7jMqd1VQ7C1qNN_KnjEb8LU3B8TXfVoX9xwadhvB4RwkaOJP-wIy_6fTYrRDnKB6CG1v6cKiXW5vuM2kBJqiIoQmUXbdvTAQJaPnVZezTKueAQAjkYAfLJGw4h9AUjx30QXiEnjJ_c_booSuQ_3ot8lWpAF4Mjbk78ewkCtFBrxm-pdcoY86gxGHsmYO_fGn3V-JmppXaYGlc3ym5xUGPjif6kI38EuT7jl7n0RFbcbPAzr48fRIpb960qo889l0SONTub7M-maRx0dmdJvhkfV3zPi0cj7nmJOJEcQlxzsyQKnbtVaiPW9jnovEFGMicsY5HRtizr5IhXlUbzlhDmHsFymbiOmLhNFUvALAs5ckOgLEcplOyhSnwAiTAvxsUZvHHkbbhqiazqRNhrn5LUpXQFcoMYmIA2t8-SDdlFf1L7D3p_FqBaKkn1Z4Zus4eoNSu2SqxGjI0Usf57MnE7VdEHsFcAjF2vK0K6LVu3n6jjVEX2PT9C6jEogmEX3rltUVQXft9MIR_SLj-YXzxtRyW47_bgqCFOPSgmhVBfhac_enzLYdjfXusMRBQPqq9Al3LufSlgzj15igblxYBsoaD7kHyNuC5Ye_gjNmS9RTQlueHN0KsvWZA_d7vexH_pFxqV25=w805-h263-no" width="100" height="auto" alt="Creolink Communications website" border="0" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;padding-left:20px;-ms-interpolation-mode:bicubic;" >
+                            </a>
+                        </div>
+						</td>
+					</tr>
+				  </table>
+				  <!-- Email Header : END -->
+
+          <!-- Email Body : BEGIN -->
+          <table cellspacing="0" cellpadding="0" border="0" align="center" bgcolor="#ffffff" width="100%" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;max-width:680px;border-top-width:3px;border-top-style:solid;border-top-color:#28a745;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;border-spacing:0 !important;border-collapse:collapse !important;margin-top:0 !important;margin-bottom:0 !important;margin-right:auto !important;margin-left:auto !important;table-layout:fixed !important;" >
+          <!-- 1 Column Text : BEGIN -->
+            <tr style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
+              <td valign="middle" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;text-align:left;background-position:center center !important;background-size:cover !important;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;" >
+
+                <div style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
+                  <!--[if mso]>
+                            <table border="0" cellspacing="0" cellpadding="0" align="left" width="500" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;border-spacing:0 !important;border-collapse:collapse !important;margin-top:0 !important;margin-bottom:0 !important;margin-right:auto !important;margin-left:auto !important;table-layout:fixed !important;" >
+                            <tr style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
+                            <td align="center" valign="top" width="500" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;" >
+                            <![endif]-->
+                <table border="0" cellpadding="0" cellspacing="0" align="left" width="100%" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;max-width:680px;margin-top:0 !important;margin-bottom:0 !important;margin-right:auto !important;margin-left:auto !important;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;border-spacing:0 !important;border-collapse:collapse !important;table-layout:fixed !important;" >
+                    <tr style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
+                      <td valign="middle" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;padding-top:20px;padding-bottom:20px;padding-right:20px;padding-left:20px;font-size:18px;mso-height-rule:exactly;line-height:25px;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;" >
+                        <h3 style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;margin-top:0;" >{% blocktrans %}Dear {{ member_name }},</h3>
+                        <p style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;font-size:14px" >
+                            Your order has been taken into consideration, please proceed with payment and a team will come as soon as possible to install {{ order_label }}
+                            <br style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
+                            at {{ order_location }}.
+                        </p>
+                        <p style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;color:#8f8f8f;text-align:center;margin-bottom:20px; font-size: 16px; line-height: 23px" >
+                            Thank you for your business with Creolink Communications
+                        </p>
+                        {% endblocktrans %}
+                      </td>
+                    </tr>
+                </table>
+                <!-- Button : Begin -->
+				<table cellspacing="0" cellpadding="0" border="0" align="center" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;margin-top:0 !important;margin-bottom:0 !important;margin-right:auto !important;margin-left:auto !important;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;border-spacing:0 !important;border-collapse:collapse !important;table-layout:fixed !important;" >
+                    <tr style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
+                        <td  class="button-td" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;min-width:160px;border-radius:3px;background-color:#28a745;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;text-align:center;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;transition:all 100ms ease-in;" >
+                          <a href="{{ invoice_url }}" target="_blank"  class="button-a" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;background-color:#28a745;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;border-width:15px;border-style:solid;border-color:#28a745;padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;color:#ffffff;font-size:13px;line-height:1.1;text-align:center;text-decoration:none;display:block;border-radius:3px;transition:all 100ms ease-in;" >
+                          <!--[if mso]>&nbsp;&nbsp;&nbsp;&nbsp;<![endif]-->{% trans 'Pay now' %}<!--[if mso]>&nbsp;&nbsp;&nbsp;&nbsp;<![endif]-->
+                          </a>
+                        </td>
+                    </tr>
+				</table>
+				<!-- Button : END -->
+                  <!--[if (gte mso 9)|(IE)]>
+                            </td>
+                            </tr>
+                            </table>
+                            <![endif]-->
+                </div>
+
+                <!--[if gte mso 9]>
+                        </v:textbox>
+                        </v:rect>
+                        <![endif]--></td>
+            </tr>
+            <!-- 1 Column Text : END -->
+
+					<!-- Email Footer : BEGIN -->
+                            {% include 'core/mails/snippets/confidentiality.html' %}
+					  <!-- Email Footer : END -->
+            </table>
+        </div>
+    </center>
+	</td>
+  </tr>
+</table>
+</body>
+</html>
+

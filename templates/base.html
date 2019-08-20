@@ -224,7 +224,7 @@
                                 <li><a href="#" target="_blank" class="icoTwitter" title="Twitter"><i class="fab fa-twitter-square"></i></a></li>
                             </ul>
                             <div>
-                                <a href="https://www.google.com/search?ei=_lc4XdHQK4aAhbIPoauc6AQ&q=creolink+communication&oq=creolink&gs_l=psy-ab.3.4.35i39l2j0l6j0i203j0.104654.106035..110124...0.0..0.256.1807.0j2j6......0....1..gws-wiz.......0i71j0i67j0i131j0i131i67j0i20i263.tDXUrr2PTfg" target="_blank" rel="noopener noreferrer">
+                                <a href="https://www.google.com/search?q=Creolink Communications" target="_blank">
                                     {% trans "Or on web..." %}
                                 </a>
                             </div>
@@ -357,6 +357,12 @@
                         $('html, body').animate( { scrollTop: $(page).offset().top }, speed );
                         return false;
                     });
+
+                    {% if user.is_anonymous %}
+                        let itemsToRemove = ["Location", "FormattedAddress"];
+                        for (item of itemsToRemove){ localStorage.removeItem(item) }
+                    {% endif %}
+
 
                     //Retrieving location: BEGIN
                     if (localStorage.getItem('Location')){

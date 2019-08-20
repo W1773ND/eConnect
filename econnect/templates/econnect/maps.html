@@ -60,7 +60,7 @@
             {% endfor %}
         {% endif %}
     </section>
-    <input name="formatted_address" class="text-center blink infinite" style="color: red; cursor: not-allowed; font-weight: 700">
+    <input name="human_address" class="hidden-xs text-center animated blink infinite" style="color: red; cursor: not-allowed; font-weight: 700">
 {% endblock %}
 
 {% block footer %}{% endblock %}
@@ -116,18 +116,25 @@
                     if (status === google.maps.GeocoderStatus.OK) {
                         if (results[1]) {
                             if (results[0].formatted_address.indexOf("Unnamed Road") != -1) {
-                                $('input[name=formatted_address]').val("Current location: "+ results[1].formatted_address);
+                                $('input[name=formatted_address]').val(results[1].formatted_address);
+                                $('input[name=human_address]').val("Current location: " ${results[1].formatted_address});
                             }
-                            else { $('input[name=formatted_address]').val("Current location: "+ results[0].formatted_address); }
+                            else {
+                                $('input[name=formatted_address]').val(results[0].formatted_address);
+                                $('input[name=human_address]').val("Current location: " ${results[0].formatted_address});
+                            }
 
                         }
-                        else if (results[0]) { $('input[name=formatted_address]').val("Current location: "+ results[0].formatted_address);}
+                        else if (results[0]) {
+                            $('input[name=formatted_address]').val(results[0].formatted_address);
+                            $('input[name=human_address]').val("Current location: " ${results[0].formatted_address});
+                        }
                         else { window.alert('No results found'); }
                     } else {  window.alert('Geocoder failed due to: ' + status); }
                     if (availabilityCheck === 1){
                         let contentString = '<br>'+
                                             '<div style="font-weight: 700;">'+
-                                                $("input[name=formatted_address]").val().replace("Current location: ", "") +
+                                                $("input[name=formatted_address]").val() +
                                             '</div>'+
                                             '<br>'+
                                             '<div class="text-center animated blink infinite">Click on this mark to close the map</div>'+
@@ -138,7 +145,7 @@
                 });
             }
             if (availabilityCheck === 1) {
-                $('input[name=formatted_address]').attr('type', 'hidden');
+                $('input[name=human_address]').attr('type', 'hidden');
                 map.setZoom(18);
                 pos = {
                     lat: parseFloat("{{ request.GET.lat }}"),
@@ -351,11 +358,11 @@
 
         $(document.body).on('click', '.set-position', function () {
             map.setZoom(18);
-            var savedLocation = {
+            let savedLocation = {
               "Latitude": $('input[name=customer_lat]').val(),
               "Longitude": $('input[name=customer_lng]').val()
             };
-            var savedFormattedAddress = $('input[name=formatted_address]').val();
+            let savedFormattedAddress = $('input[name=formatted_address]').val();
             localStorage.setItem('Location', JSON.stringify(savedLocation));
             localStorage.setItem('FormattedAddress', savedFormattedAddress);
             ikwen.showFloatingNotice("{% trans 'Location saved successfully!'%}", '', 3);
@@ -365,11 +372,12 @@
 
         $(document.body).on('click', '.update-position', function () {
             map.setZoom(18);
-            var updatedLocation = {
+            let updatedLocation = {
               "Latitude": $('input[name=customer_lat]').val(),
               "Longitude": $('input[name=customer_lng]').val()
             };
-            var updatedFormattedAddress = $('input[name=formatted_address]').val();
+            {#$("input[name=human_address]").val().replace("Current location: ", "");#}
+            let updatedFormattedAddress = $("input[name=formatted_address]").val();
             localStorage.setItem('Location', JSON.stringify(updatedLocation));
             localStorage.setItem('FormattedAddress', updatedFormattedAddress);
             ikwen.showFloatingNotice("{% trans 'Location updated successfully!'%}", '', 3);

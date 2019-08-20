@@ -36,7 +36,7 @@ from econnect.models import Order
 logger = logging.getLogger('ikwen')
 
 Subscription = get_subscription_model()
-SUBSCRIPTION_DURATION = 30   # Defaults to 1 month upon online payment. Admin can later extend expiry on the Subscription detail
+SUBSCRIPTION_DURATION = 30  # Defaults to 1 month upon online payment. Admin can later extend expiry on the Subscription detail
 
 
 def order_set_checkout(request, *args, **kwargs):
@@ -51,8 +51,8 @@ def order_set_checkout(request, *args, **kwargs):
     mean = request.GET.get('mean', MTN_MOMO)
     request.session['mean'] = mean
     request.session['notif_url'] = service.url  # Orange Money only
-    request.session['cancel_url'] = service.url + reverse('billing:pricing') # Orange Money only
-    request.session['return_url'] = reverse('billing:invoice_detail', args=(invoice.id, ))
+    request.session['cancel_url'] = service.url + reverse('billing:pricing')  # Orange Money only
+    request.session['return_url'] = reverse('billing:invoice_detail', args=(invoice.id,))
 
 
 def order_do_checkout(request, *args, **kwargs):

@@ -14,11 +14,11 @@ from threading import Thread
 
 from currencies.models import Currency
 
-
 from django.conf import settings
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
+from django.contrib.auth import login, authenticate
 from django.db import transaction
 from django.core import mail
 from django.views.generic import TemplateView
@@ -48,7 +48,7 @@ from echo.admin import MailCampaignAdmin
 from econnect.admin import ProductAdmin, PackageAdmin, EquipmentAdmin, ExtraAdmin
 from econnect.forms import OrderForm
 from econnect.models import Subscription, Order, CustomerRequest, Product, Package, Equipment, EquipmentOrderEntry, \
-    Extra, RENTAL, PURCHASE, REPORTED, FINISHED,  DEVICE_ID, \
+    Extra, RENTAL, PURCHASE, REPORTED, FINISHED, DEVICE_ID, \
     NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, ANALOG, DIGITAL, CREOLINK
 
 
@@ -218,10 +218,7 @@ class OrderConfirm(TemplateView):
         Thread(target=set_prospect, args=(order, prospect_url, payload)).start()
 
         response = {"success": True}
-        return HttpResponse(
-            json.dumps(response),
-            'content-type: text/json'
-        )
+        return HttpResponse(json.dumps(response), 'content-type: text/json')
 
 
 class PendingOrderList(HybridListView):
@@ -269,10 +266,7 @@ class PendingOrderList(HybridListView):
             }
         Thread(target=set_prospect, args=(order, prospect_url, payload)).start()
         response = {"success": True}
-        return HttpResponse(
-            json.dumps(response),
-            'content-type: text/json'
-        )
+        return HttpResponse(json.dumps(response), 'content-type: text/json')
 
     @staticmethod
     def accept_order(request):
@@ -324,10 +318,7 @@ class PendingOrderList(HybridListView):
         Thread(target=requests.get, args=(customer_url, payload)).start()
 
         response = {"success": True}
-        return HttpResponse(
-            json.dumps(response),
-            'content-type: text/json'
-        )
+        return HttpResponse(json.dumps(response), 'content-type: text/json')
 
     @staticmethod
     def report_order(request):
@@ -338,13 +329,13 @@ class PendingOrderList(HybridListView):
         member = order.member
         product_name = order.package.product.name
         package_name = order.package.name
+        label = product_name + ' [' + package_name + ']'
         order_location = order.formatted_address
 
         try:
             subject = _("Dear " + member.full_name + ", we'll come soon as possible to install your service.")
             html_content = get_mail_content(subject, template_name='econnect/mails/order_reported.html',
-                                            extra_context={'order_product': product_name,
-                                                           'order_package': package_name,
+                                            extra_context={'order_label': label,
                                                            'order_location': order_location
                                                            })
             sender = 'Creolink Communications <no-reply@creolink.com>'
@@ -353,16 +344,10 @@ class PendingOrderList(HybridListView):
             Thread(target=lambda m: m.send(), args=(msg,)).start()
         except:
             response = {"success": True, "Mail": False}
-            return HttpResponse(
-                json.dumps(response),
-                'content-type: text/json'
-            )
+            return HttpResponse(json.dumps(response), 'content-type: text/json')
 
         response = {"success": True}
-        return HttpResponse(
-            json.dumps(response),
-            'content-type: text/json'
-        )
+        return HttpResponse(json.dumps(response), 'content-type: text/json')
 
 
 class PaidOrderList(HybridListView):
@@ -388,12 +373,12 @@ class PaidOrderList(HybridListView):
         member = order.member
         product_name = order.package.product.name
         package_name = order.package.name
+        label = product_name + ' [' + package_name + ']'
         order_location = order.formatted_address
         try:
             subject = _("Dear " + member.full_name + ", thanks to business with Creolink Communications.")
             html_content = get_mail_content(subject, template_name='econnect/mails/service_completed.html',
-                                            extra_context={'order_product': product_name,
-                                                           'order_package': package_name,
+                                            extra_context={'order_label': label,
                                                            'order_location': order_location
                                                            })
             sender = 'Creolink Communications <no-reply@creolink.com>'
@@ -402,15 +387,9 @@ class PaidOrderList(HybridListView):
             Thread(target=lambda m: m.send(), args=(msg,)).start()
         except:
             response = {"success": True, "Mail": False}
-            return HttpResponse(
-                json.dumps(response),
-                'content-type: text/json'
-            )
+            return HttpResponse(json.dumps(response), 'content-type: text/json')
         response = {"success": True}
-        return HttpResponse(
-            json.dumps(response),
-            'content-type: text/json'
-        )
+        return HttpResponse(json.dumps(response), 'content-type: text/json')
 
 
 class ReportedOrderList(HybridListView):
@@ -461,6 +440,7 @@ class HomeView(TemplateView):
         service = get_service_instance()
         config = service.config
         visitor_email = request.GET.get('visitor_email')
+        next_url = request.GET.get('next', '/')
         if not visitor_email:
             response = {'error': 'No Email found'}
             return HttpResponse(json.dumps(response), 'content-type: text/json')
@@ -470,27 +450,26 @@ class HomeView(TemplateView):
             member = Member.objects.filter(email=visitor_email)[0]
         except Member.DoesNotExist:
             username = visitor_email
-            member = Member.objects.create_user(username, DEFAULT_GHOST_PWD, email=visitor_email, is_ghost=True)
-        tag_fk_list = []
-        tag = CREOLINK
-        tsunami_tag = ProfileTag.objects.get(slug=tag)
-        tag_fk_list.append(tsunami_tag.id)
-        member_profile = MemberProfile.objects.get(member=member)
-        member_profile.tag_fk_list.extend(tag_fk_list)
-        member_profile.save()
-
-        # To-do : complete implementation for creation of ghost user when visitor email was submitted
-        try:
-            subject = _("Do more with Creolink Communications !")
-            html_content = get_mail_content(subject, template_name='accesscontrol/mails/complete_registration.html',
-                                            extra_context={'member_email': visitor_email}, )
-            sender = '%s <no-reply@%s>' % (config.company_name, service.domain)
-            msg = EmailMessage(subject, html_content, sender, visitor_email)
-            msg.content_subtype = "html"
-            Thread(target=lambda m: m.send(), args=(msg,)).start()
-        except:
-            pass
-        next_url = reverse('tsunami:bundles')
+            Member.objects.create_user(username, DEFAULT_GHOST_PWD, email=visitor_email, is_ghost=True)
+            # tag_fk_list = []
+            # tag = CREOLINK
+            # econnect_tag = ProfileTag.objects.get(slug=tag)
+            # tag_fk_list.append(econnect_tag.id)
+            # member_profile = MemberProfile.objects.get(member=member)
+            # member_profile.tag_fk_list.extend(tag_fk_list)
+            # member_profile.save()
+            try:
+                subject = _("Do more with Creolink Communications !")
+                html_content = get_mail_content(subject, template_name='accesscontrol/mails/complete_registration.html',
+                                                extra_context={'member_email': visitor_email}, )
+                sender = '%s <no-reply@%s>' % (config.company_name, service.domain)
+                msg = EmailMessage(subject, html_content, sender, visitor_email)
+                msg.content_subtype = "html"
+                Thread(target=lambda m: m.send(), args=(msg,)).start()
+            except:
+                pass
+            ghost_member = authenticate(username=visitor_email, password=DEFAULT_GHOST_PWD)
+            login(request, ghost_member)
         return HttpResponseRedirect(next_url)
 
 
@@ -630,7 +609,10 @@ class PricingHomelink(PostView):
 
     def get_context_data(self, **kwargs):
         context = super(PricingHomelink, self).get_context_data(**kwargs)
+        order_id = self.request.GET.get('order_id')
         product = get_object_or_404(Product, name=HOME)
+        equipment_order_entry_list = []
+        extra_id_list = []
         equipment_purchase_cost = 0
         for equipment in product.equipment_set.all():
             equipment_purchase_cost += equipment.purchase_cost
@@ -639,6 +621,23 @@ class PricingHomelink(PostView):
         for extra in product.extra_set.all():
             extra.slug = slugify(extra.name)
             extra.save()
+        if order_id:
+            order = get_object_or_404(Order, pk=order_id)
+            for equipment_order_entry in order.equipment_order_entry_list:
+                equipment_order_entry_id = equipment_order_entry.equipment_id
+                if equipment_order_entry.is_rent:
+                    equipment_order_entry_id += '|' + RENTAL
+                else:
+                    equipment_order_entry_id += '|' + PURCHASE
+                equipment_order_entry_list.append(equipment_order_entry_id)
+            equipment_order_entry = ';'.join(equipment_order_entry_list)
+            for extra in order.extra_list:
+                extra_id = extra.id
+                extra_id_list.append(extra_id)
+            extra = ';'.join(extra_id_list)
+            context['equipment_order_entry'] = equipment_order_entry
+            context['extra'] = extra
+            context['order'] = order
         context['equipment_purchase_cost'] = equipment_purchase_cost
         context['default_equipment_cost'] = product.install_cost + equipment_purchase_cost
         context['product'] = product
@@ -650,19 +649,37 @@ class PricingOfficelink(PostView):
 
     def get_context_data(self, **kwargs):
         context = super(PricingOfficelink, self).get_context_data(**kwargs)
+        order_id = self.request.GET.get('order_id')
         product = get_object_or_404(Product, name=OFFICE)
-        equipment_list = Equipment.objects.filter(product=product)
+        equipment_order_entry_list = []
+        extra_id_list = []
         equipment_purchase_cost = 0
-        for equipment in equipment_list:
+        for equipment in product.equipment_set.all():
             equipment_purchase_cost += equipment.purchase_cost
             equipment.slug = slugify(equipment.name)
             equipment.save()
         for extra in product.extra_set.all():
             extra.slug = slugify(extra.name)
             extra.save()
+        if order_id:
+            order = get_object_or_404(Order, pk=order_id)
+            for equipment_order_entry in order.equipment_order_entry_list:
+                equipment_order_entry_id = equipment_order_entry.equipment_id
+                if equipment_order_entry.is_rent:
+                    equipment_order_entry_id += '|' + RENTAL
+                else:
+                    equipment_order_entry_id += '|' + PURCHASE
+                equipment_order_entry_list.append(equipment_order_entry_id)
+            equipment_order_entry = ';'.join(equipment_order_entry_list)
+            for extra in order.extra_list:
+                extra_id = extra.id
+                extra_id_list.append(extra_id)
+            extra = ';'.join(extra_id_list)
+            context['equipment_order_entry'] = equipment_order_entry
+            context['extra'] = extra
+            context['order'] = order
         context['equipment_purchase_cost'] = equipment_purchase_cost
         context['default_equipment_cost'] = product.install_cost + equipment_purchase_cost
-        context['equipment_list'] = equipment_list
         context['product'] = product
         return context
 
@@ -672,19 +689,37 @@ class PricingCorporatelink(PostView):
 
     def get_context_data(self, **kwargs):
         context = super(PricingCorporatelink, self).get_context_data(**kwargs)
+        order_id = self.request.GET.get('order_id')
         product = get_object_or_404(Product, name=CORPORATE)
-        equipment_list = Equipment.objects.filter(product=product)
+        equipment_order_entry_list = []
+        extra_id_list = []
         equipment_purchase_cost = 0
-        for equipment in equipment_list:
+        for equipment in product.equipment_set.all():
             equipment_purchase_cost += equipment.purchase_cost
             equipment.slug = slugify(equipment.name)
             equipment.save()
         for extra in product.extra_set.all():
             extra.slug = slugify(extra.name)
             extra.save()
+        if order_id:
+            order = get_object_or_404(Order, pk=order_id)
+            for equipment_order_entry in order.equipment_order_entry_list:
+                equipment_order_entry_id = equipment_order_entry.equipment_id
+                if equipment_order_entry.is_rent:
+                    equipment_order_entry_id += '|' + RENTAL
+                else:
+                    equipment_order_entry_id += '|' + PURCHASE
+                equipment_order_entry_list.append(equipment_order_entry_id)
+            equipment_order_entry = ';'.join(equipment_order_entry_list)
+            for extra in order.extra_list:
+                extra_id = extra.id
+                extra_id_list.append(extra_id)
+            extra = ';'.join(extra_id_list)
+            context['equipment_order_entry'] = equipment_order_entry
+            context['extra'] = extra
+            context['order'] = order
         context['equipment_purchase_cost'] = equipment_purchase_cost
         context['default_equipment_cost'] = product.install_cost + equipment_purchase_cost
-        context['equipment_list'] = equipment_list
         context['product'] = product
         return context
 
@@ -828,9 +863,7 @@ class ChangeMailCampaign(CampaignBaseView, ChangeObjectBase):
         campaign = MailCampaign.objects.using(UMBRELLA).get(pk=campaign_id)
         if campaign.is_started and not campaign.keep_running:
             response = {"error": "Campaign already started"}
-            return HttpResponse(
-                json.dumps(response),
-                'content-type: text/json')
+            return HttpResponse(json.dumps(response), 'content-type: text/json')
         balance = Balance.objects.using('wallets').get(service_id=get_service_instance().id)
         campaign.keep_running = True
         campaign.is_started = True
@@ -839,10 +872,7 @@ class ChangeMailCampaign(CampaignBaseView, ChangeObjectBase):
         try:
             if balance.mail_count < campaign.total:
                 response = {"insufficient_balance": _("Insufficient Email balance.")}
-                return HttpResponse(
-                    json.dumps(response),
-                    'content-type: text/json'
-                )
+                return HttpResponse(json.dumps(response), 'content-type: text/json')
             with transaction.atomic(using='wallets'):
                 balance.mail_count -= campaign.total
                 balance.save()
@@ -855,10 +885,7 @@ class ChangeMailCampaign(CampaignBaseView, ChangeObjectBase):
         except Exception as e:
             response = {"error": "Error while submitting your campaign. Please try again later."}
 
-        return HttpResponse(
-            json.dumps(response),
-            'content-type: text/json'
-        )
+        return HttpResponse(json.dumps(response), 'content-type: text/json')
 
     def toggle_campaign(self, request, *args, **kwargs):
         campaign_id = kwargs['object_id']
@@ -866,10 +893,7 @@ class ChangeMailCampaign(CampaignBaseView, ChangeObjectBase):
         campaign.keep_running = not campaign.keep_running
         campaign.save()
         response = {"success": True, "campaign": campaign.to_dict()}
-        return HttpResponse(
-            json.dumps(response),
-            'content-type: text/json'
-        )
+        return HttpResponse(json.dumps(response), 'content-type: text/json')
 
     def run_test(self, request, *args, **kwargs):
         campaign_id = kwargs['object_id']
