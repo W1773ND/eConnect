@@ -19,7 +19,7 @@ urlpatterns = patterns(
     url(r'^kakocase/', include('ikwen_kakocase.kakocase.urls', namespace='kakocase')),
     url(r'^kako/', include('ikwen_kakocase.kako.urls', namespace='kako')),
     url(r'^trade/', include('ikwen_kakocase.trade.urls', namespace='trade')),
-    url(r'^billing/', include('ikwen.billing.urls', namespace='billing')),
+    url(r'^MyCreolink/billing/', include('ikwen.billing.urls', namespace='billing')),
     url(r'^marketing/', include('ikwen_kakocase.commarketing.urls', namespace='marketing')),
     url(r'^sales/', include('ikwen_kakocase.sales.urls', namespace='sales')),
     url(r'^shopping/', include('ikwen_kakocase.shopping.urls', namespace='shopping')),
@@ -38,7 +38,7 @@ urlpatterns = patterns(
     url(r'^ikwen/theming/', include('ikwen.theming.urls', namespace='theming')),
     # url(r'^cci/', include('ikwen_kakocase.cci.urls', namespace='cci')),
     url(r'^ikwen/cashout/', include('ikwen.cashout.urls', namespace='cashout')),
-    url(r'^ikwen/', include('ikwen.core.urls', namespace='ikwen')),
+    url(r'^MyCreolink/', include('ikwen.core.urls', namespace='ikwen')),
     url(r'^ikwen/home/$', user_passes_test(is_staff)(AdminHome.as_view()), name='admin_home'),
     url(r'^revival/', include('ikwen.revival.urls', namespace='revival')),
 

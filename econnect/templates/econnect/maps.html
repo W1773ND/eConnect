@@ -117,17 +117,17 @@
                         if (results[1]) {
                             if (results[0].formatted_address.indexOf("Unnamed Road") != -1) {
                                 $('input[name=formatted_address]').val(results[1].formatted_address);
-                                $('input[name=human_address]').val("Current location: " ${results[1].formatted_address});
+                                $('input[name=human_address]').val(`Current location: ${results[1].formatted_address}`);
                             }
                             else {
                                 $('input[name=formatted_address]').val(results[0].formatted_address);
-                                $('input[name=human_address]').val("Current location: " ${results[0].formatted_address});
+                                $('input[name=human_address]').val(`Current location: ${results[0].formatted_address}`);
                             }
 
                         }
                         else if (results[0]) {
                             $('input[name=formatted_address]').val(results[0].formatted_address);
-                            $('input[name=human_address]').val("Current location: " ${results[0].formatted_address});
+                            $('input[name=human_address]').val(`Current location: ${results[0].formatted_address}`);
                         }
                         else { window.alert('No results found'); }
                     } else {  window.alert('Geocoder failed due to: ' + status); }

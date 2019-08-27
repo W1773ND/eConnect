@@ -49,7 +49,10 @@ from econnect.admin import ProductAdmin, PackageAdmin, EquipmentAdmin, ExtraAdmi
 from econnect.forms import OrderForm
 from econnect.models import Subscription, Order, CustomerRequest, Product, Package, Equipment, EquipmentOrderEntry, \
     Extra, RENTAL, PURCHASE, REPORTED, FINISHED, DEVICE_ID, \
-    NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, ANALOG, DIGITAL, CREOLINK
+    NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, ANALOG, DIGITAL, ECONNECT
+
+import logging
+logger = logging.getLogger('ikwen')
 
 
 def set_prospect(order, url, payload):
@@ -264,6 +267,7 @@ class PendingOrderList(HybridListView):
                 'lng': lng,
                 'order_id': order_id
             }
+
         Thread(target=set_prospect, args=(order, prospect_url, payload)).start()
         response = {"success": True}
         return HttpResponse(json.dumps(response), 'content-type: text/json')
@@ -445,29 +449,32 @@ class HomeView(TemplateView):
             response = {'error': 'No Email found'}
             return HttpResponse(json.dumps(response), 'content-type: text/json')
         try:
-            member = Member.objects.get(email=visitor_email)
+            member = Member.objects.get(email=visitor_email, is_ghost=False)
+            next_url = reverse('ikwen:sign_in') + "?next=" + request.META['HTTP_REFERER']
+            return HttpResponseRedirect(next_url)
         except MultipleObjectsReturned:
-            member = Member.objects.filter(email=visitor_email)[0]
+            member = Member.objects.filter(email=visitor_email, is_ghost=False)[0]
+            next_url = reverse('ikwen:sign_in') + "?next=" + request.META['HTTP_REFERER']
+            return HttpResponseRedirect(next_url)
         except Member.DoesNotExist:
             username = visitor_email
-            Member.objects.create_user(username, DEFAULT_GHOST_PWD, email=visitor_email, is_ghost=True)
-            # tag_fk_list = []
-            # tag = CREOLINK
-            # econnect_tag = ProfileTag.objects.get(slug=tag)
-            # tag_fk_list.append(econnect_tag.id)
-            # member_profile = MemberProfile.objects.get(member=member)
-            # member_profile.tag_fk_list.extend(tag_fk_list)
-            # member_profile.save()
+            Member.objects.filter(username=username, is_ghost=True).delete()
+            member = Member.objects.create_user(username, DEFAULT_GHOST_PWD, email=visitor_email, is_ghost=True)
+            tag = ECONNECT
+            econnect_tag, change = ProfileTag.objects.get_or_create(slug=tag)
+            member_profile = MemberProfile.objects.get(member=member)
+            member_profile.tag_fk_list = [econnect_tag.id]
+            member_profile.save()
             try:
                 subject = _("Do more with Creolink Communications !")
                 html_content = get_mail_content(subject, template_name='accesscontrol/mails/complete_registration.html',
                                                 extra_context={'member_email': visitor_email}, )
                 sender = '%s <no-reply@%s>' % (config.company_name, service.domain)
-                msg = EmailMessage(subject, html_content, sender, visitor_email)
+                msg = EmailMessage(subject, html_content, sender, [visitor_email])
                 msg.content_subtype = "html"
                 Thread(target=lambda m: m.send(), args=(msg,)).start()
             except:
-                pass
+                logger.error("Mail sending failed", exc_info=True)
             ghost_member = authenticate(username=visitor_email, password=DEFAULT_GHOST_PWD)
             login(request, ghost_member)
         return HttpResponseRedirect(next_url)

@@ -52,7 +52,7 @@ def order_set_checkout(request, *args, **kwargs):
     request.session['mean'] = mean
     request.session['notif_url'] = service.url  # Orange Money only
     request.session['cancel_url'] = service.url + reverse('billing:pricing')  # Orange Money only
-    request.session['return_url'] = reverse('billing:invoice_detail', args=(invoice.id,))
+    request.session['return_url'] = service.url + reverse('billing:invoice_detail', args=(invoice.id,))
 
 
 def order_do_checkout(request, *args, **kwargs):

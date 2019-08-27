@@ -4,16 +4,11 @@
 {% block page_title %}<title>{{ service.project_name }} - {% trans "Sign in" %} </title>{% endblock %}
 {% block head_style %}
     {{ block.super }}
-    <style  type="text/css">
-        #navbar .search, #navbar .navbar-right {display: none}
-        label span {font-weight: normal}
-        #lg-username {text-transform: lowercase}
-        #terms-warning {color: #999; font-size: 11px}
-    </style>
+    <link rel='stylesheet' href="{% static 'ikwen/css/sign-in.css' %}" />
 {% endblock %}
 
 {% block content %}
-    <div id="content" class="form container" style="margin: 0">
+    <div id="content" class="form container">
         {% if login_form.errors %}
             <p class="failure" style="font-size: 1em; padding: 9px">{{ error_message }}</p>
         {% elif request.GET.msg %}
@@ -24,7 +19,7 @@
         {% if messages %}
             {% for msg in messages %}<p class="msg-tag {{ msg.tags }}" style="font-size: 1em; padding: 9px">{{ msg }}</p>{% endfor %}
         {% endif %}
-        <div id="login" class="form-wrapper">
+        <div id="login" class="form-wrapper stage subtle-shade">
             <h3 style="text-align: center">
                 <div style="margin-bottom: .3em; text-align: center">
                     {% if config.logo.name %}
