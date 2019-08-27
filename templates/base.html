@@ -6,19 +6,16 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="copyright" content="ikwen." >
-        {% block meta %}
-            {{ block.super }}
-            <link rel="shortcut icon" type="image/png" href="{% static "econnect/img/creolink_symbole.ico" %}">
-            <meta name="theme-color" content="#28a745">
-            <meta name="msapplication-navbutton-color" content="#28a745">
-            <meta name="apple-mobile-web-app-status-bar-style" content="#28a745">
-            <meta property="og:type" content="website" />
-            <meta property="og:url" content="{% url 'econnect:home' %}" />
-            <meta property="og:image" content="{% static 'econnect/img/creolink_logo_portrait.png' %}" />
-            <meta property="og:title" content="{% trans "Creolink Communications" %}"/>
-            <meta property="og:description" content="{% trans "The best of internet, the best of TV" %}">
-            <meta property="description" content="{% trans "The best of internet, the best of TV" %}" />
-        {% endblock %}
+        <link rel="shortcut icon" type="image/png" href="{% static "econnect/img/creolink_symbole.ico" %}">
+        <meta name="theme-color" content="#28a745">
+        <meta name="msapplication-navbutton-color" content="#28a745">
+        <meta name="apple-mobile-web-app-status-bar-style" content="#28a745">
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="{% url 'econnect:home' %}" />
+        <meta property="og:image" content="{% static 'econnect/img/creolink_logo_portrait.png' %}" />
+        <meta property="og:title" content="{% trans "Creolink Communications" %}"/>
+        <meta property="og:description" content="{% trans "The best of internet, the best of TV" %}">
+        <meta property="description" content="{% trans "The best of internet, the best of TV" %}" />
 		{% block page_title %}{% endblock %}
 		{% block head_style %}
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">

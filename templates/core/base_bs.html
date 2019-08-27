@@ -5,6 +5,16 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" type="image/png" href="{% static "econnect/img/creolink_symbole.ico" %}">
+        <meta name="theme-color" content="#28a745">
+        <meta name="msapplication-navbutton-color" content="#28a745">
+        <meta name="apple-mobile-web-app-status-bar-style" content="#28a745">
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="{% url 'econnect:home' %}" />
+        <meta property="og:image" content="{% static 'econnect/img/creolink_logo_portrait.png' %}" />
+        <meta property="og:title" content="{% trans "Creolink Communications" %}"/>
+        <meta property="og:description" content="{% trans "The best of internet, the best of TV" %}">
+        <meta property="description" content="{% trans "The best of internet, the best of TV" %}" />
 		{% block page_title %}{% endblock %}
 		{% block head_style %}
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">

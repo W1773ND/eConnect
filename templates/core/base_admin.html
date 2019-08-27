@@ -1,18 +1,5 @@
 {% extends "core/base_bs.html" %}
 {% load i18n humanize static auth_tokens %}
-{% block meta %}
-    {{ block.super }}
-    <link rel="shortcut icon" type="image/png" href="{% static "econnect/img/creolink_symbole.ico" %}">
-    <meta name="theme-color" content="#28a745">
-    <meta name="msapplication-navbutton-color" content="#28a745">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#28a745">
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="{% url 'econnect:home' %}" />
-    <meta property="og:image" content="{% static 'econnect/img/creolink_logo_portrait.png' %}" />
-    <meta property="og:title" content="{% trans "Creolink Communications" %}"/>
-    <meta property="og:description" content="{% trans "The best of internet, the best of TV" %}">
-    <meta property="description" content="{% trans "The best of internet, the best of TV" %}" />
-{% endblock %}
 {% block head_style %}
     {{ block.super }}
     <link rel='stylesheet' href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
