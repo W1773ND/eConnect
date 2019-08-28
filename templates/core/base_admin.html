@@ -26,8 +26,9 @@
             {% block breadcrumb_location %}{% endblock %}
         </ol>
         <a href="{% url 'home' %}" class="go-to-website pull-right" title="{% trans "Go to public website" %}">
-            <i class="glyphicon glyphicon-globe"></i>
-            <span class="hidden-xs" style="font-weight: 400">{% trans "Go to website" %}</span>
+{#            <i class="glyphicon glyphicon-globe"></i>#}
+            <i class="fas fa-globe-africa" style="font-size: x-large"></i>
+            <span class="hidden-xs pull-right" style="font-weight: 400">{% trans "Go to website" %}</span>
         </a>
     </div>
 {% endblock %}

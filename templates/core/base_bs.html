@@ -72,27 +72,35 @@
                                             </a>
                                         </li>{% endcomment %}
                                         {% if user.is_authenticated %}
-                                            <li id="user-menu" class="dropdown">
-                                                <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-user"></i>
-                                                </a>
-                                                <ul class="dropdown-menu" aria-labelledby="user-menu">
-                                                    <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
-                                                    <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
-                                                    <li>
-                                                        <a href="{% url 'econnect:my_creolink' %}">My Creolink</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="{{ account_setup_url }}">{% trans "Account setup" %}</a>
-                                                    </li>
-                                                    {% if user.is_staff %}
+                                            {% if user.is_ghost %}
+                                                <li id="user-menu">
+                                                    <a class="icon" href="{% url "ikwen:logout" %}?next={% url 'ikwen:register' %}">
+                                                        <i class="fas fa-user-slash" style="font-size: 22px"></i>
+                                                    </a>
+                                                </li>
+                                            {% else %}
+                                                <li id="user-menu" class="dropdown">
+                                                    <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fas fa-user"></i>
+                                                    </a>
+                                                    <ul class="dropdown-menu" aria-labelledby="user-menu">
+                                                        <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                                                        <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
                                                         <li>
-                                                            <a href="{% url 'econnect:admin' %}">Admin</a>
+                                                            <a href="{% url 'econnect:my_creolink' %}">My Creolink</a>
                                                         </li>
-                                                    {% endif %}
-                                                    <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
-                                                </ul>
-                                            </li>
+                                                        <li>
+                                                            <a href="{{ account_setup_url }}">{% trans "Account setup" %}</a>
+                                                        </li>
+                                                        {% if user.is_staff %}
+                                                            <li>
+                                                                <a href="{% url 'econnect:admin' %}">Admin</a>
+                                                            </li>
+                                                        {% endif %}
+                                                        <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
+                                                    </ul>
+                                                </li>
+                                            {% endif %}
                                         {% else %}
                                             <li class="hidden-xs">
                                                 <a href="{% url 'ikwen:sign_in' %}" class="btn btn-outline-success menu animated fadeIn" style="border-radius: 2px; border-width: 1px; display:block; height: 4.5vh!important; line-height: 4.5vh; padding: 0; width: 120px">{% trans "Login" %}</a>
@@ -155,27 +163,35 @@
                                     <li class="page-menu CorporateLink"><a href="{% url 'econnect:corporatelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/corporatelink.png' %}"></a></li>
 {#                                        <li><a href="{% url 'blog:home' %}" class="nav-menu nav-menu-custom">{% trans "Blog" %}</a></li>#}
                                 {% if user.is_authenticated %}
-                                    <li id="user-menu" class="dropdown">
-                                        <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-user"></i>
-                                        </a>
-                                        <ul class="dropdown-menu" aria-labelledby="user-menu">
-                                            <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
-                                            <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
-                                            <li>
-                                                <a href="{% url 'econnect:my_creolink' %}">My Creolink</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ account_setup_url }}">{% trans "Account setup" %}</a>
-                                            </li>
-                                            {% if user.is_staff %}
+                                    {% if user.is_ghost %}
+                                        <li id="user-menu">
+                                            <a class="icon" href="{% url "ikwen:logout" %}?next={% url 'ikwen:register' %}">
+                                                <i class="fas fa-user-slash" style="font-size: 22px"></i>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li id="user-menu" class="dropdown">
+                                            <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-user"></i>
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="user-menu">
+                                                <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                                                <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
                                                 <li>
-                                                    <a href="{% url 'econnect:admin' %}">Admin</a>
+                                                    <a href="{% url 'econnect:my_creolink' %}">My Creolink</a>
                                                 </li>
-                                            {% endif %}
-                                            <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
-                                        </ul>
-                                    </li>
+                                                <li>
+                                                    <a href="{{ account_setup_url }}">{% trans "Account setup" %}</a>
+                                                </li>
+                                                {% if user.is_staff %}
+                                                    <li>
+                                                        <a href="{% url 'econnect:admin' %}">Admin</a>
+                                                    </li>
+                                                {% endif %}
+                                                <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
+                                            </ul>
+                                        </li>
+                                    {% endif %}
                                 {% else %}
                                     <li class="hidden-xs">
                                         <a href="{% url 'ikwen:sign_in' %}" class="btn btn-outline-success menu animated fadeIn" style="border-radius: 2px; border-width: 1px; display:block; height: 4.5vh!important; line-height: 4.5vh; padding: 0; width: 120px">{% trans "Login" %}</a>
@@ -411,7 +427,7 @@
 
                     // get the email for Ghost account and relaunch mails
                     $('.btn-process').click(function () {
-                        var visitor_email = $('#visitor-email').val();
+                        let visitor_email = $('#visitor-email').val();
                         if (visitor_email !== ''){
                             $('#get-user-email').submit()
                         }else {
