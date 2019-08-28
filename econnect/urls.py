@@ -2,6 +2,7 @@ from django.conf.urls import url, patterns
 from django.contrib.auth.decorators import permission_required, login_required
 
 from ikwen.billing.invoicing.views import InvoiceList
+
 from econnect.views import Admin, HomeView, PricingNumerilink, PricingNumerilinkHotel, PendingOrderList, PaidOrderList, \
     CustomerRequestList, ChangeProduct, ProductList, ChangePackage, PackageList, EquipmentList, ChangeEquipment, \
     ExtraList, ChangeExtra, PricingOfficelink, PricingHomelink, PricingCorporatelink, Maps, \

@@ -447,7 +447,7 @@ time {color: #888;float: right;font-size: 11px; font-weight: normal; padding: 0;
 .glyphicon + .label {margin: -15px 0 0 12px;position: absolute;}
 
 #content {padding: 55px 0 0;}
-#content.form {padding-top: 15%;}
+#content.form {padding-top: 15vh;}
 #content.form > div {margin: auto}
 #content.form .directions {font-size: 16px; margin-top: 90px; text-align: center}
 #content.form form {border: 2px solid #dce4ec;border-radius: 4px;margin-top: 25px;padding: 30px;}
@@ -564,6 +564,7 @@ ul.social-network li { display: inline; margin: 0 5px }
 .swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {pointer-events: visible !important;}
 
 .fa-chevron-circle-up { color: #319dd5; }
+.fa-user {font-size: larger;}
 
 /* Back to top button BEGIN */
 .back-to-top { font-size: 3.5vw; position: fixed; bottom: 1%; text-align: right; z-index: 1; transition: all 1s; }
@@ -629,6 +630,7 @@ ul.social-network li { display: inline; margin: 0 5px }
         border-bottom: 2px solid #1b6d85;
         color: #555
     }
+    #content.form { margin: 0 }
     .bottom-shade-xs {box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .1)}
     .ik-li .date {position: absolute; right: 6px}
 
@@ -644,7 +646,7 @@ ul.social-network li { display: inline; margin: 0 5px }
         width: 26px;
         height: 3px;
     }
-    #user-menu a.icon { padding-top: 10px !important; }
+    #user-menu a.icon {padding-top: 10px !important;}
     #user-menu-xs {display: none}
     .navbar-default .navbar-brand {padding: 2.8vh 15px 19px 0;}
     .navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {margin-left: 0}
@@ -706,9 +708,7 @@ ul.social-network li { display: inline; margin: 0 5px }
     #navbar-results .ik-li a {cursor: pointer; padding: 7px;}
     #navbar-results .ik-li .info {margin-left: 15px;max-width: 265px}
     #navbar-results .ik-li .about {max-width: 240px;}
-    #content.form {
-        padding-top: 7%
-    }
+    #content.form { padding-top: 25vh }
     .edge-panel-left {display: block;margin-left: 0;}
     .social-sharing .dropdown-menu a {line-height: 35px;}
 }

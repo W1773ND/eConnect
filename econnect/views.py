@@ -281,7 +281,8 @@ class PendingOrderList(HybridListView):
         install_cost = order.package.product.install_cost
         amount = order.cost - install_cost
         member = order.member
-        config = get_service_instance().config
+        service = get_service_instance()
+        config = service.config
         number = get_next_invoice_number()
         product_name = order.package.product.name
         package_name = order.package.name
@@ -299,17 +300,22 @@ class PendingOrderList(HybridListView):
                                                    billing_cycle=Service.MONTHLY, details='', order=order)
         invoice = Invoice.objects.create(subscription=subscription, member=member, number=number, amount=order.cost,
                                          months_count=1, due_date=due_date.date(), is_one_off=True, entries=entries)
-        subject = _("Dear " + member.full_name + ", we are ready to come and install your service.")
-        invoice_url = 'https://creolink.com' + reverse('billing:invoice_detail', args=(invoice.id,))
-        html_content = get_mail_content(subject, template_name='econnect/mails/order_accepted.html',
-                                        extra_context={'invoice_url': invoice_url,
-                                                       'order_label': label,
-                                                       'order_location': order_location
-                                                       })
-        sender = 'Creolink Communications <no-reply@creolink.com>'
-        msg = XEmailMessage(subject, html_content, sender, [member.email])
-        msg.content_subtype = "html"
-        Thread(target=lambda m: m.send(), args=(msg,)).start()
+        try:
+            subject = _("Dear " + member.full_name + ", we are ready to come and install your service.")
+            invoice_url = service.url + reverse('billing:invoice_detail', args=(invoice.id,))
+            html_content = get_mail_content(subject, template_name='econnect/mails/order_accepted.html',
+                                            extra_context={'invoice_url': invoice_url,
+                                                           'order_label': label,
+                                                           'order_location': order_location
+                                                           })
+            sender = 'Creolink Communications <no-reply@creolink.com>'
+            msg = XEmailMessage(subject, html_content, sender, [member.email])
+            msg.content_subtype = "html"
+            Thread(target=lambda m: m.send(), args=(msg,)).start()
+        except:
+            logger.error("Mail sending failed", exc_info=True)
+            response = {"success": True, "Mail": False}
+            return HttpResponse(json.dumps(response), 'content-type: text/json')
 
         if getattr(settings, 'DEBUG', False):
             customer_url = getattr(settings, "LOCAL_MAPS_URL") + 'update_prospect'
@@ -347,6 +353,7 @@ class PendingOrderList(HybridListView):
             msg.content_subtype = "html"
             Thread(target=lambda m: m.send(), args=(msg,)).start()
         except:
+            logger.error("Mail sending failed", exc_info=True)
             response = {"success": True, "Mail": False}
             return HttpResponse(json.dumps(response), 'content-type: text/json')
 
@@ -390,6 +397,7 @@ class PaidOrderList(HybridListView):
             msg.content_subtype = "html"
             Thread(target=lambda m: m.send(), args=(msg,)).start()
         except:
+            logger.error("Mail sending failed", exc_info=True)
             response = {"success": True, "Mail": False}
             return HttpResponse(json.dumps(response), 'content-type: text/json')
         response = {"success": True}
@@ -449,34 +457,36 @@ class HomeView(TemplateView):
             response = {'error': 'No Email found'}
             return HttpResponse(json.dumps(response), 'content-type: text/json')
         try:
-            member = Member.objects.get(email=visitor_email, is_ghost=False)
+            Member.objects.get(email=visitor_email, is_ghost=False)
             next_url = reverse('ikwen:sign_in') + "?next=" + request.META['HTTP_REFERER']
             return HttpResponseRedirect(next_url)
         except MultipleObjectsReturned:
-            member = Member.objects.filter(email=visitor_email, is_ghost=False)[0]
             next_url = reverse('ikwen:sign_in') + "?next=" + request.META['HTTP_REFERER']
             return HttpResponseRedirect(next_url)
         except Member.DoesNotExist:
             username = visitor_email
-            Member.objects.filter(username=username, is_ghost=True).delete()
-            member = Member.objects.create_user(username, DEFAULT_GHOST_PWD, email=visitor_email, is_ghost=True)
-            tag = ECONNECT
-            econnect_tag, change = ProfileTag.objects.get_or_create(slug=tag)
-            member_profile = MemberProfile.objects.get(member=member)
-            member_profile.tag_fk_list = [econnect_tag.id]
-            member_profile.save()
             try:
-                subject = _("Do more with Creolink Communications !")
-                html_content = get_mail_content(subject, template_name='accesscontrol/mails/complete_registration.html',
-                                                extra_context={'member_email': visitor_email}, )
-                sender = '%s <no-reply@%s>' % (config.company_name, service.domain)
-                msg = EmailMessage(subject, html_content, sender, [visitor_email])
-                msg.content_subtype = "html"
-                Thread(target=lambda m: m.send(), args=(msg,)).start()
-            except:
-                logger.error("Mail sending failed", exc_info=True)
-            ghost_member = authenticate(username=visitor_email, password=DEFAULT_GHOST_PWD)
-            login(request, ghost_member)
+                Member.objects.get(username=username, is_ghost=True)
+            except Member.DoesNotExist:
+                member = Member.objects.create_user(username, DEFAULT_GHOST_PWD, email=visitor_email, is_ghost=True)
+                tag = ECONNECT
+                econnect_tag, change = ProfileTag.objects.get_or_create(slug=tag)
+                member_profile = MemberProfile.objects.get(member=member)
+                member_profile.tag_fk_list = [econnect_tag.id]
+                member_profile.save()
+                try:
+                    subject = _("Do more with Creolink Communications !")
+                    html_content = get_mail_content(subject, template_name='accesscontrol/mails/complete_registration.html',
+                                                    extra_context={'member_email': visitor_email}, )
+                    sender = '%s <no-reply@%s>' % (config.company_name, service.domain)
+                    msg = EmailMessage(subject, html_content, sender, [visitor_email])
+                    msg.content_subtype = "html"
+                    Thread(target=lambda m: m.send(), args=(msg,)).start()
+                except:
+                    logger.error("Mail sending failed", exc_info=True)
+            if request.user.is_anonymous():
+                ghost_member = authenticate(username=visitor_email, password=DEFAULT_GHOST_PWD)
+                login(request, ghost_member)
         return HttpResponseRedirect(next_url)
 
 

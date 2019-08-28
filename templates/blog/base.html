@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'core/base_bs.html' %}
 {% load staticfiles auth_tokens %}
 
 {% block page_title %}
@@ -10,6 +10,12 @@
     <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/homepage.css' %}">
     <link href="{% static 'econnect/css/blog.css' %}?version=1.0" rel="stylesheet">
 
+{% endblock %}
+{% block header_brand %}
+    <a class="navbar-brand navbar-brand-screen hidden-xs" href="{% url 'econnect:home' %}">
+        <img class="" src="{% static "econnect/img/creolink_logo.png" %}">
+    </a>
+    <a href="{% url 'econnect:home' %}"><strong class="navbar-brand visible-xs">{{ config.company_name }}</strong></a>
 {% endblock %}
 {% block content %}
     {% block page_header %}

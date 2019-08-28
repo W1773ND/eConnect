@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'core/base_bs.html' %}
 {% load i18n humanize static auth_tokens %}
 
 {% block page_title %}
@@ -24,136 +24,13 @@
     </style>
 {% endblock %}
 
-{% block header %}
-    {% with collaborates_on=user.collaborates_on %}
-        {% url "ikwen:account_setup" as account_setup_url %}
-        <nav id="navbar" class="navbar navbar-default navbar-static-top">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <div class="container-fluid">
-                        <i class="glyphicon glyphicon-menu-left back"></i>
-                        <div class="menu-button">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </div>
-                        {% block header_brand %}
-                            <a class="navbar-brand navbar-brand-screen hidden-xs" href="{% url 'econnect:home' %}">
-                                <img src="{% static "econnect/img/creolink_logo.png" %}">
-                            </a>
-{#                                    <a class="navbar-brand hidden-xs" href="{{ service.url }}">#}
-{#                                        <strong>{{ service.project_name }}</strong>#}
-{#                                    </a>#}
-                            <strong class="navbar-brand visible-xs" style="max-width: 100%">{% trans "My Creolink" %}</strong>
-                        {% endblock %}
-                        {% block site_menu_xs %}
-                            <nav class="visible-xs pull-right">
-                                <ul id="nav-xs" class="nav navbar-nav navbar-right">
-                                    {% comment %}<li class="show-search">
-                                        <a>
-                                            <i class="glyphicon glyphicon-search"></i>
-                                        </a>
-                                    </li>{% endcomment %}
-                                    {% if user.is_authenticated %}
-                                        <li id="user-menu" class="dropdown">
-                                            <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="glyphicon glyphicon-user"></i>
-                                            </a>
-                                            <ul class="dropdown-menu" aria-labelledby="user-menu">
-                                                <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
-                                                <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
-                                                <li>
-                                                    <a href="{% url 'econnect:my_creolink' %}">My Creolink</a>
-                                                </li>
-                                                <li>
-                                                    <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
-                                                </li>
-                                                {% if user.is_staff %}
-                                                    <li>
-                                                        <a href="{% url 'econnect:admin' %}">Admin</a>
-                                                    </li>
-                                                {% endif %}
-                                                <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
-                                            </ul>
-                                        </li>
-                                    {% else %}
-                                        <li class="hidden-xs">
-                                            <a href="{% url 'ikwen:sign_in' %}" class="btn btn-outline-success menu animated fadeIn" style="border-radius: 2px; border-width: 1px; display:block; height: 4.5vh!important; line-height: 4.5vh; padding: 0; width: 120px">{% trans "Login" %}</a>
-                                        </li>
-                                    {% endif %}
-                                </ul>
-                            </nav>
-                        {% endblock %}
-                    </div>
-                </div>
-                {% block site_menu %}
-                    <div id="site-menu" class="collapse navbar-collapse">
-                        <div class="container-fluid">
-                            <ul class="nav navbar-nav navbar-right" style="margin: 0 -15px 0 0">
-                                <li class="dropdown">
-                                    <div class="dropbtn nav-menu nav-menu-img animated fadeIn" data-toggle="dropdown"><img class="nav-menu-img" src="{% static 'econnect/img/numerilink.png' %}"></div>
-                                    <div class="dropdown-content">
-                                        <a href="{% url 'econnect:numerilink-home' %}" class="animated fadeIn">{% trans 'NumeriLink Home' %}</a>
-                                        <a href="{% url 'econnect:numerilink-hotel' %}" class="animated fadeIn">{% trans 'NumeriLink Hotel' %}</a>
-                                    </div>
-                                </li>
-                                <li><a href="{% url 'econnect:homelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/homelink.png' %}"></a></li>
-                                <li><a href="{% url 'econnect:officelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/officelink.png' %}"></a></li>
-                                <li><a href="{% url 'econnect:corporatelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/corporatelink.png' %}"></a></li>
-{#                                <li><a href="{% url 'blog:home' %}" class="nav-menu nav-menu-custom">{% trans "Blog" %}</a></li>#}
-                                {% if user.is_authenticated %}
-                                    <li id="user-menu" class="dropdown">
-                                        <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="glyphicon glyphicon-user"></i>
-                                        </a>
-                                        <ul class="dropdown-menu" aria-labelledby="user-menu">
-                                            <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
-                                            <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
-                                            <li>
-                                                <a href="{% url 'econnect:my_creolink' %}">My Creolink</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
-                                            </li>
-                                            {% if user.is_staff %}
-                                                <li>
-                                                    <a href="{% url 'econnect:admin' %}">Admin</a>
-                                                </li>
-                                            {% endif %}
-                                            <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
-                                        </ul>
-                                    </li>
-                                {% else %}
-                                    <li class="hidden-xs">
-                                        <a href="{% url 'ikwen:sign_in' %}" class="btn btn-outline-success menu animated fadeIn" style="border-radius: 2px; border-width: 1px; display:block; height: 4.5vh!important; line-height: 4.5vh; padding: 0; width: 120px">{% trans "Login" %}</a>
-                                    </li>
-                                {% endif %}
-                            </ul>
-
-{#                                <div id="select" ng-model=""></div>#}
-                        </div>
-                    <div class="container-fluid">
-                        <h3 style="color: #039B03">
-                            {% trans "My Creolink" %}
-                        </h3>
-                    </div>
-
-                    </div>
-                {% endblock %}
-
-            </div>
-        </nav>
-    {% endwith %}
-{% endblock %}
-
 {% block content %}
     <div id="content" class="container" style="padding-top: 20vh">
         <div class="col-sm-8 col-sm-offset-2">
 
             <div style="margin-bottom: 5vh;">
                 <div class="text-center">
-                    <img class="img-square img-thumbnail" src="{% static 'ikwen/img/login-avatar.jpg' %}" style="margin-top: 1vh;">
+                   {% comment %} <img class="img-square img-thumbnail" src="{% static 'ikwen/img/login-avatar.jpg' %}" style="margin-top: 1vh;">{% endcomment %}
                     <h2 class="welcome-title">{% trans "Welcome " %} {{ user.first_name }}</h2>
                 </div>
                 <div class="clearfix"></div>

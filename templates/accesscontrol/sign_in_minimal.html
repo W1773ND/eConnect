@@ -134,6 +134,11 @@
         <div class="clear"></div>
     </div>
 {% endblock %}
+{% block footer %}
+    <div class="footer-copyright" style="color: #008000; padding: 3px 0; text-align: center;">
+        &copy; {{ year }} <a class="company-name" href="{% url 'econnect:home' %}"><strong>{{ config.company_name }}</strong></a>.
+    </div>
+{% endblock %}
 {% block js %}
     {{ block.super }}
     <script type="text/javascript">

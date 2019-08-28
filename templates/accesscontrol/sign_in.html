@@ -19,7 +19,7 @@
         {% if messages %}
             {% for msg in messages %}<p class="msg-tag {{ msg.tags }}" style="font-size: 1em; padding: 9px">{{ msg }}</p>{% endfor %}
         {% endif %}
-        <div id="login" class="form-wrapper stage subtle-shade">
+        <div id="login" class="form-wrapper stage subtle-shade" style="background-color: #fff">
             <h3 style="text-align: center">
                 <div style="margin-bottom: .3em; text-align: center">
                     {% if config.logo.name %}
@@ -57,6 +57,11 @@
             </div>
         </div>
         <div class="clear"></div>
+    </div>
+{% endblock %}
+{% block footer %}
+    <div class="footer-copyright" style="color: #008000; padding: 3px 0; text-align: center;">
+        &copy; {{ year }} <a class="company-name" href="{% url 'econnect:home' %}"><strong>{{ config.company_name }}</strong></a>.
     </div>
 {% endblock %}
 {% block js %}
