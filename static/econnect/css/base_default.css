@@ -564,7 +564,7 @@ ul.social-network li { display: inline; margin: 0 5px }
 .swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {pointer-events: visible !important;}
 
 .fa-chevron-circle-up { color: #319dd5; }
-.fa-user {font-size: larger;}
+.fas {font-size: x-large;}
 
 /* Back to top button BEGIN */
 .back-to-top { font-size: 3.5vw; position: fixed; bottom: 1%; text-align: right; z-index: 1; transition: all 1s; }

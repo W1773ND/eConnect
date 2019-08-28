@@ -81,7 +81,7 @@
                                             {% else %}
                                                 <li id="user-menu" class="dropdown">
                                                     <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="fas fa-user"></i>
+                                                        <i class="{% if user.is_staff %}fas fa-user-cog{% else %}fas fa-user{% endif %}"></i>
                                                     </a>
                                                     <ul class="dropdown-menu" aria-labelledby="user-menu">
                                                         <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
@@ -148,9 +148,11 @@
                                 </ul>
                             </div>
                         </div>{% endcomment %}
+
                         <div id="site-menu" class="collapse navbar-collapse">
                             <div class="container-fluid">
                                 <ul class="nav navbar-nav navbar-right" style="margin: 0 -15px 0 0">
+                                {% block product_menu %}
                                     <li class="dropdown page-menu NumeriLink">
                                         <div class="dropbtn nav-menu nav-menu-img animated fadeIn" data-toggle="dropdown"><img class="nav-menu-img" src="{% static 'econnect/img/numerilink.png' %}"></div>
                                         <div class="dropdown-content ">
@@ -162,6 +164,7 @@
                                     <li class="page-menu OfficeLink"><a href="{% url 'econnect:officelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/officelink.png' %}"></a></li>
                                     <li class="page-menu CorporateLink"><a href="{% url 'econnect:corporatelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/corporatelink.png' %}"></a></li>
 {#                                        <li><a href="{% url 'blog:home' %}" class="nav-menu nav-menu-custom">{% trans "Blog" %}</a></li>#}
+                                {% endblock %}
                                 {% if user.is_authenticated %}
                                     {% if user.is_ghost %}
                                         <li id="user-menu">
@@ -172,7 +175,7 @@
                                     {% else %}
                                         <li id="user-menu" class="dropdown">
                                             <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="fas fa-user"></i>
+                                                <i class="{% if user.is_staff %}fas fa-user-cog{% else %}fas fa-user{% endif %}"></i>
                                             </a>
                                             <ul class="dropdown-menu" aria-labelledby="user-menu">
                                                 <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
@@ -198,8 +201,6 @@
                                     </li>
                                 {% endif %}
                                 </ul>
-
-    {#                                <div id="select" ng-model=""></div>#}
                             </div>
                         </div>
                     {% endblock %}

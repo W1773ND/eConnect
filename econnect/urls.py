@@ -6,11 +6,12 @@ from ikwen.billing.invoicing.views import InvoiceList
 from econnect.views import Admin, HomeView, PricingNumerilink, PricingNumerilinkHotel, PendingOrderList, PaidOrderList, \
     CustomerRequestList, ChangeProduct, ProductList, ChangePackage, PackageList, EquipmentList, ChangeEquipment, \
     ExtraList, ChangeExtra, PricingOfficelink, PricingHomelink, PricingCorporatelink, Maps, \
-    OrderConfirm, ChangeMailCampaign, ReportedOrderList, About, Legal, Privacy
+    OrderConfirm, ChangeMailCampaign, ReportedOrderList, About, Legal, Privacy, Offline
 
 urlpatterns = patterns(
     '',
     url(r'^$', HomeView.as_view(), name='home'),
+    url(r'^offline.html$', Offline.as_view(), name='offline'),
     url(r'^about/$', About.as_view(), name='about'),
     url(r'^legal/$', Legal.as_view(), name='legal'),
     url(r'^privacy/$', Privacy.as_view(), name='privacy'),

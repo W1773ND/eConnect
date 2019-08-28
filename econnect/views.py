@@ -474,10 +474,11 @@ class HomeView(TemplateView):
                 member_profile = MemberProfile.objects.get(member=member)
                 member_profile.tag_fk_list = [econnect_tag.id]
                 member_profile.save()
+                next_url = reverse('ikwen:logout') + "?next=" + reverse('ikwen:register')
                 try:
                     subject = _("Do more with Creolink Communications !")
                     html_content = get_mail_content(subject, template_name='accesscontrol/mails/complete_registration.html',
-                                                    extra_context={'member_email': visitor_email}, )
+                                                    extra_context={'member_email': visitor_email, 'next_url': next_url}, )
                     sender = '%s <no-reply@%s>' % (config.company_name, service.domain)
                     msg = EmailMessage(subject, html_content, sender, [visitor_email])
                     msg.content_subtype = "html"
@@ -751,6 +752,10 @@ class Legal(TemplateView):
 
 class Privacy(TemplateView):
     template_name = 'econnect/privacy.html'
+
+
+class Offline(TemplateView):
+    template_name = 'econnect/offline.html'
 
 
 class ChangeMailCampaign(CampaignBaseView, ChangeObjectBase):
