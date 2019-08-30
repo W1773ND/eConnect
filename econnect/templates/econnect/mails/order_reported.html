@@ -9,7 +9,7 @@
 <!-- Forcing initial-scale shouldn't be necessary -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
 <!-- Use the latest (edge) version of IE rendering engine -->
-<title style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >{{ subject }} - {{ company_name }}</title>
+<title style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >{{ subject }}</title>
 <!-- The title tag shows in email notifications, like Android 4.4. -->
 
 
@@ -91,7 +91,7 @@ table.center-on-narrow {
     <td style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;" ><center style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;width:100%;" >
 
         <!-- Visually Hidden Preheader Text : BEGIN -->
-        <div style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;display:none;font-size:1px;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;mso-hide:all;font-family:'Myriad Pro','Lucida Sans Unicode' ,Verdana, Helvetica, Arial, sans-serif;" >{{ subject }} - {{ company_name }}</div>
+        <div style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;display:none;font-size:1px;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;mso-hide:all;font-family:'Myriad Pro','Lucida Sans Unicode' ,Verdana, Helvetica, Arial, sans-serif;" >{{ company_name }} - {% trans 'The best of internet, the best of tv.' %}</div>
         <!-- Visually Hidden Preheader Text : END -->
         <div class="screen-display" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;max-width:680px;box-shadow:6px 5px 5px  #bfbfbf;font-family:'Myriad Pro','Lucida Sans Unicode' ,Verdana, Helvetica, Arial, sans-serif;margin-top:10px;" >
           <!--[if (gte mso 9)|(IE)]>
@@ -104,7 +104,7 @@ table.center-on-narrow {
 				  <table cellspacing="0" cellpadding="0" border="0" align="center" bgcolor="#F3F3F3" width="100%" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;max-width:680px;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;border-spacing:0 !important;border-collapse:collapse !important;margin-top:0 !important;margin-bottom:0 !important;margin-right:auto !important;margin-left:auto !important;table-layout:fixed !important;" >
 					<tr style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
 					  <td style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;" >
-						<div style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;width:100%;margin-top:auto;margin-bottom:auto;margin-right:auto;margin-left:auto;padding-top:15px;padding-bottom:5px;padding-right:0;padding-left:0;text-align:left;border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:#EEEEEE;" >
+						<div style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;width:100%;margin-top:auto;margin-bottom:auto;margin-right:auto;margin-left:auto;padding-top:15px;padding-bottom:5px;padding-right:0;padding-left:15px;text-align:left;border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:#EEEEEE;" >
 						    <a href="{{ service.url }}" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
                                 <img src="https://lh3.googleusercontent.com/YIgquZwVCQeTHy_2K1-Kj2c_UqQyqRCbeCf3PIOKM2XZkgQvbmj36kk0bLaok0xbxr6VxqavND1WyjmW7jMqd1VQ7C1qNN_KnjEb8LU3B8TXfVoX9xwadhvB4RwkaOJP-wIy_6fTYrRDnKB6CG1v6cKiXW5vuM2kBJqiIoQmUXbdvTAQJaPnVZezTKueAQAjkYAfLJGw4h9AUjx30QXiEnjJ_c_booSuQ_3ot8lWpAF4Mjbk78ewkCtFBrxm-pdcoY86gxGHsmYO_fGn3V-JmppXaYGlc3ym5xUGPjif6kI38EuT7jl7n0RFbcbPAzr48fRIpb960qo889l0SONTub7M-maRx0dmdJvhkfV3zPi0cj7nmJOJEcQlxzsyQKnbtVaiPW9jnovEFGMicsY5HRtizr5IhXlUbzlhDmHsFymbiOmLhNFUvALAs5ckOgLEcplOyhSnwAiTAvxsUZvHHkbbhqiazqRNhrn5LUpXQFcoMYmIA2t8-SDdlFf1L7D3p_FqBaKkn1Z4Zus4eoNSu2SqxGjI0Usf57MnE7VdEHsFcAjF2vK0K6LVu3n6jjVEX2PT9C6jEogmEX3rltUVQXft9MIR_SLj-YXzxtRyW47_bgqCFOPSgmhVBfhac_enzLYdjfXusMRBQPqq9Al3LufSlgzj15igblxYBsoaD7kHyNuC5Ye_gjNmS9RTQlueHN0KsvWZA_d7vexH_pFxqV25=w805-h263-no" width="100" height="auto" alt="Creolink Communications website" border="0" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;padding-left:20px;-ms-interpolation-mode:bicubic;" >
                             </a>
@@ -112,7 +112,7 @@ table.center-on-narrow {
 						</td>
 					</tr>
 				  </table>
-				  <!-- Email Header : END -->
+          <!-- Email Header : END -->
 
           <!-- Email Body : BEGIN -->
           <table cellspacing="0" cellpadding="0" border="0" align="center" bgcolor="#ffffff" width="100%" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;max-width:680px;border-top-width:3px;border-top-style:solid;border-top-color:#28a745;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;border-spacing:0 !important;border-collapse:collapse !important;margin-top:0 !important;margin-bottom:0 !important;margin-right:auto !important;margin-left:auto !important;table-layout:fixed !important;" >
@@ -131,12 +131,10 @@ table.center-on-narrow {
                       <td valign="middle" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;padding-top:20px;padding-bottom:20px;padding-right:20px;padding-left:20px;font-size:18px;mso-height-rule:exactly;line-height:25px;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;" >
                         <h3 style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;margin-top:0;" >{% blocktrans %}Dear {{ member_name }},</h3>
                         <p style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;font-size:14px" >
-                            Your order has been taken into consideration, please proceed with payment and a team will come as soon as possible to install {{ order_label }}
-                            <br style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
-                            at {{ order_location }}.
+                            Your order has been taken into consideration, we'll contact you soon, stay linked with us.
                         </p>
                         <p style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;color:#8f8f8f;text-align:center;margin-bottom:20px; font-size: 16px; line-height: 23px" >
-                            Thank you for your business with Creolink Communications
+                            Thank you for your business with Creolink Communications.
                         </p>
                         {% endblocktrans %}
                       </td>
@@ -146,8 +144,8 @@ table.center-on-narrow {
 				<table cellspacing="0" cellpadding="0" border="0" align="center" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;margin-top:0 !important;margin-bottom:0 !important;margin-right:auto !important;margin-left:auto !important;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;border-spacing:0 !important;border-collapse:collapse !important;table-layout:fixed !important;" >
                     <tr style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
                         <td  class="button-td" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;min-width:160px;border-radius:3px;background-color:#28a745;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;text-align:center;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;transition:all 100ms ease-in;" >
-                          <a href="{{ invoice_url }}" target="_blank"  class="button-a" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;background-color:#28a745;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;border-width:15px;border-style:solid;border-color:#28a745;padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;color:#ffffff;font-size:13px;line-height:1.1;text-align:center;text-decoration:none;display:block;border-radius:3px;transition:all 100ms ease-in;" >
-                          <!--[if mso]>&nbsp;&nbsp;&nbsp;&nbsp;<![endif]-->{% trans 'Pay now' %}<!--[if mso]>&nbsp;&nbsp;&nbsp;&nbsp;<![endif]-->
+                          <a href="{{ my_creolink_url }}" target="_blank"  class="button-a" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;background-color:#28a745;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;border-width:15px;border-style:solid;border-color:#28a745;padding-top:0;padding-bottom:0;padding-right:10px;padding-left:10px;color:#ffffff;font-size:13px;line-height:1.1;text-align:center;text-decoration:none;display:block;border-radius:3px;transition:all 100ms ease-in;" >
+                          <!--[if mso]>&nbsp;&nbsp;&nbsp;&nbsp;<![endif]-->{% trans 'My Creolink' %}<!--[if mso]>&nbsp;&nbsp;&nbsp;&nbsp;<![endif]-->
                           </a>
                         </td>
                     </tr>

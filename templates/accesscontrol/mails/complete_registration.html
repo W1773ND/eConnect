@@ -9,7 +9,7 @@
 <!-- Forcing initial-scale shouldn't be necessary -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >
 <!-- Use the latest (edge) version of IE rendering engine -->
-<title style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >{% trans "Please confirm your email" %} - creolink</title>
+<title style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;" >{% trans "Please complete registration process" %}</title>
 <!-- The title tag shows in email notifications, like Android 4.4. -->
 
 
@@ -137,7 +137,7 @@ table.center-on-narrow {
     <td style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;mso-table-lspace:0pt !important;mso-table-rspace:0pt !important;" ><center style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;width:100%;" >
 
         <!-- Visually Hidden Preheader Text : BEGIN -->
-        <div style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;display:none;font-size:1px;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;mso-hide:all;font-family:'Myriad Pro','Lucida Sans Unicode' ,Verdana, Helvetica, Arial, sans-serif;" >{% trans "Please confirm your email" %} - creolink</div>
+        <div style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;display:none;font-size:1px;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;mso-hide:all;font-family:'Myriad Pro','Lucida Sans Unicode' ,Verdana, Helvetica, Arial, sans-serif;" >{{ company_name }} - {% trans "Please complete registration process" %}</div>
         <!-- Visually Hidden Preheader Text : END -->
 
         <div class="screen-display" style="-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;max-width:680px;background-color:#FFFFFF;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;box-shadow:0 5px 5px 0 #bfbfbf;margin-top:10px;" >
@@ -193,7 +193,7 @@ table.center-on-narrow {
                                 <tr>
                                     <td style="border-radius: 3px; background: #fff; text-align: center;" class="button-td">
                                         <a href="{{ service.url }}{{ next_url }}" style="background: #28a745; border: 15px solid #28a745	; padding: 0 10px;color: #ffffff;font-size: 13px; line-height: 1.1; text-align: center; text-decoration: none; display: block; border-radius: 3px;" class="button-a">
-                                      <!--[if mso]>&nbsp;&nbsp;&nbsp;&nbsp;<![endif]-->{% trans " Complete registration" %} &#8594;<!--[if mso]>&nbsp;&nbsp;&nbsp;&nbsp;<![endif]-->
+                                      <!--[if mso]>&nbsp;&nbsp;&nbsp;&nbsp;<![endif]-->{% trans " COMPLETE REGISTRATION" %}<!--[if mso]>&nbsp;&nbsp;&nbsp;&nbsp;<![endif]-->
                                       </a>
                                     </td>
                                 </tr>

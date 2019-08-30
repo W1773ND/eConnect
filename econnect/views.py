@@ -47,7 +47,7 @@ from echo.admin import MailCampaignAdmin
 
 from econnect.admin import ProductAdmin, PackageAdmin, EquipmentAdmin, ExtraAdmin
 from econnect.forms import OrderForm
-from econnect.models import Subscription, Order, CustomerRequest, Product, Package, Equipment, EquipmentOrderEntry, \
+from econnect.models import ADMIN_EMAIL, Subscription, Order, CustomerRequest, Product, Package, Equipment, EquipmentOrderEntry, \
     Extra, RENTAL, PURCHASE, REPORTED, FINISHED, DEVICE_ID, \
     NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, ANALOG, DIGITAL, ECONNECT
 
@@ -309,7 +309,7 @@ class PendingOrderList(HybridListView):
                                                            'order_location': order_location
                                                            })
             sender = 'Creolink Communications <no-reply@creolink.com>'
-            msg = XEmailMessage(subject, html_content, sender, [member.email])
+            msg = XEmailMessage(subject, html_content, sender, [member.email], [ADMIN_EMAIL])
             msg.content_subtype = "html"
             Thread(target=lambda m: m.send(), args=(msg,)).start()
         except:
@@ -337,19 +337,13 @@ class PendingOrderList(HybridListView):
         order.status = REPORTED
         order.save()
         member = order.member
-        product_name = order.package.product.name
-        package_name = order.package.name
-        label = product_name + ' [' + package_name + ']'
-        order_location = order.formatted_address
-
+        my_creolink_url = reverse('econnect:my_creolink')
         try:
             subject = _("Dear " + member.full_name + ", we'll come soon as possible to install your service.")
             html_content = get_mail_content(subject, template_name='econnect/mails/order_reported.html',
-                                            extra_context={'order_label': label,
-                                                           'order_location': order_location
-                                                           })
+                                            extra_context={'my_creolink_url': my_creolink_url, })
             sender = 'Creolink Communications <no-reply@creolink.com>'
-            msg = XEmailMessage(subject, html_content, sender, [member.email])
+            msg = XEmailMessage(subject, html_content, sender, [member.email], [ADMIN_EMAIL])
             msg.content_subtype = "html"
             Thread(target=lambda m: m.send(), args=(msg,)).start()
         except:
@@ -393,7 +387,7 @@ class PaidOrderList(HybridListView):
                                                            'order_location': order_location
                                                            })
             sender = 'Creolink Communications <no-reply@creolink.com>'
-            msg = XEmailMessage(subject, html_content, sender, [member.email])
+            msg = XEmailMessage(subject, html_content, sender, [member.email], [ADMIN_EMAIL])
             msg.content_subtype = "html"
             Thread(target=lambda m: m.send(), args=(msg,)).start()
         except:
@@ -474,13 +468,13 @@ class HomeView(TemplateView):
                 member_profile = MemberProfile.objects.get(member=member)
                 member_profile.tag_fk_list = [econnect_tag.id]
                 member_profile.save()
-                next_url = reverse('ikwen:logout') + "?next=" + reverse('ikwen:register')
+                next_url_for_mail = reverse('ikwen:logout') + "?next=" + reverse('ikwen:register')
                 try:
                     subject = _("Do more with Creolink Communications !")
                     html_content = get_mail_content(subject, template_name='accesscontrol/mails/complete_registration.html',
-                                                    extra_context={'member_email': visitor_email, 'next_url': next_url}, )
+                                                    extra_context={'member_email': visitor_email, 'next_url': next_url_for_mail}, )
                     sender = '%s <no-reply@%s>' % (config.company_name, service.domain)
-                    msg = EmailMessage(subject, html_content, sender, [visitor_email])
+                    msg = EmailMessage(subject, html_content, sender, [visitor_email], [ADMIN_EMAIL])
                     msg.content_subtype = "html"
                     Thread(target=lambda m: m.send(), args=(msg,)).start()
                 except:
