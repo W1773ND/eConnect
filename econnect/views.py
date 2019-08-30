@@ -464,7 +464,7 @@ class HomeView(TemplateView):
             except Member.DoesNotExist:
                 member = Member.objects.create_user(username, DEFAULT_GHOST_PWD, email=visitor_email, is_ghost=True)
                 tag = ECONNECT
-                econnect_tag, change = ProfileTag.objects.get_or_create(slug=tag)
+                econnect_tag, change = ProfileTag.objects.get_or_create(name=tag, slug=slugify(tag))
                 member_profile = MemberProfile.objects.get(member=member)
                 member_profile.tag_fk_list = [econnect_tag.id]
                 member_profile.save()
