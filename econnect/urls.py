@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import permission_required, login_required
 
 from ikwen.billing.invoicing.views import InvoiceList
 
+from econnect.collect import confirm_invoice_payment
 from econnect.views import Admin, HomeView, PricingNumerilink, PricingNumerilinkHotel, PendingOrderList, PaidOrderList, \
     CustomerRequestList, ChangeProduct, ProductList, ChangePackage, PackageList, EquipmentList, ChangeEquipment, \
     ExtraList, ChangeExtra, PricingOfficelink, PricingHomelink, PricingCorporatelink, Maps, \
@@ -23,6 +24,7 @@ urlpatterns = patterns(
     url(r'^maps$', login_required(Maps.as_view()), name='maps'),
     url(r'^orderConfirm/$', login_required(OrderConfirm.as_view()), name='order_confirm'),
     url(r'^MyCreolink/$', login_required(InvoiceList.as_view()), name='my_creolink'),
+    url(r'^confirm_invoice_payment/(?P<tx_id>[-\w]+)$', confirm_invoice_payment, name='confirm_invoice_payment'),
     url(r'^admin/home/$', permission_required('econnect.ik_econnect_admin')(Admin.as_view()), name='admin'),
     url(r'^products/$', permission_required('econnect.ik_econnect_admin')(ProductList.as_view()), name='product_list'),
     url(r'^product/$', permission_required('econnect.ik_econnect_admin')(ChangeProduct.as_view()), name='change_product'),

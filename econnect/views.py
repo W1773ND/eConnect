@@ -306,7 +306,8 @@ class PendingOrderList(HybridListView):
             html_content = get_mail_content(subject, template_name='econnect/mails/order_accepted.html',
                                             extra_context={'invoice_url': invoice_url,
                                                            'order_label': label,
-                                                           'order_location': order_location
+                                                           'order_location': order_location,
+                                                           'member': member.last_name
                                                            })
             sender = 'Creolink Communications <no-reply@creolink.com>'
             msg = XEmailMessage(subject, html_content, sender, [member.email], [ADMIN_EMAIL])
@@ -341,7 +342,8 @@ class PendingOrderList(HybridListView):
         try:
             subject = _("Dear " + member.full_name + ", we'll come soon as possible to install your service.")
             html_content = get_mail_content(subject, template_name='econnect/mails/order_reported.html',
-                                            extra_context={'my_creolink_url': my_creolink_url, })
+                                            extra_context={'my_creolink_url': my_creolink_url,
+                                                           'member': member.last_name})
             sender = 'Creolink Communications <no-reply@creolink.com>'
             msg = XEmailMessage(subject, html_content, sender, [member.email], [ADMIN_EMAIL])
             msg.content_subtype = "html"
@@ -384,7 +386,8 @@ class PaidOrderList(HybridListView):
             subject = _("Dear " + member.full_name + ", thanks to business with Creolink Communications.")
             html_content = get_mail_content(subject, template_name='econnect/mails/service_completed.html',
                                             extra_context={'order_label': label,
-                                                           'order_location': order_location
+                                                           'order_location': order_location,
+                                                           'member': member.last_name
                                                            })
             sender = 'Creolink Communications <no-reply@creolink.com>'
             msg = XEmailMessage(subject, html_content, sender, [member.email], [ADMIN_EMAIL])

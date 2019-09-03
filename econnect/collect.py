@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import random
 from threading import Thread
 
+import requests
 from currencies.models import Currency
 from django.conf import settings
 from django.contrib import messages
@@ -12,7 +13,7 @@ from django.contrib.auth.models import Group
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.db.models import Sum
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.utils.http import urlquote
 from django.utils.translation import gettext as _
 
@@ -22,7 +23,7 @@ from ikwen.core.constants import CONFIRMED
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.accesscontrol.models import SUDO
 from ikwen.billing.models import Invoice, Payment, PAYMENT_CONFIRMATION, InvoiceEntry, Product, InvoiceItem, Donation, \
-    SupportBundle, SupportCode
+    SupportBundle, SupportCode, MoMoTransaction
 from ikwen.billing.mtnmomo.views import MTN_MOMO
 from ikwen.billing.utils import get_invoicing_config_instance, get_days_count, get_payment_confirmation_message, \
     share_payment_and_set_stats, get_next_invoice_number, refill_tsunami_messaging_bundle, get_subscription_model, \
@@ -41,18 +42,78 @@ SUBSCRIPTION_DURATION = 30  # Defaults to 1 month upon online payment. Admin can
 
 def order_set_checkout(request, *args, **kwargs):
     service = get_service_instance()
+    config = service.config
     invoice_id = request.POST['product_id']
     invoice = Invoice.objects.get(pk=invoice_id)
 
-    request.session['amount'] = invoice.amount
-    request.session['model_name'] = 'billing.Invoice'
-    request.session['object_id'] = invoice.id
+    buyer = request.user.username if request.user.is_authenticated() else 'anonymous'
+    amount = invoice.amount
+    model_name = 'billing.Invoice'
+    invoice_id = invoice.id
 
     mean = request.GET.get('mean', MTN_MOMO)
-    request.session['mean'] = mean
-    request.session['notif_url'] = service.url  # Orange Money only
-    request.session['cancel_url'] = service.url + reverse('billing:pricing')  # Orange Money only
-    request.session['return_url'] = service.url + reverse('billing:invoice_detail', args=(invoice.id,))
+    tx = MoMoTransaction.objects.using(WALLETS_DB_ALIAS) \
+        .create(service_id=service.id, type=MoMoTransaction.CASH_OUT, amount=amount, phone='N/A',
+                model=model_name, object_id=invoice_id, wallet=mean, username=buyer, is_running=True)
+    notification_url = service.url + reverse('econnect:confirm_invoice_payment', args=(tx.id, ))
+    cancel_url = service.url + reverse('econnect:my_creolink')  # Orange Money only
+    return_url = service.url + reverse('billing:invoice_detail', args=(invoice.id,))
+    gateway_url = getattr(settings, 'IKWEN_PAYMENT_GATEWAY_URL', 'https://momogateway.cyberlink.com/v1')
+    endpoint = gateway_url + '/request_payment'
+    params = {
+        'username': getattr(settings, 'IKWEN_PAYMENT_GATEWAY_USERNAME', service.project_name_slug),
+        'amount': amount,
+        'merchant_name': config.company_name,
+        'notification_url': notification_url,
+        'return_url': return_url,
+        'cancel_url': cancel_url,
+        'user_id': buyer
+    }
+    try:
+        r = requests.get(endpoint, params)
+        resp = r.json()
+        token = resp.get('token')
+        if token:
+            next_url = gateway_url + '/checkoutnow/' + resp['token'] + '?mean=' + mean
+        else:
+            messages.error(resp['errors'])
+            next_url = cancel_url
+    except:
+        logger.error("%s - Init payment flow failed with URL %s." % (service.project_name, r.url), exc_info=True)
+        next_url = cancel_url
+    return HttpResponseRedirect(next_url)
+
+
+def confirm_invoice_payment(request, *args, **kwargs):
+    status = request.GET['status']
+    message = request.GET['message']
+    operator_tx_id = request.GET['operator_tx_id']
+    phone = request.GET['phone']
+    tx_id = kwargs['tx_id']
+
+    tx = MoMoTransaction.objects.using(WALLETS_DB_ALIAS).get(pk=tx_id)
+    if not getattr(settings, 'DEBUG', False):
+        tx_timeout = getattr(settings, 'IKWEN_PAYMENT_GATEWAY_TIMEOUT', 15) * 60
+        expiry = tx.created_on + timedelta(seconds=tx_timeout)
+        if datetime.now() > expiry:
+            return HttpResponse("Transaction %s timed out." % tx_id)
+
+    tx.status = status
+    tx.message = message
+    tx.processor_tx_id = operator_tx_id
+    tx.phone = phone
+    tx.is_running = False
+    tx.save()
+    if status != MoMoTransaction.SUCCESS:
+        return HttpResponse("Notification for transaction %s received with status %s" % (tx_id, status))
+    invoice = Invoice.objects.get(pk=tx.object_id)
+    payment = Payment.objects.create(invoice=invoice, method=Payment.MOBILE_MONEY,
+                                     amount=tx.amount, processor_tx_id=operator_tx_id)
+    payment.save()
+    invoice.paid = invoice.amount
+    invoice.status = Invoice.PAID
+    invoice.save()
+    return HttpResponse("Notification for transaction %s received with status %s" % (tx_id, status))
 
 
 def order_do_checkout(request, *args, **kwargs):
