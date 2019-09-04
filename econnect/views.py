@@ -281,6 +281,7 @@ class PendingOrderList(HybridListView):
         install_cost = order.package.product.install_cost
         amount = order.cost - install_cost
         member = order.member
+        member_lastname = member.last_name if not member.is_ghost else _('Customer')
         service = get_service_instance()
         config = service.config
         number = get_next_invoice_number()
@@ -307,7 +308,7 @@ class PendingOrderList(HybridListView):
                                             extra_context={'invoice_url': invoice_url,
                                                            'order_label': label,
                                                            'order_location': order_location,
-                                                           'member': member.last_name
+                                                           'member_lastname': member_lastname,
                                                            })
             sender = 'Creolink Communications <no-reply@creolink.com>'
             msg = XEmailMessage(subject, html_content, sender, [member.email], [ADMIN_EMAIL])
@@ -338,12 +339,14 @@ class PendingOrderList(HybridListView):
         order.status = REPORTED
         order.save()
         member = order.member
+        member_lastname = member.last_name if not member.is_ghost else _('Customer')
         my_creolink_url = reverse('econnect:my_creolink')
         try:
             subject = _("Dear " + member.full_name + ", we'll come soon as possible to install your service.")
             html_content = get_mail_content(subject, template_name='econnect/mails/order_reported.html',
                                             extra_context={'my_creolink_url': my_creolink_url,
-                                                           'member': member.last_name})
+                                                           'member_lastname': member_lastname,
+                                                           })
             sender = 'Creolink Communications <no-reply@creolink.com>'
             msg = XEmailMessage(subject, html_content, sender, [member.email], [ADMIN_EMAIL])
             msg.content_subtype = "html"
@@ -378,6 +381,7 @@ class PaidOrderList(HybridListView):
         order.status = FINISHED
         order.save()
         member = order.member
+        member_lastname = member.last_name if not member.is_ghost else _('Customer')
         product_name = order.package.product.name
         package_name = order.package.name
         label = product_name + ' [' + package_name + ']'
@@ -387,7 +391,7 @@ class PaidOrderList(HybridListView):
             html_content = get_mail_content(subject, template_name='econnect/mails/service_completed.html',
                                             extra_context={'order_label': label,
                                                            'order_location': order_location,
-                                                           'member': member.last_name
+                                                           'member_lastname': member_lastname,
                                                            })
             sender = 'Creolink Communications <no-reply@creolink.com>'
             msg = XEmailMessage(subject, html_content, sender, [member.email], [ADMIN_EMAIL])

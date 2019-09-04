@@ -9,7 +9,7 @@ from ikwen.accesscontrol.models import Member
 from ikwen.billing.models import AbstractSubscription
 
 ADMIN_EMAIL = 'wilfriedwillend@gmail.com'
-ECONNECT = 'econnect'
+ECONNECT = 'eConnect'
 NUMERIHOME = 'NumeriLink Home'
 NUMERIHOTEL = 'NumeriLink Hotel'
 HOME = 'HomeLink'
