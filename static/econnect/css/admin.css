@@ -147,7 +147,7 @@ footer a {color: #999}
 .event-content {/* border: none; */}
 .event-content p {margin-top: 10px;}
 .event-customer-name {text-transform: uppercase;font-weight: 700;}
-.event-detail {border: 1px solid #ddd; margin-top: 10px; padding: 15px;}
+.event-detail {border: 1px solid #ddd;margin-top: 10px;padding: 15px;}
 .event-icon {height: 92%;line-height: 140px;margin: -15px 0 0 -15px;padding-left: inherit;position: absolute;text-align: center;/* width: 90px; */}
 .event-icon img {width: 60px;}
 .event-title { margin-bottom: 2vh; }

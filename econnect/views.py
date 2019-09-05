@@ -48,7 +48,7 @@ from echo.admin import MailCampaignAdmin
 from econnect.admin import ProductAdmin, PackageAdmin, EquipmentAdmin, ExtraAdmin
 from econnect.forms import OrderForm
 from econnect.models import ADMIN_EMAIL, Subscription, Order, CustomerRequest, Product, Package, Equipment, EquipmentOrderEntry, \
-    Extra, RENTAL, PURCHASE, REPORTED, FINISHED, DEVICE_ID, \
+    Extra, RENTAL, PURCHASE, REPORTED, FINISHED, CANCELED, DEVICE_ID, \
     NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, ANALOG, DIGITAL, ECONNECT
 
 import logging
@@ -227,7 +227,7 @@ class OrderConfirm(TemplateView):
 class PendingOrderList(HybridListView):
     template_name = 'econnect/admin/order_list.html'
     html_results_template_name = 'econnect/admin/snippets/order_list_results.html'
-    queryset = Order.objects.exclude(status__in=[REPORTED, Invoice.PAID, FINISHED])
+    queryset = Order.objects.exclude(status__in=[REPORTED, Invoice.PAID, FINISHED, CANCELED])
     search_field = 'member'
     list_filter = ('created_on', 'status')
     context_object_name = 'order'
@@ -407,8 +407,57 @@ class PaidOrderList(HybridListView):
 
 class ReportedOrderList(HybridListView):
     template_name = 'econnect/admin/order_list.html'
-    html_results_template_name = 'econnect/admin/snippets/order_list_results.html'
+    html_results_template_name = 'econnect/snippets/order_list_results.html'
     queryset = Order.objects.filter(status=REPORTED)
+    search_field = 'member'
+    list_filter = ('created_on',)
+    context_object_name = 'order'
+
+
+class UncompletedOrderList(HybridListView):
+    template_name = 'econnect/uncompleted_order_list.html'
+
+    def get_queryset(self):
+        member = self.request.user
+        queryset = Order.objects.filter(member=member, status=STARTED)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(UncompletedOrderList, self).get_context_data(**kwargs)
+        member = self.request.user
+        queryset = Order.objects.filter(member=member, status=STARTED)
+        context['uncompleted_order_list'] = queryset
+        return context
+
+    def get(self, request, *args, **kwargs):
+        member = self.request.user
+        queryset = Order.objects.filter(member=member, status=STARTED)
+        if queryset.count() == 0:
+            next_url = reverse('econnect:my_creolink')
+            return HttpResponseRedirect(next_url)
+        else:
+            action = request.GET.get('action')
+            if action == 'confirm_order':
+                return OrderConfirm.confirm_order(request, *args, **kwargs)
+                # return self.confirm_order(request)
+            if action == 'cancel_order':
+                return self.cancel_order(request)
+            return super(UncompletedOrderList, self).get(request, *args, **kwargs)
+
+    @staticmethod
+    def cancel_order(request):
+        order_id = request.GET['order_id']
+        order = get_object_or_404(Order, id=order_id)
+        order.status = CANCELED
+        order.save()
+        response = {"success": True}
+        return HttpResponse(json.dumps(response), 'content-type: text/json')
+
+
+class CanceledOrderList(HybridListView):
+    template_name = 'econnect/admin/order_list.html'
+    html_results_template_name = 'econnect/snippets/order_list_results.html'
+    queryset = Order.objects.filter(status=CANCELED)
     search_field = 'member'
     list_filter = ('created_on',)
     context_object_name = 'order'

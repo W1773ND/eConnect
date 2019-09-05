@@ -7,7 +7,7 @@ from econnect.collect import confirm_invoice_payment
 from econnect.views import Admin, HomeView, PricingNumerilink, PricingNumerilinkHotel, PendingOrderList, PaidOrderList, \
     CustomerRequestList, ChangeProduct, ProductList, ChangePackage, PackageList, EquipmentList, ChangeEquipment, \
     ExtraList, ChangeExtra, PricingOfficelink, PricingHomelink, PricingCorporatelink, Maps, \
-    OrderConfirm, ChangeMailCampaign, ReportedOrderList, About, Legal, Privacy, Offline
+    OrderConfirm, ChangeMailCampaign, ReportedOrderList, About, Legal, Privacy, Offline, CanceledOrderList
 
 urlpatterns = patterns(
     '',
@@ -41,6 +41,7 @@ urlpatterns = patterns(
     url(r'^admin/pendingOrder$', permission_required('econnect.ik_econnect_admin')(PendingOrderList.as_view()), name='pending_order'),
     url(r'^admin/paidOrder$', permission_required('econnect.ik_econnect_admin')(PaidOrderList.as_view()), name='paid_order'),
     url(r'^admin/reportedOrder$', permission_required('econnect.ik_econnect_admin')(ReportedOrderList.as_view()), name='reported_order'),
+    url(r'^admin/canceledOrder$', permission_required('econnect.ik_econnect_admin')(CanceledOrderList.as_view()), name='canceled_order'),
     url(r'^mailCampaign/$', permission_required('echo.ik_messaging_campaign')(ChangeMailCampaign.as_view()), name='change_mailcampaign'),
     url(r'^mailCampaign/(?P<object_id>[-\w]+)/$', permission_required('echo.ik_messaging_campaign')(ChangeMailCampaign.as_view()), name='change_mailcampaign'),
     url(r'^admin/customerRequest$', permission_required('econnect.ik_econnect_admin')(CustomerRequestList.as_view()), name='admin_request'),

@@ -18,6 +18,7 @@ CORPORATE = 'CorporateLink'
 RENTAL = "rental"
 PURCHASE = "purchase"
 REPORTED = "Reported"
+CANCELED = "Canceled"
 FINISHED = "Finished"
 DEVICE_ID = "device_id"
 
