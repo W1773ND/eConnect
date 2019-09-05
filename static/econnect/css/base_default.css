@@ -7,6 +7,8 @@
 */
 
 @import url('https://fonts.googleapis.com/css?family=Lato:300|PT+Sans:400,700');
+/*@import url('https://fonts.googleapis.com/css?family=Manjari:400,700&display=swap');*/
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
 
 /*h1 {font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;font-size: 24px;font-style: normal;font-variant: normal;font-weight: 700;!* line-height: 26.4px; *!}*/
 /*h3 { font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 15.4px; }*/
@@ -21,8 +23,11 @@ body {
         color: #464646;
         display: flex;
         flex-direction: column;
+        font-family: 'Montserrat', sans-serif;
         height: 100vh; /* Avoid the IE 10-11 `min-height` bug. */
         }
+h1, h2, h3, h4, h5, h6 {font-family: 'Montserrat', sans-serif;}
+
 a {color: green; text-decoration: none !important;}
 a:hover, a:focus { color: #28a745; }
 
