@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
 from djangotoolbox.fields import ListField, EmbeddedModelField
 
 from ikwen.core.models import Model, Service, AbstractWatchModel, AbstractConfig
@@ -10,11 +13,11 @@ from ikwen.billing.models import AbstractSubscription
 
 ADMIN_EMAIL = 'wilfriedwillend@gmail.com'
 ECONNECT = 'eConnect'
-NUMERIHOME = 'NumeriLink Home'
-NUMERIHOTEL = 'NumeriLink Hotel'
-HOME = 'HomeLink'
-OFFICE = 'OfficeLink'
-CORPORATE = 'CorporateLink'
+NUMERIHOME = 'NUMERILINK Home'
+NUMERIHOTEL = 'NUMERILINK Hotel'
+HOME = 'HOMELINK'
+OFFICE = 'OFFICELINK'
+CORPORATE = 'CORPORATELINK'
 RENTAL = "rental"
 PURCHASE = "purchase"
 REPORTED = "Reported"
@@ -28,6 +31,14 @@ TYPE_CHOICES = (
     (ANALOG, 'Analog'),
     (DIGITAL, 'Digital')
 )
+EN = 'en'
+FR = 'fr'
+LANG_CHOICES = (
+   (EN, 'English'),
+   (FR, u'Français'),
+)
+MEDIA_DIR = getattr(settings, 'MEDIA_ROOT') + 'tiny_mce/'
+TINYMCE_MEDIA_URL = getattr(settings, 'MEDIA_URL') + 'tiny_mce/'
 
 
 class ModelI18n(Model):
@@ -39,18 +50,22 @@ class ModelI18n(Model):
 
 class Product(ModelI18n):
     UPLOAD_TO = 'econnect/'
+    lang = models.CharField(max_length=10, choices=LANG_CHOICES, default=EN)
     name = models.CharField(max_length=200)
     slug = models.CharField(max_length=250)
-    summary = models.CharField(max_length=250)
+    slogan = models.CharField(max_length=250)
     description = models.TextField(blank=True, null=True)
+    catchy = models.TextField(blank=True, null=True)
     cta_label = models.CharField(max_length=30, verbose_name="Call-to-action")
     install_cost = models.IntegerField(default=0)
     logo = models.ImageField(blank=True, null=True, upload_to=UPLOAD_TO,
-                             help_text="150 x 150px")
+                             help_text="500 x 500px ; will appear on homepage")
+    cover = models.ImageField(blank=True, null=True, upload_to=UPLOAD_TO,
+                              help_text="1920 x 500px ; will appear on product banner")
     order_of_appearance = models.IntegerField(default=0)
 
     def __unicode__(self):
-        return self.name
+        return self.name + ' | ' + self.lang
 
 
 class Package(ModelI18n):
@@ -65,6 +80,7 @@ class Package(ModelI18n):
     short_description = models.TextField(blank=True,
                                          help_text=_("Short description understandable by the customer."))
     description = models.TextField()
+    summary = models.TextField()
     duration = models.IntegerField(default=30,
                                    help_text="Number of days covered by the cost this product.")
     duration_text = models.CharField(max_length=30, blank=True, null=True,
@@ -75,12 +91,12 @@ class Package(ModelI18n):
 
     def __unicode__(self):
         if self.type:
-            return "%s %s %s" % (self.product, self.name, self.type)
+            return "%s %s %s | %s" % (self.product.name, self.name, self.type, self.product.lang)
         else:
-            return str(self.product) + ' ' + self.name
+            return self.product.name + ' ' + self.name + ' | ' + self.product.lang
 
     def get_obj_details(self):
-        return "%s | %s" % (self.description, self.cost)
+        return "%s XAF" % self.cost
 
 
 class Equipment(ModelI18n):
@@ -133,6 +149,15 @@ class Order(Model):
     formatted_address = models.CharField(max_length=250)
     cost = models.IntegerField(default=0)
     status = models.CharField(max_length=30, default=STARTED)
+
+
+class Faq(Model):
+    product = models.ForeignKey(Product)
+    question = models.TextField()
+    answer = models.TextField()
+
+    def __unicode__(self):
+        return self.question
 
 
 class CustomerRequest(Model):

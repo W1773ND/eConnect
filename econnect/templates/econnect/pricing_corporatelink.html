@@ -55,14 +55,14 @@
                         <div class="callout-container">
                             <div class="panel-title panel-title text-center collapsed" role="tab" id="heading{{ package.id }}"  data-toggle="collapse" data-parent="#accordion-pack" data-target="#{{ package.id }}">
                                 <a data-toggle="collapse" data-parent="#accordion-pack" href="#{{ package.id }}">
-                                  <h5 class="pricing-title {{ product.name }}">{{ product.name|slice:":10" }}&nbsp;<span class="pricing-pack small {{ product.name }}">{{ package.name }}</span></h5>
+                                  <h5 class="pricing-title {{ product.name }}">{{ product.name|slice:":13" }}&nbsp;<span class="pricing-pack small {{ product.name }}">{{ package.name }}</span></h5>
                                 </a>
                             </div>
 
                             <div class="callout-item">
                                 <div class="pack-detail {{ product.name }} text-center">
                                     <a data-toggle="collapse" data-parent="#accordion-pack" href="#{{ package.id }}" style="color: inherit">
-                                        <p class="pricing-content mobile-adjust text-center" style="">{{ package.description|safe }}</p>
+                                        <p class="pricing-content mobile-adjust text-center" style="">{{ package.summary|safe }}</p>
                                         <h4 class="pricing-value text-center">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
                                     </a>
                                 </div>
@@ -336,7 +336,7 @@
     <script>
         (function () {
             // redirect to signIn page
-            $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:corporatelink' %}");
+            $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:corporatelink-pricing' %}");
 
             // set focus when modal is opened
             $('#modal-get-email').on('shown.bs.modal', function () {
@@ -347,7 +347,7 @@
                 $('div#email-error').fadeOut().hide()
             });
 
-            $('li.CorporateLink').addClass('selected');
+            $('li.page-menu.{{ product.name }}').addClass('selected');
 
             //Dynamic color for menu items and faq: BEGIN
             $('.nav-menu').addClass('{{ product.name }}');

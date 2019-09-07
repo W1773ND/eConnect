@@ -3,11 +3,11 @@ from django.utils.translation import gettext_lazy as _
 
 
 class ProductAdmin(admin.ModelAdmin):
-    fields = ('name', 'summary', 'description', 'cta_label', 'install_cost',)
+    fields = ('name', 'slogan', 'catchy', 'description', 'cta_label', 'install_cost', 'lang')
 
 
 class PackageAdmin(admin.ModelAdmin):
-    fields = ('product', 'type', 'name', 'target', 'optional_target_cost', 'description', 'cost', 'duration',
+    fields = ('product', 'type', 'name', 'target', 'optional_target_cost', 'summary', 'description', 'cost', 'duration',
               'duration_text')
 
 

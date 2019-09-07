@@ -52,25 +52,13 @@
                             </div>
                             {% block header_brand %}
                                 <a class="navbar-brand navbar-brand-screen img-default hidden-xs" href="{% url 'econnect:home' %}">
-                                    <img src="{% static "econnect/img/creolink_logo_white.png" %}">
+                                    <img src="{% static "econnect/img/creolink_logo.png" %}">
                                 </a>
-                                <a class="navbar-brand navbar-brand-screen img-active tpl hidden-xs" href="{% url 'econnect:home' %}">
-                                    <img class="" src="{% static "econnect/img/creolink_logo.png" %}">
-                                </a>
-{#                                    <a class="navbar-brand hidden-xs" href="{% url 'econnect:home' %}">#}
-{#                                        <strong>{{ service.project_name }}</strong>#}
-{#                                    </a>#}
                                 <a href="{% url 'econnect:home' %}"><strong class="navbar-brand visible-xs">{{ config.company_name }}</strong></a>
-{#                                <div class="navbar-brand visible-xs"><img class="img-responsive" src="{% static "econnect/img/creolink_logo.png" %}"></div>#}
                             {% endblock %}
                             {% block site_menu_xs %}
                                 <nav class="visible-xs pull-right">
                                     <ul id="nav-xs" class="nav navbar-nav navbar-right">
-                                        {% comment %}<li class="show-search">
-                                            <a>
-                                                <i class="glyphicon glyphicon-search"></i>
-                                            </a>
-                                        </li>{% endcomment %}
                                         {% if user.is_authenticated %}
                                             {% if user.is_ghost %}
                                                 <li id="user-menu">
@@ -112,57 +100,20 @@
                         </div>
                     </div>
                     {% block site_menu %}
-                        {% comment %}<div id="site-menu" class="collapse navbar-collapse">
-                            <div class="container-fluid">
-                                <ul class="nav navbar-nav navbar-right" style="margin: 0 -15px 0 0">
-                                    <li><a href="{% url 'econnect:numerilink-home' %}" class="nav-menu nav-menu-custom">NumeriLink</a></li>
-                                    <li><a href="{% url 'econnect:homelink' %}" class="nav-menu nav-menu-custom">HomeLink</a></li>
-                                    <li><a href="{% url 'econnect:officelink' %}" class="nav-menu nav-menu-custom">OfficeLink</a></li>
-                                    <li><a href="{% url 'econnect:corporatelink' %}" class="nav-menu nav-menu-custom">CorporateLink</a></li>
-                                    <li><a href="{% url 'blog:home' %}" class="nav-menu nav-menu-custom">{% trans "Blog" %}</a></li>
-                                    <li></li>
-                                    {% if user.is_authenticated %}
-                                        <li id="user-menu" class="dropdown">
-                                            <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="glyphicon glyphicon-user"></i>
-                                            </a>
-                                            <ul class="dropdown-menu" aria-labelledby="user-menu">
-                                                <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
-                                                <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
-                                                {% if user.is_staff %}
-                                                    <li>
-                                                        <a href="{% url 'econnect:admin' %}">Admin</a>
-                                                    </li>
-                                                {% endif %}
-                                                <li>
-                                                    <a href="{{ account_setup_url|ikwenize }}">{% trans "Account setup" %}</a>
-                                                </li>
-                                                <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
-                                            </ul>
-                                        </li>
-                                    {% else %}
-                                        <li class="hidden-xs">
-                                            <a href="{% url 'ikwen:sign_in' %}" class="cta nav-menu-custom">{% trans "Login" %}</a>
-                                        </li>
-                                    {% endif %}
-                                </ul>
-                            </div>
-                        </div>{% endcomment %}
-
                         <div id="site-menu" class="collapse navbar-collapse">
                             <div class="container-fluid">
                                 <ul class="nav navbar-nav navbar-right" style="margin: 0 -15px 0 0">
                                 {% block product_menu %}
-                                    <li class="dropdown page-menu NumeriLink">
+                                    <li class="dropdown page-menu NUMERILINK">
                                         <div class="dropbtn nav-menu nav-menu-img animated fadeIn" data-toggle="dropdown"><img class="nav-menu-img" src="{% static 'econnect/img/numerilink.png' %}"></div>
                                         <div class="dropdown-content ">
                                             <a href="{% url 'econnect:numerilink-home' %}" class="animated fadeIn">{% trans 'NumeriLink Home' %}</a>
                                             <a href="{% url 'econnect:numerilink-hotel' %}" class="animated fadeIn">{% trans 'NumeriLink Hotel' %}</a>
                                         </div>
                                     </li>
-                                    <li class="page-menu HomeLink"><a href="{% url 'econnect:homelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/homelink.png' %}"></a></li>
-                                    <li class="page-menu OfficeLink"><a href="{% url 'econnect:officelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/officelink.png' %}"></a></li>
-                                    <li class="page-menu CorporateLink"><a href="{% url 'econnect:corporatelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/corporatelink.png' %}"></a></li>
+                                    <li class="page-menu HOMELINK"><a href="{% url 'econnect:homelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/homelink.png' %}"></a></li>
+                                    <li class="page-menu OFFICELINK"><a href="{% url 'econnect:officelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/officelink.png' %}"></a></li>
+                                    <li class="page-menu CORPORATELINK"><a href="{% url 'econnect:corporatelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/corporatelink.png' %}"></a></li>
 {#                                        <li><a href="{% url 'blog:home' %}" class="nav-menu nav-menu-custom">{% trans "Blog" %}</a></li>#}
                                 {% endblock %}
                                 {% if user.is_authenticated %}
@@ -209,7 +160,6 @@
         {% endblock %}
         {% block selection_control %}{% endblock %}
         {% block content %}{% endblock %}
-        {% comment %}{% include 'econnect/snippets/edge_panel.html' %}{% endcomment %}
         {% block footer %}
             <footer class="footer">
                 <div class="container">
@@ -217,17 +167,14 @@
                         <div class="col-sm-3" style="margin-top: 4vh; text-align: center;">
                             <a href="{% url 'econnect:home' %}">
                                 <img class="footer-mobile-adjust" src="{% static 'econnect/img/creolink_logo_portrait_white.png' %}" style="max-width: 7vw;"/>
-{#                                <h4 style="color: #ffffff; font-size: 1.8vw; text-align: center;" class="logo footer-mobile-adjust">Creolink Communications</h4>#}
                             </a>
                         </div>
                         <div class="col-sm-3 col-xs-4 footer-mobile-adjust">
                             <h5 style="color: #ffffff; font-weight: bold; font-size: 2vw; margin-top: 5vh;">{% trans 'Our Company' %}</h5>
                             <ul style="font-size: 1.2vw; line-height: 1.7; list-style-type: none; padding-left: 0">
-{#                                <li><a style="color: #d2d1d1;" href="{% url 'econnect:home' %}">{% trans 'Home' %}</a></li>#}
                                 <li><a style="color: #d2d1d1;" href="{% url 'blog:home' %}" target="_blank">Blog</a></li>
                                 <li><a style="color: #d2d1d1;" href="{% url 'econnect:about' %}" >{% trans 'About Us' %}</a></li>
                                 <li><a style="color: #d2d1d1;" href="{% url 'ikwen:sign_in' %}" >{% trans 'Sign In' %}</a></li>
-        {#                        <li><a style="color: #d2d1d1;" href="#" target="_blank">{% trans 'Downloads' %}</a></li>#}
                             </ul>
                         </div>
                         <div class="col-sm-3 col-xs-4 footer-mobile-adjust">
@@ -249,17 +196,8 @@
                                 <li><a style="color: #d2d1d1;" href="{% url 'econnect:privacy' %}" >{% trans 'Privacy policy' %}</a></li>
                                 <li><a style="color: #d2d1d1;" href="{{ legal_mentions_page }}" >{% trans 'Legal mention' %}</a></li>
                                 <li>{% include 'econnect/snippets/language_switcher.html' %}</li>
-        {#                        <li><a style="color: #d2d1d1; text-decoration: none" href="#" target="_blank">Forums</a></li>#}
                             </ul>
                         </div>
-        {#                <div class="col-sm-3 footer-mobile-adjust">#}
-        {#                    <div class="social-networks" style="padding-bottom: 16px; padding-top: 30px; text-align: center">#}
-        {#                        <a style="color: #f9f9f9; padding: 10px; text-decoration: none; transition: 0.2s;" href="#" class="twitter"><i class="fa fa-twitter"></i></a>#}
-        {#                        <a style="color: #f9f9f9; padding: 10px; text-decoration: none; transition: 0.2s;" href="#" class="facebook"><i class="fa fa-facebook"></i></a>#}
-        {#                        <a style="color: #f9f9f9; padding: 10px; text-decoration: none; transition: 0.2s;" href="#" class="google"><i class="fa fa-google-plus"></i></a>#}
-        {#                    </div>#}
-        {#                    <button type="button" class="btn btn-default">Contact us</button>#}
-        {#                </div>#}
                     </div>
                 </div>
 
@@ -325,31 +263,14 @@
                             url = $('.wsap-link').data('url');
                         window.location = 'https://api.whatsapp.com/send?text=' + url + '%0A%0A' + msg;
                     });
-
-                    {% comment %}function DynamicBorderbottom(menuIdentifier){
-                        let currentPageMenu;
-                        menuIdentifier.mouseover(function () {
-                            $('li.page-menu').each(function () {
-                                if($(this).addClass('selected')) currentPageMenu = $(this);
-                                $(this).removeClass('selected')
-                            });
-                            $(this).addClass('selected');
-                    });
-                        menuIdentifier.mouseleave(function () {
-                            $('li.page-menu').each(function () {
-                                $(this).removeClass('selected')
-                            })
-                            currentPageMenu.addClass()
-                        })
-                    }
-
-                    DynamicBorderbottom($('li.NumeriLink'));
-                    DynamicBorderbottom($('li.HomeLink'));
-                    DynamicBorderbottom($('li.OfficeLink'));
-                    DynamicBorderbottom($('li.CorporateLink'));{% endcomment %}
-
-
                     $(window).on("scroll", function() {
+                        if($(window).scrollTop() > 100) {
+                            $(".navbar").addClass("subtle-shade");
+                        } else {
+                           $(".navbar").removeClass("subtle-shade");
+                        }
+                    });
+                    {% comment %}$(window).on("scroll", function() {
                         if($(window).scrollTop() > 100) {
                             $(".navbar").addClass("active");
                             $("#navbar-search").addClass("active");
@@ -363,7 +284,7 @@
                             $('.img-default').removeClass('tpl');
                             $('.img-active').addClass('tpl');
                         }
-                    });
+                    });{% endcomment %}
 
                     $('.js-scrollTo').on('click', function() {
                         let page = $(this).attr('href');
@@ -386,7 +307,7 @@
                         $('input[name=customer_lng]').val(retrievedLocation['Longitude']);
                         $('input[name=formatted_address]').val(localStorage.getItem('FormattedAddress').replace('Current location: ', ''));
                     }
-                    else $('.location-set').text('{% trans " Set my location" %}');
+                    else $('.location-set').text('{% trans "Get started" %}');
                     //Retrieving location: END
 
                     //Cleaning local Storage

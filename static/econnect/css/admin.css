@@ -192,15 +192,26 @@ footer a {color: #999}
 #admin-tools + #results {margin-top: 20px;}
 .content-tab-list {position: fixed;width: 100%;z-index: 10;}
 
-.images-uploader .frame {height: 200px;float: left;margin: 0 10px 10px 0;overflow: hidden;width: 100%;}
-.images-uploader .image {background: no-repeat center;border: solid 1px #DBE6FF;margin-right: 10px;}
-.images-uploader .image .delete {background: #FFF; border-bottom-left-radius: 10px; color: #ef0202; cursor: pointer; font-size: 15px; font-weight: bold; float: right; padding: 2px  9px}
-.images-uploader .image.loading .delete {display: none}
-.images-uploader .image .progress {background: #3C63FF; height: 100%}
-.images-uploader .uploader {background: url('../img/no_photo.png') center no-repeat; background-size: cover;
-    border: solid 1px #eee; font: bold 48px Arial; text-align: center}
-.images-uploader .qq-upload-button {background: none;border: none;box-shadow: none;color: #666;text-shadow: none;line-height: 200px;width: 100%;}
-.images-uploader .qq-upload-button-hover {box-shadow: none; color: #fff}
+.uploader1 .qq-uploader {background: url('../img/upload.png') left no-repeat !important; width: 4.5vw}
+
+/*.images-uploader .frame {height: 200px;float: left;margin: 0 10px 10px 0;overflow: hidden;width: 100%;}*/
+/*.images-uploader .image {background: no-repeat center;border: solid 1px #DBE6FF;margin-right: 10px;}*/
+/*.images-uploader .image .delete {background: #FFF; border-bottom-left-radius: 10px; color: #ef0202; cursor: pointer; font-size: 15px; font-weight: bold; float: right; padding: 2px  9px}*/
+/*.images-uploader .image.loading .delete {display: none}*/
+/*.images-uploader .image .progress {background: #3C63FF; height: 100%}*/
+/*.images-uploader .uploader {background: url('../img/no_photo.png') center no-repeat; background-size: cover;*/
+/*    border: solid 1px #eee; font: bold 48px Arial; text-align: center}*/
+/*.images-uploader .qq-upload-button {background: none;border: none;box-shadow: none;color: #666;text-shadow: none;line-height: 200px;width: 100%;}*/
+/*.images-uploader .qq-upload-button-hover {box-shadow: none; color: #fff}*/
+
+/*Overwrite Bootstrap btn-primary : BEGIN*/
+.btn-primary { color: #fff !important; background-color: #28a745!important; border-color: #28a745!important; }
+.btn-primary:hover { color: #fff!important; background-color: #218838!important; border-color: #1e7e34!important; }
+.btn-primary:focus, .btn-primary.focus { box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5) !important; }
+.btn-primary.disabled, .btn-primary:disabled { color: #fff!important; background-color: #28a745!important; border-color: #28a745!important; }
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle { color: #fff!important; background-color: #1e7e34!important; border-color: #1c7430!important; }
+.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus, .show > .btn-primary.dropdown-toggle:focus { box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5) !important; }
+/*Overwrite Bootstrap btn-primary : END*/
 
 @media (max-width: 767px) {
     #selection-control.visible {padding-top: 15px}

@@ -2,49 +2,49 @@
 .btn-general-invoice, .btn-general-invoice-ready { width: 100% !important; }
 
 .in-page-nav-link {border-left: 2px solid #e5e8ed;color: rgba(3,27,78,.6);display: block;/* font-size: 20px; */padding: 16px;}
-.in-page-nav-link.NumeriLink.is-active { border-left-color: #009b94; color: #009b94; }
-.in-page-nav-link.HomeLink.is-active { border-left-color: #df8568; color: #df8568; }
-.in-page-nav-link.OfficeLink.is-active { border-left-color: #9aa853; color: #9aa853; }
-.in-page-nav-link.CorporateLink.is-active { border-left-color: #29b6f6; color: #29b6f6; }
+.in-page-nav-link.NUMERILINK.is-active { border-left-color: #009b94; color: #009b94; }
+.in-page-nav-link.HOMELINK.is-active { border-left-color: #df8568; color: #df8568; }
+.in-page-nav-link.OFFICELINK.is-active { border-left-color: #9aa853; color: #9aa853; }
+.in-page-nav-link.CORPORATELINK.is-active { border-left-color: #008bbf; color: #008bbf; }
 .invoice-items-name { line-height: 3 }
 .invoice-items-title { font-weight: 700; line-height: 2; padding-bottom: 1vh; }
-.invoice-items-cost.NumeriLink { color: #009b94; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
-.invoice-items-cost.HomeLink { color: #df8568; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
-.invoice-items-cost.OfficeLink { color: #9aa853; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
-.invoice-items-cost.CorporateLink { color: #29b6f6; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
+.invoice-items-cost.NUMERILINK { color: #009b94; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
+.invoice-items-cost.HOMELINK { color: #df8568; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
+.invoice-items-cost.OFFICELINK { color: #9aa853; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
+.invoice-items-cost.CORPORATELINK { color: #008bbf; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
 
 .callout-container {background-color: inherit; margin-left: 0; width: 100%; z-index: 2; }
 .callout-container:hover {margin-left: -50%; width: 200%; z-index: 5; border: 1px solid transparent; border-radius: 4px; position: absolute; box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); transition-duration: 0.5s }
 .callout-container.active:hover { margin-left: 0; width: 100%; z-index: 5;}
 .callout-item {display: none;}
-.container-fluid-custom { margin-left: 0 !important; margin-right: 0 !important;}
+.container-fluid-custom {margin-left: 0 !important;margin-right: 0 !important;}
 
-.panel-pricing-resume.NumeriLink {border-color: #009b94;padding: 0vh 2vh 1vh 2vh !important;position: relative !important;width: 95%;}
-.panel-pricing-resume.HomeLink {border-color: #df8568;padding: 0vh 2vh 1vh 2vh !important;position: relative !important;width: 95%;}
-.panel-pricing-resume.OfficeLink {border-color: #9aa853; padding: 0vh 2vh 1vh 2vh !important;position: relative !important; width: 95%; }
-.panel-pricing-resume.CorporateLink {border-color: #29b6f6; padding: 0vh 2vh 1vh 2vh !important;position: relative !important; width: 95%; }
-.panel-custom-styling.NumeriLink:active, .panel-pack-styling.NumeriLink:active { background-color: rgba(42, 183, 50, 0.12); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
-.panel-custom-styling.HomeLink:active { background-color: rgba(255, 152, 0, 0.26); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
-.panel-custom-styling.OfficeLink:active { background-color: rgba(114, 122, 32, 0.12); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
-.panel-custom-styling.CorporateLink:active { background-color: rgba(32, 97, 130, 0.12); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
+.panel-pricing-resume.NUMERILINK {border-color: #009b94;padding: 0vh 2vh 1vh 2vh !important;position: relative !important;width: 95%;}
+.panel-pricing-resume.HOMELINK {border-color: #df8568;padding: 0vh 2vh 1vh 2vh !important;position: relative !important;width: 95%;}
+.panel-pricing-resume.OFFICELINK {border-color: #9aa853; padding: 0vh 2vh 1vh 2vh !important;position: relative !important; width: 95%; }
+.panel-pricing-resume.CORPORATELINK {border-color: #008bbf; padding: 0vh 2vh 1vh 2vh !important;position: relative !important; width: 95%; }
+.panel-custom-styling.NUMERILINK:active, .panel-pack-styling.NUMERILINK:active { background-color: rgba(42, 183, 50, 0.12); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
+.panel-custom-styling.HOMELINK:active { background-color: rgba(255, 152, 0, 0.26); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
+.panel-custom-styling.OFFICELINK:active { background-color: rgba(114, 122, 32, 0.12); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
+.panel-custom-styling.CORPORATELINK:active { background-color: rgba(32, 97, 130, 0.12); box-shadow: none !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; transition-duration: .3s;}
 .panel-custom-styling:hover, .panel-pack-styling:hover { box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); -webkit-box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); -moz-box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);  transition-duration: .3s; }
 
 .pricing-container {cursor: pointer;padding: 2px 8px;}
 .pricing-menu {display: block;position: sticky;position: -webkit-sticky;top: 10vh;}
-.pricing-title.NumeriLink { color: #009b94; }
-.pricing-title.HomeLink { color: #df8568; }
-.pricing-title.OfficeLink { color: #9aa853; }
-.pricing-title.CorporateLink { color: #29b6f6; }
-.pricing-pack.NumeriLink {background: #009b94;color: #ffffff;padding: .7vh 1vw;}
-.pricing-pack.HomeLink { background: #df8568; color: #ffffff; padding: .7vh 1vw; }
-.pricing-pack.OfficeLink { background: #9aa853; color: #ffffff; padding: .7vh 1vw; }
-.pricing-pack.CorporateLink { background: #29b6f6; color: #ffffff; padding: .7vh 1vw; }
+.pricing-title.NUMERILINK { color: #009b94; }
+.pricing-title.HOMELINK { color: #df8568; }
+.pricing-title.OFFICELINK { color: #9aa853; }
+.pricing-title.CORPORATELINK { color: #008bbf; }
+.pricing-pack.NUMERILINK {background: #009b94;color: #ffffff;padding: .7vh 1vw;}
+.pricing-pack.HOMELINK { background: #df8568; color: #ffffff; padding: .7vh 1vw; }
+.pricing-pack.OFFICELINK { background: #9aa853; color: #ffffff; padding: .7vh 1vw; }
+.pricing-pack.CORPORATELINK { background: #008bbf; color: #ffffff; padding: .7vh 1vw; }
 .pricing-pack.small {padding: .7vh .7vw;}
 .pricing-resume {/* margin-top: 10vh; */padding: 0 !important;position: sticky;position: -webkit-sticky;top: 10vh;}
-.pricing-resume-title.NumeriLink {background-color: #009b94;color: #ffffff;margin: 0 -3vw 3vh;padding:1vh;}
-.pricing-resume-title.HomeLink {background-color: #df8568;color: #ffffff;margin: 0 -3vw 3vh;padding:1vh;}
-.pricing-resume-title.OfficeLink {background-color: #9aa853;color: #ffffff;margin: 0px -3vw 3vh;padding:1vh;}
-.pricing-resume-title.CorporateLink { background-color: #29b6f6; color: #ffffff; margin: 0 -3vw 3vh ; padding:1vh; }
+.pricing-resume-title.NUMERILINK {background-color: #009b94;color: #ffffff;margin: 0 -3vw 3vh;padding:1vh;}
+.pricing-resume-title.HOMELINK {background-color: #df8568;color: #ffffff;margin: 0 -3vw 3vh;padding:1vh;}
+.pricing-resume-title.OFFICELINK {background-color: #9aa853;color: #ffffff;margin: 0px -3vw 3vh;padding:1vh;}
+.pricing-resume-title.CORPORATELINK { background-color: #008bbf; color: #ffffff; margin: 0 -3vw 3vh ; padding:1vh; }
 .pricing-value, .pricing-value-tpl { font-weight: 700; margin: 2vh 0 3vh 0 }
 
 .slider-handle { background-color: #009b94; background-image: -webkit-linear-gradient(top,#00280f 0, #183625 100%);
@@ -64,22 +64,22 @@
 					background-size: cover;
 					box-shadow:inset 0 0 0 2000px rgba(18, 43, 44, 0.67);
 					color: white;
-					height: 300px;
+					height: 500px;
 					margin-top: 6.5vh !important;
 					}
 .section-features-text { padding-top: 10vh; }
 
 
-.pack-detail.NumeriLink { color: #828282; border-top: #00cec7 1px solid; padding-top: 1vh  }
-.pack-detail.HomeLink { color: #828282; border-top: #f5966d 1px solid; padding-top: 1vh  }
-.pack-detail.OfficeLink { color: #828282; border-top: #c9d755 1px solid; padding-top: 1vh  }
-.pack-detail.CorporateLink { color: #828282; border-top: #29bcff 1px solid; padding-top: 1vh  }
+.pack-detail.NUMERILINK { color: #828282; border-top: #00cec7 1px solid; padding-top: 1vh  }
+.pack-detail.HOMELINK { color: #828282; border-top: #f5966d 1px solid; padding-top: 1vh  }
+.pack-detail.OFFICELINK { color: #828282; border-top: #c9d755 1px solid; padding-top: 1vh  }
+.pack-detail.CORPORATELINK { color: #828282; border-top: #29bcff 1px solid; padding-top: 1vh  }
 
 .canalP {background-color: #000000;color: #ffffff;letter-spacing: 3px;padding: .5vh;}
-.cost.NumeriLink { background-color: #009b94; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
-.cost.HomeLink { background-color: #df8568; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
-.cost.OfficeLink { background-color: #9aa853; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
-.cost.CorporateLink { background-color: #29b6f6; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
+.cost.NUMERILINK { background-color: #009b94; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
+.cost.HOMELINK { background-color: #df8568; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
+.cost.OFFICELINK { background-color: #9aa853; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
+.cost.CORPORATELINK { background-color: #008bbf; color: #ffffff; font-weight: normal!important; font-size: 18px!important; margin-left: 2vw; padding: 1vh;}
 .addon-item { margin-bottom: 2vh; }
 .tooltip .tooltip-arrow { border-bottom-color: #009b94 !important; }
 .tooltip-inner { background-color: #009b94; }
@@ -104,15 +104,15 @@
     .in-page-nav-link.is-active { border-bottom-color: #ffffff; color: #ffffff !important; }
 
     .pricing-menu {/* height: 90px; */padding: 0.5vh;position: sticky;position: -webkit-sticky;top: 7.5vh;z-index: 100;}
-    .panel-pricing-resume.NumeriLink {width: 92%;margin: auto;}
+    .panel-pricing-resume.NUMERILINK {width: 92%;margin: auto;}
     .pricing-resume {margin-top: 10vh !important;padding: inherit !important;/* position: inherit; */top: 20vh;}
     .pricing-area { margin-top: 0 !important;}
     .pricing-items {/* margin-top: 15vh; */}
 
-    .scroll-menu.NumeriLink {background: #009b94;webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);-moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);overflow: auto;white-space: nowrap;}
-    .scroll-menu.HomeLink { background: #df8568; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
-    .scroll-menu.OfficeLink { background: #9aa853; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
-    .scroll-menu.CorporateLink { background: #29b6f6; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
+    .scroll-menu.NUMERILINK {background: #009b94;webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);-moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);overflow: auto;white-space: nowrap;}
+    .scroll-menu.HOMELINK { background: #df8568; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
+    .scroll-menu.OFFICELINK { background: #9aa853; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
+    .scroll-menu.CORPORATELINK { background: #008bbf; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
     .scroll-menu a{display: inline-block !important;margin: 0.5vh 2vw 1vh;padding: 2vh 0 0.5vh !important;/* text-align: center !important; */}
 
     .text-header { padding-top: 6vh !important;}
@@ -148,15 +148,15 @@
     .in-page-nav-link.is-active { border-bottom-color: #ffffff; color: #ffffff !important; }
 
     .pricing-menu {/* height: 60px; */padding: 0.5vh;position: sticky;position: -webkit-sticky;top: 8vh;z-index: 100;}
-    .panel-pricing-resume.NumeriLink {width: 92%;margin: auto;}
+    .panel-pricing-resume.NUMERILINK {width: 92%;margin: auto;}
     .pricing-resume {margin-top: 10vh !important;padding: inherit !important;/* position: inherit; */top: 20vh;}
     .pricing-area { margin-top: 0 !important;}
     .pricing-items {/* margin-top: 15vh; */}
 
-    .scroll-menu.NumeriLink {background: #009b94;webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);-moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);overflow: auto;white-space: nowrap;}
-    .scroll-menu.HomeLink { background: #df8568; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
-    .scroll-menu.OfficeLink { background: #9aa853; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
-    .scroll-menu.CorporateLink { background: #29b6f6; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
+    .scroll-menu.NUMERILINK {background: #009b94;webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);-moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);overflow: auto;white-space: nowrap;}
+    .scroll-menu.HOMELINK { background: #df8568; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
+    .scroll-menu.OFFICELINK { background: #9aa853; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
+    .scroll-menu.CORPORATELINK { background: #008bbf; webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); overflow: auto; white-space: nowrap; }
     .scroll-menu a{ display: inline-block !important; margin: auto 3vw; padding: 2vw !important; text-align: center !important; }
 
     .text-header { padding-top: 6vh !important;}

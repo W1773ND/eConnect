@@ -1,0 +1,2042 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-07 14:57+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: settings.py:141 conf/settings.py:140
+msgid "English"
+msgstr ""
+
+#: settings.py:142 conf/settings.py:141
+msgid "French"
+msgstr ""
+
+#: econnect/admin.py:25
+msgid "General"
+msgstr ""
+
+#: econnect/admin.py:26
+msgid "Address & Contact"
+msgstr ""
+
+#: econnect/admin.py:27
+msgid "Social"
+msgstr ""
+
+#: econnect/admin.py:29
+msgid "Mailing"
+msgstr ""
+
+#: econnect/collect.py:145
+msgid "View invoice"
+msgstr ""
+
+#: econnect/collect.py:150
+msgid "Successful payment. Your subscription is now active."
+msgstr ""
+
+#: econnect/models.py:76
+msgid ""
+"Indicate the default number of targets corresponding to the offer.<br>Can "
+"be: <strong>PCs</strong>, <strong>TVs</strong>, etc."
+msgstr ""
+
+#: econnect/models.py:79
+msgid "Indicate the cost peer additional targets."
+msgstr ""
+
+#: econnect/models.py:81
+msgid "Short description understandable by the customer."
+msgstr ""
+
+#: econnect/models.py:87
+msgid ""
+"How you want the customer to see the duration.<br>Eg:<strong>1 month</"
+"strong>, <strong>3 months</strong>, etc."
+msgstr ""
+
+#: econnect/views.py:285 econnect/views.py:343 econnect/views.py:385
+msgid "Customer"
+msgstr ""
+
+#: econnect/views.py:306 econnect/views.py:346 econnect/views.py:391
+#: econnect/templates/econnect/order_confirm.html:24
+#: econnect/templates/econnect/order_confirm.html:74
+msgid "Dear "
+msgstr ""
+
+#: econnect/views.py:531
+msgid "Do more with Creolink Communications !"
+msgstr ""
+
+#: econnect/views.py:1003
+msgid "Confirm my order now"
+msgstr ""
+
+#: econnect/views.py:1054
+msgid "successfully updated"
+msgstr ""
+
+#: econnect/views.py:1057
+msgid "successfully created"
+msgstr ""
+
+#: econnect/views.py:1077
+msgid "Insufficient Email balance."
+msgstr ""
+
+#: econnect/templates/econnect/about.html:24
+#: econnect/templates/econnect/about.html:34
+#: econnect/templates/econnect/homepage.html:24
+#: econnect/templates/econnect/homepage.html:25
+#: econnect/templates/econnect/legal.html:24
+#: econnect/templates/econnect/legal.html:34
+#: econnect/templates/econnect/offline.html:24
+#: econnect/templates/econnect/offline.html:34
+#: econnect/templates/econnect/privacy.html:24
+#: econnect/templates/econnect/privacy.html:34 templates/core/base_bs.html:17
+#: templates/core/base_bs.html.py:18
+msgid "The best of internet, the best of TV"
+msgstr ""
+
+#: econnect/templates/econnect/about.html:45
+#: econnect/templates/econnect/legal.html:45
+#: econnect/templates/econnect/offline.html:45
+#: econnect/templates/econnect/privacy.html:45
+msgid "Choose the service you want"
+msgstr ""
+
+#: econnect/templates/econnect/about.html:65
+#: econnect/templates/econnect/about.html:73
+#: econnect/templates/econnect/legal.html:65
+#: econnect/templates/econnect/legal.html:73
+#: econnect/templates/econnect/offline.html:65
+#: econnect/templates/econnect/offline.html:73
+#: econnect/templates/econnect/privacy.html:65
+#: econnect/templates/econnect/privacy.html:73
+#, python-format
+msgid ""
+"\n"
+"                              <p class=\"mobile-adjust\">"
+"%(product_description)s</p>\n"
+"                              <p class=\"mobile-adjust\"><a class=\"product-"
+"link\" href=\"%(product_url)s\">%(product_cta)s</a></p>\n"
+"                            "
+msgstr ""
+
+#: econnect/templates/econnect/about.html:96
+#: econnect/templates/econnect/legal.html:96
+#: econnect/templates/econnect/offline.html:96
+#: econnect/templates/econnect/privacy.html:96
+#, python-format
+msgid ""
+"\n"
+"                          <p class=\"mobile-adjust\">"
+"%(product_description)s</p>\n"
+"                          <p class=\"mobile-adjust\"><a class=\"product-link"
+"\" href=\"%(product_url)s\">%(product_cta)s</a></p>\n"
+"                      "
+msgstr ""
+
+#: econnect/templates/econnect/about.html:115
+#: econnect/templates/econnect/about.html:133
+#: econnect/templates/econnect/legal.html:115
+#: econnect/templates/econnect/legal.html:133
+#: econnect/templates/econnect/offline.html:115
+#: econnect/templates/econnect/offline.html:133
+#: econnect/templates/econnect/privacy.html:115
+#: econnect/templates/econnect/privacy.html:133
+#, python-format
+msgid ""
+"\n"
+"                    <div class=\"card-right v-align-center\">\n"
+"                        <p class=\"mobile-adjust\">%(product_description)s</"
+"p>\n"
+"                    </div>\n"
+"                </div>\n"
+"                <div class=\"text-center\">\n"
+"                    <a  href='%(product_url)s' class=\"btn btn-outline-"
+"success animated pulse mobile-adjust\" style=\"margin: 2vh 0 3vh 0; height: "
+"45px; min-width: 200px\">%(product_cta)s</a>\n"
+"                </div>\n"
+"\n"
+"                "
+msgstr ""
+
+#: econnect/templates/econnect/about.html:158
+#: econnect/templates/econnect/legal.html:158
+#: econnect/templates/econnect/offline.html:158
+#: econnect/templates/econnect/pricing_corporatelink.html:194
+#: econnect/templates/econnect/pricing_homelink.html:225
+#: econnect/templates/econnect/pricing_numerilink_home.html:246
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:267
+#: econnect/templates/econnect/pricing_officelink.html:193
+#: econnect/templates/econnect/privacy.html:158
+msgid "Question 1 ?"
+msgstr ""
+
+#: econnect/templates/econnect/about.html:165
+#: econnect/templates/econnect/about.html:179
+#: econnect/templates/econnect/about.html:193
+#: econnect/templates/econnect/about.html:207
+#: econnect/templates/econnect/legal.html:165
+#: econnect/templates/econnect/legal.html:179
+#: econnect/templates/econnect/legal.html:193
+#: econnect/templates/econnect/legal.html:207
+#: econnect/templates/econnect/offline.html:165
+#: econnect/templates/econnect/offline.html:179
+#: econnect/templates/econnect/offline.html:193
+#: econnect/templates/econnect/offline.html:207
+#: econnect/templates/econnect/pricing_corporatelink.html:201
+#: econnect/templates/econnect/pricing_corporatelink.html:215
+#: econnect/templates/econnect/pricing_corporatelink.html:229
+#: econnect/templates/econnect/pricing_corporatelink.html:243
+#: econnect/templates/econnect/pricing_homelink.html:232
+#: econnect/templates/econnect/pricing_homelink.html:246
+#: econnect/templates/econnect/pricing_homelink.html:260
+#: econnect/templates/econnect/pricing_homelink.html:274
+#: econnect/templates/econnect/pricing_numerilink_home.html:253
+#: econnect/templates/econnect/pricing_numerilink_home.html:267
+#: econnect/templates/econnect/pricing_numerilink_home.html:281
+#: econnect/templates/econnect/pricing_numerilink_home.html:295
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:274
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:288
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:302
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:316
+#: econnect/templates/econnect/pricing_officelink.html:200
+#: econnect/templates/econnect/pricing_officelink.html:214
+#: econnect/templates/econnect/pricing_officelink.html:228
+#: econnect/templates/econnect/pricing_officelink.html:242
+#: econnect/templates/econnect/privacy.html:165
+#: econnect/templates/econnect/privacy.html:179
+#: econnect/templates/econnect/privacy.html:193
+#: econnect/templates/econnect/privacy.html:207
+msgid ""
+"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est eros, "
+"vulputate eget sodales nec, malesuada vel ante. Quisque volutpat risus in "
+"dolor sollicitudin a commodo libero suscipit. Nunc ultrices risus ut arcu "
+"hendrerit aliquet. Integer sit amet eros eu augue porttitor dictum. Quisque "
+"vel ante est, at lacinia tortor. Curabitur lacus purus, malesuada sit amet "
+"dapibus ac, placerat id leo. Nullam vel ultrices augue. Donec posuere "
+"convallis purus, sit amet imperdiet leo laoreet at. Quisque aliquam, urna "
+"non interdum lobortis, leo diam tincidunt lectus, non ultricies quam purus "
+"eget quam."
+msgstr ""
+
+#: econnect/templates/econnect/about.html:173
+#: econnect/templates/econnect/legal.html:173
+#: econnect/templates/econnect/offline.html:173
+#: econnect/templates/econnect/pricing_corporatelink.html:209
+#: econnect/templates/econnect/pricing_homelink.html:240
+#: econnect/templates/econnect/pricing_numerilink_home.html:261
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:282
+#: econnect/templates/econnect/pricing_officelink.html:208
+#: econnect/templates/econnect/privacy.html:173
+msgid "Question 2 ?"
+msgstr ""
+
+#: econnect/templates/econnect/about.html:187
+#: econnect/templates/econnect/legal.html:187
+#: econnect/templates/econnect/offline.html:187
+#: econnect/templates/econnect/pricing_corporatelink.html:223
+#: econnect/templates/econnect/pricing_homelink.html:254
+#: econnect/templates/econnect/pricing_numerilink_home.html:275
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:296
+#: econnect/templates/econnect/pricing_officelink.html:222
+#: econnect/templates/econnect/privacy.html:187
+msgid "Question 3 ?"
+msgstr ""
+
+#: econnect/templates/econnect/about.html:201
+#: econnect/templates/econnect/legal.html:201
+#: econnect/templates/econnect/offline.html:201
+#: econnect/templates/econnect/pricing_corporatelink.html:237
+#: econnect/templates/econnect/pricing_homelink.html:268
+#: econnect/templates/econnect/pricing_numerilink_home.html:289
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:310
+#: econnect/templates/econnect/pricing_officelink.html:236
+#: econnect/templates/econnect/privacy.html:201
+msgid "Question 4 ?"
+msgstr ""
+
+#: econnect/templates/econnect/corporatelink.html:39
+#: econnect/templates/econnect/corporatelink.html:47
+#: econnect/templates/econnect/corporatelink.html:83
+#: econnect/templates/econnect/homelink.html:39
+#: econnect/templates/econnect/homelink.html:47
+#: econnect/templates/econnect/homelink.html:83
+#: econnect/templates/econnect/numerilink_home.html:39
+#: econnect/templates/econnect/numerilink_home.html:47
+#: econnect/templates/econnect/numerilink_home.html:83
+#: econnect/templates/econnect/numerilink_hotel.html:39
+#: econnect/templates/econnect/numerilink_hotel.html:47
+#: econnect/templates/econnect/numerilink_hotel.html:112
+#: econnect/templates/econnect/officelink.html:39
+#: econnect/templates/econnect/officelink.html:47
+#: econnect/templates/econnect/officelink.html:83
+#: templates/echo/mails/campaign.html:284
+msgid "Order now"
+msgstr ""
+
+#: econnect/templates/econnect/homepage.html:35
+#: econnect/templates/econnect/homepage.html:36
+msgid "Everyone can create link with us"
+msgstr ""
+
+#: econnect/templates/econnect/homepage.html:55
+#: econnect/templates/econnect/homepage.html:62
+#, python-format
+msgid ""
+"\n"
+"                              <p style=\"text-align: left\">"
+"%(product_description)s</p>\n"
+"                              <p><a class=\"product-link\" href="
+"\"%(product_url)s\">%(product_cta)s</a></p>\n"
+"                            "
+msgstr ""
+
+#: econnect/templates/econnect/homepage.html:86
+#, python-format
+msgid ""
+"\n"
+"                          <p class=\"mobile-adjust\">"
+"%(product_description)s</p>\n"
+"                          <p class=\"mobile-adjust\"><a class=\"\" href="
+"\"%(product_url)s\">%(product_cta)s</a></p>\n"
+"                      "
+msgstr ""
+
+#: econnect/templates/econnect/homepage.html:107
+#, python-format
+msgid ""
+"\n"
+"                    <div class=\"card-right v-align-center\">\n"
+"                        <p class=\"mobile-adjust\">%(product_description)s</"
+"p>\n"
+"                    </div>\n"
+"                    <div class=\"pull-right\">\n"
+"                        <a  href='%(product_url)s' class=\"btn btn-outline-"
+"success animated pulse mobile-adjust\" style=\"margin: 2vh 0 3vh 0; height: "
+"45px; min-width: 200px\">%(product_cta)s</a>\n"
+"                    </div>\n"
+"                </div>\n"
+"\n"
+"\n"
+"                "
+msgstr ""
+
+#: econnect/templates/econnect/homepage.html:128
+#, python-format
+msgid ""
+"\n"
+"                    <div class=\"card-right v-align-center\">\n"
+"                        <p >%(product_description)s</p>\n"
+"                    </div>\n"
+"                    <div class=\"pull-right\">\n"
+"                        <a  href='%(product_url)s' class=\"btn btn-outline-"
+"success animated pulse mobile-adjust\" style=\"margin: 2vh 0 3vh 0; height: "
+"45px; min-width: 200px\">%(product_cta)s</a>\n"
+"                    </div>\n"
+"                </div>\n"
+"\n"
+"                "
+msgstr ""
+
+#: econnect/templates/econnect/maps.html:46
+msgid "Set your position"
+msgstr ""
+
+#: econnect/templates/econnect/maps.html:48
+msgid "Indicate the desired position for the intervention"
+msgstr ""
+
+#: econnect/templates/econnect/maps.html:50
+msgid "Set it"
+msgstr ""
+
+#: econnect/templates/econnect/maps.html:170
+msgid "Redirection to the order admin page..."
+msgstr ""
+
+#: econnect/templates/econnect/maps.html:374
+msgid "Location saved successfully!"
+msgstr ""
+
+#: econnect/templates/econnect/maps.html:389
+msgid "Location updated successfully!"
+msgstr ""
+
+#: econnect/templates/econnect/numerilink_hotel.html:67
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:52
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:694
+msgid "Analogical pack"
+msgstr ""
+
+#: econnect/templates/econnect/numerilink_hotel.html:91
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:81
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:741
+msgid "Digital pack"
+msgstr ""
+
+#: econnect/templates/econnect/order_confirm.html:5
+msgid "Order Confirm"
+msgstr ""
+
+#: econnect/templates/econnect/order_confirm.html:25
+#: econnect/templates/econnect/order_confirm.html:75
+msgid ""
+"Thank you for your interest, please confirm your order details before "
+"submitting your request"
+msgstr ""
+
+#: econnect/templates/econnect/order_confirm.html:35
+#: econnect/templates/econnect/order_confirm.html:85
+#: econnect/templates/econnect/uncompleted_order_list.html:59
+#: econnect/templates/econnect/uncompleted_order_list.html:104
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:25
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:97
+msgid "on rental"
+msgstr ""
+
+#: econnect/templates/econnect/order_confirm.html:35
+#: econnect/templates/econnect/order_confirm.html:85
+#: econnect/templates/econnect/uncompleted_order_list.html:59
+#: econnect/templates/econnect/uncompleted_order_list.html:104
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:25
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:97
+msgid "on purchase"
+msgstr ""
+
+#: econnect/templates/econnect/order_confirm.html:45
+#: econnect/templates/econnect/order_confirm.html:95
+#: econnect/templates/econnect/uncompleted_order_list.html:69
+#: econnect/templates/econnect/uncompleted_order_list.html:114
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:35
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:107
+msgid "Optional Tv to connect: "
+msgstr ""
+
+#: econnect/templates/econnect/order_confirm.html:48
+#: econnect/templates/econnect/order_confirm.html:98
+msgid "To be installed at:"
+msgstr ""
+
+#: econnect/templates/econnect/order_confirm.html:67
+#: econnect/templates/econnect/order_confirm.html:115
+msgid "Change location"
+msgstr ""
+
+#: econnect/templates/econnect/order_confirm.html:68
+#: econnect/templates/econnect/order_confirm.html:116
+msgid "Change order"
+msgstr ""
+
+#: econnect/templates/econnect/order_confirm.html:69
+#: econnect/templates/econnect/order_confirm.html:117
+msgid "Confirm order"
+msgstr ""
+
+#: econnect/templates/econnect/order_confirm.html:137
+msgid "Your order has been successfully submitted"
+msgstr ""
+
+#: econnect/templates/econnect/order_confirm.html:141
+msgid "Error occurs when submitting your order, please try again..."
+msgstr ""
+
+#: econnect/templates/econnect/pricing_corporatelink.html:28
+#: econnect/templates/econnect/pricing_corporatelink.html:34
+#: econnect/templates/econnect/pricing_corporatelink.html:41
+#: econnect/templates/econnect/pricing_corporatelink.html:49
+#: econnect/templates/econnect/pricing_corporatelink.html:153
+#: econnect/templates/econnect/pricing_corporatelink.html:295
+#: econnect/templates/econnect/pricing_homelink.html:27
+#: econnect/templates/econnect/pricing_homelink.html:34
+#: econnect/templates/econnect/pricing_homelink.html:42
+#: econnect/templates/econnect/pricing_homelink.html:51
+#: econnect/templates/econnect/pricing_homelink.html:177
+#: econnect/templates/econnect/pricing_homelink.html:326
+#: econnect/templates/econnect/pricing_numerilink_home.html:27
+#: econnect/templates/econnect/pricing_numerilink_home.html:34
+#: econnect/templates/econnect/pricing_numerilink_home.html:42
+#: econnect/templates/econnect/pricing_numerilink_home.html:51
+#: econnect/templates/econnect/pricing_numerilink_home.html:198
+#: econnect/templates/econnect/pricing_numerilink_home.html:347
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:27
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:34
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:42
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:219
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:368
+#: econnect/templates/econnect/pricing_officelink.html:27
+#: econnect/templates/econnect/pricing_officelink.html:33
+#: econnect/templates/econnect/pricing_officelink.html:40
+#: econnect/templates/econnect/pricing_officelink.html:48
+#: econnect/templates/econnect/pricing_officelink.html:152
+#: econnect/templates/econnect/pricing_officelink.html:294
+msgid "Pack"
+msgstr ""
+
+#: econnect/templates/econnect/pricing_corporatelink.html:29
+#: econnect/templates/econnect/pricing_corporatelink.html:35
+#: econnect/templates/econnect/pricing_corporatelink.html:42
+#: econnect/templates/econnect/pricing_homelink.html:28
+#: econnect/templates/econnect/pricing_homelink.html:35
+#: econnect/templates/econnect/pricing_homelink.html:43
+#: econnect/templates/econnect/pricing_numerilink_home.html:28
+#: econnect/templates/econnect/pricing_numerilink_home.html:35
+#: econnect/templates/econnect/pricing_numerilink_home.html:43
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:28
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:35
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:43
+#: econnect/templates/econnect/pricing_officelink.html:28
+#: econnect/templates/econnect/pricing_officelink.html:34
+#: econnect/templates/econnect/pricing_officelink.html:41
+#: templates/core/app_base_admin.html:78
+msgid "Equipment"
+msgstr ""
+
+#: econnect/templates/econnect/pricing_corporatelink.html:30
+#: econnect/templates/econnect/pricing_corporatelink.html:36
+#: econnect/templates/econnect/pricing_corporatelink.html:44
+#: econnect/templates/econnect/pricing_homelink.html:30
+#: econnect/templates/econnect/pricing_homelink.html:37
+#: econnect/templates/econnect/pricing_homelink.html:46
+#: econnect/templates/econnect/pricing_numerilink_home.html:30
+#: econnect/templates/econnect/pricing_numerilink_home.html:37
+#: econnect/templates/econnect/pricing_numerilink_home.html:46
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:30
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:37
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:46
+#: econnect/templates/econnect/pricing_officelink.html:29
+#: econnect/templates/econnect/pricing_officelink.html:35
+#: econnect/templates/econnect/pricing_officelink.html:43
+msgid "FAQs"
+msgstr ""
+
+#: econnect/templates/econnect/pricing_corporatelink.html:43
+#: econnect/templates/econnect/pricing_homelink.html:45
+#: econnect/templates/econnect/pricing_numerilink_home.html:45
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:45
+#: econnect/templates/econnect/pricing_officelink.html:42
+#: templates/billing/mails/notice.html:185
+msgid "Invoice"
+msgstr ""
+
+#: econnect/templates/econnect/pricing_corporatelink.html:49
+#: econnect/templates/econnect/pricing_homelink.html:51
+#: econnect/templates/econnect/pricing_numerilink_home.html:51
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:52
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:81
+#: econnect/templates/econnect/pricing_officelink.html:48
+msgid "Choose one below"
+msgstr ""
+
+#: econnect/templates/econnect/pricing_corporatelink.html:90
+#: econnect/templates/econnect/pricing_corporatelink.html:162
+#: econnect/templates/econnect/pricing_corporatelink.html:303
+#: econnect/templates/econnect/pricing_homelink.html:92
+#: econnect/templates/econnect/pricing_homelink.html:186
+#: econnect/templates/econnect/pricing_homelink.html:334
+#: econnect/templates/econnect/pricing_numerilink_home.html:98
+#: econnect/templates/econnect/pricing_numerilink_home.html:207
+#: econnect/templates/econnect/pricing_numerilink_home.html:355
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:119
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:228
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:376
+#: econnect/templates/econnect/pricing_officelink.html:89
+#: econnect/templates/econnect/pricing_officelink.html:161
+#: econnect/templates/econnect/pricing_officelink.html:302
+msgid "Equipments"
+msgstr ""
+
+#: econnect/templates/econnect/pricing_corporatelink.html:94
+#: econnect/templates/econnect/pricing_homelink.html:96
+#: econnect/templates/econnect/pricing_numerilink_home.html:102
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:123
+#: econnect/templates/econnect/pricing_officelink.html:93
+msgid "Installation"
+msgstr ""
+
+#: econnect/templates/econnect/pricing_corporatelink.html:104
+#: econnect/templates/econnect/pricing_homelink.html:106
+#: econnect/templates/econnect/pricing_numerilink_home.html:112
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:133
+#: econnect/templates/econnect/pricing_officelink.html:103
+msgid "Achat"
+msgstr ""
+
+#: econnect/templates/econnect/pricing_corporatelink.html:107
+#: econnect/templates/econnect/pricing_homelink.html:109
+#: econnect/templates/econnect/pricing_numerilink_home.html:115
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:136
+#: econnect/templates/econnect/pricing_officelink.html:106
+msgid "Location"
+msgstr ""
+
+#: econnect/templates/econnect/pricing_corporatelink.html:123
+#: econnect/templates/econnect/pricing_corporatelink.html:265
+#: econnect/templates/econnect/pricing_homelink.html:147
+#: econnect/templates/econnect/pricing_homelink.html:296
+#: econnect/templates/econnect/pricing_numerilink_home.html:168
+#: econnect/templates/econnect/pricing_numerilink_home.html:317
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:189
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:338
+#: econnect/templates/econnect/pricing_officelink.html:122
+#: econnect/templates/econnect/pricing_officelink.html:264
+msgid "General Invoice"
+msgstr ""
+
+#: econnect/templates/econnect/pricing_corporatelink.html:169
+#: econnect/templates/econnect/pricing_corporatelink.html:310
+#: econnect/templates/econnect/pricing_homelink.html:200
+#: econnect/templates/econnect/pricing_homelink.html:348
+#: econnect/templates/econnect/pricing_numerilink_home.html:221
+#: econnect/templates/econnect/pricing_numerilink_home.html:369
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:242
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:390
+#: econnect/templates/econnect/pricing_officelink.html:168
+#: econnect/templates/econnect/pricing_officelink.html:309
+msgid "Total"
+msgstr ""
+
+#: econnect/templates/econnect/pricing_corporatelink.html:179
+#: econnect/templates/econnect/pricing_corporatelink.html:316
+#: econnect/templates/econnect/pricing_homelink.html:210
+#: econnect/templates/econnect/pricing_homelink.html:354
+#: econnect/templates/econnect/pricing_numerilink_home.html:231
+#: econnect/templates/econnect/pricing_numerilink_home.html:375
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:252
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:396
+#: econnect/templates/econnect/pricing_officelink.html:178
+#: econnect/templates/econnect/pricing_officelink.html:315
+msgid "Check Out"
+msgstr ""
+
+#: econnect/templates/econnect/pricing_homelink.html:29
+#: econnect/templates/econnect/pricing_homelink.html:36
+#: econnect/templates/econnect/pricing_homelink.html:44
+#: econnect/templates/econnect/pricing_homelink.html:124
+#: econnect/templates/econnect/pricing_homelink.html:193
+#: econnect/templates/econnect/pricing_homelink.html:341
+#: econnect/templates/econnect/pricing_numerilink_home.html:29
+#: econnect/templates/econnect/pricing_numerilink_home.html:36
+#: econnect/templates/econnect/pricing_numerilink_home.html:44
+#: econnect/templates/econnect/pricing_numerilink_home.html:130
+#: econnect/templates/econnect/pricing_numerilink_home.html:214
+#: econnect/templates/econnect/pricing_numerilink_home.html:362
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:29
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:36
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:44
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:151
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:235
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:383
+msgid "Add-ons"
+msgstr ""
+
+#: econnect/templates/econnect/pricing_numerilink_home.html:136
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:157
+msgid "Je dispose de plus de TV"
+msgstr ""
+
+#: econnect/templates/econnect/pricing_numerilink_home.html:140
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:161
+msgid "Indiquez le nombre de TV à connecter..."
+msgstr ""
+
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:777
+#: econnect/templates/econnect/pricing_numerilink_hotel.html:799
+msgid "Choose a pack first..."
+msgstr ""
+
+#: econnect/templates/econnect/uncompleted_order_list.html:5
+msgid "Uncompleted Order"
+msgstr ""
+
+#: econnect/templates/econnect/uncompleted_order_list.html:28
+#: econnect/templates/econnect/admin/admin_home.html:33
+#: templates/billing/invoice_list.html:41
+msgid "Welcome "
+msgstr ""
+
+#: econnect/templates/econnect/uncompleted_order_list.html:38
+#, python-format
+msgid ""
+"\n"
+"                        You have %(order_count)s uncompleted order(s).\n"
+"                        "
+msgstr ""
+
+#: econnect/templates/econnect/uncompleted_order_list.html:73
+#: econnect/templates/econnect/uncompleted_order_list.html:118
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:39
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:111
+msgid "To be installed at"
+msgstr ""
+
+#: econnect/templates/econnect/uncompleted_order_list.html:83
+#: econnect/templates/econnect/uncompleted_order_list.html:130
+msgid "Confirm"
+msgstr ""
+
+#: econnect/templates/econnect/uncompleted_order_list.html:84
+#: econnect/templates/econnect/uncompleted_order_list.html:129
+#: econnect/templates/econnect/admin/change_mailcampaign.html:258
+#: templates/accesscontrol/account.html:77
+#: templates/accesscontrol/account.html:99
+#: templates/accesscontrol/account.html:121
+#: templates/accesscontrol/account.html:173
+msgid "Cancel"
+msgstr ""
+
+#: econnect/templates/econnect/uncompleted_order_list.html:96
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:14
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:86
+msgid "Report date: "
+msgstr ""
+
+#: econnect/templates/econnect/uncompleted_order_list.html:156
+msgid "Your order was successfully submitted"
+msgstr ""
+
+#: econnect/templates/econnect/uncompleted_order_list.html:160
+msgid "Error occurs when submitting this order, please try again..."
+msgstr ""
+
+#: econnect/templates/econnect/uncompleted_order_list.html:171
+msgid "Order canceled"
+msgstr ""
+
+#: econnect/templates/econnect/uncompleted_order_list.html:175
+msgid "Error occurs when canceling this order, please try again..."
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:5
+#: econnect/templates/econnect/admin/admin_home.html:15
+#: econnect/templates/econnect/snippets/edge_panel.html:24
+#: templates/core/app_base_admin.html:6
+msgid "Home"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:34
+msgid ""
+"Manage your platform, your customer wallet and your relaunch campaigns to "
+"make the most of your services"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:40
+msgid "Orders and customer requests"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:51
+msgid ""
+"\n"
+"                                Manage interaction to your customers with "
+"ease.\n"
+"                                "
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:58
+#: templates/core/app_base_admin.html:16
+msgid "Pending orders"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:59
+#: templates/core/app_base_admin.html:19
+msgid "Paid orders"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:60
+#: templates/core/app_base_admin.html:22
+msgid "Reported orders"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:66
+msgid "Customers contacts and community"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:72
+msgid ""
+"\n"
+"                                Register your customers contacts here. Our "
+"system will automatically invite them to create an account on your website "
+"and also\n"
+"                                invite their friends to do so. You will "
+"rapidly have thousands of users to whom you can offer your products and "
+"services.\n"
+"                                For better qualification of your database, "
+"create profiles first and group them.\n"
+"                            "
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:81
+msgid "Create profile"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:82
+msgid "Add contact"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:87
+msgid "Mails and SMS campaigns"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:94
+msgid ""
+"\n"
+"                                Send individual or mass mails and SMS "
+"campaigns. The recipient receives it with the name of your company as "
+"sender.\n"
+"                                "
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:101
+msgid "Start Email campaign"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:102
+msgid "Start SMS campaign"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:150
+msgid "Website configurations and branding"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:157
+msgid ""
+"\n"
+"                                Configure useful information of your website "
+"like company name, description, invitation message, mail signature, etc.\n"
+"                                Upload a square-size symbol that will serve "
+"as favicon and smartphone launcher.\n"
+"                                "
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:165
+msgid "Configure your website"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:219
+msgid "Domain name"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:226
+#, python-format
+msgid ""
+"\n"
+"                                Your website is actually running with the "
+"name <b>%(service_url)s</b>.<br>\n"
+"                                You can change it to yourcompany.com, "
+"yourcompany.cm or whatever you want.\n"
+"                                You have to buy a domain name and configure "
+"for this to work. Read this very simple tutorial on how to do that.\n"
+"                                "
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:238
+msgid "Help & Support"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:245
+msgid ""
+"\n"
+"                                If you are still having issues getting all "
+"this to run, we offer multiple support options.\n"
+"                                You have free and full access to our online "
+"documentation and FAQ.\n"
+"                                You will find detailed instructions on how "
+"to do just about anything. Our blog covers practical business cases.\n"
+"                                If you rather need custom support with a "
+"consultant dedicated to your job.\n"
+"                                    We offer affordable support covering "
+"technical, marketing and infographics. Choose option that best suits your "
+"need.\n"
+"                                "
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:256
+msgid "Technical support"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:257
+msgid "Infographics"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:258
+msgid "Marketing support"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:5
+#: econnect/templates/econnect/admin/change_mailcampaign.html:72
+msgid "Email campaign"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:68
+msgid "Remaining mail : "
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:69
+msgid "Refill ? "
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:85
+#: econnect/templates/econnect/admin/change_mailcampaign.html:95
+msgid "Start"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:90
+msgid "Pause"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:102
+msgid "Test"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:111
+#: econnect/templates/econnect/admin/change_mailcampaign.html:116
+msgid "To"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:137
+msgid "Subject"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:143
+msgid "Pre-Header"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:159
+#: templates/shopping/mails/order_notice.html:192
+msgid "Message"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:205
+msgid "Call-to-action button title"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:207
+msgid "Ex: Buy now"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:212
+msgid "Call-to-action url link"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:214
+msgid "Ex: http://www.mysite.com/product/your_product"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:221
+#: econnect/templates/econnect/snippets/get_email_modal.html:19
+#: templates/accesscontrol/sign_in_minimal.html:126
+msgid "Continue"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:225
+#: econnect/templates/econnect/admin/change_package.html:105
+#: templates/core/configuration.html:38
+msgid "Save"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:237
+msgid "Send a mail test"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:241
+msgid "Input test emails. <em>Separate with coma</em>"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:244
+msgid "Test emails"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:254
+msgid "Send test"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_mailcampaign.html:352
+msgid "Your tests were sent"
+msgstr ""
+
+#: econnect/templates/econnect/admin/change_package.html:5
+#: econnect/templates/econnect/admin/change_package.html:87
+msgid "New"
+msgstr ""
+
+#: econnect/templates/econnect/admin/order_list.html:5
+#: econnect/templates/econnect/admin/order_list.html:19
+#: econnect/templates/econnect/admin/request_list.html:5
+msgid "Customer orders"
+msgstr ""
+
+#: econnect/templates/econnect/admin/order_list.html:31
+#: econnect/templates/econnect/admin/request_list.html:29
+#, python-format
+msgid "Search %(verbose_name)s"
+msgstr ""
+
+#: econnect/templates/econnect/admin/order_list.html:41
+#: econnect/templates/econnect/admin/request_list.html:39
+msgid "All"
+msgstr ""
+
+#: econnect/templates/econnect/admin/order_list.html:67
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:62
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:134
+msgid "This order is waiting for payment..."
+msgstr ""
+
+#: econnect/templates/econnect/admin/order_list.html:73
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:71
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:143
+msgid "Contact customer"
+msgstr ""
+
+#: econnect/templates/econnect/admin/order_list.html:93
+msgid "Sending request..."
+msgstr ""
+
+#: econnect/templates/econnect/admin/order_list.html:111
+msgid "Order accepted"
+msgstr ""
+
+#: econnect/templates/econnect/admin/order_list.html:114
+msgid "Error occurs when accepting this order, please try again..."
+msgstr ""
+
+#: econnect/templates/econnect/admin/order_list.html:129
+msgid "Order reported"
+msgstr ""
+
+#: econnect/templates/econnect/admin/order_list.html:132
+msgid "Error occurs when reporting this order, please try again..."
+msgstr ""
+
+#: econnect/templates/econnect/admin/order_list.html:145
+msgid "Error occurs when classifying this order, please try again..."
+msgstr ""
+
+#: econnect/templates/econnect/admin/request_list.html:17
+msgid "Customer requests"
+msgstr ""
+
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:46
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:118
+msgid "Set this equipment on Creolink MAPS..."
+msgstr ""
+
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:59
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:132
+msgid "Accept"
+msgstr ""
+
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:60
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:131
+msgid "Report"
+msgstr ""
+
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:64
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:136
+msgid "Finish"
+msgstr ""
+
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:169
+#: econnect/templates/econnect/admin/snippets/request_list_result.html:52
+#: templates/billing/snippets/invoice_list_results.html:33
+#, python-format
+msgid ""
+"\n"
+"            %(start)s – %(end)s of %(count)s results"
+msgstr ""
+
+#: econnect/templates/econnect/admin/snippets/order_list_results.html:172
+#: econnect/templates/econnect/admin/snippets/request_list_result.html:55
+#: templates/billing/snippets/invoice_list_results.html:36
+#, python-format
+msgid "%(count)s results"
+msgstr ""
+
+#: econnect/templates/econnect/admin/snippets/request_list_result.html:16
+msgid "No subject"
+msgstr ""
+
+#: econnect/templates/econnect/admin/snippets/request_list_result.html:29
+msgid "Detail"
+msgstr ""
+
+#: econnect/templates/econnect/mails/order_accepted.html:94
+#: econnect/templates/econnect/mails/order_finished.html:94
+#: econnect/templates/econnect/mails/order_reported.html:94
+#: templates/accesscontrol/mails/community_welcome.html:23
+msgid "The best of internet, the best of tv."
+msgstr ""
+
+#: econnect/templates/econnect/mails/order_accepted.html:132
+#, python-format
+msgid ""
+"Dear %(member_lastname)s,</h3>\n"
+"                        <p style=\"-ms-text-size-adjust:100%%;-webkit-text-"
+"size-adjust:100%%;font-size:14px\" >\n"
+"                            Your order has been taken into consideration, "
+"please proceed with payment and a team will come soon to install "
+"%(order_label)s\n"
+"                            <br style=\"-ms-text-size-adjust:100%%;-webkit-"
+"text-size-adjust:100%%;\" >\n"
+"                            at %(order_location)s.\n"
+"                        </p>\n"
+"                        <p style=\"-ms-text-size-adjust:100%%;-webkit-text-"
+"size-adjust:100%%;color:#8f8f8f;text-align:center;margin-bottom:20px; font-"
+"size: 16px; line-height: 23px\" >\n"
+"                            Thank you for your business with Creolink "
+"Communications\n"
+"                        </p>\n"
+"                        "
+msgstr ""
+
+#: econnect/templates/econnect/mails/order_accepted.html:150
+#: templates/billing/invoice_list.html:75
+msgid "Pay now"
+msgstr ""
+
+#: econnect/templates/econnect/mails/order_finished.html:132
+#, python-format
+msgid ""
+"Dear %(member_lastname)s,</h3>\n"
+"                        <p style=\"-ms-text-size-adjust:100%%;-webkit-text-"
+"size-adjust:100%%;font-size:14px\" >\n"
+"                            We were pleased to install  %(order_label)sfor "
+"you. Further enhance your digital experience with our various products. And "
+"fully enter a new dimension\n"
+"                        </p>\n"
+"                        <p style=\"-ms-text-size-adjust:100%%;-webkit-text-"
+"size-adjust:100%%;color:#8f8f8f;text-align:center;margin-bottom:20px; font-"
+"size: 16px; line-height: 23px\" >\n"
+"                            Thank you for your business with Creolink "
+"Communications\n"
+"                        </p>\n"
+"                        "
+msgstr ""
+
+#: econnect/templates/econnect/mails/order_finished.html:148
+msgid "Discover Shoplink"
+msgstr ""
+
+#: econnect/templates/econnect/mails/order_reported.html:132
+#, python-format
+msgid ""
+"Dear %(member_lastname)s,</h3>\n"
+"                        <p style=\"-ms-text-size-adjust:100%%;-webkit-text-"
+"size-adjust:100%%;font-size:14px\" >\n"
+"                            Your order has been taken into consideration, "
+"we'll contact you soon, stay linked with us.\n"
+"                        </p>\n"
+"                        <p style=\"-ms-text-size-adjust:100%%;-webkit-text-"
+"size-adjust:100%%;color:#8f8f8f;text-align:center;margin-bottom:20px; font-"
+"size: 16px; line-height: 23px\" >\n"
+"                            Thank you for your business with Creolink "
+"Communications.\n"
+"                        </p>\n"
+"                        "
+msgstr ""
+
+#: econnect/templates/econnect/mails/order_reported.html:148
+#: templates/billing/invoice_list.html:5
+msgid "My Creolink"
+msgstr ""
+
+#: econnect/templates/econnect/snippets/edge_panel.html:25
+#: templates/core/app_base_admin.html:121
+msgid "Blog"
+msgstr ""
+
+#: econnect/templates/econnect/snippets/edge_panel.html:27
+#: templates/core/base_bs.html:196
+msgid "Privacy policy"
+msgstr ""
+
+#: econnect/templates/econnect/snippets/edge_panel.html:28
+#: templates/core/base_bs.html:197
+msgid "Legal mention"
+msgstr ""
+
+#: econnect/templates/econnect/snippets/get_email_modal.html:8
+msgid "Please, enter your email before proceeding..."
+msgstr ""
+
+#: econnect/templates/econnect/snippets/language_switcher.html:6
+msgid "Language"
+msgstr ""
+
+#: econnect/templates/econnect/snippets/set_location_header.html:18
+msgid "Get the best of Internet and TV"
+msgstr ""
+
+#: econnect/templates/econnect/snippets/set_location_modal.html:8
+msgid "Please set your location before proceeding..."
+msgstr ""
+
+#: templates/accesscontrol/account.html:5
+#: templates/accesscontrol/account.html:48
+msgid "Account Setup"
+msgstr ""
+
+#: templates/accesscontrol/account.html:56
+msgctxt "Account Setup identity"
+msgid "About you"
+msgstr ""
+
+#: templates/accesscontrol/account.html:62
+#: templates/accesscontrol/account.html:84
+#: templates/accesscontrol/account.html:106
+#: templates/accesscontrol/account.html:160
+msgid "Change"
+msgstr ""
+
+#: templates/accesscontrol/account.html:64
+msgid "Name not set"
+msgstr ""
+
+#: templates/accesscontrol/account.html:65
+#: templates/accesscontrol/account.html:87
+#: templates/accesscontrol/account.html:109
+msgid "Set now"
+msgstr ""
+
+#: templates/accesscontrol/account.html:70
+msgid "Full name"
+msgstr ""
+
+#: templates/accesscontrol/account.html:86
+msgid "Phone not set"
+msgstr ""
+
+#: templates/accesscontrol/account.html:92
+msgid "Phone"
+msgstr ""
+
+#: templates/accesscontrol/account.html:108
+msgid "Email not set"
+msgstr ""
+
+#: templates/accesscontrol/account.html:152
+msgid "Security"
+msgstr ""
+
+#: templates/accesscontrol/account.html:159
+#: templates/accesscontrol/sign_in.html:38
+#: templates/accesscontrol/sign_in_minimal.html:92
+#: templates/accesscontrol/sign_in_minimal.html:150
+msgid "Password"
+msgstr ""
+
+#: templates/accesscontrol/account.html:164
+msgid "Current password"
+msgstr ""
+
+#: templates/accesscontrol/account.html:166
+msgid "New password"
+msgstr ""
+
+#: templates/accesscontrol/account.html:167
+msgid "Confirm new password"
+msgstr ""
+
+#: templates/accesscontrol/register.html:4
+#: templates/accesscontrol/register.html:30
+#: templates/accesscontrol/sign_in.html:56
+msgid "Register"
+msgstr ""
+
+#: templates/accesscontrol/register.html:35
+msgid "Email"
+msgstr ""
+
+#: templates/accesscontrol/register.html:42
+#: templates/accesscontrol/sign_in_minimal.html:319
+msgid "Choose a password"
+msgstr ""
+
+#: templates/accesscontrol/register.html:49
+#: templates/accesscontrol/sign_in_minimal.html:45
+msgid "Confirm password"
+msgstr ""
+
+#: templates/accesscontrol/register.html:56
+#: templates/accesscontrol/sign_in_minimal.html:51
+msgid "E-mail"
+msgstr ""
+
+#: templates/accesscontrol/register.html:64
+#: templates/accesscontrol/sign_in_minimal.html:57
+msgid "Phone number"
+msgstr ""
+
+#: templates/accesscontrol/register.html:73
+#: templates/accesscontrol/sign_in_minimal.html:63
+msgid "First name"
+msgstr ""
+
+#: templates/accesscontrol/register.html:80
+#: templates/accesscontrol/sign_in_minimal.html:69
+msgid "Last name"
+msgstr ""
+
+#: templates/accesscontrol/register.html:87
+#: templates/accesscontrol/sign_in_minimal.html:75
+msgid "Your are ..."
+msgstr ""
+
+#: templates/accesscontrol/register.html:90
+#: templates/accesscontrol/sign_in_minimal.html:78
+msgid "A woman"
+msgstr ""
+
+#: templates/accesscontrol/register.html:95
+#: templates/accesscontrol/sign_in_minimal.html:83
+msgid "A man"
+msgstr ""
+
+#: templates/accesscontrol/register.html:105
+msgid "By creating an account you agree our "
+msgstr ""
+
+#: templates/accesscontrol/register.html:106
+#: templates/accesscontrol/register.html:116
+#: templates/accesscontrol/register.html:118
+msgid "Terms & Conditions"
+msgstr ""
+
+#: templates/accesscontrol/register.html:111
+msgid "You are about to create an account managed by"
+msgstr ""
+
+#: templates/accesscontrol/register.html:114
+msgid "on"
+msgstr ""
+
+#: templates/accesscontrol/register.html:115
+msgid "By doing so you accept"
+msgstr ""
+
+#: templates/accesscontrol/register.html:117
+msgid "as well as"
+msgstr ""
+
+#: templates/accesscontrol/register.html:125
+#: templates/accesscontrol/sign_in_minimal.html:119
+msgid "Yes, I read and accept."
+msgstr ""
+
+#: templates/accesscontrol/register.html:131
+#: templates/accesscontrol/sign_in.html:43
+#: templates/accesscontrol/sign_in_minimal.html:33
+#: templates/accesscontrol/sign_in_minimal.html:127
+msgid "Submit"
+msgstr ""
+
+#: templates/accesscontrol/register.html:188
+#: templates/accesscontrol/register.html:206
+#: templates/accesscontrol/sign_in_minimal.html:229
+#: templates/accesscontrol/sign_in_minimal.html:247
+msgid "Please, enter valid email"
+msgstr ""
+
+#: templates/accesscontrol/register.html:194
+#: templates/accesscontrol/sign_in_minimal.html:235
+msgid "Please use at least 3 characters."
+msgstr ""
+
+#: templates/accesscontrol/register.html:195
+#: templates/accesscontrol/sign_in_minimal.html:236
+msgid "Start with a letter."
+msgstr ""
+
+#: templates/accesscontrol/register.html:218
+#: templates/accesscontrol/sign_in_minimal.html:259
+msgid "Please use digits only."
+msgstr ""
+
+#: templates/accesscontrol/register.html:219
+#: templates/accesscontrol/sign_in_minimal.html:260
+msgid "Prepend country code if you are not in Cameroon."
+msgstr ""
+
+#: templates/accesscontrol/register.html:220
+#: templates/accesscontrol/sign_in_minimal.html:261
+msgid "DO NOT prepend 00."
+msgstr ""
+
+#: templates/accesscontrol/register.html:232
+#: templates/accesscontrol/sign_in_minimal.html:280
+msgid "Passwords mismatch! Please check."
+msgstr ""
+
+#: templates/accesscontrol/register.html:239
+#: templates/accesscontrol/sign_in_minimal.html:273
+msgid "Password too short. Use at least 6 characters."
+msgstr ""
+
+#: templates/accesscontrol/register.html:253
+#: templates/accesscontrol/sign_in_minimal.html:333
+msgid "Invalid date. Please check."
+msgstr ""
+
+#: templates/accesscontrol/sign_in.html:4
+#: templates/accesscontrol/sign_in_minimal.html:4
+msgid "Sign in"
+msgstr ""
+
+#: templates/accesscontrol/sign_in.html:17
+msgid "Your password was successfully reset, login now."
+msgstr ""
+
+#: templates/accesscontrol/sign_in.html:33
+#: templates/accesscontrol/sign_in_minimal.html:26
+msgid "Username or email"
+msgstr ""
+
+#: templates/accesscontrol/sign_in.html:46
+#: templates/accesscontrol/sign_in_minimal.html:36
+msgid "<strong>LOGIN</strong>"
+msgstr ""
+
+#: templates/accesscontrol/sign_in.html:50
+#: templates/accesscontrol/sign_in_minimal.html:129
+msgid "Forgotten password ?"
+msgstr ""
+
+#: templates/accesscontrol/sign_in.html:54
+msgid "No account yet ?"
+msgstr ""
+
+#: templates/accesscontrol/sign_in_minimal.html:101
+#, python-format
+msgid ""
+"\n"
+"                                By creating an account you agree our\n"
+"                                <a href=\"%(ikwen_eula_url)s\">Terms & "
+"Conditions</a>\n"
+"                            "
+msgstr ""
+
+#: templates/accesscontrol/sign_in_minimal.html:106
+#, python-format
+msgid ""
+"\n"
+"                                You are about to create an account managed "
+"by\n"
+"                                <a href=\"%(service.url)s\" style=\"color: "
+"#999; text-decoration: underline\"><strong>ikwen</strong></a>,\n"
+"                                on %(project_name)s. By doing so you accept\n"
+"                                <a href=\"%(ikwen_eula)s\"><strong>ikwen</"
+"strong> Terms & Conditions</a>,\n"
+"                                    as well as\n"
+"                                <a href=\"%(agreement_url)s\">"
+"%(project_name)sTerms & Conditions.</a>\n"
+"                            "
+msgstr ""
+
+#: templates/accesscontrol/sign_in_minimal.html:125
+msgid "Back"
+msgstr ""
+
+#: templates/accesscontrol/sign_in_minimal.html:298
+msgid "Oops! An error occurred. Check your internet."
+msgstr ""
+
+#: templates/accesscontrol/mails/community_welcome.html:12
+msgid "Welcome to "
+msgstr ""
+
+#: templates/accesscontrol/mails/community_welcome.html:70
+#, python-format
+msgid ""
+"\n"
+"                                                    Welcome to <span style="
+"\"-ms-text-size-adjust:100%%;-webkit-text-size-adjust:100%%;color:#f28632;\" "
+">%(joined_project_name)s</span> community.\n"
+"                                                    "
+msgstr ""
+
+#: templates/accesscontrol/mails/community_welcome.html:130
+#, python-format
+msgid "You just joined %(joined_project_name)s community."
+msgstr ""
+
+#: templates/accesscontrol/mails/community_welcome.html:136
+msgid "Thank you"
+msgstr ""
+
+#: templates/accesscontrol/mails/complete_registration.html:12
+#: templates/accesscontrol/mails/complete_registration.html:140
+msgid "Please complete registration process"
+msgstr ""
+
+#: templates/accesscontrol/mails/complete_registration.html:181
+#, python-format
+msgid "Hey %(member_email)s,"
+msgstr ""
+
+#: templates/accesscontrol/mails/complete_registration.html:183
+msgid ""
+"\n"
+"                                            Complete the registration "
+"process as soon as possible to get the most out of our services.\n"
+"                                            See you in a few minutes!\n"
+"                                          "
+msgstr ""
+
+#: templates/accesscontrol/mails/complete_registration.html:196
+msgid " COMPLETE REGISTRATION"
+msgstr ""
+
+#: templates/accesscontrol/mails/confirm_email.html:12
+#: templates/accesscontrol/mails/confirm_email.html:140
+msgid "Please confirm your email"
+msgstr ""
+
+#: templates/accesscontrol/mails/confirm_email.html:193
+#, python-format
+msgid "Hey %(member_name)s,"
+msgstr ""
+
+#: templates/accesscontrol/mails/confirm_email.html:196
+msgid ""
+"Please click down here to confirm your email and make sure you don't miss "
+"anything."
+msgstr ""
+
+#: templates/accesscontrol/mails/confirm_email.html:206
+msgid "Confirm email now"
+msgstr ""
+
+#: templates/accesscontrol/mails/password_reset_instructions.html:12
+#: templates/accesscontrol/mails/password_reset_instructions.html:212
+msgid "Reset your password"
+msgstr ""
+
+#: templates/accesscontrol/mails/password_reset_instructions.html:284
+#, python-format
+msgid "Hi %(member_name)s,"
+msgstr ""
+
+#: templates/accesscontrol/mails/password_reset_instructions.html:294
+msgid "Reset my password"
+msgstr ""
+
+#: templates/accesscontrol/mails/password_reset_instructions.html:302
+msgid "The Creolink Communications Team"
+msgstr ""
+
+#: templates/accesscontrol/mails/welcome_to_ikwen.html:12
+msgid "Welcome to Creolink digital World"
+msgstr ""
+
+#: templates/accesscontrol/mails/welcome_to_ikwen.html:200
+msgid "Welcome to creolink"
+msgstr ""
+
+#: templates/accesscontrol/mails/welcome_to_ikwen.html:240
+msgid "Welcome to"
+msgstr ""
+
+#: templates/accesscontrol/mails/welcome_to_ikwen.html:245
+msgid ""
+"\n"
+"                          By joining us, you’ve just entered into an "
+"exciting universe whereby every action is rewarded.\n"
+"                          The adventure is just beginning.\n"
+"                          "
+msgstr ""
+
+#: templates/accesscontrol/mails/welcome_to_ikwen.html:271
+#, python-format
+msgid ""
+"\n"
+"\t\t\t\t\t\t\t\t<span style=\"-ms-text-size-adjust:100%%;-webkit-text-size-"
+"adjust:100%%;color:#28a745;text-align:center;\" ><p style=\"-ms-text-size-"
+"adjust:100%%;-webkit-text-size-adjust:100%%;\" ><h2 style=\"-ms-text-size-"
+"adjust:100%%;-webkit-text-size-adjust:100%%;\" >3 tips on not missing out on "
+"any gift</h2></p></span>\n"
+"\t\t\t\t\t\t\t\t<ul style=\"-ms-text-size-adjust:100%%;-webkit-text-size-"
+"adjust:100%%;\" >\n"
+"\t\t\t\t\t\t\t\t\t<li style=\"-ms-text-size-adjust:100%%;-webkit-text-size-"
+"adjust:100%%;\" >Attach our sending address <a href= \"http://creolink.com\" "
+"style=\"-ms-text-size-adjust:100%%;-webkit-text-size-adjust:100%%;text-"
+"decoration: none;\" >no-reply@creolink.com</a> to your contacts.</li>\n"
+"\t\t\t\t\t\t\t\t\t<li style=\"-ms-text-size-adjust:100%%;-webkit-text-size-"
+"adjust:100%%;\" >If you are on Gmail, we’d appear on the promotion tab of "
+"your mailbox (the notification tab), click, hold and drag us to your main "
+"mailbox. Gmail would ask you if that should always be the case as regards us "
+"(a “pop-up” menu would appear at the top of your screen), reply “YES” and, "
+"hope you’d find us without having to search.</li>\n"
+"\t\t\t\t\t\t\t\t\t<li style=\"-ms-text-size-adjust:100%%;-webkit-text-size-"
+"adjust:100%%;\" >Whatever the email platform: during our first send (this "
+"one), it’s possible that your email box doesn’t recognise us and classifies "
+"us under spam/junk (NB: this is unfair given that we never ever spam), If "
+"you don’ find us after some time, check us in the Spam... and take us out of "
+"there!   (For technical difficulties: <a href= \"http://creolink.com\" style="
+"\"-ms-text-size-adjust:100%%;-webkit-text-size-adjust:100%%; text-"
+"decoration: none;\" >support@creolink.com</a>).</li>\n"
+"\t\t\t\t\t\t\t\t</ul>\n"
+"\t\t\t\t\t\t\t"
+msgstr ""
+
+#: templates/accesscontrol/snippets/dob_widget.html:4
+msgid "Date of birth"
+msgstr ""
+
+#: templates/accesscontrol/snippets/dob_widget.html:8
+#: templates/accesscontrol/snippets/dob_widget.html:10
+msgid "Day"
+msgstr ""
+
+#: templates/accesscontrol/snippets/dob_widget.html:18
+#: templates/accesscontrol/snippets/dob_widget.html:20
+msgid "Month"
+msgstr ""
+
+#: templates/accesscontrol/snippets/dob_widget.html:28
+#: templates/accesscontrol/snippets/dob_widget.html:30
+msgid "Year"
+msgstr ""
+
+#: templates/accesscontrol/snippets/dob_widget.html:41
+msgid ""
+"Those information help us filter your content so that you see only what is "
+"relevant to you."
+msgstr ""
+
+#: templates/accesscontrol/snippets/dob_widget.html:42
+msgid "Why we ask those information ?"
+msgstr ""
+
+#: templates/billing/invoice_list.html:66
+msgid "Due date"
+msgstr ""
+
+#: templates/billing/mails/notice.html:131
+#, python-format
+msgid "Dear %(member_name)s,"
+msgstr ""
+
+#: templates/billing/mails/notice.html:186
+msgid "Amount"
+msgstr ""
+
+#: templates/billing/mails/notice.html:188
+msgid "Due Date"
+msgstr ""
+
+#: templates/billing/mails/notice.html:191
+msgid "Service details"
+msgstr ""
+
+#: templates/billing/mails/notice.html:226
+#, python-format
+msgid "Thank you for your business with %(company_name)s"
+msgstr ""
+
+#: templates/core/app_base_admin.html:11
+msgid "Cloud Order Manager"
+msgstr ""
+
+#: templates/core/app_base_admin.html:25
+msgid "Canceled orders"
+msgstr ""
+
+#: templates/core/app_base_admin.html:47
+msgid "Community"
+msgstr ""
+
+#: templates/core/app_base_admin.html:54
+msgid "Messaging Campaign"
+msgstr ""
+
+#: templates/core/app_base_admin.html:68
+msgid "Content Management System"
+msgstr ""
+
+#: templates/core/app_base_admin.html:72
+msgid "Products"
+msgstr ""
+
+#: templates/core/app_base_admin.html:75
+msgid "Packages"
+msgstr ""
+
+#: templates/core/app_base_admin.html:81
+msgid "Extra"
+msgstr ""
+
+#: templates/core/app_base_admin.html:88
+msgid "Billing"
+msgstr ""
+
+#: templates/core/app_base_admin.html:94
+msgid "Subscriptions"
+msgstr ""
+
+#: templates/core/app_base_admin.html:99
+msgid "Customer invoices"
+msgstr ""
+
+#: templates/core/app_base_admin.html:102
+msgid "Payments"
+msgstr ""
+
+#: templates/core/app_base_admin.html:107 templates/core/base_admin.html:82
+#: templates/core/configuration.html:23
+msgid "Configuration"
+msgstr ""
+
+#: templates/core/app_base_admin.html:110
+msgid "Payment means"
+msgstr ""
+
+#: templates/core/app_base_admin.html:114
+msgid "My invoices"
+msgstr ""
+
+#: templates/core/app_base_admin.html:126
+msgid "Blog categories"
+msgstr ""
+
+#: templates/core/app_base_admin.html:129
+msgid "Posts"
+msgstr ""
+
+#: templates/core/app_base_admin.html:133
+msgid "Comments"
+msgstr ""
+
+#: templates/core/base_admin.html:11
+msgid "Clear selection"
+msgstr ""
+
+#: templates/core/base_admin.html:13
+msgid "Selected"
+msgstr ""
+
+#: templates/core/base_admin.html:28
+msgid "Go to public website"
+msgstr ""
+
+#: templates/core/base_admin.html:31
+msgid "Go to website"
+msgstr ""
+
+#: templates/core/base_admin.html:60
+msgid "Pages"
+msgstr ""
+
+#: templates/core/base_admin.html:77
+msgid "Modules"
+msgstr ""
+
+#: templates/core/base_admin.html:86
+msgid "Info & Billing"
+msgstr ""
+
+#: templates/core/base_admin.html:104
+msgid "All rights reserved."
+msgstr ""
+
+#: templates/core/base_admin.html:105
+msgid "Legal mentions"
+msgstr ""
+
+#: templates/core/base_admin.html:230
+msgid "Confirm deletion ?"
+msgstr ""
+
+#: templates/core/base_bs.html:16
+msgid "Creolink Communications"
+msgstr ""
+
+#: templates/core/base_bs.html:81 templates/core/base_bs.html.py:138
+msgid "Account setup"
+msgstr ""
+
+#: templates/core/base_bs.html:88 templates/core/base_bs.html.py:145
+msgid "Logout"
+msgstr ""
+
+#: templates/core/base_bs.html:94 templates/core/base_bs.html.py:151
+msgid "Login"
+msgstr ""
+
+#: templates/core/base_bs.html:110
+msgid "NumeriLink Home"
+msgstr ""
+
+#: templates/core/base_bs.html:111
+msgid "NumeriLink Hotel"
+msgstr ""
+
+#: templates/core/base_bs.html:173
+msgid "Our Company"
+msgstr ""
+
+#: templates/core/base_bs.html:176
+msgid "About Us"
+msgstr ""
+
+#: templates/core/base_bs.html:177
+msgid "Sign In"
+msgstr ""
+
+#: templates/core/base_bs.html:181
+msgid "Follow us"
+msgstr ""
+
+#: templates/core/base_bs.html:189
+msgid "Or on web..."
+msgstr ""
+
+#: templates/core/base_bs.html:194
+msgid "Legal"
+msgstr ""
+
+#: templates/core/base_bs.html:305
+msgid " Modify my location"
+msgstr ""
+
+#: templates/core/base_bs.html:311
+msgid "Get started"
+msgstr ""
+
+#: templates/core/configuration.html:5
+msgid "Configurations"
+msgstr ""
+
+#: templates/core/mails/snippets/confidentiality.html:6
+msgid "CONFIDENTIALITY"
+msgstr ""
+
+#: templates/core/mails/snippets/confidentiality.html:8
+#, python-format
+msgid ""
+"\n"
+"                    The information contained in this e-mail and any "
+"accompanying documents is confidential or otherwise\n"
+"                    protected from disclosure. If you are not the intended "
+"recipient, please immediately alert the\n"
+"                    sender by reply e-mail and delete this message and any "
+"attachments. Any copy, dissemination or\n"
+"                    unauthorized access of the contents of this message by "
+"anyone other than the intended recipient\n"
+"                    is strictly prohibited. E-mails may be susceptible to "
+"falsification or alteration and cause data\n"
+"                    corruption and/or loss of data. %(company_name)s and/or "
+"any of its subsidiaries decline any liability resulting\n"
+"                    from the consequences thereof. Therefore, this e-mail "
+"and any attachments are used at your own risk.\n"
+"                "
+msgstr ""
+
+#: templates/core/mails/snippets/confidentiality.html:19
+#, python-format
+msgid "&copy; %(year)s %(company_name)s. All Rights Reserved."
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:181
+#, python-format
+msgid "Dear %(buyer_name)s"
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:184
+#, python-format
+msgid ""
+"\n"
+"                    Your order on %(merchant)s with number <strong>%(rcc)s</"
+"strong> was confirmed.\n"
+"                "
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:188
+#, python-format
+msgid ""
+"\n"
+"                    Your order on %(merchant)s with number <strong>%(rcc)s</"
+"strong> was rejected.\n"
+"                "
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:198
+#, python-format
+msgid ""
+"\n"
+"                    Your order was issued with success under number <strong>"
+"%(rcc)s</strong> and\n"
+"                    submit for approval to %(bank_name)s.<br>\n"
+"                    You can follow order status anytime by clicking the link "
+"down here:<br><br>\n"
+"                     <a href=\"%(service_url)s%(order_cart_url)s\">"
+"%(service_url)s%(order_cart_url)s</a>\n"
+"                "
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:206
+#: templates/shopping/mails/order_notice_with_reward.html:400
+#, python-format
+msgid ""
+"\n"
+"                        Your order was issued with success under number "
+"<strong>%(rcc)s</strong>.\n"
+"                        You can follow order status anytime by clicking the "
+"link down here:<br><br>\n"
+"                         <a href=\"%(service_url)s%(order_cart_url)s\">"
+"%(service_url)s%(order_cart_url)s</a>\n"
+"                    "
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:212
+#: templates/shopping/mails/order_notice_with_reward.html:406
+#, python-format
+msgid ""
+"\n"
+"                        Your order was issued with success under number "
+"<strong>%(rcc)s</strong>.\n"
+"                        You can pick up your package in our store in about "
+"%(max_delay)s.<br>\n"
+"                        Follow order status anytime by clicking the link "
+"down here:<br><br>\n"
+"                         <a href=\"%(service_url)s%(order_cart_url)s\">"
+"%(service_url)s%(order_cart_url)s</a>\n"
+"                    "
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:221
+#: templates/shopping/mails/order_notice_with_reward.html:415
+msgid "Your order was shipped. You will receive it in about"
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:223
+#: templates/shopping/mails/order_notice_with_reward.html:417
+msgid ""
+"Your order was packaged and is ready for you to come and collect using the "
+"RCC:"
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:261
+#: templates/shopping/mails/order_notice_with_reward.html:447
+msgid "See details below"
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:265
+#: templates/shopping/mails/order_notice_with_reward.html:451
+#, python-format
+msgid ""
+"\n"
+"                                            <p>\n"
+"                                                %(items_count)s items(s), "
+"totaling\n"
+"                                                <ins>\n"
+"                                                    %(currency_symbol)s\n"
+"                                                    %(items_cost)s\n"
+"                                                </ins>\n"
+"                                            </p>\n"
+"                                            "
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:277
+#: templates/shopping/mails/order_notice_with_reward.html:463
+msgid "Shipping fees"
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:283
+#: templates/shopping/mails/order_notice_with_reward.html:469
+msgid "Free shipping"
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:287
+#: templates/shopping/mails/order_notice_with_reward.html:473
+msgid "Deliver to"
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:291
+#: templates/shopping/mails/order_notice_with_reward.html:477
+msgid "Postal code"
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:298
+#: templates/shopping/mails/order_notice_with_reward.html:484
+msgid "Pick up in store"
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:302
+#: templates/shopping/mails/order_notice_with_reward.html:488
+msgid "Remit to"
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:366
+#: templates/shopping/mails/order_notice_with_reward.html:553
+msgid "Price"
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:367
+#: templates/shopping/mails/order_notice_with_reward.html:554
+msgid "Quantity"
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:368
+#: templates/shopping/mails/order_notice_with_reward.html:555
+msgid "Subtotal"
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:429
+#: templates/shopping/mails/order_notice_with_reward.html:616
+msgid "Packing"
+msgstr ""
+
+#: templates/shopping/mails/order_notice.html:472
+#: templates/shopping/mails/order_notice_with_reward.html:658
+msgid "Thank you for shopping with us."
+msgstr ""
+
+#: templates/shopping/mails/order_notice_with_reward.html:286
+#, python-format
+msgid ""
+"\n"
+"                                                    You just won <span style="
+"\"-ms-text-size-adjust:100%%;-webkit-text-size-adjust:100%%;\" >"
+"%(coupon_count)s coupons for your payment</span>\n"
+"                                                    "
+msgstr ""
+
+#: templates/shopping/mails/order_notice_with_reward.html:333
+#, python-format
+msgid ""
+"\n"
+"                                              Hey %(buyer_name)s, <br style="
+"\"-ms-text-size-adjust:100%%;-webkit-text-size-adjust:100%%;\" >\n"
+"\t\t\t\t\t\t\t\t\t\t\t  You just won %(coupon_count)s coupons following your "
+"payment on <a href=\"%(service_url)s\" style=\"-ms-text-size-adjust:100%%;-"
+"webkit-text-size-adjust:100%%;text-decoration:none;\" >%(service.url)s</"
+"a> !\n"
+"                                              Collect 100 of any of them to "
+"exchange them with us for the equivalent.<br style=\"-ms-text-size-"
+"adjust:100%%;-webkit-text-size-adjust:100%%;\" >\n"
+"                                              Click bellow to collect your "
+"coupons.\n"
+"                                              "
+msgstr ""
+
+#: templates/shopping/mails/order_notice_with_reward.html:361
+msgid "Collect your gifts now"
+msgstr ""

@@ -21,7 +21,8 @@ section {margin: 5vh 0;}
 
 .fa-chevron-circle-up { color: darkgreen; }
 .front, .back { cursor: pointer; }
-.front-ribbon {background: #28a7457a;bottom: 0vh;color: white;height: 7vh;position: absolute;width: 100%;}
+.front-ribbon {bottom: 0;background-color: rgba(255, 255, 255, 0.7);position: absolute;width: 100%;}
+/*.front-ribbon {background: #28a7457a;bottom: 0vh;color: white;height: 7vh;position: absolute;width: 100%;}*/
 .ribbon-label { font-weight: 600; margin: auto; }
 
 .img-features{ }

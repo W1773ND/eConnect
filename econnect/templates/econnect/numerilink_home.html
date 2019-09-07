@@ -1,0 +1,126 @@
+{% extends 'core/base_bs.html' %}
+{% load i18n static humanize %}
+
+{% block page_title %}
+    <title> {{ service.project_name }} - {{ product.name }}</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <!-- Custom css -->
+{#    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/bootstrap-slider.min.css' %}">#}
+{#    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/homepage.css' %}">#}
+    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/econnect_pricing.css' %}?v=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/product_page.css' %}">
+    <style>
+        .section-banniere {
+            background: url("{% static 'econnect/img/econnect-banniere-top.jpg' %}") center center;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            box-shadow:inset 0 0 0 2000px rgba(18, 43, 44, 0.67);
+            color: white;
+            height: 500px;
+            margin-top: 6.5vh !important;
+        }
+        div#email-error {display: none}
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div id="section-header-general-view" class="container-fluid container-fluid-custom" style="font-family: Lato,Helvetica,Arial,sans-serif; margin-top: 8vh">
+            <div class="row section-banniere" style="margin-top: 0 !important;">
+                <div class="col-sm-5 col-sm-offset-1" style="padding-top: 35vh">
+                  <h2>
+                      {{ product.slogan }}
+                  </h2>
+                    <a  href='{{ product_url }}' class="btn btn-{{ product.name }} animated pulse" style="margin-top: 20px; min-width: 200px"><strong class="" style="font-size:large;">{% trans "Order now" %}</strong></a>
+                </div>
+            </div>
+            <div id="section-banniere-top-iPad-view" class="row section-banniere-top" style="display: none">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                  <h2>
+                      {{ product.slogan }}
+                  </h2>
+                    <a  href='{{ product_url }}' class="btn btn-{{ product.name }} animated pulse" style="margin-top: 20px; min-width: 200px"><strong class="" style="font-size:large;">{% trans "Order now" %}</strong></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="product-description" style="margin-bottom: 15vh; margin-top: 5vh;">
+        <div class="container">
+            <div class="product-description-resume">
+                <h4 class="product-description-resume">{{ product.description|safe }}</h4>
+            </div>
+            <div class="container package-area">
+                <div class="row">
+                    <div class="product-logo">
+                        <img class="product-logo-img visible-sm visible-xs" src="{% static 'econnect/img/numerilink_home.png' %}" style="margin-bottom: 5vh">
+                    </div>
+                    <div class="card">
+                        <ul class="nav nav-tabs package-presentation " role="tablist">
+                            {% for package in product.package_set.all %}
+                                <li role="presentation" class="{{ product.name}}{% if forloop.counter == 3 %} active{% endif %}">
+                                    <a href="#{{ package.id }}" aria-controls="{{ product.name|slice:":10" }}&nbsp;{{ package.name }}" role="tab" data-toggle="tab">
+                                        <h5 class="pricing-title {{ product.name }} visible-md visible-lg"> {{ product.name|slice:":10" }}&nbsp;<span class="pricing-pack small {{ product.name }}">{{ package.name }}</span></h5>
+                                        <span class="pricing-pack small {{ product.name }} visible-sm visible-xs">{{ package.name }}</span>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="tab-content">
+                            {% for package in product.package_set.all %}
+                                <div role="tabpanel" class="tab-pane {% if forloop.counter == 3 %}active{% endif %}" id="{{ package.id }}">
+                                    <p>{{ package.description|safe }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <a  href='{{ product_url }}' class="btn btn-outline {{ product.name }} animated pulse infinite" style="margin-top: 20px; min-width: 200px"><strong class="" style="font-size:large;">{% trans "Order now" %}</strong></a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <a class="js-scrollTo back-to-top hiding" href="#section-header-general-view" style="text-decoration: none; color: #3F3F3F">
+        <i class="fa fa-chevron-circle-up"></i>
+    </a>
+    {% include 'econnect/snippets/edge_panel.html' %}
+
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'econnect/js/bootstrap-slider.min.js' %}"></script>
+    <script>
+        (function () {
+            // redirect to signIn page
+            $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:homelink-pricing' %}");
+
+            // set focus when modal is opened
+            $('#modal-get-email').on('shown.bs.modal', function () {
+                $("#visitor-email").focus();
+            });
+
+            $('#visitor-email').focusin(function () {
+                $('div#email-error').fadeOut().hide()
+            });
+
+            $('li.page-menu.NUMERILINK').addClass('selected');
+
+            //Dynamic color for menu items and faq: BEGIN
+            $('.nav-menu').addClass('{{ product.name }}');
+            $('.glyphicon').addClass('{{ product.name }}');
+            $('a.cta').addClass('{{ product.name }}');
+            $('.faq-answer').addClass('{{ product.name }}');
+            $('.pack-detail').addClass('{{ product.name }}');
+            $('.faq-question').addClass('{{ product.name }}');
+            $('.fa-chevron-circle-up').css('color', '#009b94');
+            //Dynamic color for menu items and faq: END
+        })()
+    </script>
+{% endblock %}

@@ -62,7 +62,7 @@
                             <div class="callout-item">
                                 <div class="pack-detail {{ product.name }} text-center">
                                     <a data-toggle="collapse" data-parent="#accordion-pack" href="#{{ package.id }}" style="color: inherit">
-                                        <p class="pricing-content mobile-adjust text-center" style="">{{ package.description|safe }}</p>
+                                        <p class="pricing-content mobile-adjust text-center" style="">{{ package.summary|safe }}</p>
                                         <h4 class="pricing-value text-center">{{ package.cost|intcomma }} <span class="text-muted" style="font-size: .8em;">XAF</span></h4>
                                     </a>
                                 </div>
@@ -395,7 +395,7 @@
     <script>
         (function () {
             // redirect to signIn page
-            $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:numerilink-home' %}");
+            $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:numerilink-home-pricing' %}");
 
             // set focus when modal is opened
             $('#modal-get-email').on('shown.bs.modal', function () {
@@ -406,7 +406,7 @@
                 $('div#email-error').fadeOut().hide()
             });
 
-            $('li.NumeriLink').addClass('selected');
+            $('li.{{ product.name }}').addClass('selected');
 
             //Dynamic color for menu items and faq: BEGIN
             $('.nav-menu').addClass('{{ product.name }}');

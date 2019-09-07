@@ -26,7 +26,7 @@ from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.core.exceptions import MultipleObjectsReturned
 from django.template.defaultfilters import slugify
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext as _, get_language
 
 from ikwen.conf import settings as ikwen_settings
 from ikwen.conf.settings import WALLETS_DB_ALIAS
@@ -47,7 +47,8 @@ from echo.admin import MailCampaignAdmin
 
 from econnect.admin import ProductAdmin, PackageAdmin, EquipmentAdmin, ExtraAdmin
 from econnect.forms import OrderForm
-from econnect.models import ADMIN_EMAIL, Subscription, Order, CustomerRequest, Product, Package, Equipment, EquipmentOrderEntry, \
+from econnect.models import ADMIN_EMAIL, Subscription, Order, CustomerRequest, Product, Package, Equipment, \
+    EquipmentOrderEntry, \
     Extra, RENTAL, PURCHASE, REPORTED, FINISHED, CANCELED, DEVICE_ID, \
     NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, ANALOG, DIGITAL, ECONNECT
 
@@ -179,7 +180,7 @@ class OrderConfirm(TemplateView):
                     order = Order.objects.get(pk=order_id)
                     product = order.package.product
                     context['order'] = order
-                    context['product_url'] = reverse('econnect:' + product.slug) + '?order_id=' + order.id
+                    context['product_url'] = reverse('econnect:' + product.slug) + '-pricing?order_id=' + order.id
                     break
                 except Order.DoesNotExist:
                     time.sleep(0.5)
@@ -481,11 +482,17 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
+        lang = get_language()
         product_list = []
-        for product in Product.objects.all().exclude(name=NUMERIHOTEL):
+        if Product.objects.filter(lang=lang).count() < Product.objects.filter(lang='en').count():
+            lang = 'en'
+        for product in Product.objects.filter(lang=lang).exclude(name=NUMERIHOTEL):
             product.url = reverse('econnect:' + product.slug)
             product_list.append(product)
-        product_numeri_hotel = Product.objects.get(name=NUMERIHOTEL)
+        try:
+            product_numeri_hotel = Product.objects.get(name=NUMERIHOTEL, lang=lang)
+        except:
+            product_numeri_hotel = get_object_or_404(Product, name=NUMERIHOTEL, lang='en')
         product_numeri_hotel.slug = slugify(product_numeri_hotel.name)
         product_numeri_hotel.url = reverse('econnect:' + product_numeri_hotel.slug)
         context['product_list'] = product_list
@@ -541,6 +548,144 @@ class HomeView(TemplateView):
         return HttpResponseRedirect(next_url)
 
 
+class Numerilink(TemplateView):
+    template_name = 'econnect/numerilink_home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(Numerilink, self).get_context_data(**kwargs)
+        lang = get_language()
+        try:
+            product = Product.objects.get(name=NUMERIHOME, lang=lang)
+        except:
+            product = get_object_or_404(Product, name=NUMERIHOME, lang='en')
+        product_pricing = slugify(product.name) + '-pricing'
+        equipment_purchase_cost = 0
+        for equipment in product.equipment_set.all():
+            equipment_purchase_cost += equipment.purchase_cost
+            equipment.slug = slugify(equipment.name)
+            equipment.save()
+        for extra in product.extra_set.all():
+            extra.slug = slugify(extra.name)
+            extra.save()
+        context['equipment_purchase_cost'] = equipment_purchase_cost
+        context['default_equipment_cost'] = product.install_cost + equipment_purchase_cost
+        context['product'] = product
+        context['product_url'] = reverse('econnect:' + product_pricing)
+        return context
+
+
+class NumerilinkHotel(TemplateView):
+    template_name = 'econnect/numerilink_hotel.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(NumerilinkHotel, self).get_context_data(**kwargs)
+        lang = get_language()
+        try:
+            product = Product.objects.get(name=NUMERIHOTEL, lang=lang)
+        except:
+            product = get_object_or_404(Product, name=NUMERIHOTEL, lang='en')
+        product_pricing = slugify(product.name) + '-pricing'
+        equipment_purchase_cost = 0
+        digital_package_list = []
+        analog_package_list = []
+        for equipment in product.equipment_set.all():
+            equipment_purchase_cost += equipment.purchase_cost
+            equipment.slug = slugify(equipment.name)
+            equipment.save()
+        for extra in product.extra_set.all():
+            extra.slug = slugify(extra.name)
+            extra.save()
+        for analog_package in product.package_set.filter(type=ANALOG):
+            analog_package_list.append(analog_package)
+        for digital_package in product.package_set.filter(type=DIGITAL):
+            digital_package_list.append(digital_package)
+        context['digital_package_list'] = digital_package_list
+        context['analog_package_list'] = analog_package_list
+        context['equipment_purchase_cost'] = equipment_purchase_cost
+        context['default_equipment_cost'] = product.install_cost + equipment_purchase_cost
+        context['product'] = product
+        context['product_url'] = reverse('econnect:' + product_pricing)
+        return context
+
+
+class Homelink(TemplateView):
+    template_name = 'econnect/homelink.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(Homelink, self).get_context_data(**kwargs)
+        lang = get_language()
+        try:
+            product = Product.objects.get(name=HOME, lang=lang)
+        except:
+            product = get_object_or_404(Product, name=HOME, lang='en')
+        product_pricing = slugify(product.name) + '-pricing'
+        equipment_purchase_cost = 0
+        for equipment in product.equipment_set.all():
+            equipment_purchase_cost += equipment.purchase_cost
+            equipment.slug = slugify(equipment.name)
+            equipment.save()
+        for extra in product.extra_set.all():
+            extra.slug = slugify(extra.name)
+            extra.save()
+        context['equipment_purchase_cost'] = equipment_purchase_cost
+        context['default_equipment_cost'] = product.install_cost + equipment_purchase_cost
+        context['product'] = product
+        context['product_url'] = reverse('econnect:' + product_pricing)
+        return context
+
+
+class Officelink(TemplateView):
+    template_name = 'econnect/officelink.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(Officelink, self).get_context_data(**kwargs)
+        lang = get_language()
+        try:
+            product = Product.objects.get(name=OFFICE, lang=lang)
+        except:
+            product = get_object_or_404(Product, name=OFFICE, lang='en')
+        product_pricing = slugify(product.name) + '-pricing'
+        equipment_purchase_cost = 0
+        for equipment in product.equipment_set.all():
+            equipment_purchase_cost += equipment.purchase_cost
+            equipment.slug = slugify(equipment.name)
+            equipment.save()
+        for extra in product.extra_set.all():
+            extra.slug = slugify(extra.name)
+            extra.save()
+        context['equipment_purchase_cost'] = equipment_purchase_cost
+        context['default_equipment_cost'] = product.install_cost + equipment_purchase_cost
+        context['product'] = product
+        context['product_url'] = reverse('econnect:' + product_pricing)
+        return context
+
+
+class Corporatelink(TemplateView):
+    template_name = 'econnect/corporatelink.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(Corporatelink, self).get_context_data(**kwargs)
+        lang = get_language()
+        try:
+            product = Product.objects.get(name=CORPORATE, lang=lang)
+        except:
+            product = get_object_or_404(Product, name=CORPORATE, lang='en')
+        product_pricing = slugify(product.name) + '-pricing'
+        equipment_purchase_cost = 0
+        for equipment in product.equipment_set.all():
+            equipment_purchase_cost += equipment.purchase_cost
+            equipment.slug = slugify(equipment.name)
+            equipment.save()
+        for extra in product.extra_set.all():
+            extra.slug = slugify(extra.name)
+            extra.save()
+        context['equipment_purchase_cost'] = equipment_purchase_cost
+        context['default_equipment_cost'] = product.install_cost + equipment_purchase_cost
+        context['product'] = product
+        context['product_url'] = reverse('econnect:' + product_pricing)
+        return context
+
+
 class ProductList(HybridListView):
     model = Product
     search_field = 'name'
@@ -560,6 +705,7 @@ class PackageList(HybridListView):
 class ChangePackage(ChangeObjectBase):
     model = Package
     model_admin = PackageAdmin
+    template_name = 'econnect/admin/change_package.html'
 
 
 class EquipmentList(HybridListView):
@@ -590,7 +736,8 @@ class PricingNumerilink(PostView):
     def get_context_data(self, **kwargs):
         context = super(PricingNumerilink, self).get_context_data(**kwargs)
         order_id = self.request.GET.get('order_id')
-        product = get_object_or_404(Product, name=NUMERIHOME)
+        lang = get_language()
+        product = get_object_or_404(Product, name=NUMERIHOME, lang=lang)
         equipment_order_entry_list = []
         extra_id_list = []
         equipment_purchase_cost = 0
@@ -630,16 +777,20 @@ class PricingNumerilinkHotel(PostView):
     def get_context_data(self, **kwargs):
         context = super(PricingNumerilinkHotel, self).get_context_data(**kwargs)
         order_id = self.request.GET.get('order_id')
-        product = get_object_or_404(Product, name=NUMERIHOTEL)
-        package_analog_list = []
-        package_digital_list = []
+        lang = get_language()
+        try:
+            product = Product.objects.get(name=NUMERIHOTEL, lang=lang)
+        except:
+            product = get_object_or_404(Product, name=NUMERIHOTEL, lang='en')
+        analog_package_list = []
+        digital_package_list = []
         equipment_order_entry_list = []
         extra_id_list = []
         equipment_purchase_cost = 0
-        for package_analog in product.package_set.filter(type=ANALOG):
-            package_analog_list.append(package_analog)
-        for package_digital in product.package_set.filter(type=DIGITAL):
-            package_digital_list.append(package_digital)
+        for analog_package in product.package_set.filter(type=ANALOG):
+            analog_package_list.append(analog_package)
+        for digital_package in product.package_set.filter(type=DIGITAL):
+            digital_package_list.append(digital_package)
         for equipment in product.equipment_set.all():
             equipment_purchase_cost += equipment.purchase_cost
             equipment.slug = slugify(equipment.name)
@@ -667,8 +818,8 @@ class PricingNumerilinkHotel(PostView):
         context['equipment_purchase_cost'] = equipment_purchase_cost
         context['default_equipment_cost'] = product.install_cost + equipment_purchase_cost
         context['product'] = product
-        context['package_analog_list'] = package_analog_list
-        context['package_digital_list'] = package_digital_list
+        context['analog_package_list'] = analog_package_list
+        context['digital_package_list'] = digital_package_list
         return context
 
 
@@ -678,7 +829,11 @@ class PricingHomelink(PostView):
     def get_context_data(self, **kwargs):
         context = super(PricingHomelink, self).get_context_data(**kwargs)
         order_id = self.request.GET.get('order_id')
-        product = get_object_or_404(Product, name=HOME)
+        lang = get_language()
+        try:
+            product = Product.objects.get(name=HOME, lang=lang)
+        except:
+            product = get_object_or_404(Product, name=HOME, lang='en')
         equipment_order_entry_list = []
         extra_id_list = []
         equipment_purchase_cost = 0
@@ -718,7 +873,11 @@ class PricingOfficelink(PostView):
     def get_context_data(self, **kwargs):
         context = super(PricingOfficelink, self).get_context_data(**kwargs)
         order_id = self.request.GET.get('order_id')
-        product = get_object_or_404(Product, name=OFFICE)
+        lang = get_language()
+        try:
+            product = Product.objects.get(name=OFFICE, lang=lang)
+        except:
+            product = get_object_or_404(Product, name=OFFICE, lang='en')
         equipment_order_entry_list = []
         extra_id_list = []
         equipment_purchase_cost = 0
@@ -758,7 +917,11 @@ class PricingCorporatelink(PostView):
     def get_context_data(self, **kwargs):
         context = super(PricingCorporatelink, self).get_context_data(**kwargs)
         order_id = self.request.GET.get('order_id')
-        product = get_object_or_404(Product, name=CORPORATE)
+        lang = get_language()
+        try:
+            product = Product.objects.get(name=CORPORATE, lang=lang)
+        except:
+            product = get_object_or_404(Product, name=CORPORATE, lang='en')
         equipment_order_entry_list = []
         extra_id_list = []
         equipment_purchase_cost = 0
