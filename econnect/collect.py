@@ -58,10 +58,10 @@ def order_set_checkout(request, *args, **kwargs):
     notification_url = service.url + reverse('econnect:confirm_invoice_payment', args=(tx.id, ))
     cancel_url = service.url + reverse('econnect:my_creolink')  # Orange Money only
     return_url = service.url + reverse('billing:invoice_detail', args=(invoice.id,))
-    gateway_url = getattr(settings, 'IKWEN_PAYMENT_GATEWAY_URL', 'https://momogateway.cyberlink.com/v1')
+    gateway_url = getattr(settings, 'IKWEN_PAYMENT_GATEWAY_URL', 'http://momogateway.cyberlink.cm/v1')
     endpoint = gateway_url + '/request_payment'
     params = {
-        'username': getattr(settings, 'IKWEN_PAYMENT_GATEWAY_USERNAME', service.project_name_slug),
+        'username': getattr(settings, 'IKWEN_PAYMENT_GATEWAY_USERNAME', 'econnect'),
         'amount': amount,
         'merchant_name': config.company_name,
         'notification_url': notification_url,
@@ -76,7 +76,7 @@ def order_set_checkout(request, *args, **kwargs):
         if token:
             next_url = gateway_url + '/checkoutnow/' + resp['token'] + '?mean=' + mean
         else:
-            messages.error(resp['errors'])
+            messages.error(request, resp['errors'])
             next_url = cancel_url
     except:
         logger.error("%s - Init payment flow failed with URL %s." % (service.project_name, r.url), exc_info=True)

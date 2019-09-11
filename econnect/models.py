@@ -59,7 +59,7 @@ class Product(ModelI18n):
     cta_label = models.CharField(max_length=30, verbose_name="Call-to-action")
     install_cost = models.IntegerField(default=0)
     logo = models.ImageField(blank=True, null=True, upload_to=UPLOAD_TO,
-                             help_text="500 x 500px ; will appear on homepage")
+                             help_text="600 x 600px ; will appear on homepage")
     cover = models.ImageField(blank=True, null=True, upload_to=UPLOAD_TO,
                               help_text="1920 x 500px ; will appear on product banner")
     order_of_appearance = models.IntegerField(default=0)
@@ -155,9 +155,13 @@ class Faq(Model):
     product = models.ForeignKey(Product)
     question = models.TextField()
     answer = models.TextField()
+    order_of_appearance = models.IntegerField(default=0)
 
     def __unicode__(self):
         return self.question
+
+    def get_obj_details(self):
+        return self.product
 
 
 class CustomerRequest(Model):

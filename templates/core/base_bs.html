@@ -39,7 +39,47 @@
         </div>
         {% block header %}
             {% url "ikwen:account_setup" as account_setup_url %}
-            <nav id="navbar" class="navbar navbar-default navbar-static-top">
+            <div id="navbar" class="navbar navbar-default navbar-static-top">
+                <div class="container-fluid help-navbar hidden-xs" style="">
+                    <span class="help-navbar-phone">{% trans "Need some help? " %}{{ config.contact_phone }}</span>
+                    <div class="navbar-right" style="margin-right: 0">
+                        {% if user.is_authenticated %}
+                            {% if user.is_ghost %}
+                                <div id="user-menu">
+                                    <a class="icon" href="{% url "ikwen:logout" %}?next={% url 'ikwen:register' %}">
+                                        <i class="fas fa-user-slash" style="font-size: 22px"></i>
+                                    </a>
+                                </div>
+                            {% else %}
+                                <div id="user-menu" class="dropdown">
+                                    <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="{% if user.is_staff %}fas fa-user-cog{% else %}fas fa-user{% endif %}"></i>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="user-menu">
+                                        <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                                        <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
+                                        <li>
+                                            <a href="{% url 'econnect:my_creolink' %}">My Creolink</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ account_setup_url }}">{% trans "Account setup" %}</a>
+                                        </li>
+                                        {% if user.is_staff %}
+                                            <li>
+                                                <a href="{% url 'econnect:admin' %}">Admin</a>
+                                            </li>
+                                        {% endif %}
+                                        <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="hidden-xs">
+                                <a href="{% url 'ikwen:sign_in' %}" class=" menu btn btn-xs btn-success animated fadeIn">{% trans "Login" %}</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
                 <div class="container-fluid">
                     <div class="navbar-header">
                         <div class="container-fluid">
@@ -116,47 +156,12 @@
                                     <li class="page-menu CORPORATELINK"><a href="{% url 'econnect:corporatelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/corporatelink.png' %}"></a></li>
 {#                                        <li><a href="{% url 'blog:home' %}" class="nav-menu nav-menu-custom">{% trans "Blog" %}</a></li>#}
                                 {% endblock %}
-                                {% if user.is_authenticated %}
-                                    {% if user.is_ghost %}
-                                        <li id="user-menu">
-                                            <a class="icon" href="{% url "ikwen:logout" %}?next={% url 'ikwen:register' %}">
-                                                <i class="fas fa-user-slash" style="font-size: 22px"></i>
-                                            </a>
-                                        </li>
-                                    {% else %}
-                                        <li id="user-menu" class="dropdown">
-                                            <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="{% if user.is_staff %}fas fa-user-cog{% else %}fas fa-user{% endif %}"></i>
-                                            </a>
-                                            <ul class="dropdown-menu" aria-labelledby="user-menu">
-                                                <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
-                                                <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
-                                                <li>
-                                                    <a href="{% url 'econnect:my_creolink' %}">My Creolink</a>
-                                                </li>
-                                                <li>
-                                                    <a href="{{ account_setup_url }}">{% trans "Account setup" %}</a>
-                                                </li>
-                                                {% if user.is_staff %}
-                                                    <li>
-                                                        <a href="{% url 'econnect:admin' %}">Admin</a>
-                                                    </li>
-                                                {% endif %}
-                                                <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
-                                            </ul>
-                                        </li>
-                                    {% endif %}
-                                {% else %}
-                                    <li class="hidden-xs">
-                                        <a href="{% url 'ikwen:sign_in' %}" class="btn btn-outline-success menu animated fadeIn" style="border-radius: 2px; border-width: 1px; display:block; height: 4.5vh!important; line-height: 4.5vh; padding: 0; width: 120px">{% trans "Login" %}</a>
-                                    </li>
-                                {% endif %}
                                 </ul>
                             </div>
                         </div>
                     {% endblock %}
                 </div>
-            </nav>
+            </div>
         {% endblock %}
         {% block selection_control %}{% endblock %}
         {% block content %}{% endblock %}
@@ -166,37 +171,49 @@
                     <div class="row" style="margin-bottom: 15px">
                         <div class="col-sm-3" style="margin-top: 4vh; text-align: center;">
                             <a href="{% url 'econnect:home' %}">
-                                <img class="footer-mobile-adjust" src="{% static 'econnect/img/creolink_logo_portrait_white.png' %}" style="max-width: 7vw;"/>
+                                <img class="footer-mobile-adjust" src="{% static 'econnect/img/creolink_logo_portrait_white.png' %}" style="max-width: 5vw;"/>
                             </a>
                         </div>
                         <div class="col-sm-3 col-xs-4 footer-mobile-adjust">
-                            <h5 style="color: #ffffff; font-weight: bold; font-size: 2vw; margin-top: 5vh;">{% trans 'Our Company' %}</h5>
-                            <ul style="font-size: 1.2vw; line-height: 1.7; list-style-type: none; padding-left: 0">
+                            <h4 style="color: #ffffff; font-weight: bold; margin-top: 5vh;">{% trans 'Our Company' %}</h4>
+                            <ul style="list-style-type: none; padding-left: 0">
                                 <li><a style="color: #d2d1d1;" href="{% url 'blog:home' %}" target="_blank">Blog</a></li>
                                 <li><a style="color: #d2d1d1;" href="{% url 'econnect:about' %}" >{% trans 'About Us' %}</a></li>
                                 <li><a style="color: #d2d1d1;" href="{% url 'ikwen:sign_in' %}" >{% trans 'Sign In' %}</a></li>
                             </ul>
                         </div>
                         <div class="col-sm-3 col-xs-4 footer-mobile-adjust">
-                            <h5 style="color: #ffffff; font-weight: bold; font-size: 2vw; margin-top: 5vh;">{% trans 'Follow us' %}</h5>
+                            <h4 style="color: #ffffff; font-weight: bold; margin-top: 5vh;">{% trans "Legal" %}</h4>
+                            <ul style="list-style-type: none; padding-left: 0">
+                                <li><a style="color: #d2d1d1;" href="{% url 'econnect:privacy' %}" >{% trans 'Privacy policy' %}</a></li>
+                                <li><a style="color: #d2d1d1;" href="{{ legal_mentions_page }}" >{% trans 'Legal mention' %}</a></li>
+                                <li class="lang-switcher">{% include 'econnect/snippets/language_switcher.html' %}</li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-3 col-xs-4 footer-mobile-adjust">
+                            <h4 style="color: #ffffff; font-weight: bold; margin-top: 5vh;">{% trans 'Follow us' %}</h4>
                             <ul class="social-network social-square">
-                                <li><a href="#" target="_blank" class="icoFacebook" title="Facebook"><i class="fab fa-facebook-square"></i></a></li>
-                                <li><a href="#" target="_blank" class="icoLinkedin" title="LinkedIn"><i class="fab fa-linkedin"></i></a></li>
-                                <li><a href="#" target="_blank" class="icoTwitter" title="Twitter"><i class="fab fa-twitter-square"></i></a></li>
+                                {% if config.facebook_link %}
+                                    <li><a href="{{ config.facebook_link }}" target="_blank" class="icoFacebook" title="Facebook"><i class="fab fa-facebook-square"></i></a></li>
+                                {% endif %}
+                                {% if config.twitter_link %}
+                                    <li><a href="{{ config.twitter_link }}" target="_blank" class="icoTwitter" title="Twitter"><i class="fab fa-twitter-square"></i></a></li>
+                                {% endif %}
+                                {% if config.linkedin_link %}
+                                    <li><a href="{{ config.linkedin_link }}" target="_blank" class="icoLinkedin" title="LinkedIn"><i class="fab fa-linkedin"></i></a></li>
+                                {% endif %}
+                                {% if config.google_plus_link %}
+                                    <li><a href="{{ config.google_plus_link }}" target="_blank" class="icoGoogle+" title="Google+"><i class="fab fa-google-plus-square"></i></a></li>
+                                {% endif %}
+                                {% if config.instagram_link %}
+                                    <li><a href="{{ config.instagram_link }}" target="_blank" class="icoLinkedin" title="Instagram"><i class="fab fa-instagram"></i></a></li>
+                                {% endif %}
                             </ul>
                             <div>
                                 <a href="https://www.google.com/search?q=Creolink Communications" target="_blank">
                                     {% trans "Or on web..." %}
                                 </a>
                             </div>
-                        </div>
-                        <div class="col-sm-3 col-xs-4 footer-mobile-adjust">
-                            <h5 style="color: #ffffff; font-weight: bold; font-size: 2vw; margin-top: 5vh;">{% trans "Legal" %}</h5>
-                            <ul style="font-size: 1.2vw; line-height: 1.7; list-style-type: none; padding-left: 0">
-                                <li><a style="color: #d2d1d1;" href="{% url 'econnect:privacy' %}" >{% trans 'Privacy policy' %}</a></li>
-                                <li><a style="color: #d2d1d1;" href="{{ legal_mentions_page }}" >{% trans 'Legal mention' %}</a></li>
-                                <li>{% include 'econnect/snippets/language_switcher.html' %}</li>
-                            </ul>
                         </div>
                     </div>
                 </div>

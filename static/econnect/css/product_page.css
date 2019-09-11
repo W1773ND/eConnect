@@ -10,7 +10,7 @@ h4.product-description-resume {line-height: 1.5;}
 .package-presentation { border-bottom: 2px solid #DDD; }
 .package-presentation > li.active > a, .package-presentation > li.active > a:focus, .package-presentation > li.active > a:hover { border-width: 0; }
 .package-presentation > li > a {border: none;color: #ffffff;background: #eaeaea;}
-.package-presentation > li > a.nav-tabs-title {border: none;background-color: #009b94;color: #FFF;}
+.package-presentation > li > a.nav-tabs-title {border: none;background-color: #009b94;color: #FFF; pointer-events: none}
 .package-presentation > li.active > a, .package-presentation > li > a:hover { border: none;  color: #eaeaea !important; background: #fff; }
 
 .package-presentation > li.NUMERILINK > a::after { content: ""; background: #009b94; height: 2px; position: absolute; width: 100%; left: 0px; bottom: -1px; transition: all 250ms ease 0s; transform: scale(0); }

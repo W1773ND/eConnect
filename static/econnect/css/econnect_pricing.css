@@ -30,7 +30,7 @@
 .panel-custom-styling:hover, .panel-pack-styling:hover { box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); -webkit-box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); -moz-box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);  transition-duration: .3s; }
 
 .pricing-container {cursor: pointer;padding: 2px 8px;}
-.pricing-menu {display: block;position: sticky;position: -webkit-sticky;top: 10vh;}
+.pricing-menu {display: block;position: sticky;position: -webkit-sticky;top: 15vh;}
 .pricing-title.NUMERILINK { color: #009b94; }
 .pricing-title.HOMELINK { color: #df8568; }
 .pricing-title.OFFICELINK { color: #9aa853; }
@@ -40,7 +40,7 @@
 .pricing-pack.OFFICELINK { background: #9aa853; color: #ffffff; padding: .7vh 1vw; }
 .pricing-pack.CORPORATELINK { background: #008bbf; color: #ffffff; padding: .7vh 1vw; }
 .pricing-pack.small {padding: .7vh .7vw;}
-.pricing-resume {/* margin-top: 10vh; */padding: 0 !important;position: sticky;position: -webkit-sticky;top: 10vh;}
+.pricing-resume {/* margin-top: 10vh; */padding: 0 !important;position: sticky;position: -webkit-sticky;top: 15vh;}
 .pricing-resume-title.NUMERILINK {background-color: #009b94;color: #ffffff;margin: 0 -3vw 3vh;padding:1vh;}
 .pricing-resume-title.HOMELINK {background-color: #df8568;color: #ffffff;margin: 0 -3vw 3vh;padding:1vh;}
 .pricing-resume-title.OFFICELINK {background-color: #9aa853;color: #ffffff;margin: 0px -3vw 3vh;padding:1vh;}

@@ -41,7 +41,47 @@
 </a>
 <strong class="navbar-brand visible-xs">{{ config.company_name }}</strong>
 {% endblock %}
-{% block product_menu %}{% endblock %}
+{% block site_menu %}
+    {{ block.super }}
+    {% block product_menu %}{% endblock %}
+    <div class="navbar-right" style="margin-right: 0; margin-top: -2vh">
+        {% if user.is_authenticated %}
+            {% if user.is_ghost %}
+                <div id="user-menu">
+                    <a class="icon" href="{% url "ikwen:logout" %}?next={% url 'ikwen:register' %}">
+                        <i class="fas fa-user-slash" style="font-size: 22px"></i>
+                    </a>
+                </div>
+            {% else %}
+                <div id="user-menu" class="dropdown">
+                    <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="{% if user.is_staff %}fas fa-user-cog{% else %}fas fa-user{% endif %}"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="user-menu">
+                        <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                        <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
+                        <li>
+                            <a href="{% url 'econnect:my_creolink' %}">My Creolink</a>
+                        </li>
+                        <li>
+                            <a href="{{ account_setup_url }}">{% trans "Account setup" %}</a>
+                        </li>
+                        {% if user.is_staff %}
+                            <li>
+                                <a href="{% url 'econnect:admin' %}">Admin</a>
+                            </li>
+                        {% endif %}
+                        <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
+                    </ul>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="hidden-xs">
+                <a href="{% url 'ikwen:sign_in' %}" class=" menu animated fadeIn">{% trans "Login" %}</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
 
 {% block content %}
     <div id="container" class="admin edge-panel-left-container">
@@ -101,7 +141,7 @@
 {% block footer %}
     <footer>
         &copy; {{ year }} <a href="{% url 'econnect:home' %}"><strong>{{ config.company_name }}</strong></a>. {% trans "All rights reserved." %} -
-        <a href="http://www.ikwen.com/legalMentions" style="text-decoration: underline">{% trans "Legal mentions" %}</a>
+        <a href="#" style="text-decoration: underline">{% trans "Legal mentions" %}</a>
     </footer>
 {% endblock %}
 

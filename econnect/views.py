@@ -45,12 +45,12 @@ from echo.views import CampaignBaseView, File, batch_send_mail
 from echo.models import MailCampaign, Balance
 from echo.admin import MailCampaignAdmin
 
-from econnect.admin import ProductAdmin, PackageAdmin, EquipmentAdmin, ExtraAdmin
+from econnect.admin import ProductAdmin, PackageAdmin, EquipmentAdmin, ExtraAdmin, FaqAdmin
 from econnect.forms import OrderForm
 from econnect.models import ADMIN_EMAIL, Subscription, Order, CustomerRequest, Product, Package, Equipment, \
     EquipmentOrderEntry, \
     Extra, RENTAL, PURCHASE, REPORTED, FINISHED, CANCELED, DEVICE_ID, \
-    NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, ANALOG, DIGITAL, ECONNECT
+    NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, ANALOG, DIGITAL, ECONNECT, Faq
 
 import logging
 logger = logging.getLogger('ikwen')
@@ -689,6 +689,7 @@ class Corporatelink(TemplateView):
 class ProductList(HybridListView):
     model = Product
     search_field = 'name'
+    ordering = ('order_of_appearance', )
 
 
 class ChangeProduct(ChangeObjectBase):
@@ -700,6 +701,7 @@ class PackageList(HybridListView):
     model = Package
     list_filter = ('product',)
     search_field = 'name'
+    ordering = ('order_of_appearance', )
 
 
 class ChangePackage(ChangeObjectBase):
@@ -712,6 +714,7 @@ class EquipmentList(HybridListView):
     model = Equipment
     list_filter = ('product',)
     search_field = 'name'
+    ordering = ('order_of_appearance', )
 
 
 class ChangeEquipment(ChangeObjectBase):
@@ -723,11 +726,24 @@ class ExtraList(HybridListView):
     model = Extra
     list_filter = ('product',)
     search_field = 'name'
+    ordering = ('order_of_appearance', )
 
 
 class ChangeExtra(ChangeObjectBase):
     model = Extra
     model_admin = ExtraAdmin
+
+
+class FaqList(HybridListView):
+    model = Faq
+    list_filter = ('product',)
+    search_field = 'question'
+    ordering = ('order_of_appearance', )
+
+
+class ChangeFaq(ChangeObjectBase):
+    model = Faq
+    model_admin = FaqAdmin
 
 
 class PricingNumerilink(PostView):
@@ -737,9 +753,13 @@ class PricingNumerilink(PostView):
         context = super(PricingNumerilink, self).get_context_data(**kwargs)
         order_id = self.request.GET.get('order_id')
         lang = get_language()
-        product = get_object_or_404(Product, name=NUMERIHOME, lang=lang)
+        try:
+            product = Product.objects.get(name=NUMERIHOME, lang=lang)
+        except:
+            product = get_object_or_404(Product, name=NUMERIHOME, lang='en')
         equipment_order_entry_list = []
         extra_id_list = []
+        faq_item_list = []
         equipment_purchase_cost = 0
         for equipment in product.equipment_set.all():
             equipment_purchase_cost += equipment.purchase_cost
@@ -748,6 +768,8 @@ class PricingNumerilink(PostView):
         for extra in product.extra_set.all():
             extra.slug = slugify(extra.name)
             extra.save()
+        for faq_item in product.faq_set.all():
+            faq_item_list.append(faq_item)
         if order_id:
             order = get_object_or_404(Order, pk=order_id)
             for equipment_order_entry in order.equipment_order_entry_list:
@@ -765,6 +787,7 @@ class PricingNumerilink(PostView):
             context['equipment_order_entry'] = equipment_order_entry
             context['extra'] = extra
             context['order'] = order
+        context['faq_item_list'] = faq_item_list
         context['equipment_purchase_cost'] = equipment_purchase_cost
         context['default_equipment_cost'] = product.install_cost + equipment_purchase_cost
         context['product'] = product
@@ -786,6 +809,7 @@ class PricingNumerilinkHotel(PostView):
         digital_package_list = []
         equipment_order_entry_list = []
         extra_id_list = []
+        faq_item_list = []
         equipment_purchase_cost = 0
         for analog_package in product.package_set.filter(type=ANALOG):
             analog_package_list.append(analog_package)
@@ -798,6 +822,8 @@ class PricingNumerilinkHotel(PostView):
         for extra in product.extra_set.all():
             extra.slug = slugify(extra.name)
             extra.save()
+        for faq_item in product.faq_set.all():
+            faq_item_list.append(faq_item)
         if order_id:
             order = get_object_or_404(Order, pk=order_id)
             for equipment_order_entry in order.equipment_order_entry_list:
@@ -815,6 +841,7 @@ class PricingNumerilinkHotel(PostView):
             context['equipment_order_entry'] = equipment_order_entry
             context['extra'] = extra
             context['order'] = order
+        context['faq_item_list'] = faq_item_list
         context['equipment_purchase_cost'] = equipment_purchase_cost
         context['default_equipment_cost'] = product.install_cost + equipment_purchase_cost
         context['product'] = product
@@ -836,6 +863,7 @@ class PricingHomelink(PostView):
             product = get_object_or_404(Product, name=HOME, lang='en')
         equipment_order_entry_list = []
         extra_id_list = []
+        faq_item_list = []
         equipment_purchase_cost = 0
         for equipment in product.equipment_set.all():
             equipment_purchase_cost += equipment.purchase_cost
@@ -844,6 +872,8 @@ class PricingHomelink(PostView):
         for extra in product.extra_set.all():
             extra.slug = slugify(extra.name)
             extra.save()
+        for faq_item in product.faq_set.all():
+            faq_item_list.append(faq_item)
         if order_id:
             order = get_object_or_404(Order, pk=order_id)
             for equipment_order_entry in order.equipment_order_entry_list:
@@ -861,6 +891,7 @@ class PricingHomelink(PostView):
             context['equipment_order_entry'] = equipment_order_entry
             context['extra'] = extra
             context['order'] = order
+        context['faq_item_list'] = faq_item_list
         context['equipment_purchase_cost'] = equipment_purchase_cost
         context['default_equipment_cost'] = product.install_cost + equipment_purchase_cost
         context['product'] = product
@@ -880,6 +911,7 @@ class PricingOfficelink(PostView):
             product = get_object_or_404(Product, name=OFFICE, lang='en')
         equipment_order_entry_list = []
         extra_id_list = []
+        faq_item_list = []
         equipment_purchase_cost = 0
         for equipment in product.equipment_set.all():
             equipment_purchase_cost += equipment.purchase_cost
@@ -888,6 +920,8 @@ class PricingOfficelink(PostView):
         for extra in product.extra_set.all():
             extra.slug = slugify(extra.name)
             extra.save()
+        for faq_item in product.faq_set.all():
+            faq_item_list.append(faq_item)
         if order_id:
             order = get_object_or_404(Order, pk=order_id)
             for equipment_order_entry in order.equipment_order_entry_list:
@@ -905,6 +939,7 @@ class PricingOfficelink(PostView):
             context['equipment_order_entry'] = equipment_order_entry
             context['extra'] = extra
             context['order'] = order
+        context['faq_item_list'] = faq_item_list
         context['equipment_purchase_cost'] = equipment_purchase_cost
         context['default_equipment_cost'] = product.install_cost + equipment_purchase_cost
         context['product'] = product
@@ -924,6 +959,7 @@ class PricingCorporatelink(PostView):
             product = get_object_or_404(Product, name=CORPORATE, lang='en')
         equipment_order_entry_list = []
         extra_id_list = []
+        faq_item_list = []
         equipment_purchase_cost = 0
         for equipment in product.equipment_set.all():
             equipment_purchase_cost += equipment.purchase_cost
@@ -932,6 +968,8 @@ class PricingCorporatelink(PostView):
         for extra in product.extra_set.all():
             extra.slug = slugify(extra.name)
             extra.save()
+        for faq_item in product.faq_set.all():
+            faq_item_list.append(faq_item)
         if order_id:
             order = get_object_or_404(Order, pk=order_id)
             for equipment_order_entry in order.equipment_order_entry_list:
@@ -949,6 +987,7 @@ class PricingCorporatelink(PostView):
             context['equipment_order_entry'] = equipment_order_entry
             context['extra'] = extra
             context['order'] = order
+        context['faq_item_list'] = faq_item_list
         context['equipment_purchase_cost'] = equipment_purchase_cost
         context['default_equipment_cost'] = product.install_cost + equipment_purchase_cost
         context['product'] = product

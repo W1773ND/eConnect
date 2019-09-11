@@ -185,64 +185,24 @@
             <section id="sectionFaq" class="section-faq">
                 <div class="col-lg-12">
                     <h3 class="col-lg-8 section-title">FAQs</h3>
-                    <div id="accordion" role="tablist" aria-multiselectable="true">
-                        <div class="col-lg-6 panel panel-custom" style="cursor: pointer;">
-                            <div class="panel-title faq-title text-center" role="tab" id="headingOne"  data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
-                                <h5 class="mb-0">
-                                <a class="faq-question" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" >
-                                  {% trans "Question 1 ?" %}
-                                </a>
-                              </h5>
-                            </div>
+                    <div id="faq" role="tablist" aria-multiselectable="true">
+                        {% for faq_item in faq_item_list %}
+                            <div class="col-lg-6 panel panel-custom" style="cursor: pointer;">
+                                <div class="panel-title faq-title text-center" role="tab" id="heading{{ faq_item.id }}"  data-toggle="collapse" data-parent="#faq" data-target="#{{ faq_item.id }}">
+                                    <h5 class="mb-0">
+                                    <a class="faq-question" data-toggle="collapse" data-parent="#faq" href="#{{ faq_item.id }}" >
+                                      {{ faq_item.question }}
+                                    </a>
+                                  </h5>
+                                </div>
 
-                            <div id="collapseOne" class="collapse in" role="tabpanel" aria-labelledby="headingOne">
-                                <div class="faq-answer" style="cursor: default">
-                                    {% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est eros, vulputate eget sodales nec, malesuada vel ante. Quisque volutpat risus in dolor sollicitudin a commodo libero suscipit. Nunc ultrices risus ut arcu hendrerit aliquet. Integer sit amet eros eu augue porttitor dictum. Quisque vel ante est, at lacinia tortor. Curabitur lacus purus, malesuada sit amet dapibus ac, placerat id leo. Nullam vel ultrices augue. Donec posuere convallis purus, sit amet imperdiet leo laoreet at. Quisque aliquam, urna non interdum lobortis, leo diam tincidunt lectus, non ultricies quam purus eget quam." %}
+                                <div id="{{ faq_item.id }}" class="collapse {% if forloop.counter == 1 %} in{% endif %}" role="tabpanel" aria-labelledby="heading{{ faq_item.id }}">
+                                    <div class="faq-answer" style="cursor: default">
+                                        {{ faq_item.answer }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6 panel panel-custom" style="cursor: pointer;">
-                            <div class="panel-title faq-title text-center" role="tab" id="headingTwo" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo">
-                                <h5 class="mb-0">
-                                <a class="collapsed faq-question" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                  {% trans "Question 2 ?" %}
-                                </a>
-                              </h5>
-                            </div>
-                            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                <div class="faq-answer" style="cursor: default">
-                                    {% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est eros, vulputate eget sodales nec, malesuada vel ante. Quisque volutpat risus in dolor sollicitudin a commodo libero suscipit. Nunc ultrices risus ut arcu hendrerit aliquet. Integer sit amet eros eu augue porttitor dictum. Quisque vel ante est, at lacinia tortor. Curabitur lacus purus, malesuada sit amet dapibus ac, placerat id leo. Nullam vel ultrices augue. Donec posuere convallis purus, sit amet imperdiet leo laoreet at. Quisque aliquam, urna non interdum lobortis, leo diam tincidunt lectus, non ultricies quam purus eget quam." %}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 panel panel-custom" style="cursor: pointer;">
-                            <div class="panel-title faq-title text-center" role="tab" id="headingThree" data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree">
-                                <h5 class="mb-0">
-                                <a class="collapsed faq-question" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                  {% trans "Question 3 ?" %}
-                                </a>
-                              </h5>
-                            </div>
-                            <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
-                                <div class="faq-answer" style="cursor: default">
-                                    {% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est eros, vulputate eget sodales nec, malesuada vel ante. Quisque volutpat risus in dolor sollicitudin a commodo libero suscipit. Nunc ultrices risus ut arcu hendrerit aliquet. Integer sit amet eros eu augue porttitor dictum. Quisque vel ante est, at lacinia tortor. Curabitur lacus purus, malesuada sit amet dapibus ac, placerat id leo. Nullam vel ultrices augue. Donec posuere convallis purus, sit amet imperdiet leo laoreet at. Quisque aliquam, urna non interdum lobortis, leo diam tincidunt lectus, non ultricies quam purus eget quam." %}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 panel panel-custom" style="cursor: pointer;">
-                            <div class="panel-title faq-title text-center" role="tab" id="headingFour" data-toggle="collapse" data-parent="#accordion" data-target="#collapseFour">
-                                <h5 class="mb-0">
-                                <a class="collapsed faq-question" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                  {% trans "Question 4 ?" %}
-                                </a>
-                              </h5>
-                            </div>
-                            <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour">
-                                <div class="faq-answer" style="cursor: default">
-                                    {% trans "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est eros, vulputate eget sodales nec, malesuada vel ante. Quisque volutpat risus in dolor sollicitudin a commodo libero suscipit. Nunc ultrices risus ut arcu hendrerit aliquet. Integer sit amet eros eu augue porttitor dictum. Quisque vel ante est, at lacinia tortor. Curabitur lacus purus, malesuada sit amet dapibus ac, placerat id leo. Nullam vel ultrices augue. Donec posuere convallis purus, sit amet imperdiet leo laoreet at. Quisque aliquam, urna non interdum lobortis, leo diam tincidunt lectus, non ultricies quam purus eget quam." %}
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </section>

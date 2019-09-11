@@ -41,6 +41,7 @@ body {font-size: 13px;overflow: hidden;}
     float: left;height: 24px;opacity: .5; width: 24px;}
 #selection-control .select-count {float: left; margin-left: 30px}
 #selection-control .actions {float: right}
+#navbar { height: 65px; min-height: 65px}
 #app-nav {background: #fff;/* border-bottom: 1px solid #eee; *//* border-top: 1px solid #eee; */font-weight: 700;height: 45px;margin-top: 47px;padding-top: 10px;position: fixed;width: 100%;z-index: 21;}
 #app-nav .app-name {display: none}
 /*#app-nav .app-logo {float: left;height: 30px;width: 30px;margin-right: 5px;}*/
@@ -65,6 +66,7 @@ div#container.admin {padding-top: 92px;}
 #admin-nav > div > div {padding: 0 10px;}
 #admin-nav .wrapper {padding: 20px 0 90px;}
 #admin-nav .stage {width: 100%;padding: 0 0 200px;}
+.help-navbar { display: none !important;}
 .nav-pills>li>a {padding: 9px 15px;cursor: pointer;font-weight: 700;color: #777;}
 .nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {background: #f6f6f6;color: #333;}
 
@@ -84,7 +86,7 @@ div#container.admin {padding-top: 92px;}
 #app-nav .fas, #app-nav .fa {float: left; font-size: 24px}
 .go-to-website span {float: left;margin-left: 5px;margin-top: 3px;}
 
-#admin-content {padding-top: 15px;min-height: 450px;padding-bottom: 120px;}
+#admin-content {padding-top: 30px;min-height: 450px;padding-bottom: 120px;}
 #admin-content > .container-fluid {padding: 0;padding-bottom: 200px;}
 #admin-content.change-form {padding-top: 0}
 #admin-content.change-form form {clear: both;padding: 15px 15px 90px;}
@@ -242,7 +244,6 @@ footer a {color: #999}
 
 @media (min-width: 768px) {
     #selection-control {height: 65px}
-    #navbar {background: #fff}
     .navbar-header > .container-fluid {padding-left: 0}
     .menu-button {padding: 23px 20px 0 0;}
     .icon-bar {background: #888;}
@@ -254,7 +255,7 @@ footer a {color: #999}
         color: #545454;
     }
     .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus {color: #666}
-    #app-nav {background: #fff; margin-top: 65px;}
+    #app-nav {background: #fff;margin-top: 90px;}
     div#container.admin {padding-top: 110px;}
     .admin-form.center {margin: auto; width: 400px;}
     .admin-form .form-control:not([type=checkbox]) {width: 400px;}
@@ -288,7 +289,7 @@ footer a {color: #999}
     #app-nav .app-logo {margin-top: -5px}
     #app-nav .breadcrumb {/*padding-left: 15px;*/ padding-top: 2px}
     #app-nav .app-name {display: block;float: left;margin-top: 3px;width: 190px;}
-    #admin-nav {top: 110px;}
+    #admin-nav {top: 130px;}
     #admin-content {padding-left: 285px;}
     #stage {width: 100%;}
     #stage .container-fluid {padding: 0}

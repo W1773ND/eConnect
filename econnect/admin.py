@@ -19,6 +19,10 @@ class ExtraAdmin(admin.ModelAdmin):
     fields = ('product', 'name', 'cost',)
 
 
+class FaqAdmin(admin.ModelAdmin):
+    fields = ('product', 'question', 'answer',)
+
+
 class ConfigAdmin(admin.ModelAdmin):
     list_display = ('company_name', 'short_description', 'contact_email', 'contact_phone')
     fieldsets = (
