@@ -30,9 +30,9 @@
 
 {% block content %}
     <section>
-        <div id="section-header-general-view" class="container-fluid container-fluid-custom" style="font-family: Lato,Helvetica,Arial,sans-serif; margin-top: 8vh">
-            <div class="row section-banniere" style="margin-top: 0 !important;">
-                <div class="col-sm-5 col-sm-offset-1" style="padding-top: 35vh">
+        <div id="section-header-general-view" class="container-fluid container-fluid-custom" style="font-family: Lato,Helvetica,Arial,sans-serif; margin-top: 100px">
+            <div class="row section-banniere" style="margin-top: 10px !important;">
+                <div class="col-sm-5 col-sm-offset-1" style="padding-top: 300px">
                   <h2>
                       {{ product.slogan }}
                   </h2>
@@ -80,7 +80,7 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    <a  href='{{ product_url }}' class="btn btn-{{ product.name }} animated pulse infinite" style="margin-top: 20px; min-width: 200px"><strong class="" style="font-size:large;">{% trans "Order now" %}</strong></a>
+                    <a  href='{{ product_url }}' class="btn btn-success animated pulse infinite" style="margin-top: 20px; min-width: 200px"><strong class="" style="font-size:large;">{% trans "Order now" %}</strong></a>
                 </div>
 
             </div>

@@ -41,7 +41,7 @@
             {% url "ikwen:account_setup" as account_setup_url %}
             <div id="navbar" class="navbar navbar-default navbar-static-top">
                 <div class="container-fluid help-navbar hidden-xs" style="">
-                    <span class="help-navbar-phone">{% trans "Need some help? " %}{{ config.contact_phone }}</span>
+                    <span class="help-navbar-phone">{% trans "Need some help? " %}{{ config.contact_phone }}&nbsp;<i class="fab fa-whatsapp" style="color: #28a745; font-size: large"></i></span>
                     <div class="navbar-right" style="margin-right: 0">
                         {% if user.is_authenticated %}
                             {% if user.is_ghost %}
@@ -219,7 +219,7 @@
                 </div>
 
                 <div class="footer-copyright mobile-adjust" style="padding: 3px 0; text-align: center;">
-                    &copy; {{ year }} <a class="company-name" href="{% url 'econnect:home' %}"><strong style="color: #ffffff">{{ config.company_name }}</strong></a>.
+                    &copy; {{ year }} <a class="company-name" href="{% url 'econnect:home' %}"><strong style="color: #ffffff">{{ config.company_name|upper }}</strong></a>.
                 </div>
             </footer>
         {% endblock %}

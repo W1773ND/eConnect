@@ -12,7 +12,7 @@
         <div class="select-count">
             <strong class="value">1</strong> {% trans "Selected" %}
         </div>
-        {% block selection_actions %}{% endblock %}
+{% block selection_actions %}{% endblock %}
     </div>
 {% endblock %}
 
@@ -22,7 +22,7 @@
 {#        <span class="cta app-name">{{ service.app.name|upper }}</span>#}
         <ol class="breadcrumb">
             {% url 'ikwen:staff_router' as admin_home_url %}
-            <li><a href="{{ admin_home_url }}">{{ config.company_name }}</a></li>
+            <li><a href="{{ admin_home_url }}">{{ config.company_name|upper }}</a></li>
             {% block breadcrumb_location %}{% endblock %}
         </ol>
         <a href="{% url 'home' %}" class="go-to-website pull-right" title="{% trans "Go to public website" %}">
@@ -140,7 +140,7 @@
 
 {% block footer %}
     <footer>
-        &copy; {{ year }} <a href="{% url 'econnect:home' %}"><strong>{{ config.company_name }}</strong></a>. {% trans "All rights reserved." %} -
+        &copy; {{ year }} <a href="{% url 'econnect:home' %}"><strong>{{ config.company_name|upper }}</strong></a>. {% trans "All rights reserved." %} -
         <a href="#" style="text-decoration: underline">{% trans "Legal mentions" %}</a>
     </footer>
 {% endblock %}

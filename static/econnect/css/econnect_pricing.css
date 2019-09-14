@@ -41,10 +41,10 @@
 .pricing-pack.CORPORATELINK { background: #008bbf; color: #ffffff; padding: .7vh 1vw; }
 .pricing-pack.small {padding: .7vh .7vw;}
 .pricing-resume {/* margin-top: 10vh; */padding: 0 !important;position: sticky;position: -webkit-sticky;top: 15vh;}
-.pricing-resume-title.NUMERILINK {background-color: #009b94;color: #ffffff;margin: 0 -3vw 3vh;padding:1vh;}
-.pricing-resume-title.HOMELINK {background-color: #df8568;color: #ffffff;margin: 0 -3vw 3vh;padding:1vh;}
-.pricing-resume-title.OFFICELINK {background-color: #9aa853;color: #ffffff;margin: 0px -3vw 3vh;padding:1vh;}
-.pricing-resume-title.CORPORATELINK { background-color: #008bbf; color: #ffffff; margin: 0 -3vw 3vh ; padding:1vh; }
+.pricing-resume-title.NUMERILINK {background-color: #009b94;color: #ffffff;margin: 0 -5vw 3vh;padding:1vh;}
+.pricing-resume-title.HOMELINK {background-color: #df8568;color: #ffffff;margin: 0 -5vw 3vh;padding:1vh;}
+.pricing-resume-title.OFFICELINK {background-color: #9aa853;color: #ffffff;margin: 0px -5vw 3vh;padding:1vh;}
+.pricing-resume-title.CORPORATELINK {background-color: #008bbf;color: #ffffff;margin: 0 -5vw 3vh;padding:1vh;}
 .pricing-value, .pricing-value-tpl { font-weight: 700; margin: 2vh 0 3vh 0 }
 
 .slider-handle { background-color: #009b94; background-image: -webkit-linear-gradient(top,#00280f 0, #183625 100%);
@@ -147,7 +147,7 @@
     .in-page-nav-link { border-bottom: 2px solid #183625 ;border-left: none; }
     .in-page-nav-link.is-active { border-bottom-color: #ffffff; color: #ffffff !important; }
 
-    .pricing-menu {/* height: 60px; */padding: 0.5vh;position: sticky;position: -webkit-sticky;top: 8vh;z-index: 100;}
+    .pricing-menu {/* height: 60px; */padding: 0.5vh;position: sticky;position: -webkit-sticky;top: 14vh;z-index: 100;}
     .panel-pricing-resume.NUMERILINK {width: 92%;margin: auto;}
     .pricing-resume {margin-top: 10vh !important;padding: inherit !important;/* position: inherit; */top: 20vh;}
     .pricing-area { margin-top: 0 !important;}
