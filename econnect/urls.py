@@ -9,16 +9,13 @@ from econnect.views import Admin, HomeView, Numerilink, NumerilinkHotel, Homelin
     PricingNumerilink, PricingNumerilinkHotel, PendingOrderList, PaidOrderList, \
     CustomerRequestList, ChangeProduct, ProductList, ChangePackage, PackageList, EquipmentList, ChangeEquipment, \
     ExtraList, ChangeExtra, PricingOfficelink, PricingHomelink, PricingCorporatelink, Maps, \
-    OrderConfirm, ChangeMailCampaign, ReportedOrderList, About, Legal, Privacy, Offline, CanceledOrderList, FaqList, \
+    OrderConfirm, ChangeMailCampaign, ReportedOrderList, Offline, CanceledOrderList, FaqList, \
     ChangeFaq
 
 urlpatterns = patterns(
     '',
     url(r'^$', HomeView.as_view(), name='home'),
     url(r'^offline.html$', Offline.as_view(), name='offline'),
-    url(r'^about/$', About.as_view(), name='about'),
-    url(r'^legal/$', Legal.as_view(), name='legal'),
-    url(r'^privacy/$', Privacy.as_view(), name='privacy'),
     url(r'^NumerilinkHome/$', Numerilink.as_view(), name='numerilink-home'),
     url(r'^NumerilinkHotel/$', NumerilinkHotel.as_view(), name='numerilink-hotel'),
     url(r'^Officelink/$', Officelink.as_view(), name='officelink'),

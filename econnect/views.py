@@ -994,18 +994,6 @@ class PricingCorporatelink(PostView):
         return context
 
 
-class About(TemplateView):
-    template_name = 'econnect/about.html'
-
-
-class Legal(TemplateView):
-    template_name = 'econnect/legal.html'
-
-
-class Privacy(TemplateView):
-    template_name = 'econnect/privacy.html'
-
-
 class Offline(TemplateView):
     template_name = 'econnect/offline.html'
 

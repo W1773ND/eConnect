@@ -25,7 +25,7 @@
             <li><a href="{{ admin_home_url }}">{{ config.company_name|upper }}</a></li>
             {% block breadcrumb_location %}{% endblock %}
         </ol>
-        <a href="{% url 'home' %}" class="go-to-website pull-right" title="{% trans "Go to public website" %}">
+        <a href="{% url 'home' %}" class="go-to-website pull-right" title="{% trans "Go to website" %}">
 {#            <i class="glyphicon glyphicon-globe"></i>#}
             <i class="fas fa-globe-africa" style="font-size: x-large"></i>
             <span class="hidden-xs pull-right" style="font-weight: 400">{% trans "Go to website" %}</span>
@@ -84,7 +84,7 @@
 {% endblock %}
 
 {% block content %}
-    <div id="container" class="admin edge-panel-left-container">
+    <div id="container" class="admin edge-panel-left-container" style="background-color: #fff">
         {% block admin_nav %}
             <div id="admin-nav" class="edge-panel-left">
                 <div class="wrapper">

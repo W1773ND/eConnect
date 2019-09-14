@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eConnect 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-14 00:58+0100\n"
-"PO-Revision-Date: 2019-09-14 00:59+0100\n"
+"POT-Creation-Date: 2019-09-14 16:41+0100\n"
+"PO-Revision-Date: 2019-09-14 16:30+0100\n"
 "Last-Translator: W177 <wilfriedwillend@gmail.com>\n"
 "Language-Team: IKWEN Trad <contact@ikwen.com>\n"
 "Language: French\n"
@@ -87,153 +87,20 @@ msgstr "Cher"
 msgid "Do more with Creolink Communications !"
 msgstr "Allez plus loin avec Creolink Communications !"
 
-#: econnect/views.py:1074
+#: econnect/views.py:1062
 msgid "Confirm my order now"
 msgstr "Confirmer ma commande"
 
-#: econnect/views.py:1125
+#: econnect/views.py:1113
 msgid "successfully updated"
 msgstr "Mise à jour réussie"
 
-#: econnect/views.py:1128
+#: econnect/views.py:1116
 msgid "successfully created"
 msgstr "Création effectuée"
 
-#: econnect/views.py:1148
+#: econnect/views.py:1136
 msgid "Insufficient Email balance."
-msgstr ""
-
-#: econnect/templates/econnect/about.html:24
-#: econnect/templates/econnect/about.html:34
-#: econnect/templates/econnect/homepage.html:26
-#: econnect/templates/econnect/legal.html:24
-#: econnect/templates/econnect/legal.html:34
-#: econnect/templates/econnect/offline.html:24
-#: econnect/templates/econnect/offline.html:34
-#: econnect/templates/econnect/privacy.html:24
-#: econnect/templates/econnect/privacy.html:34 templates/core/base_bs.html:17
-#: templates/core/base_bs.html.py:18
-msgid "The best of internet, the best of TV"
-msgstr "Le meilleur d'Internet,Le meilleur de la Télé"
-
-#: econnect/templates/econnect/about.html:45
-#: econnect/templates/econnect/legal.html:45
-#: econnect/templates/econnect/offline.html:45
-#: econnect/templates/econnect/privacy.html:45
-msgid "Choose the service you want"
-msgstr "Choisissez le service désiré"
-
-#: econnect/templates/econnect/about.html:65
-#: econnect/templates/econnect/about.html:73
-#: econnect/templates/econnect/legal.html:65
-#: econnect/templates/econnect/legal.html:73
-#: econnect/templates/econnect/offline.html:65
-#: econnect/templates/econnect/offline.html:73
-#: econnect/templates/econnect/privacy.html:65
-#: econnect/templates/econnect/privacy.html:73
-#, python-format
-msgid ""
-"\n"
-"                              <p class=\"mobile-adjust\">"
-"%(product_description)s</p>\n"
-"                              <p class=\"mobile-adjust\"><a class=\"product-"
-"link\" href=\"%(product_url)s\">%(product_cta)s</a></p>\n"
-"                            "
-msgstr ""
-
-#: econnect/templates/econnect/about.html:96
-#: econnect/templates/econnect/legal.html:96
-#: econnect/templates/econnect/offline.html:96
-#: econnect/templates/econnect/privacy.html:96
-#, python-format
-msgid ""
-"\n"
-"                          <p class=\"mobile-adjust\">"
-"%(product_description)s</p>\n"
-"                          <p class=\"mobile-adjust\"><a class=\"product-link"
-"\" href=\"%(product_url)s\">%(product_cta)s</a></p>\n"
-"                      "
-msgstr ""
-
-#: econnect/templates/econnect/about.html:115
-#: econnect/templates/econnect/about.html:133
-#: econnect/templates/econnect/legal.html:115
-#: econnect/templates/econnect/legal.html:133
-#: econnect/templates/econnect/offline.html:115
-#: econnect/templates/econnect/offline.html:133
-#: econnect/templates/econnect/privacy.html:115
-#: econnect/templates/econnect/privacy.html:133
-#, python-format
-msgid ""
-"\n"
-"                    <div class=\"card-right v-align-center\">\n"
-"                        <p class=\"mobile-adjust\">%(product_description)s</"
-"p>\n"
-"                    </div>\n"
-"                </div>\n"
-"                <div class=\"text-center\">\n"
-"                    <a  href='%(product_url)s' class=\"btn btn-outline-"
-"success animated pulse mobile-adjust\" style=\"margin: 2vh 0 3vh 0; height: "
-"45px; min-width: 200px\">%(product_cta)s</a>\n"
-"                </div>\n"
-"\n"
-"                "
-msgstr ""
-
-#: econnect/templates/econnect/about.html:158
-#: econnect/templates/econnect/legal.html:158
-#: econnect/templates/econnect/offline.html:158
-#: econnect/templates/econnect/privacy.html:158
-msgid "Question 1 ?"
-msgstr ""
-
-#: econnect/templates/econnect/about.html:165
-#: econnect/templates/econnect/about.html:179
-#: econnect/templates/econnect/about.html:193
-#: econnect/templates/econnect/about.html:207
-#: econnect/templates/econnect/legal.html:165
-#: econnect/templates/econnect/legal.html:179
-#: econnect/templates/econnect/legal.html:193
-#: econnect/templates/econnect/legal.html:207
-#: econnect/templates/econnect/offline.html:165
-#: econnect/templates/econnect/offline.html:179
-#: econnect/templates/econnect/offline.html:193
-#: econnect/templates/econnect/offline.html:207
-#: econnect/templates/econnect/privacy.html:165
-#: econnect/templates/econnect/privacy.html:179
-#: econnect/templates/econnect/privacy.html:193
-#: econnect/templates/econnect/privacy.html:207
-msgid ""
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est eros, "
-"vulputate eget sodales nec, malesuada vel ante. Quisque volutpat risus in "
-"dolor sollicitudin a commodo libero suscipit. Nunc ultrices risus ut arcu "
-"hendrerit aliquet. Integer sit amet eros eu augue porttitor dictum. Quisque "
-"vel ante est, at lacinia tortor. Curabitur lacus purus, malesuada sit amet "
-"dapibus ac, placerat id leo. Nullam vel ultrices augue. Donec posuere "
-"convallis purus, sit amet imperdiet leo laoreet at. Quisque aliquam, urna "
-"non interdum lobortis, leo diam tincidunt lectus, non ultricies quam purus "
-"eget quam."
-msgstr ""
-
-#: econnect/templates/econnect/about.html:173
-#: econnect/templates/econnect/legal.html:173
-#: econnect/templates/econnect/offline.html:173
-#: econnect/templates/econnect/privacy.html:173
-msgid "Question 2 ?"
-msgstr ""
-
-#: econnect/templates/econnect/about.html:187
-#: econnect/templates/econnect/legal.html:187
-#: econnect/templates/econnect/offline.html:187
-#: econnect/templates/econnect/privacy.html:187
-msgid "Question 3 ?"
-msgstr ""
-
-#: econnect/templates/econnect/about.html:201
-#: econnect/templates/econnect/legal.html:201
-#: econnect/templates/econnect/offline.html:201
-#: econnect/templates/econnect/privacy.html:201
-msgid "Question 4 ?"
 msgstr ""
 
 #: econnect/templates/econnect/corporatelink.html:39
@@ -263,6 +130,13 @@ msgstr "Le meilleur d'Internet,"
 #: econnect/templates/econnect/homepage.html:25
 msgid "the best of TV"
 msgstr "le meilleur de la Télé"
+
+#: econnect/templates/econnect/homepage.html:26
+#: econnect/templates/econnect/offline.html:24
+#: econnect/templates/econnect/offline.html:34 templates/core/base_bs.html:17
+#: templates/core/base_bs.html.py:18
+msgid "The best of internet, the best of TV"
+msgstr "Le meilleur d'Internet,Le meilleur de la Télé"
 
 #: econnect/templates/econnect/homepage.html:36
 #: econnect/templates/econnect/homepage.html:37
@@ -306,7 +180,7 @@ msgid ""
 msgstr ""
 
 #: econnect/templates/econnect/homepage.html:151
-#: templates/core/base_bs.html:322
+#: templates/core/base_bs.html:312
 msgid " Modify my location"
 msgstr "Changer ma localisation"
 
@@ -345,6 +219,84 @@ msgstr "Pack analogique"
 #: econnect/templates/econnect/pricing_numerilink_hotel.html:701
 msgid "Digital pack"
 msgstr "Pack digital"
+
+#: econnect/templates/econnect/offline.html:45
+msgid "Choose the service you want"
+msgstr "Choisissez le service désiré"
+
+#: econnect/templates/econnect/offline.html:65
+#: econnect/templates/econnect/offline.html:73
+#, python-format
+msgid ""
+"\n"
+"                              <p class=\"mobile-adjust\">"
+"%(product_description)s</p>\n"
+"                              <p class=\"mobile-adjust\"><a class=\"product-"
+"link\" href=\"%(product_url)s\">%(product_cta)s</a></p>\n"
+"                            "
+msgstr ""
+
+#: econnect/templates/econnect/offline.html:96
+#, python-format
+msgid ""
+"\n"
+"                          <p class=\"mobile-adjust\">"
+"%(product_description)s</p>\n"
+"                          <p class=\"mobile-adjust\"><a class=\"product-link"
+"\" href=\"%(product_url)s\">%(product_cta)s</a></p>\n"
+"                      "
+msgstr ""
+
+#: econnect/templates/econnect/offline.html:115
+#: econnect/templates/econnect/offline.html:133
+#, python-format
+msgid ""
+"\n"
+"                    <div class=\"card-right v-align-center\">\n"
+"                        <p class=\"mobile-adjust\">%(product_description)s</"
+"p>\n"
+"                    </div>\n"
+"                </div>\n"
+"                <div class=\"text-center\">\n"
+"                    <a  href='%(product_url)s' class=\"btn btn-outline-"
+"success animated pulse mobile-adjust\" style=\"margin: 2vh 0 3vh 0; height: "
+"45px; min-width: 200px\">%(product_cta)s</a>\n"
+"                </div>\n"
+"\n"
+"                "
+msgstr ""
+
+#: econnect/templates/econnect/offline.html:158
+msgid "Question 1 ?"
+msgstr ""
+
+#: econnect/templates/econnect/offline.html:165
+#: econnect/templates/econnect/offline.html:179
+#: econnect/templates/econnect/offline.html:193
+#: econnect/templates/econnect/offline.html:207
+msgid ""
+"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed est eros, "
+"vulputate eget sodales nec, malesuada vel ante. Quisque volutpat risus in "
+"dolor sollicitudin a commodo libero suscipit. Nunc ultrices risus ut arcu "
+"hendrerit aliquet. Integer sit amet eros eu augue porttitor dictum. Quisque "
+"vel ante est, at lacinia tortor. Curabitur lacus purus, malesuada sit amet "
+"dapibus ac, placerat id leo. Nullam vel ultrices augue. Donec posuere "
+"convallis purus, sit amet imperdiet leo laoreet at. Quisque aliquam, urna "
+"non interdum lobortis, leo diam tincidunt lectus, non ultricies quam purus "
+"eget quam."
+msgstr ""
+
+#: econnect/templates/econnect/offline.html:173
+msgid "Question 2 ?"
+msgstr ""
+
+#: econnect/templates/econnect/offline.html:187
+msgid "Question 3 ?"
+msgstr ""
+
+#: econnect/templates/econnect/offline.html:201
+msgid "Question 4 ?"
+msgstr ""
 
 #: econnect/templates/econnect/order_confirm.html:5
 msgid "Order Confirm"
@@ -498,7 +450,7 @@ msgstr "Facture"
 #: econnect/templates/econnect/pricing_numerilink_hotel.html:81
 #: econnect/templates/econnect/pricing_officelink.html:48
 msgid "Choose one below"
-msgstr "Choississez une ci-dessous"
+msgstr "Faites votre choix ci-dessous"
 
 #: econnect/templates/econnect/pricing_corporatelink.html:90
 #: econnect/templates/econnect/pricing_corporatelink.html:162
@@ -1168,11 +1120,16 @@ msgid "Blog"
 msgstr ""
 
 #: econnect/templates/econnect/snippets/edge_panel.html:27
+#: templates/core/base_bs.html:181
+msgid "About Us"
+msgstr "À propos de nous"
+
+#: econnect/templates/econnect/snippets/edge_panel.html:28
 #: templates/core/base_bs.html:188
 msgid "Privacy policy"
 msgstr "Politique de confidentialité"
 
-#: econnect/templates/econnect/snippets/edge_panel.html:28
+#: econnect/templates/econnect/snippets/edge_panel.html:29
 #: templates/core/base_bs.html:189
 msgid "Legal mention"
 msgstr "Mentions légales"
@@ -1825,11 +1782,7 @@ msgstr "Effacer la sélection"
 msgid "Selected"
 msgstr ""
 
-#: templates/core/base_admin.html:28
-msgid "Go to public website"
-msgstr "Aller sur le site Web publique"
-
-#: templates/core/base_admin.html:31
+#: templates/core/base_admin.html:28 templates/core/base_admin.html.py:31
 msgid "Go to website"
 msgstr "Aller sur le site Web"
 
@@ -1892,10 +1845,6 @@ msgstr ""
 msgid "Our Company"
 msgstr "Notre Entreprise"
 
-#: templates/core/base_bs.html:181
-msgid "About Us"
-msgstr "À propos de nous"
-
 #: templates/core/base_bs.html:182
 msgid "Sign In"
 msgstr "Se connecter"
@@ -1908,11 +1857,11 @@ msgstr "Légal"
 msgid "Follow us"
 msgstr "Suivez nous"
 
-#: templates/core/base_bs.html:214
+#: templates/core/base_bs.html:204
 msgid "Or on web..."
 msgstr "Ou sur le Web..."
 
-#: templates/core/base_bs.html:328
+#: templates/core/base_bs.html:318
 msgid "Get started"
 msgstr "Commencer"
 
@@ -2170,6 +2119,9 @@ msgstr ""
 #: templates/shopping/mails/order_notice_with_reward.html:361
 msgid "Collect your gifts now"
 msgstr "Réclamer vos cadeaux maintenant"
+
+#~ msgid "Go to public website"
+#~ msgstr "Aller sur le site Web publique"
 
 #~ msgid "The best of internet,      the best of TV"
 #~ msgstr ""

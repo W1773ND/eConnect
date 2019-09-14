@@ -178,36 +178,26 @@
                             <h4 style="color: #ffffff; font-weight: bold; margin-top: 5vh;">{% trans 'Our Company' %}</h4>
                             <ul style="list-style-type: none; padding-left: 0">
                                 <li><a style="color: #d2d1d1;" href="{% url 'blog:home' %}" target="_blank">Blog</a></li>
-                                <li><a style="color: #d2d1d1;" href="{% url 'econnect:about' %}" >{% trans 'About Us' %}</a></li>
+                                <li><a style="color: #d2d1d1;" href="{{ service.url }}/page/about/" >{% trans 'About Us' %}</a></li>
                                 <li><a style="color: #d2d1d1;" href="{% url 'ikwen:sign_in' %}" >{% trans 'Sign In' %}</a></li>
                             </ul>
                         </div>
                         <div class="col-sm-3 col-xs-4 footer-mobile-adjust">
                             <h4 style="color: #ffffff; font-weight: bold; margin-top: 5vh;">{% trans "Legal" %}</h4>
                             <ul style="list-style-type: none; padding-left: 0">
-                                <li><a style="color: #d2d1d1;" href="{% url 'econnect:privacy' %}" >{% trans 'Privacy policy' %}</a></li>
-                                <li><a style="color: #d2d1d1;" href="{{ legal_mentions_page }}" >{% trans 'Legal mention' %}</a></li>
+                                <li><a style="color: #d2d1d1;" href="{{ service.url }}/page/privacy/" >{% trans 'Privacy policy' %}</a></li>
+                                <li><a style="color: #d2d1d1;" href="{{ service.url }}/page/legal-mentions/" >{% trans 'Legal mention' %}</a></li>
                                 <li class="lang-switcher">{% include 'econnect/snippets/language_switcher.html' %}</li>
                             </ul>
                         </div>
                         <div class="col-sm-3 col-xs-4 footer-mobile-adjust">
                             <h4 style="color: #ffffff; font-weight: bold; margin-top: 5vh;">{% trans 'Follow us' %}</h4>
                             <ul class="social-network social-square">
-                                {% if config.facebook_link %}
-                                    <li><a href="{{ config.facebook_link }}" target="_blank" class="icoFacebook" title="Facebook"><i class="fab fa-facebook-square"></i></a></li>
-                                {% endif %}
-                                {% if config.twitter_link %}
-                                    <li><a href="{{ config.twitter_link }}" target="_blank" class="icoTwitter" title="Twitter"><i class="fab fa-twitter-square"></i></a></li>
-                                {% endif %}
-                                {% if config.linkedin_link %}
-                                    <li><a href="{{ config.linkedin_link }}" target="_blank" class="icoLinkedin" title="LinkedIn"><i class="fab fa-linkedin"></i></a></li>
-                                {% endif %}
-                                {% if config.google_plus_link %}
-                                    <li><a href="{{ config.google_plus_link }}" target="_blank" class="icoGoogle+" title="Google+"><i class="fab fa-google-plus-square"></i></a></li>
-                                {% endif %}
-                                {% if config.instagram_link %}
-                                    <li><a href="{{ config.instagram_link }}" target="_blank" class="icoLinkedin" title="Instagram"><i class="fab fa-instagram"></i></a></li>
-                                {% endif %}
+                                {% if config.facebook_link %}<li><a href="{{ config.facebook_link }}" target="_blank" class="icoFacebook" title="Facebook"><i class="fab fa-facebook-square"></i></a></li>{% endif %}
+                                {% if config.twitter_link %}<li><a href="{{ config.twitter_link }}" target="_blank" class="icoTwitter" title="Twitter"><i class="fab fa-twitter-square"></i></a></li>{% endif %}
+                                {% if config.linkedin_link %}<li><a href="{{ config.linkedin_link }}" target="_blank" class="icoLinkedin" title="LinkedIn"><i class="fab fa-linkedin"></i></a></li>{% endif %}
+                                {% if config.google_plus_link %}<li><a href="{{ config.google_plus_link }}" target="_blank" class="icoGoogle+" title="Google+"><i class="fab fa-google-plus-square"></i></a></li>{% endif %}
+                                {% if config.instagram_link %}<li><a href="{{ config.instagram_link }}" target="_blank" class="icoLinkedin" title="Instagram"><i class="fab fa-instagram"></i></a></li>{% endif %}
                             </ul>
                             <div>
                                 <a href="https://www.google.com/search?q=Creolink Communications" target="_blank">

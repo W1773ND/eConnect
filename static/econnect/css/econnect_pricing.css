@@ -14,7 +14,7 @@
 .invoice-items-cost.CORPORATELINK { color: #008bbf; font-size: 1.5em; font-weight: 700; padding-bottom: 4vh; }
 
 .callout-container {background-color: inherit; margin-left: 0; width: 100%; z-index: 2; }
-.callout-container:hover {margin-left: -50%; width: 200%; z-index: 5; border: 1px solid transparent; border-radius: 4px; position: absolute; box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); transition-duration: 0.5s }
+.callout-container:hover {margin-left: -50%; width: 200%; z-index: 5; border: 1px solid transparent; border-radius: 4px; position: absolute; box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);/* transition-duration: 0.5s */}
 .callout-container.active:hover { margin-left: 0; width: 100%; z-index: 5;}
 .callout-item {display: none;}
 .container-fluid-custom {margin-left: 0 !important;margin-right: 0 !important;}

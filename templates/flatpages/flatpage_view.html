@@ -1,0 +1,15 @@
+{% extends "core/base_bs.html" %}
+{% load i18n staticfiles %}
+{% block page_title %}<title>{{ service.project_name }} - {{ page.title  }} </title>{% endblock %}
+{% block content %}
+    <div id="content" class="container">
+        <h3 style="margin: 60px 0 30px">{{ page.title }}</h3>
+        <div>
+            {{ page.content|safe }}
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    {{ block.super }}
+    {{ config.scripts|safe }}
+{% endblock %}

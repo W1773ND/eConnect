@@ -24,17 +24,20 @@
                 <li><a href="{% url 'econnect:home' %}">{% trans "Home" %}</a></li>
                 <li><a href="{% url 'blog:home' %}">{% trans 'Blog' %}</a> </li>
                 <div class="divider"></div>
-                <li><a style="color: #d2d1d1;" href="{% url 'econnect:privacy' %}" >{% trans 'Privacy policy' %}</a></li>
-                <li><a style="color: #d2d1d1;" href="{% url 'econnect:legal' %}" >{% trans 'Legal mention' %}</a></li>
+                <li><a style="color: #d2d1d1;" href="{{ service.url }}/page/about/" >{% trans 'About Us' %}</a></li>
+                <li><a style="color: #d2d1d1;" href="{{ service.url }}/page/privacy/" >{% trans 'Privacy policy' %}</a></li>
+                <li><a style="color: #d2d1d1;" href="{{ service.url }}/page/legal-mentions/" >{% trans 'Legal mention' %}</a></li>
                 {% if agreement_page %}
 {#                            <li><a href="{% url 'flatpage' agreement_page.url %}">{{ agreement_page.title }}</a></li>#}
                 {% endif %}
             </ul>
             <div class="clearfix"></div>
             <div class="social-icon">
-                {% if config.facebook_link %}<a href="{{ config.facebook_link }}" target="_blank"><i class="fab fa-facebook-square"></i></a>{% endif %}
-                {% if config.linkedin_link %}<a href="{{ config.linkedin_link }}" target="_blank"><i class="fab fa-linkedin"></i></a>{% endif %}
-                {% if config.twitter_link %}<a href="{{ config.twitter_link }}" target="_blank"><i class="fab fa-twitter-square"></i></a>{% endif %}
+                {% if config.facebook_link %}<li><a href="{{ config.facebook_link }}" target="_blank" class="icoFacebook" title="Facebook"><i class="fab fa-facebook-square"></i></a></li>{% endif %}
+                {% if config.twitter_link %}<li><a href="{{ config.twitter_link }}" target="_blank" class="icoTwitter" title="Twitter"><i class="fab fa-twitter-square"></i></a></li>{% endif %}
+                {% if config.linkedin_link %}<li><a href="{{ config.linkedin_link }}" target="_blank" class="icoLinkedin" title="LinkedIn"><i class="fab fa-linkedin"></i></a></li>{% endif %}
+                {% if config.google_plus_link %}<li><a href="{{ config.google_plus_link }}" target="_blank" class="icoGoogle+" title="Google+"><i class="fab fa-google-plus-square"></i></a></li>{% endif %}
+                {% if config.instagram_link %}<li><a href="{{ config.instagram_link }}" target="_blank" class="icoLinkedin" title="Instagram"><i class="fab fa-instagram"></i></a></li>{% endif %}
             </div>
             <div class="language-switcher text-center">
                 {% include 'econnect/snippets/language_switcher.html' %}
