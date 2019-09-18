@@ -164,6 +164,24 @@ class Faq(Model):
         return self.product
 
 
+class Advertisement(Model):
+    UPLOAD_TO = 'econnect/'
+    lang = models.CharField(max_length=10, choices=LANG_CHOICES, default=EN, verbose_name="Language")
+    title = models.CharField(max_length=240)
+    description = models.TextField()
+    cta_label = models.CharField(max_length=30, verbose_name="Call-to-action")
+    cta_url = models.URLField(verbose_name="Call-to-action URL")
+    image = models.ImageField(blank=True, null=True, upload_to=UPLOAD_TO,
+                              help_text="500 x 500px ; will appear on homepage")
+    order_of_appearance = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return self.title
+
+    def get_obj_details(self):
+        return self.description
+
+
 class CustomerRequest(Model):
     member = models.ForeignKey(Member, related_name='+')
     name = models.CharField(max_length=250)

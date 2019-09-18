@@ -23,6 +23,10 @@ class FaqAdmin(admin.ModelAdmin):
     fields = ('product', 'question', 'answer',)
 
 
+class AdvertisementAdmin(admin.ModelAdmin):
+    fields = ('title', 'description', 'cta_label', 'cta_url', 'lang')
+
+
 class ConfigAdmin(admin.ModelAdmin):
     list_display = ('company_name', 'short_description', 'contact_email', 'contact_phone')
     fieldsets = (

@@ -94,7 +94,7 @@
                                 <a class="navbar-brand navbar-brand-screen img-default hidden-xs" href="{% url 'econnect:home' %}">
                                     <img src="{% static "econnect/img/creolink_logo.png" %}">
                                 </a>
-                                <a href="{% url 'econnect:home' %}"><strong class="navbar-brand visible-xs">{{ config.company_name }}</strong></a>
+                                <a href="{% url 'econnect:home' %}"><strong class="navbar-brand visible-xs">{{ config.company_name|upper }}</strong></a>
                             {% endblock %}
                             {% block site_menu_xs %}
                                 <nav class="visible-xs pull-right">
@@ -169,12 +169,12 @@
             <footer class="footer">
                 <div class="container">
                     <div class="row" style="margin-bottom: 15px">
-                        <div class="col-sm-3" style="margin-top: 4vh; text-align: center;">
+                        <div class="col-sm-3" style="margin-top: 4vh;">
                             <a href="{% url 'econnect:home' %}">
                                 <img class="footer-mobile-adjust" src="{% static 'econnect/img/creolink_logo_portrait_white.png' %}" style="max-width: 5vw;"/>
                             </a>
                         </div>
-                        <div class="col-sm-3 col-xs-4 footer-mobile-adjust">
+                        <div class="col-sm-3 col-xs-10 footer-mobile-adjust">
                             <h4 style="color: #ffffff; font-weight: bold; margin-top: 5vh;">{% trans 'Our Company' %}</h4>
                             <ul style="list-style-type: none; padding-left: 0">
                                 <li><a style="color: #d2d1d1;" href="{% url 'blog:home' %}" target="_blank">Blog</a></li>
@@ -182,15 +182,15 @@
                                 <li><a style="color: #d2d1d1;" href="{% url 'ikwen:sign_in' %}" >{% trans 'Sign In' %}</a></li>
                             </ul>
                         </div>
-                        <div class="col-sm-3 col-xs-4 footer-mobile-adjust">
+                        <div class="col-sm-3 col-xs-10 footer-mobile-adjust">
                             <h4 style="color: #ffffff; font-weight: bold; margin-top: 5vh;">{% trans "Legal" %}</h4>
                             <ul style="list-style-type: none; padding-left: 0">
                                 <li><a style="color: #d2d1d1;" href="{{ service.url }}/page/privacy/" >{% trans 'Privacy policy' %}</a></li>
                                 <li><a style="color: #d2d1d1;" href="{{ service.url }}/page/legal-mentions/" >{% trans 'Legal mention' %}</a></li>
-                                <li class="lang-switcher">{% include 'econnect/snippets/language_switcher.html' %}</li>
+                                <li class="lang-switcher hidden-xs">{% include 'econnect/snippets/language_switcher.html' %}</li>
                             </ul>
                         </div>
-                        <div class="col-sm-3 col-xs-4 footer-mobile-adjust">
+                        <div class="col-sm-3 col-xs-10 footer-mobile-adjust">
                             <h4 style="color: #ffffff; font-weight: bold; margin-top: 5vh;">{% trans 'Follow us' %}</h4>
                             <ul class="social-network social-square">
                                 {% if config.facebook_link %}<li><a href="{{ config.facebook_link }}" target="_blank" class="icoFacebook" title="Facebook"><i class="fab fa-facebook-square"></i></a></li>{% endif %}
@@ -203,6 +203,9 @@
                                 <a href="https://www.google.com/search?q=Creolink Communications" target="_blank">
                                     {% trans "Or on web..." %}
                                 </a>
+                            </div>
+                            <div>
+                                <span class="lang-switcher visible-xs">{% include 'econnect/snippets/language_switcher.html' %}</span>
                             </div>
                         </div>
                     </div>

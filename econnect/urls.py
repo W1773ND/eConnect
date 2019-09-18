@@ -10,7 +10,7 @@ from econnect.views import Admin, HomeView, Numerilink, NumerilinkHotel, Homelin
     CustomerRequestList, ChangeProduct, ProductList, ChangePackage, PackageList, EquipmentList, ChangeEquipment, \
     ExtraList, ChangeExtra, PricingOfficelink, PricingHomelink, PricingCorporatelink, Maps, \
     OrderConfirm, ChangeMailCampaign, ReportedOrderList, Offline, CanceledOrderList, FaqList, \
-    ChangeFaq
+    ChangeFaq, ChangeAdvertisement, AdvertisementList
 
 urlpatterns = patterns(
     '',
@@ -46,6 +46,9 @@ urlpatterns = patterns(
     url(r'^faqs/$', permission_required('econnect.ik_econnect_admin')(FaqList.as_view()), name='faq_list'),
     url(r'^faq/$', permission_required('econnect.ik_econnect_admin')(ChangeFaq.as_view()), name='change_faq'),
     url(r'^faq/(?P<object_id>[-\w]+)/$', permission_required('econnect.ik_econnect_admin')(ChangeFaq.as_view()), name='change_faq'),
+    url(r'^advertisements/$', permission_required('econnect.ik_econnect_admin')(AdvertisementList.as_view()), name='advertisement_list'),
+    url(r'^advertisement/$', permission_required('econnect.ik_econnect_admin')(ChangeAdvertisement.as_view()), name='change_advertisement'),
+    url(r'^advertisement/(?P<object_id>[-\w]+)/$', permission_required('econnect.ik_econnect_admin')(ChangeAdvertisement.as_view()), name='change_advertisement'),
     url(r'^admin/pendingOrder$', permission_required('econnect.ik_econnect_admin')(PendingOrderList.as_view()), name='pending_order'),
     url(r'^admin/paidOrder$', permission_required('econnect.ik_econnect_admin')(PaidOrderList.as_view()), name='paid_order'),
     url(r'^admin/reportedOrder$', permission_required('econnect.ik_econnect_admin')(ReportedOrderList.as_view()), name='reported_order'),

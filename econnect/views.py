@@ -45,12 +45,12 @@ from echo.views import CampaignBaseView, File, batch_send_mail
 from echo.models import MailCampaign, Balance
 from echo.admin import MailCampaignAdmin
 
-from econnect.admin import ProductAdmin, PackageAdmin, EquipmentAdmin, ExtraAdmin, FaqAdmin
+from econnect.admin import ProductAdmin, PackageAdmin, EquipmentAdmin, ExtraAdmin, FaqAdmin, AdvertisementAdmin
 from econnect.forms import OrderForm
 from econnect.models import ADMIN_EMAIL, Subscription, Order, CustomerRequest, Product, Package, Equipment, \
     EquipmentOrderEntry, \
     Extra, RENTAL, PURCHASE, REPORTED, FINISHED, CANCELED, DEVICE_ID, \
-    NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, ANALOG, DIGITAL, ECONNECT, Faq
+    NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, ANALOG, DIGITAL, ECONNECT, Faq, Advertisement
 
 import logging
 logger = logging.getLogger('ikwen')
@@ -484,6 +484,7 @@ class HomeView(TemplateView):
         context = super(HomeView, self).get_context_data(**kwargs)
         lang = get_language()
         product_list = []
+        advertisement_list = []
         if Product.objects.filter(lang=lang).count() < Product.objects.filter(lang='en').count():
             lang = 'en'
         for product in Product.objects.filter(lang=lang).exclude(name=NUMERIHOTEL):
@@ -495,8 +496,13 @@ class HomeView(TemplateView):
             product_numeri_hotel = get_object_or_404(Product, name=NUMERIHOTEL, lang='en')
         product_numeri_hotel.slug = slugify(product_numeri_hotel.name)
         product_numeri_hotel.url = reverse('econnect:' + product_numeri_hotel.slug)
+        if Advertisement.objects.filter(lang=lang).count() < Advertisement.objects.filter(lang='en').count():
+            lang = 'en'
+        for advertisement in Advertisement.objects.filter(lang=lang):
+            advertisement_list.append(advertisement)
         context['product_list'] = product_list
         context['product_numeri_hotel'] = product_numeri_hotel
+        context['advertisement_list'] = advertisement_list
         return context
 
     def get(self, request, *args, **kwargs):
@@ -744,6 +750,17 @@ class FaqList(HybridListView):
 class ChangeFaq(ChangeObjectBase):
     model = Faq
     model_admin = FaqAdmin
+
+
+class AdvertisementList(HybridListView):
+    model = Advertisement
+    ordering = ('order_of_appearance', )
+
+
+class ChangeAdvertisement(ChangeObjectBase):
+    model = Advertisement
+    model_admin = AdvertisementAdmin
+    label_field = 'cta_label'
 
 
 class PricingNumerilink(PostView):

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eConnect 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-14 16:41+0100\n"
-"PO-Revision-Date: 2019-09-14 16:30+0100\n"
+"POT-Creation-Date: 2019-09-17 21:23+0100\n"
+"PO-Revision-Date: 2019-09-17 21:34+0100\n"
 "Last-Translator: W177 <wilfriedwillend@gmail.com>\n"
 "Language-Team: IKWEN Trad <contact@ikwen.com>\n"
 "Language: French\n"
@@ -27,19 +27,19 @@ msgstr ""
 msgid "French"
 msgstr "Français"
 
-#: econnect/admin.py:29
+#: econnect/admin.py:33
 msgid "General"
 msgstr "Générale"
 
-#: econnect/admin.py:30
+#: econnect/admin.py:34
 msgid "Address & Contact"
 msgstr "Adresse & Contact"
 
-#: econnect/admin.py:31
+#: econnect/admin.py:35
 msgid "Social"
 msgstr ""
 
-#: econnect/admin.py:33
+#: econnect/admin.py:37
 msgid "Mailing"
 msgstr ""
 
@@ -83,23 +83,23 @@ msgstr "Client"
 msgid "Dear "
 msgstr "Cher"
 
-#: econnect/views.py:536
+#: econnect/views.py:542
 msgid "Do more with Creolink Communications !"
 msgstr "Allez plus loin avec Creolink Communications !"
 
-#: econnect/views.py:1062
+#: econnect/views.py:1079
 msgid "Confirm my order now"
 msgstr "Confirmer ma commande"
 
-#: econnect/views.py:1113
+#: econnect/views.py:1130
 msgid "successfully updated"
 msgstr "Mise à jour réussie"
 
-#: econnect/views.py:1116
+#: econnect/views.py:1133
 msgid "successfully created"
 msgstr "Création effectuée"
 
-#: econnect/views.py:1136
+#: econnect/views.py:1153
 msgid "Insufficient Email balance."
 msgstr ""
 
@@ -109,7 +109,7 @@ msgstr ""
 #: econnect/templates/econnect/homelink.html:39
 #: econnect/templates/econnect/homelink.html:47
 #: econnect/templates/econnect/homelink.html:83
-#: econnect/templates/econnect/homepage.html:158
+#: econnect/templates/econnect/homepage.html:216
 #: econnect/templates/econnect/numerilink_home.html:39
 #: econnect/templates/econnect/numerilink_home.html:47
 #: econnect/templates/econnect/numerilink_home.html:83
@@ -123,27 +123,27 @@ msgstr ""
 msgid "Order now"
 msgstr "Passer une commande"
 
-#: econnect/templates/econnect/homepage.html:24
+#: econnect/templates/econnect/homepage.html:30
 msgid "The best of internet,"
 msgstr "Le meilleur d'Internet,"
 
-#: econnect/templates/econnect/homepage.html:25
+#: econnect/templates/econnect/homepage.html:31
 msgid "the best of TV"
 msgstr "le meilleur de la Télé"
 
-#: econnect/templates/econnect/homepage.html:26
+#: econnect/templates/econnect/homepage.html:32
 #: econnect/templates/econnect/offline.html:24
 #: econnect/templates/econnect/offline.html:34 templates/core/base_bs.html:17
 #: templates/core/base_bs.html.py:18
 msgid "The best of internet, the best of TV"
 msgstr "Le meilleur d'Internet,Le meilleur de la Télé"
 
-#: econnect/templates/econnect/homepage.html:36
-#: econnect/templates/econnect/homepage.html:37
+#: econnect/templates/econnect/homepage.html:42
+#: econnect/templates/econnect/homepage.html:43
 msgid "Everyone can create link with us"
 msgstr "Tout le monde peut créer des liens grâce à nous"
 
-#: econnect/templates/econnect/homepage.html:71
+#: econnect/templates/econnect/homepage.html:77
 #, python-format
 msgid ""
 "\n"
@@ -151,36 +151,40 @@ msgid ""
 "                        <p class=\"mobile-adjust\">%(product_description)s</"
 "p>\n"
 "                    </div>\n"
-"                    <div class=\"pull-right\">\n"
-"                        <a  href='%(product_url)s' class=\"btn btn-success "
+"                    <a  href='%(product_url)s' class=\"btn btn-success "
 "animated pulse mobile-adjust\" style=\"margin: 2vh 0 3vh 0; height: 45px; "
 "min-width: 200px\">%(product_cta)s</a>\n"
-"                    </div>\n"
 "                </div>\n"
-"\n"
-"\n"
 "                "
 msgstr ""
 
-#: econnect/templates/econnect/homepage.html:92
+#: econnect/templates/econnect/homepage.html:94
 #, python-format
 msgid ""
 "\n"
 "                    <div class=\"card-right v-align-center\">\n"
 "                        <p >%(product_description)s</p>\n"
 "                    </div>\n"
-"                    <div class=\"pull-right\">\n"
-"                        <a  href='%(product_url)s' class=\"btn btn-success "
+"                    <a  href='%(product_url)s' class=\"btn btn-success "
 "animated pulse mobile-adjust\" style=\"margin: 2vh 0 3vh 0; height: 45px; "
 "min-width: 200px\">%(product_cta)s</a>\n"
-"                    </div>\n"
 "                </div>\n"
 "\n"
 "                "
 msgstr ""
 
-#: econnect/templates/econnect/homepage.html:151
-#: templates/core/base_bs.html:312
+#: econnect/templates/econnect/homepage.html:108
+#: econnect/templates/econnect/homepage.html:109
+msgid "Do more with"
+msgstr "Aller  plus loin avec"
+
+#: econnect/templates/econnect/homepage.html:114
+#: econnect/templates/econnect/homepage.html:137
+msgid "Shoplink Website"
+msgstr "https://shoplink.ikwen.com"
+
+#: econnect/templates/econnect/homepage.html:209
+#: templates/core/base_bs.html:315
 msgid " Modify my location"
 msgstr "Changer ma localisation"
 
@@ -835,7 +839,7 @@ msgstr ""
 
 #: econnect/templates/econnect/admin/change_mailcampaign.html:205
 msgid "Call-to-action button title"
-msgstr ""
+msgstr "Titre du bouton d'action"
 
 #: econnect/templates/econnect/admin/change_mailcampaign.html:207
 msgid "Ex: Buy now"
@@ -1115,7 +1119,7 @@ msgid "My Creolink"
 msgstr "Mon Creolink"
 
 #: econnect/templates/econnect/snippets/edge_panel.html:25
-#: templates/core/app_base_admin.html:124
+#: templates/core/app_base_admin.html:127
 msgid "Blog"
 msgstr ""
 
@@ -1140,7 +1144,7 @@ msgstr "Veuillez entrer votre email avant de continuer...."
 
 #: econnect/templates/econnect/snippets/language_switcher.html:6
 msgid "Language"
-msgstr ""
+msgstr "Langue"
 
 #: econnect/templates/econnect/snippets/set_location_header.html:18
 msgid "Get the best of Internet and TV"
@@ -1148,7 +1152,7 @@ msgstr "Obtenez le meilleur d'Internet et de la Télé"
 
 #: econnect/templates/econnect/snippets/set_location_modal.html:8
 msgid "Please set your location before proceeding..."
-msgstr "Veuillez donner vote localisation avant de continuer..."
+msgstr "Veuillez donner votre localisation avant de continuer..."
 
 #: templates/accesscontrol/account.html:5
 #: templates/accesscontrol/account.html:48
@@ -1169,7 +1173,7 @@ msgstr "Changer"
 
 #: templates/accesscontrol/account.html:64
 msgid "Name not set"
-msgstr ""
+msgstr "Le nom n'est pas défini"
 
 #: templates/accesscontrol/account.html:65
 #: templates/accesscontrol/account.html:87
@@ -1733,44 +1737,48 @@ msgstr ""
 msgid "Faq"
 msgstr ""
 
-#: templates/core/app_base_admin.html:91
+#: templates/core/app_base_admin.html:87
+msgid "Advertisement"
+msgstr "Publicité"
+
+#: templates/core/app_base_admin.html:94
 msgid "Billing"
 msgstr "Facturation"
 
-#: templates/core/app_base_admin.html:97
+#: templates/core/app_base_admin.html:100
 msgid "Subscriptions"
 msgstr "Abonnements"
 
-#: templates/core/app_base_admin.html:102
+#: templates/core/app_base_admin.html:105
 msgid "Customer invoices"
 msgstr "Factures des clients"
 
-#: templates/core/app_base_admin.html:105
+#: templates/core/app_base_admin.html:108
 msgid "Payments"
 msgstr "Paiements"
 
-#: templates/core/app_base_admin.html:110 templates/core/base_admin.html:122
+#: templates/core/app_base_admin.html:113 templates/core/base_admin.html:122
 #: templates/core/configuration.html:23
 msgid "Configuration"
 msgstr ""
 
-#: templates/core/app_base_admin.html:113
+#: templates/core/app_base_admin.html:116
 msgid "Payment means"
 msgstr "Moyens de paiement"
 
-#: templates/core/app_base_admin.html:117
+#: templates/core/app_base_admin.html:120
 msgid "My invoices"
 msgstr "Mes factures"
 
-#: templates/core/app_base_admin.html:129
+#: templates/core/app_base_admin.html:132
 msgid "Blog categories"
 msgstr "Catégories du blog"
 
-#: templates/core/app_base_admin.html:132
+#: templates/core/app_base_admin.html:135
 msgid "Posts"
 msgstr "Articles"
 
-#: templates/core/app_base_admin.html:136
+#: templates/core/app_base_admin.html:139
 msgid "Comments"
 msgstr "Commentaires"
 
@@ -1839,7 +1847,7 @@ msgstr ""
 
 #: templates/core/base_bs.html:151
 msgid "NumeriLink Hotel"
-msgstr ""
+msgstr "NumeriLink Hôtel"
 
 #: templates/core/base_bs.html:178
 msgid "Our Company"
@@ -1861,7 +1869,7 @@ msgstr "Suivez nous"
 msgid "Or on web..."
 msgstr "Ou sur le Web..."
 
-#: templates/core/base_bs.html:318
+#: templates/core/base_bs.html:321
 msgid "Get started"
 msgstr "Commencer"
 
@@ -2028,7 +2036,7 @@ msgstr ""
 #: templates/shopping/mails/order_notice.html:287
 #: templates/shopping/mails/order_notice_with_reward.html:473
 msgid "Deliver to"
-msgstr ""
+msgstr "Livrer à"
 
 #: templates/shopping/mails/order_notice.html:291
 #: templates/shopping/mails/order_notice_with_reward.html:477
@@ -2048,17 +2056,17 @@ msgstr ""
 #: templates/shopping/mails/order_notice.html:366
 #: templates/shopping/mails/order_notice_with_reward.html:553
 msgid "Price"
-msgstr ""
+msgstr "Prix"
 
 #: templates/shopping/mails/order_notice.html:367
 #: templates/shopping/mails/order_notice_with_reward.html:554
 msgid "Quantity"
-msgstr ""
+msgstr "Quantité"
 
 #: templates/shopping/mails/order_notice.html:368
 #: templates/shopping/mails/order_notice_with_reward.html:555
 msgid "Subtotal"
-msgstr ""
+msgstr "Sous-total"
 
 #: templates/shopping/mails/order_notice.html:429
 #: templates/shopping/mails/order_notice_with_reward.html:616
@@ -2120,8 +2128,29 @@ msgstr ""
 msgid "Collect your gifts now"
 msgstr "Réclamer vos cadeaux maintenant"
 
-#~ msgid "Go to public website"
-#~ msgstr "Aller sur le site Web publique"
+#~ msgid "ACCESSORIES"
+#~ msgstr "ACCESSOIRES"
+
+#~ msgid "Take a look at our itech accessories"
+#~ msgstr "Jetez un oeil à nos accessoires itech"
+
+#~ msgid "Take a look at our itech accessory"
+#~ msgstr "Jetez un oeil à nos accessoires itech"
+
+#~ msgid "Shop accessory"
+#~ msgstr "Acheter accessoires"
+
+#~ msgid "Get the phone of your dreams"
+#~ msgstr "Achetez le smartphone de vos rêves"
+
+#~ msgid "Shop phones"
+#~ msgstr "Acheter smartphone"
+
+#~ msgid "PHONES"
+#~ msgstr "SMARTPHONES"
+
+#~ msgid "Phones"
+#~ msgstr "Téléphones"
 
 #~ msgid "The best of internet,      the best of TV"
 #~ msgstr ""

@@ -22,17 +22,18 @@ section {margin: 5vh 0;}
 .fa-chevron-circle-up { color: darkgreen; }
 .front, .back { cursor: pointer; }
 .front-ribbon {bottom: 0;background-color: rgba(255, 255, 255, 0.7);position: absolute;width: 100%;}
+.front-ribbon-green {bottom: 0;background-color: rgba(40, 167, 69, 0.7);position: absolute;width: 100%;}
 /*.front-ribbon {background: #28a7457a;bottom: 0vh;color: white;height: 7vh;position: absolute;width: 100%;}*/
 .ribbon-label { font-weight: 600; margin: auto; }
 
-.img-features{ }
+.shoplink-product .img {background: no-repeat center; background-origin: content-box; background-size: cover}
+.shoplink-product .btn {margin: 2vh auto !important; min-width: 200px}
 
 .panel-custom {border-color: #ecf0f1;padding: 0vh 2vh 1vh 2vh !important;position: relative !important;width: 100%;}
 .panel-pack {border-color: #ecf0f1;/* padding: 0vh 2vh 1vh 2vh !important; */position: relative !important;margin-right: 2vw;}
 .panel-title { line-height: 1.6 !important }
 .product-description { margin: 5vh 0 0 0; }
 .product-title { margin: 3vh 0 0 0; }
-.picto-features{ max-width: 100px; }
 
 .no-border { border: none !important; }
 
@@ -140,7 +141,7 @@ section {margin: 5vh 0;}
 
 /* Media query */
 
-@media( min-width: 768px ){
+@media only screen and ( min-width: 768px ){
   .card .card-left{ float: left; padding: 0 8px 0 0; }
   .card .card-right{ float: left; padding: 0 0 0 8px; }
 
@@ -158,6 +159,11 @@ section {margin: 5vh 0;}
 
   .card .card-8-4 .card-left{ width: 66.66666667%; }
   .card .card-8-4 .card-right{ width: 33.33333333%; }
+
+ /* .img.accessory { background-image: url("../img/music_girl-sqare.png") }
+  .img.phone { background-image: url("../img/find-x.png") }*/
+  .shoplink-product .desc {min-height: 300px;}
+  .shoplink-product .item {padding: 5vh 5vw;}
 }
 
 @media all and (max-width: 980px) {

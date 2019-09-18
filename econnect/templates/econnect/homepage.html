@@ -11,6 +11,12 @@
     <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/homepage.css' %}">
     <style>
         div#email-error {display: none}
+
+    @media only screen and ( min-width: 768px ){
+        {% for advertisement in advertisement_list %}
+            .img.{{ advertisement.cta_label|slugify }} { background-image: url({% get_media_prefix %}{{ advertisement.image }}) }
+        {% endfor %}
+    }
     </style>
 {% endblock %}
 
@@ -32,7 +38,7 @@
             </div>
         </div>
     </div>
-    <section style="padding-bottom: 20vh">
+    <section>
         <h2 class="title-section visible-lg text-center">{% trans "Everyone can create link with us" %}</h2>
         <h3 class="title-section hidden-lg text-center">{% trans "Everyone can create link with us" %}</h3>
         <br>
@@ -72,12 +78,8 @@
                     <div class="card-right v-align-center">
                         <p class="mobile-adjust">{{ product_description }}</p>
                     </div>
-                    <div class="pull-right">
-                        <a  href='{{product_url}}' class="btn btn-success animated pulse mobile-adjust" style="margin: 2vh 0 3vh 0; height: 45px; min-width: 200px">{{ product_cta }}</a>
-                    </div>
+                    <a  href='{{product_url}}' class="btn btn-success animated pulse mobile-adjust" style="margin: 2vh 0 3vh 0; height: 45px; min-width: 200px">{{ product_cta }}</a>
                 </div>
-
-
                 {% endblocktrans %}
             </div>
             {% for product in product_list %}
@@ -93,15 +95,71 @@
                     <div class="card-right v-align-center">
                         <p >{{ product_description }}</p>
                     </div>
-                    <div class="pull-right">
-                        <a  href='{{product_url}}' class="btn btn-success animated pulse mobile-adjust" style="margin: 2vh 0 3vh 0; height: 45px; min-width: 200px">{{ product_cta }}</a>
-                    </div>
+                    <a  href='{{product_url}}' class="btn btn-success animated pulse mobile-adjust" style="margin: 2vh 0 3vh 0; height: 45px; min-width: 200px">{{ product_cta }}</a>
                 </div>
 
                 {% endblocktrans %}
             </div>
             {% endfor %}
         </div>
+    </section>
+    <section style="padding-bottom: 10vh">
+        <div class="container shoplink-product">
+            <h3 class="hidden-xs" style=" background-color: #28a745; background-size: contain; color: #FFF ; margin-bottom: 5vh; padding: 1vh 1vh">{% trans "Do more with" %} <b>{{ config.company_name|upper }}...</b></h3>
+            <h4 class="visible-xs" style=" background-color: #28a745; background-size: contain; color: #FFF; line-height: 1.5;  margin-bottom: 5vh; padding: 1vh 1vh">{% trans "Do more with" %}<br> <b>{{ config.company_name|upper }}</b></h4>
+            {% for advertisement in advertisement_list %}
+                {% if forloop.counter|divisibleby:"2" %}
+                    <div class="row" style="padding-bottom: 10vh">
+                        <div class="col-sm-6 item">
+                            <img class="img-responsive visible-xs" src="{% get_media_prefix %}{{ advertisement.image.name }}" alt="{% trans "Shoplink Website" %}" style="max-height: 300px">
+                            <h2 class="hidden-xs">{{ advertisement.title }}</h2>
+                            <h3 class="visible-xs">{{ advertisement.title }}</h3>
+                            <div class="desc">
+                                <p style="color: #464646; text-align: justify">
+                                    {{ advertisement.description }}
+                                </p>
+                                <a class="btn btn-success" href="{{ advertisement.cta_url }}" target="_blank"><b>{{ advertisement.cta_label }}</b></a>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 item img {{ advertisement.cta_label|slugify }}">
+                            <h2 class="hidden-xs" style="visibility: hidden">{{ advertisement.title }}</h2>
+                            <div class="hidden-xs desc" style="visibility: hidden">
+                                <p style="color: #464646; text-align: justify; visibility: hidden">
+                                    {{ advertisement.description }}
+                                </p>
+                                <a class="btn btn-success hidden-xs" href="{{ advertisement.cta_url }}" target="_blank">{{ advertisement.cta_label }}</a>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="row" style="padding-bottom: 10vh">
+                        <div class="col-sm-6 item img {{ advertisement.cta_label|slugify }}">
+                            <img class="img-responsive visible-xs" src="{% get_media_prefix %}{{ advertisement.image.name }}" alt="{% trans "Shoplink Website" %}" style="max-height: 300px">
+                            <h2 class="hidden-xs" style="visibility: hidden">{{ advertisement.title }}</h2>
+                            <div class="hidden-xs desc" style="visibility: hidden">
+                                <p style="color: #464646; text-align: justify; visibility: hidden">
+                                    {{ advertisement.description }}
+                                </p>
+                                <a class="btn btn-success hidden-xs" href="{{ advertisement.cta_url }}" target="_blank">{{ advertisement.cta_label }}</a>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 item">
+                            <h2 class="hidden-xs">{{ advertisement.title }}</h2>
+                            <h3 class="visible-xs">{{ advertisement.title }}</h3>
+                            <div class="desc">
+                                <p style="color: #464646; text-align: justify">
+                                    {{ advertisement.description }}
+                                </p>
+                                <a class="btn btn-success" href="{{ advertisement.cta_url }}" target="_blank"><b>{{ advertisement.cta_label }}</b></a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+
+        </div>
+
     </section>
     <a class="js-scrollTo back-to-top hiding" href="#section-header-general-view" style="text-decoration: none; color: #3F3F3F">
         <i class="fa fa-chevron-circle-up"></i>
