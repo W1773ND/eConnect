@@ -160,8 +160,6 @@ section {margin: 5vh 0;}
   .card .card-8-4 .card-left{ width: 66.66666667%; }
   .card .card-8-4 .card-right{ width: 33.33333333%; }
 
- /* .img.accessory { background-image: url("../img/music_girl-sqare.png") }
-  .img.phone { background-image: url("../img/find-x.png") }*/
   .shoplink-product .desc {min-height: 300px;}
   .shoplink-product .item {padding: 5vh 5vw;}
 }

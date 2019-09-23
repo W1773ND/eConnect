@@ -13,16 +13,16 @@
     <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/econnect_pricing.css' %}?v=1">
     <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/product_page.css' %}">
     <style>
-        .section-banniere {
-            background: url("{% static 'econnect/img/econnect-banniere-top.jpg' %}") center center;
+        .section-banniere-top {
+            background: url("{% get_media_prefix %}{{ product.cover }}") center center no-repeat;
             -webkit-background-size: cover;
             -moz-background-size: cover;
             -o-background-size: cover;
             background-size: cover;
-            box-shadow:inset 0 0 0 2000px rgba(18, 43, 44, 0.67);
-            color: white;
+            {#box-shadow:inset 0 0 0 2000px rgba(108, 102, 113, 0.35);#}
+            color: #000;
             height: 500px;
-            margin-top: 6.5vh !important;
+            position: relative;
         }
         div#email-error {display: none}
     </style>
@@ -30,12 +30,27 @@
 
 {% block content %}
     <section>
-        <div id="section-header-general-view" class="container-fluid container-fluid-custom" style="font-family: Lato,Helvetica,Arial,sans-serif; margin-top: 100px">
-            <div class="row section-banniere" style="margin-top: 10px !important;">
-                <div class="col-sm-5 col-sm-offset-1" style="padding-top: 35vh">
-                  <h2>
+        <div id="section-header-general-view" class="container-fluid container-fluid-custom" style="font-family: Lato,Helvetica,Arial,sans-serif;">
+            <div class="row section-banniere-top" style="margin-top: 10px">
+                <div class="col-sm-7 catchy hidden-xs">
+                    <h2 class="slogan-mobile text-center visible-xs">
                       {{ product.slogan }}
-                  </h2>
+                    </h2>
+                    <h1 class="catchy-title">
+                      {{ product.catchy_title }}
+                    </h1>
+                    <h2>
+                      {{ product.catchy|safe }}
+                    </h2>
+                    <a  href='{{ product_url }}' class="btn btn-success animated pulse" style="margin-top: 20px; min-width: 200px"><strong class="" style="font-size:large;">{% trans "Order now" %}</strong></a>
+                </div>
+                <div class="slogan hidden-xs">
+                    <h1><em>{{ product.slogan }}</em></h1>
+                </div>
+                <div class="visible-xs">
+                    <h2 class="slogan-mobile text-center">
+                      {{ product.slogan }}
+                    </h2>
                     <a  href='{{ product_url }}' class="btn btn-success animated pulse" style="margin-top: 20px; min-width: 200px"><strong class="" style="font-size:large;">{% trans "Order now" %}</strong></a>
                 </div>
             </div>

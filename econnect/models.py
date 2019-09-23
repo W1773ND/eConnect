@@ -55,7 +55,8 @@ class Product(ModelI18n):
     slug = models.CharField(max_length=250)
     slogan = models.CharField(max_length=250)
     description = models.TextField(blank=True, null=True)
-    catchy = models.TextField(blank=True, null=True)
+    catchy_title = models.CharField(max_length=250, help_text="Title for banner appear on product and pricing page")
+    catchy = models.TextField(blank=True, null=True, help_text="Text for banner appear on product and pricing page")
     cta_label = models.CharField(max_length=30, verbose_name="Call-to-action")
     install_cost = models.IntegerField(default=0)
     logo = models.ImageField(blank=True, null=True, upload_to=UPLOAD_TO,
