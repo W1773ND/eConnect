@@ -228,9 +228,13 @@ class OrderConfirm(TemplateView):
 class PendingOrderList(HybridListView):
     template_name = 'econnect/admin/order_list.html'
     html_results_template_name = 'econnect/admin/snippets/order_list_results.html'
+    embed_doc_template_name = 'econnect/admin/snippets/order_list_results.html'
     queryset = Order.objects.exclude(status__in=[REPORTED, Invoice.PAID, FINISHED, CANCELED])
     search_field = 'member'
-    list_filter = ('created_on', 'status')
+    list_filter = (
+        ('created_on', _('Date')),
+        ('status', _('Status'))
+    )
     context_object_name = 'order'
 
     def get(self, request, *args, **kwargs):
@@ -466,6 +470,16 @@ class CanceledOrderList(HybridListView):
 
 class Admin(TemplateView):
     template_name = 'econnect/admin/admin_home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(Admin, self).get_context_data(**kwargs)
+        pending_order_list = Order.objects.filter(status=PENDING)
+        paid_order_list = Order.objects.filter(status=Invoice.PAID)
+        reported_order_list = Order.objects.filter(status=REPORTED)
+        context['pending_order_list'] = pending_order_list
+        context['paid_order_list'] = paid_order_list
+        context['reported_order_list'] = reported_order_list
+        return context
 
 
 class CustomerRequestList(HybridListView):

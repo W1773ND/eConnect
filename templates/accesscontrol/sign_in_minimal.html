@@ -126,7 +126,7 @@
                     <button id="continue" class="btn btn-outline-primary btn-block btn-md continue" type="button"> {% trans "Continue" %} </button>
                     <button id="submit" class="btn btn-outline-success btn-block btn-md cta" type="submit"> {% trans "Submit" %} </button>
                     {% url 'ikwen:forgotten_password' as forgotten_password_url %}
-                    <a class="forgotten-pwd" href="{{ forgotten_password_url|ikwenize }}">{% trans "Forgotten password ?" %}</a>
+                    <a class="forgotten-pwd" href="{{ forgotten_password_url}}">{% trans "Forgotten password ?" %}</a>
                     <div class="clearfix"></div>
                 </div>
             </form>

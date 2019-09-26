@@ -54,15 +54,14 @@
 .slogan { color: #FFF; bottom: 20px; right: 50px; position: absolute;
         text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #6c6671, 0 0 40px #6c6671, 0 0 50px #6c6671, 0 0 60px #6c6671, 0 0 70px #6c6671;
         }
-.slogan-mobile { color: #FFF; bottom: 20px; right: 40px; position: absolute;
-        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #6c6671, 0 0 40px #6c6671, 0 0 50px #6c6671, 0 0 60px #6c6671, 0 0 70px #6c6671; }
 
 #section-header-general-view {margin-top: 100px;}
 .catchy-title { font-weight: 700 }
-.section-banniere-top .catchy {background: -moz-linear-gradient(left,  rgba(255,255,255,1) 0%, rgba(255,255,255,0.6) 88%, rgba(255,255,255,0) 100%);
-                                background: -webkit-linear-gradient(left,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.6) 88%,rgba(255,255,255,0) 100%);
-                                background: linear-gradient(to right,  rgba(255,255,255,1) 0%,rgba(255,255,255,0.6) 88%,rgba(255,255,255,0) 100%);
-                                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=1 );
+.section-banniere-top .catchy {background: -moz-linear-gradient(left,  rgba(255,255,255,1) 0%, rgba(255,255,255,1) 15%, rgba(255,255,255,0) 100%);
+background: -webkit-linear-gradient(left,  rgba(255,255,255,1) 0%,rgba(255,255,255,1) 15%,rgba(255,255,255,0) 100%);
+background: linear-gradient(to right,  rgba(255,255,255,1) 0%,rgba(255,255,255,1) 15%,rgba(255,255,255,0) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=1 );
+
                                 height: 100%;padding-top: 100px;}
 .section-banniere-top { padding-bottom: 0 }
 .section-features-text { padding-top: 10vh; }
@@ -125,9 +124,11 @@
 
 /* Small Devices, Tablets */
 @media only screen and (max-width : 767px) {
+    .catchy-title { position: absolute; bottom: 100px }
     #section-header-general-view {margin-top: inherit}
-    .section-banniere-top .catchy { padding-top: 15vh }
-    .slogan-mobile { color: #FFF; text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #6c6671, 0 0 40px #6c6671, 0 0 50px #6c6671, 0 0 60px #6c6671, 0 0 70px #6c6671; }
+    .section-banniere-top { height: 300px !important;}
+    .section-banniere-top .catchy {padding-top: 110px;}
+    .section-banniere-top .btn-cta { bottom: 30px; position: absolute }
 
 }
 
@@ -146,7 +147,7 @@
     .in-page-nav-link { border-bottom: 2px solid #183625 ;border-left: none; }
     .in-page-nav-link.is-active { border-bottom-color: #ffffff; color: #ffffff !important; }
 
-    .pricing-menu {/* height: 60px; */padding: 0.5vh;position: sticky;position: -webkit-sticky;top: 14vh;z-index: 100;}
+    .pricing-menu {height: 60px;padding: 0.5vh;position: sticky;position: -webkit-sticky;top: 9vh;z-index: 100;}
     .panel-pricing-resume.NUMERILINK {width: 92%;margin: auto;}
     .pricing-resume {margin-top: 10vh !important;padding: inherit !important;/* position: inherit; */top: 20vh;}
     .pricing-area { margin-top: 0 !important;}

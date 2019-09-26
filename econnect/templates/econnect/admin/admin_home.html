@@ -7,7 +7,6 @@
 
 {% block head_style %}
     {{ block.super }}
-    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link href="{% static 'econnect/css/admin_home.css' %}" rel="stylesheet">
 {% endblock %}
 
@@ -29,7 +28,7 @@
                             <img class="img-circle img-thumbnail" src="{% static 'ikwen/img/login-avatar.jpg' %}" style="margin-top: 1vh;">
                         {% endif %}
                         <img class="img-square img-thumbnail" src="{% static 'ikwen/img/login-avatar.jpg' %}" style="margin-top: 1vh;">{% endcomment %}
-                        <h2 class="welcome-title">{% trans "Welcome " %} {{ user.first_name }}</h2>
+                        <h2 class="welcome-title">{% trans "Welcome " %} {{ user.last_name }}</h2>
                         <h5 class="col-xs-12 welcome-subtitle"> {% trans "Manage your platform, your customer wallet and your relaunch campaigns to make the most of your services" %}</h5>
                     </div>
                     <div class="clearfix"></div>
@@ -54,11 +53,9 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <a href="{% url 'econnect:pending_order' %}" class="btn btn-outline-success" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Pending orders" %}</a>
-                        <a href="{% url 'econnect:paid_order' %}" class="btn btn-outline-success" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Paid orders" %}</a>
-                        <a href="{% url 'econnect:reported_order' %}" class="btn btn-outline-success" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Reported orders" %}</a>
-{#                        <a href="{% url 'econnect:admin_request' %}" class="btn btn-outline-success" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Manage requests" %}</a>#}
-{#                        <a href="{% url 'econnect:admin_payment' %}" class="btn btn-outline-success" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Manage payment" %}</a>#}
+                        <a href="{% url 'econnect:pending_order' %}" class="btn btn-outline-success" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Pending orders" %}{% if pending_order_list.count > 0 %}<span class="badge badge-danger animated infinite glow">{{ pending_order_list.count }}{% endif %}</span> </a>
+                        <a href="{% url 'econnect:paid_order' %}" class="btn btn-outline-success" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Paid orders" %}{% if paid_order_list.count > 0 %}<span class="badge badge-danger animated infinite glow">{{ paid_order_list.count }}</span>{% endif %}</a>
+                        <a href="{% url 'econnect:reported_order' %}" class="btn btn-outline-success" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Reported orders" %}{% if reported_order_list.count > 0 %}<span class="badge badge-danger animated infinite glow">{{ reported_order_list.count }}</span>{% endif %}</a>
                     </div>
                 </div>
                 <div class="card-section subtle-shade">
@@ -162,8 +159,8 @@
                         <a href="{% url 'ikwen:configuration' %}" class="btn btn-outline-success" role="button" style="margin-bottom: 1vh;">{% trans "Configure your website" %}</a>
                     </div>
                 </div>
-{#                <div class="clearfix"></div>#}
-                {% comment %}<div class=" card-section subtle-shade">
+                {% comment %}<div class="clearfix"></div>
+                <div class=" card-section subtle-shade">
                     <h4 class="card-section-title">{% trans "Customer retention program" %}</h4>
                     <div class="row-card-section">
                         <div class="col-md-4 col-md-offset-1 card-img">
@@ -185,8 +182,8 @@
                         <a href="{% url 'rewarding:configuration' %}" class="btn btn-outline-success" role="button" style="margin-bottom: 1vh;">{% trans "Create coupons" %}</a>
                     </div>
                 </div>{% endcomment %}
-{#                <div class="clearfix"></div>#}
-                {% comment %}<div class=" card-section subtle-shade">
+                {% comment %}<div class="clearfix"></div>
+                <div class=" card-section subtle-shade">
                     <h4 class="card-section-title">{% trans "Promotions" %}</h4>
                     <div class="row-card-section">
                         <div class="col-md-4 col-md-offset-1 card-img">
@@ -207,9 +204,9 @@
                         <a href="{% url 'sales:promotion_list' %}" class="btn btn-outline-success" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Launch promotion" %}</a>
                         <a href="{% url 'sales:promo_code_list' %}" class="btn btn-outline-success" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Create Coupon code" %}</a>
                     </div>
-                </div>{% endcomment %}
-{#                <div class="clearfix"></div>#}
-                {% if  service.domain_type == 'Sub' %}
+                </div>
+                <div class="clearfix"></div>{% endcomment %}
+                {% comment %}{% if  service.domain_type == 'Sub' %}
                 <div class=" card-section subtle-shade">
                     <h4 class="card-section-title">{% trans "Domain name" %}</h4>
                     <div class="row-card-section">
@@ -228,8 +225,8 @@
                     </div>
                 </div>
 {#                <div class="clearfix"></div>#}
-                {% endif %}
-                <div class=" card-section subtle-shade">
+                {% endif %}{% endcomment %}
+                {% comment %}<div class=" card-section subtle-shade">
                     <h4 class="card-section-title">{% trans "Help & Support" %}</h4>
                     <div class="row-card-section">
                         <div class="col-md-4 col-md-offset-1 card-img">
@@ -252,12 +249,13 @@
                         <a href="{{ service_url }}" class="btn btn-outline-success" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Infographics" %}</a>
                         <a href="{{ service_url }}" class="btn btn-outline-success" role="button" style="margin: 1vh 1vh 1vh 0;">{% trans "Marketing support" %}</a>
                     </div>
-                </div>
+                </div>{% endcomment %}
 {#                <div class="clearfix"></div>#}
 {#                <div class="landscape-optimisation" style="display:none;"></div>#}
             </div>
         </div>
     </div>
+{#    {% include 'econnect/snippets/embedDocs/admin_home_embed_doc.html' %}#}
 {% endblock %}
 
 {% block js %}
@@ -270,6 +268,7 @@
             $('#check-ecommerce-active').change(function() {
                 $.getJSON('', {'action': 'toggle_ecommerce_active'})
             })
-        })()
+        })();
+    embedDoc.initEmbedDoc("{% trans "Remind me later" %}", "{% trans "Got it!" %}", "{% trans "Show Help" %}");
     </script>
 {% endblock %}

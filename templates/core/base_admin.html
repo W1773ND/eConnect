@@ -39,7 +39,7 @@
         <img src="{% static 'econnect/img/creolink_logo.png' %}" class="img-responsive"  style="height: auto; width: 120px"/>
     </span>
 </a>
-<strong class="navbar-brand visible-xs">{{ config.company_name }}</strong>
+<strong class="navbar-brand visible-xs">{{ config.company_name|upper }}</strong>
 {% endblock %}
 {% block site_menu %}
     {{ block.super }}
@@ -53,12 +53,12 @@
                     </a>
                 </div>
             {% else %}
-                <div id="user-menu" class="dropdown">
+                <div id="user-menu" class="dropdown hidden-xs">
                     <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="{% if user.is_staff %}fas fa-user-cog{% else %}fas fa-user{% endif %}"></i>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="user-menu">
-                        <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                        <li style="padding: 3px 20px"> {{ user.full_name }} </li>
                         <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
                         <li>
                             <a href="{% url 'econnect:my_creolink' %}">My Creolink</a>

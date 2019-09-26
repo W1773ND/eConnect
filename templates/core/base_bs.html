@@ -18,8 +18,10 @@
         <meta property="description" content="{% trans "The best of internet, the best of TV" %}" />
 		{% block page_title %}{% endblock %}
 		{% block head_style %}
+            <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/swiper.min.css' %}"/>
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
             <link rel='stylesheet' href="{% static 'ikwen/css/flatly.bootstrap.min.css' %}" />
+            <link rel="stylesheet" type="text/css" href="{% static 'embed-doc/css/embed-doc.css' %}"/>
             <link rel='stylesheet' href="{% static 'econnect/css/base_default.css' %}" />
 		{% endblock %}
         {% block head_js %}
@@ -56,10 +58,10 @@
                                         <i class="{% if user.is_staff %}fas fa-user-cog{% else %}fas fa-user{% endif %}"></i>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="user-menu">
-                                        <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                                        <li style="padding: 3px 20px"> {{ user.full_name }} </li>
                                         <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
                                         <li>
-                                            <a href="{% url 'econnect:my_creolink' %}">My Creolink</a>
+                                            <a href="{% url 'uncompleted_order' %}">My Creolink</a>
                                         </li>
                                         <li>
                                             <a href="{{ account_setup_url }}">{% trans "Account setup" %}</a>
@@ -112,10 +114,10 @@
                                                         <i class="{% if user.is_staff %}fas fa-user-cog{% else %}fas fa-user{% endif %}"></i>
                                                     </a>
                                                     <ul class="dropdown-menu" aria-labelledby="user-menu">
-                                                        <li style="padding: 3px 20px"> {{ user.get_short_name }} </li>
+                                                        <li style="padding: 3px 20px"> {{ user.full_name }} </li>
                                                         <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
                                                         <li>
-                                                            <a href="{% url 'econnect:my_creolink' %}">My Creolink</a>
+                                                            <a href="{% url 'uncompleted_order' %}">My Creolink</a>
                                                         </li>
                                                         <li>
                                                             <a href="{{ account_setup_url }}">{% trans "Account setup" %}</a>
@@ -216,7 +218,9 @@
                 </div>
             </footer>
         {% endblock %}
-        <div class="edge-swipe-overlay"></div>
+{#        <div class="edge-swipe-overlay"></div>#}
+        <script src="{% static 'econnect/js/swiper.min.js' %}" ></script>
+        <script src="{% static 'embed-doc/js/embed-doc.js' %}" ></script>
         <script src="{% static 'ikwen/js/bootstrap.min.js' %}"></script>
         <script src="{% static 'ikwen/hammerjs/hammer.min.js' %}"></script>
         <script src="{% static 'ikwen/hammerjs/jquery.hammer.js' %}"></script>
