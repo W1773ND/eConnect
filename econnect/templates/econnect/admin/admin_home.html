@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <a href="{% url 'econnect:pending_order' %}" class="btn btn-outline-success" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Pending orders" %}{% if pending_order_list.count > 0 %}<span class="badge badge-danger animated infinite glow">{{ pending_order_list.count }}{% endif %}</span> </a>
+                        <a href="{% url 'econnect:pending_order' %}" class="btn btn-outline-success" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Pending orders" %}{% if pending_order_list.count > 0 %}<span class="badge badge-danger animated infinite glow">{{ pending_order_list.count }}</span>{% endif %}</a>
                         <a href="{% url 'econnect:paid_order' %}" class="btn btn-outline-success" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Paid orders" %}{% if paid_order_list.count > 0 %}<span class="badge badge-danger animated infinite glow">{{ paid_order_list.count }}</span>{% endif %}</a>
                         <a href="{% url 'econnect:reported_order' %}" class="btn btn-outline-success" role="button" style="margin:1vh 1vh 1vh 0;">{% trans "Reported orders" %}{% if reported_order_list.count > 0 %}<span class="badge badge-danger animated infinite glow">{{ reported_order_list.count }}</span>{% endif %}</a>
                     </div>
