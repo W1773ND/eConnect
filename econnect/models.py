@@ -195,3 +195,5 @@ class Subscription(AbstractSubscription):
 
 class Config(AbstractConfig):
     payment_delay = models.IntegerField(default=15)
+    notification_email = models.CharField(max_length=250,
+                                          help_text="Set which mailbox should be notified when an order is submit, separate with ','")

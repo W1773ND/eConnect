@@ -199,13 +199,21 @@ class OrderConfirm(TemplateView):
         order.status = PENDING
         order.save()
         member = order.member
+        member_fullname = member.full_name if not member.is_ghost else _('Customer')
+        product_name = order.package.product.name
+        package_name = order.package.name
+        label = product_name + ' [' + package_name + ']'
         lat = order.location_lat
         lng = order.location_lng
+        service = get_service_instance()
+        config = service.config
+        notify_email = [email.strip() for email in config.notification_email.split(',')]
+        admin_url = service.url + reverse('econnect:pending_order')
 
         if getattr(settings, 'DEBUG', False):
             prospect_url = getattr(settings, "LOCAL_MAPS_URL") + 'save_prospect'
             payload = {
-                'customer_name': member.full_name,
+                'customer_name': member_fullname,
                 'lat': lat,
                 'lng': lng,
                 'order_id': order_id,
@@ -214,13 +222,25 @@ class OrderConfirm(TemplateView):
         else:
             prospect_url = getattr(settings, "CREOLINK_MAPS_URL") + 'save_prospect'
             payload = {
-                'customer_name': member.full_name,
+                'customer_name': member_fullname,
                 'lat': lat,
                 'lng': lng,
                 'order_id': order_id
             }
         Thread(target=set_prospect, args=(order, prospect_url, payload)).start()
-
+        try:
+            subject = _("An order was submitted on CREOLINK COMMUNICATIONS website !")
+            html_content = get_mail_content(subject, template_name='econnect/mails/order_submitted.html',
+                                            extra_context={'order_label': label,
+                                                           'member_fullname': member_fullname,
+                                                           'admin_url': admin_url,
+                                                           })
+            sender = 'Creolink Communications <no-reply@creolink.com>'
+            msg = XEmailMessage(subject, html_content, sender, [member.email], notify_email)
+            msg.content_subtype = "html"
+            Thread(target=lambda m: m.send(), args=(msg,)).start()
+        except:
+            logger.error("Mail sending failed", exc_info=True)
         response = {"success": True}
         return HttpResponse(json.dumps(response), 'content-type: text/json')
 
@@ -471,15 +491,9 @@ class CanceledOrderList(HybridListView):
 class Admin(TemplateView):
     template_name = 'econnect/admin/admin_home.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(Admin, self).get_context_data(**kwargs)
-        pending_order_list = Order.objects.filter(status=PENDING)
-        paid_order_list = Order.objects.filter(status=Invoice.PAID)
-        reported_order_list = Order.objects.filter(status=REPORTED)
-        context['pending_order_list'] = pending_order_list
-        context['paid_order_list'] = paid_order_list
-        context['reported_order_list'] = reported_order_list
-        return context
+
+class Dashboard(TemplateView):
+    template_name = 'econnect/admin/dashboard.html'
 
 
 class CustomerRequestList(HybridListView):

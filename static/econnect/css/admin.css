@@ -25,7 +25,8 @@ body {font-size: 13px;overflow: hidden;}
 .btn-default:active:hover {color: #51696b;background: #e6e6e6;border-color: #dce4ec;}
 
 .badge {border-radius: 2px}
-.badge-danger { color: #fff; background-color: #e74c3c; margin-left: 0.5vw; }
+.badge-danger {color: #fff;background-color: #e74c3c;margin-left: 0.5vw !important;}
+.badge-default {color: #fff;background-color: #888F8F;margin-left: 0.5vw !important;}
 
 #selection-control {
     background: #fff;

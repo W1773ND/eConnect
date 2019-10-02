@@ -181,7 +181,10 @@
                             <ul style="list-style-type: none; padding-left: 0">
                                 <li><a style="color: #d2d1d1;" href="{% url 'blog:home' %}" target="_blank">Blog</a></li>
                                 <li><a style="color: #d2d1d1;" href="{{ service.url }}/page/about/" >{% trans 'About Us' %}</a></li>
-                                <li><a style="color: #d2d1d1;" href="{% url 'ikwen:sign_in' %}" >{% trans 'Sign In' %}</a></li>
+                                <li>
+                                    <a style="color: #d2d1d1;" {% if user.is_ananymous %} href="{% url 'ikwen:sign_in' %}" >{% trans 'Sign In' %}
+                                    {% else %} href="{% url 'ikwen:logout' %}" >{% trans 'Logout' %}{% endif %}
+                                    </a></li>
                             </ul>
                         </div>
                         <div class="col-sm-3 col-xs-10 footer-mobile-adjust">
