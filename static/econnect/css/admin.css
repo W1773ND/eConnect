@@ -16,8 +16,8 @@
 /*@import url('https://fonts.googleapis.com/css?family=Ubuntu:300,400,700');*/
 
 body {font-size: 13px;overflow: hidden;}
-.glyphicon.toggle.on {color: #ccc}
-.glyphicon.toggle.off {color: #33c800}
+.fas.toggle.on {color: #ccc}
+.fas.toggle.off {color: #33c800}
 .verify {border: 1px solid #e74c3c} /* Highlights form errors (Check performed by javascript) */
 .spinner {background: rgba(255, 255, 255, .6);height: 100%;left: 0;padding-top: 20%;position: fixed;top: 0;width: 100%; z-index: 10000}
 .btn-default {color: #51696b;background: none;border-color: #dce4ec;}
@@ -98,14 +98,16 @@ div#container.admin {padding-top: 92px;}
 #admin-content.change-form h3 {font-size: 18px; font-weight: 700}
 #admin-content.change-form h3:first-of-type {margin-top: 0}
 
+.fas {display: inline-block;position: relative;top: 1px;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;}
+
 #admin-tools {background: #fff;clear: both;padding: 0 15px;position: fixed;width: 100%;z-index: 11}
 #admin-tools input, #admin-tools select {border: 1px solid #ddd;font-size: 13px;padding-left: 40px;}
-#admin-tools .btn.action .glyphicon {float: left;margin: 1px 10px 0 0;}
+#admin-tools .btn.action .fas {float: left;margin: 1px 10px 0 0;}
 #admin-tools .btn.filter {padding-left: 30px;}
 #admin-tools-form {float: left}
-#admin-tools-form .glyphicon-search {margin-right: -26px;margin-left: 9px;}
-.filter-trigger > .glyphicon-filter {float: left;margin: 10px -24px 0 12px;}
-#admin-tools-form .glyphicon-menu-left {display: none}
+#admin-tools-form .fa-search {font-size: 15px;margin-right: -26px;margin-left: 9px;}
+.filter-trigger > .fa-filter {float: left; font-size: 15px; margin: 10px -24px 0 12px;}
+#admin-tools-form .fa-chevron-left {display: none}
 
 #page-navigation {margin: 30px 0 0;float: right;}
 #page-navigation > div {float: left}
@@ -224,9 +226,9 @@ footer a {color: #999}
     #admin-content > .container-fluid {padding: 0}
     #app-nav .breadcrumb li:not(:last-of-type) {display: none}
     #admin-tools {margin-top: -20px;border-bottom: 1px solid #eee;height: 45px;overflow:auto;padding-top: 13px;}
-    #admin-tools .glyphicon {float: left;font-size: 18px;color: #888;}
-    #admin-tools .btn.action .glyphicon {margin-right: 0}
-    #admin-tools .glyphicon-menu-left {margin: 2px -24px 0 6px;}
+    #admin-tools .fas {float: left;font-size: 18px;color: #888;}
+    #admin-tools .btn.action .fas {margin-right: 0}
+    #admin-tools .fa-chevron-left {margin: 2px -24px 0 6px;}
     #admin-tools .tool {display: none}
     #admin-tools input, #admin-tools select, #admin-tools .btn {border: none;margin-top: -7px; background: none;padding-right: 0;}
     #admin-tools .btn.filter {padding: 9px 9px 6px 40px;}
@@ -235,9 +237,10 @@ footer a {color: #999}
     #admin-tools .btn:active, #admin-tools .btn.active {background: none; color: #545454; box-shadow: none}
     #admin-tools-form {width:90%}
     #admin-tools-form > div {width: 200%}
-    #admin-tools-form .glyphicon-search {margin: 2px 0 0}
+    #admin-tools-form .fa-search {margin: 2px 0 0}
     #results {padding-top: 20px}
-    .filter-trigger > .glyphicon-filter {float: left;margin: 2px 0 0 10px;}
+    .filter-trigger > .fa-filter {float: left;margin: 2px 0 0 10px}
+    .fa-globe-africa { top: 10px !important;}
     .content-tab-list {background: #f8f6f6}
     #admin-tools + .content-tab-list {padding-top: 15px;}
     .content-tab-list + .tab-content {margin-top: 35px;}
@@ -251,7 +254,7 @@ footer a {color: #999}
     .navbar-header > .container-fluid {padding-left: 0}
     .menu-button {padding: 23px 20px 0 0;}
     .icon-bar {background: #888;}
-    .navbar-default .navbar-nav>li>a, #navbar .glyphicon {color: #888;}
+    .navbar-default .navbar-nav>li>a, #navbar .fas {color: #888;}
     .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus { background-color: transparent; color: #28a745 !important;}
     .navbar-default .navbar-brand {color: #888;font-size: 30px;padding-top: 15px;}
     #navbar-search input {

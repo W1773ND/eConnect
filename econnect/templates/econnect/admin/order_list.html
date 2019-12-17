@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'ikwen/ajaxuploader/css/fileuploader.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'embed-doc/css/embed-doc.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/base_default.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/admin.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/admin.css' %}?V=12.17.19.20.16"/>
     <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/econnect_pricing.css' %}"/>
 {% endblock %}
 
@@ -26,14 +26,14 @@
                 <form id="admin-tools-form" onsubmit="return false">
                     <div>
                         <div>
-                            <i class="glyphicon glyphicon-search"></i>
-                            <i class="glyphicon glyphicon-menu-left hide-search back"></i>
+                            <i class="fas fa-search"></i>
+                            <i class="fas fa-chevron-left hide-search back"></i>
                             <input type="text" id="context-search" class="tool search form-input input-sm" placeholder="{% blocktrans %}Search {{ verbose_name }}{% endblocktrans %}"/>
                         </div>
                         {% if filter and filter|length > 0 %}
                             <div class="filter-trigger">
-                                <i class="glyphicon glyphicon-filter"></i>
-                                <i class="glyphicon glyphicon-menu-left hide-filter back"></i>
+                                <i class="fas fa-filter"></i>
+                                <i class="fas fa-chevron-left hide-filter back"></i>
                                 {% for elt in filter %}
                                 <div class="tool filter">
                                     <label for="{{ elt.parameter_name }}" class="sr-only">{% trans elt.title %}</label>
@@ -93,11 +93,11 @@
                         setTimeout(function () {location.reload()}, 2000)
                     }
                     else {
-                        ikwen.showFloatingNotice('Error occurs when sending request, please try again...', '', 3);
+                        ikwen.showFloatingNotice("{% trans "Error occurs when sending request, please try again..." %}", '', 3);
                     }
                 });
             });
-            $('.order-accept').click(function () {
+            $('body').on('click', '.order-accept', function () {
                 let currentOrder = $(this).parents('.event');
                 let orderId = currentOrder.attr('id');
                 let params = {action: 'accept_order', order_id: orderId};
@@ -110,12 +110,11 @@
                         ikwen.showFloatingNotice('{% trans "Order accepted" %}', '', 3)
                     }
                     else {
-                        ikwen.showFloatingNotice('{% trans "Error occurs when accepting this order, please try again..." %}', '', 3);
+                        ikwen.showFloatingNotice("{% trans "Error occurs when accepting this order, please try again..." %}", '', 3);
                         setTimeout(function () {location.reload()}, 2000)
                     }
                 });
-            });
-            $('.order-report').click(function () {
+            }).on('click', '.order-report', function () {
                 let currentOrder = $(this).parents('.event');
                 let orderId = currentOrder.attr('id');
                 let params = {action: 'report_order', order_id: orderId};
@@ -128,12 +127,11 @@
                         ikwen.showFloatingNotice('{% trans "Order reported" %}', '', 3)
                     }
                     else {
-                        ikwen.showFloatingNotice('{% trans "Error occurs when reporting this order, please try again..." %}', '', 3);
+                        ikwen.showFloatingNotice("{% trans "Error occurs when reporting this order, please try again..." %}", '', 3);
                         setTimeout(function () {location.reload()}, 2000)
                     }
                 });
-            });
-            $('.order-finish').click(function () {
+            }).on('click', '.order-finish', function () {
                 let orderId = $(this).parents('.event').attr('id');
                 let params = {action: 'finish_order', order_id: orderId};
                 $.getJSON('', params, function (data) {
@@ -141,12 +139,11 @@
                         ikwen.showFloatingNotice('Order classified', '', 2);
                     }
                     else {
-                        ikwen.showFloatingNotice('{% trans "Error occurs when classifying this order, please try again..." %}', '', 3);
+                        ikwen.showFloatingNotice("{% trans "Error occurs when classifying this order, please try again..." %}", '', 3);
                     }
                 });
                 setTimeout(function () {location.reload()}, 2000)
-            });
-            $('.order-member-email').click(function () {
+            }).on('click', '.order-member-email', function () {
                 {#To-DO: Set Email message to this member#}
             })
         })();

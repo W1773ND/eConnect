@@ -1,7 +1,12 @@
 from django.conf import settings
+from django.db.models import Sum
+
+from ikwen.accesscontrol.models import Member
 from ikwen.core.context_processors import project_settings as ikwen_settings
 from ikwen.core.constants import PENDING, PENDING_FOR_PAYMENT
 from ikwen.billing.models import Invoice
+from ikwen_webnode.blog.views import Comment
+
 
 from econnect.models import Order, REPORTED, CANCELED
 
@@ -14,21 +19,72 @@ def project_settings(request):
     econnect_settings['settings'].update({
         'GOOGLE_MAPS_API_KEY': getattr(settings, 'GOOGLE_MAPS_API_KEY'),
         'CREOLINK_MAPS_URL': getattr(settings, 'CREOLINK_MAPS_URL'),
-        'LOCAL_MAPS_URL': getattr(settings, 'LOCAL_MAPS_URL'),
     })
     return econnect_settings
 
 
 def order_status(order_id):
     order = {}
-    pending_order_list = Order.objects.filter(status=PENDING)
-    pending_for_payment_order_list = Order.objects.filter(status=PENDING_FOR_PAYMENT)
-    paid_order_list = Order.objects.filter(status=Invoice.PAID)
-    reported_order_list = Order.objects.filter(status=REPORTED)
-    canceled_order_list = Order.objects.filter(status=CANCELED)
-    order['pending_order_list'] = pending_order_list
-    order['pending_for_payment_order_list'] = pending_for_payment_order_list
-    order['paid_order_list'] = paid_order_list
-    order['reported_order_list'] = reported_order_list
-    order['canceled_order_list'] = canceled_order_list
+    try:
+        pending_order_qs = Order.objects.filter(status=PENDING)
+        aggr = pending_order_qs.aggregate(Sum('cost'))
+        total_pending_order = {'count': pending_order_qs.count(), 'cost': aggr['cost__sum']}
+    except IndexError:
+        total_pending_order = {'count': 0, 'amount': 0}
+    try:
+        pending_for_payment_order_qs = Order.objects.filter(status=PENDING_FOR_PAYMENT)
+        aggr = pending_for_payment_order_qs.aggregate(Sum('cost'))
+        total_pending_for_payment_order = {'count': pending_for_payment_order_qs.count(), 'cost': aggr['cost__sum']}
+    except IndexError:
+        total_pending_for_payment_order = {'count': 0, 'amount': 0}
+    try:
+        paid_order_qs = Order.objects.filter(status=Invoice.PAID)
+        aggr = paid_order_qs.aggregate(Sum('cost'))
+        total_paid_order = {'count': paid_order_qs.count(), 'cost': aggr['cost__sum']}
+    except IndexError:
+        total_paid_order = {'count': 0, 'amount': 0}
+    try:
+        reported_order_qs = Order.objects.filter(status=REPORTED)
+        aggr = reported_order_qs.aggregate(Sum('cost'))
+        total_reported_order = {'count': reported_order_qs.count(), 'cost': aggr['cost__sum']}
+    except IndexError:
+        total_reported_order = {'count': 0, 'amount': 0}
+    try:
+        canceled_order_qs = Order.objects.filter(status=PENDING)
+        aggr = canceled_order_qs.aggregate(Sum('cost'))
+        total_canceled_order = {'count': canceled_order_qs.count(), 'cost': aggr['cost__sum']}
+    except IndexError:
+        total_canceled_order = {'count': 0, 'amount': 0}
+    order['pending_order'] = total_pending_order
+    order['pending_for_payment_order'] = total_pending_for_payment_order
+    order['paid_order'] = total_paid_order
+    order['reported_order'] = total_reported_order
+    order['canceled_order'] = total_canceled_order
     return order
+
+
+def community_stats(c):
+    community = {}
+    registered_member_count = Member.objects.exclude(is_ghost=True).count()
+    unregistered_member_count = Member.objects.filter(is_ghost=True).count()
+    community['registered_member_count'] = registered_member_count
+    community['unregistered_member_count'] = unregistered_member_count
+    return community
+
+
+def billing_stats(c):
+    billing = {}
+    try:
+        sent_invoice_qs = Invoice.objects.filter(status=Invoice.PENDING)
+        aggr = sent_invoice_qs.aggregate(Sum('amount'))
+        total_sent_invoice = {'count': sent_invoice_qs.count(), 'amount':aggr['amount__sum']}
+    except IndexError:
+        total_sent_invoice = {'count': 0, 'amount': 0}
+    billing['sent_invoice'] = total_sent_invoice
+    return billing
+
+
+def comments(comment_id):
+    comment ={}
+    comment_qs = Comment.objects.all()
+    comment['comment_count'] = comment_qs.count()

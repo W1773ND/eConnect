@@ -43,7 +43,7 @@
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
     <script>
         (function () {
-            var properties = {
+            let properties = {
                 menubar: false,
                 statusbar: false,
                 plugins: [
@@ -57,7 +57,7 @@
                     '//www.tinymce.com/css/codepen.min.css'
                 ]
             };
-            var summaryProperties = properties, descriptionProperties = JSON.parse(JSON.stringify(properties));
+            let summaryProperties = properties, descriptionProperties = JSON.parse(JSON.stringify(properties));
 
             summaryProperties['selector'] = '#id_summary';
             summaryProperties['height'] = 150;

@@ -2,42 +2,40 @@
 {% load i18n humanize static %}
 {% block app_admin_nav %}
     <ul class="nav nav-pills nav-stacked">
-    {% if user.has_permission.ik_view_dashboard %}
-        <li role="presentation" class="menus">
-            <a href="{% url "econnect:dashboard" %}">{% trans 'Dashboard' %}</a>
-        </li>
-    {% endif %}
         <li role="presentation" class="menus">
             <a href="{% url "econnect:admin" %}">{% trans 'Home' %}</a>
         </li>
         <div class="divider"></div>
+        {% if perms.econnect.ik_view_dashboard %}
         <li role="presentation" class="menus">
-            <a href="javascript:;" data-toggle="collapse" data-target="#customerAdmin" {% if pending_order_list.count > 0 or paid_order_list.count > 0 or reported_order_list.count > 5 %}class="animated infinite glow" {% endif %}style="padding-right: 0;">
+            <a href="{% url "econnect:dashboard" %}">{% trans 'Dashboard' %}</a>
+        </li>
+        <div class="divider"></div>
+        {% endif %}
+        {% if perms.econnect.ik_manage_sales %}
+        <li role="presentation" class="menus">
+            <a href="javascript:;" data-toggle="collapse" data-target="#customerAdmin" {% if pending_order.count > 0 or paid_order.count > 0 or reported_order.count > 10 %}class="animated infinite glow" {% endif %}style="padding-right: 0;">
                 {% trans 'Cloud Order Manager' %}
                 <i class="fa fa-fw fa-caret-down"></i>
             </a>
             <ul id="customerAdmin" class="nav nav-pills nav-stacked collapse" style="padding-left: 15px;">
                 <li class="echo-categories">
-                    <a href="{% url "econnect:pending_order" %}">{% trans 'Pending orders' %}{% if pending_order_list.count > 0 %}<span class="badge badge-danger animated glow">{{ pending_order_list.count }}</span>{% endif %}</a>
+                    <a href="{% url "econnect:pending_order" %}">{% trans 'Pending orders' %}{% if pending_order.count > 0 %}<span class="badge badge-danger animated glow">{{ pending_order.count|intcomma }}</span>{% endif %}</a>
                 </li>
                 <li class="echo-categories">
-                    <a href="{% url "econnect:paid_order" %}">{% trans 'Paid orders' %}{% if paid_order_list.count > 0 %}<span class="badge badge-danger animated glow">{{ paid_order_list.count }}</span>{% endif %}</a>
+                    <a href="{% url "econnect:paid_order" %}">{% trans 'Paid orders' %}{% if paid_order.count > 0 %}<span class="badge badge-danger animated glow">{{ paid_order.count|intcomma }}</span>{% endif %}</a>
                 </li>
                 <li class="echo-categories">
-                    <a href="{% url "econnect:reported_order" %}">{% trans 'Reported orders' %}{% if reported_order_list.count > 0 %}<span class="badge badge-danger animated glow">{{ reported_order_list.count }}</span>{% endif %}</a>
+                    <a href="{% url "econnect:reported_order" %}">{% trans 'Reported orders' %}{% if reported_order.count > 0 %}<span class="badge badge-danger animated glow">{{ reported_order.count|intcomma }}</span>{% endif %}</a>
                 </li>
                 <li class="echo-categories">
-                    <a href="{% url "econnect:canceled_order" %}">{% trans 'Canceled orders' %}{% if canceled_order_list.count > 0 %}<span class="badge badge-default animated glow">{{ canceled_order_list.count }}</span>{% endif %}</a>
+                    <a href="{% url "econnect:canceled_order" %}">{% trans 'Canceled orders' %}{% if canceled_order.count > 0 %}<span class="badge badge-default animated glow">{{ canceled_order.count|intcomma }}</span>{% endif %}</a>
                 </li>
-{#                <li class="ccm-categories">#}
-{#                    <a href="{% url "econnect:admin_request" %}">{% trans 'Requests' %}</a>#}
-{#                </li>#}
-{#                <li class="ccm-categories">#}
-{#                    <a href="{% url "econnect:admin_payment" %}">{% trans 'Payments' %}</a>#}
-{#                </li>#}
             </ul>
         </li>
         <div class="divider"></div>
+        {% endif %}
+        {% if perms.econnect.ik_community_manager %}
         <li role="presentation" class="menus">
             <a href="javascript:;" data-toggle="collapse" data-target="#ccm" style="padding-right: 0;">
                 Cloud Customer Manager
@@ -68,6 +66,8 @@
             </ul>
         </li>
         <div class="divider"></div>
+        {% endif %}
+        {% if perms.flatpages.ik_webmaster %}
         <li role="presentation" class="menus">
             <a href="javascript:;" data-toggle="collapse" data-target="#cms" aria-expanded="true" style="padding-right: 0;">
                 {% trans 'Content Management System' %}<i class="fa fa-fw fa-caret-down"></i>
@@ -94,6 +94,8 @@
             </ul>
         </li>
         <div class="divider"></div>
+        {% endif %}
+        {% if perms.econnect.ik_manage_sales %}
         <li role="presentation" class="menus">
             <a href="javascript:;" data-toggle="collapse" data-target="#billing"aria-expanded="true" style="padding-right: 0;">
                 {% trans "Billing" %} <i class="fa fa-fw fa-caret-down"></i>
@@ -127,6 +129,8 @@
             </ul>
         </li>
         <div class="divider"></div>
+        {% endif %}
+        {% if perms.flatpages.ik_webmaster %}
         <li role="presentation" class="menus">
             <a href="javascript:;" data-toggle="collapse" data-target="#blog"aria-expanded="true" style="padding-right: 0;">
                 {% trans "Blog" %} <i class="fa fa-fw fa-caret-down"></i>
@@ -145,5 +149,6 @@
                 </li>
             </ul>
         </li>
+        {% endif %}
     </ul>
 {% endblock %}

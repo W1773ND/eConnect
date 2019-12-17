@@ -2,9 +2,9 @@
 
 
 
-.package-area { margin-top: 10vh }
+/*.package-area { margin-top: 10vh }*/
 div.product-logo { margin-bottom: 5vh }
-div.product-description-resume {margin-bottom: 5vh;}
+div.product-description-resume {margin-bottom: 2vh;}
 h4.product-description-resume {line-height: 1.5;}
 
 .package-presentation { border-bottom: 2px solid #DDD; }

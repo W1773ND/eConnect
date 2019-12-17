@@ -15,7 +15,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Sum
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.utils.http import urlquote
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext as _, get_language, activate
 
 from echo.utils import LOW_MAIL_LIMIT, notify_for_low_messaging_credit, notify_for_empty_messaging_credit
 from ikwen.conf.settings import WALLETS_DB_ALIAS
@@ -50,18 +50,21 @@ def order_set_checkout(request, *args, **kwargs):
     amount = invoice.amount
     model_name = 'billing.Invoice'
     invoice_id = invoice.id
+    signature = ''.join([random.SystemRandom().choice(string.ascii_letters + string.digits) for i in range(16)])
+    lang = get_language()
 
     mean = request.GET.get('mean', MTN_MOMO)
+    MoMoTransaction.objects.using(WALLETS_DB_ALIAS).filter(object_id=invoice_id).delete()
     tx = MoMoTransaction.objects.using(WALLETS_DB_ALIAS) \
         .create(service_id=service.id, type=MoMoTransaction.CASH_OUT, amount=amount, phone='N/A',
-                model=model_name, object_id=invoice_id, wallet=mean, username=buyer, is_running=True)
-    notification_url = service.url + reverse('econnect:confirm_invoice_payment', args=(tx.id, ))
+                model=model_name, object_id=invoice_id, wallet=mean, username=buyer, is_running=True, task_id=signature)
+    notification_url = service.url + reverse('econnect:confirm_invoice_payment', args=(tx.id, signature, lang))
     cancel_url = service.url + reverse('econnect:my_creolink')  # Orange Money only
     return_url = service.url + reverse('billing:invoice_detail', args=(invoice.id,))
-    gateway_url = getattr(settings, 'IKWEN_PAYMENT_GATEWAY_URL', 'http://momogateway.cyberlink.cm/v1')
+    gateway_url = getattr(settings, 'IKWEN_PAYMENT_GATEWAY_URL', 'http://payment.creolink.com/v1')
     endpoint = gateway_url + '/request_payment'
     params = {
-        'username': getattr(settings, 'IKWEN_PAYMENT_GATEWAY_USERNAME', 'econnect'),
+        'username': getattr(settings, 'IKWEN_PAYMENT_GATEWAY_USERNAME', 'creolink-communications'),
         'amount': amount,
         'merchant_name': config.company_name,
         'notification_url': notification_url,
@@ -79,7 +82,8 @@ def order_set_checkout(request, *args, **kwargs):
             messages.error(request, resp['errors'])
             next_url = cancel_url
     except:
-        logger.error("%s - Init payment flow failed with URL %s." % (service.project_name, r.url), exc_info=True)
+        logger.error("%s - Init payment flow failed." % service.project_name, exc_info=True)
+        messages.error(request, "Error occurs, please try again later or with another operator payment")
         next_url = cancel_url
     return HttpResponseRedirect(next_url)
 
@@ -90,6 +94,8 @@ def confirm_invoice_payment(request, *args, **kwargs):
     operator_tx_id = request.GET['operator_tx_id']
     phone = request.GET['phone']
     tx_id = kwargs['tx_id']
+    lang = kwargs['lang']
+    activate(lang)
 
     tx = MoMoTransaction.objects.using(WALLETS_DB_ALIAS).get(pk=tx_id)
     if not getattr(settings, 'DEBUG', False):
@@ -106,20 +112,19 @@ def confirm_invoice_payment(request, *args, **kwargs):
     tx.save()
     if status != MoMoTransaction.SUCCESS:
         return HttpResponse("Notification for transaction %s received with status %s" % (tx_id, status))
+
+    signature = tx.task_id
+    callback_signature = kwargs.get('signature')
+    no_check_signature = request.GET.get('ncs')
+    if getattr(settings, 'DEBUG', False):
+        if not no_check_signature:
+            if callback_signature != signature:
+                return HttpResponse('Invalid transaction signature')
+    else:
+        if callback_signature != signature:
+            return HttpResponse('Invalid transaction signature')
     invoice = Invoice.objects.get(pk=tx.object_id)
-    payment = Payment.objects.create(invoice=invoice, method=Payment.MOBILE_MONEY,
-                                     amount=tx.amount, processor_tx_id=operator_tx_id)
-    payment.save()
-    invoice.paid = invoice.amount
-    invoice.status = Invoice.PAID
-    invoice.save()
-    return HttpResponse("Notification for transaction %s received with status %s" % (tx_id, status))
-
-
-def order_do_checkout(request, *args, **kwargs):
-    invoice_id = request.session['object_id']
-    invoice = Invoice.objects.get(pk=invoice_id)
-    member = request.user
+    member = invoice.member
     now = datetime.now()
     duration = SUBSCRIPTION_DURATION
     expiry = now + timedelta(days=duration)
@@ -133,7 +138,8 @@ def order_do_checkout(request, *args, **kwargs):
     order = subscription.order
     order.status = Invoice.PAID
     order.save()
-    payment = Payment.objects.create(invoice=invoice, method=Payment.MOBILE_MONEY, amount=invoice.amount)
+    payment = Payment.objects.create(invoice=invoice, method=Payment.MOBILE_MONEY, amount=tx.amount,
+                                     processor_tx_id=operator_tx_id)
     service = get_service_instance()
     config = service.config
 
@@ -147,5 +153,39 @@ def order_do_checkout(request, *args, **kwargs):
         msg = XEmailMessage(subject, html_content, sender, [member.email])
         msg.content_subtype = "html"
         Thread(target=lambda m: m.send(), args=(msg,)).start()
-    messages.success(request, _("Successful payment. Your subscription is now active."))
-    return HttpResponseRedirect(request.session['return_url'])
+    return HttpResponse("Notification for transaction %s received with status %s" % (tx_id, status))
+
+
+# def order_do_checkout(request, *args, **kwargs):
+#     invoice_id = request.session['object_id']
+#     invoice = Invoice.objects.get(pk=invoice_id)
+#     member = request.user
+#     now = datetime.now()
+#     duration = SUBSCRIPTION_DURATION
+#     expiry = now + timedelta(days=duration)
+#     subscription = invoice.subscription
+#     subscription.expiry = expiry
+#     subscription.status = Subscription.ACTIVE
+#     subscription.save()
+#     invoice.paid = invoice.amount
+#     invoice.status = Invoice.PAID
+#     invoice.save()
+#     order = subscription.order
+#     order.status = Invoice.PAID
+#     order.save()
+#     payment = Payment.objects.create(invoice=invoice, method=Payment.MOBILE_MONEY, amount=invoice.amount)
+#     service = get_service_instance()
+#     config = service.config
+#
+#     if member.email:
+#         invoice_url = service.url + reverse('billing:invoice_detail', args=(invoice.id,))
+#         subject, message, sms_text = get_payment_confirmation_message(payment, member)
+#         html_content = get_mail_content(subject, message, template_name='billing/mails/notice.html',
+#                                         extra_context={'member_name': member.first_name, 'invoice': invoice,
+#                                                        'cta': _("View invoice"), 'invoice_url': invoice_url})
+#         sender = '%s <no-reply@%s>' % (config.company_name, service.domain)
+#         msg = XEmailMessage(subject, html_content, sender, [member.email])
+#         msg.content_subtype = "html"
+#         Thread(target=lambda m: m.send(), args=(msg,)).start()
+#     messages.success(request, _("Successful payment. Your subscription is now active."))
+#     return HttpResponseRedirect(request.session['return_url'])

@@ -17,13 +17,13 @@
 
 <div id="section-header-general-view" class="container-fluid container-fluid-custom" style="font-family: Lato,Helvetica,Arial,sans-serif;">
     <div class="row section-banniere-top" style="margin-top: 10px">
-        <div class="col-sm-7 catchy">
+        <div class="col-sm-6 catchy">
           <h1 class="catchy-title hidden-xs">
               {{ product.catchy_title }}
           </h1>
-          <h2 class="hidden-xs">
+          <h3 class="hidden-xs">
               {{ product.catchy|safe }}
-          </h2>
+          </h3>
             {% if request.user.is_authenticated %}
                 <a  href='{% url 'econnect:maps' %}?next={{ request.path }}' class="btn btn-success btn-set-location animated pulse mobile-adjust" style="margin-top: 20px; min-width: 200px"><i class="fas fa-map-marker-alt" style="font-size:large; margin-right: 0.5vw"></i><strong class="location-set" style="font-size:large;"></strong></a>
             {% else %}

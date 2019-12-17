@@ -45,6 +45,11 @@
 {#                <strong>{% trans "Billing" %}</strong>#}
 {#            </h3>#}
             <section id="pending-invoices">
+                {% for message in messages %}
+                    <h4 class="text-danger text-center animated infinite blink" style="margin-bottom: 20px">
+                        {{ message }}
+                    </h4>
+                {% endfor %}
                 {% with pending_count=pending_invoice_list|length %}
                     <h4 style="margin-bottom: 20px">{{ pending_count }} pending invoice(s)</h4>
                 {% endwith %}

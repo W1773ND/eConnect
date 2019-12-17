@@ -43,16 +43,14 @@
         <h3 class="title-section hidden-lg text-center">{% trans "Everyone can create link with us" %}</h3>
         <br>
         <div class="container visible-lg">
-        {% for product in product_list %}
-            {% if forloop.first %}
             <div class="col-lg-6" style="margin-bottom: 5vh" >
-                <a href="{% url 'econnect:numerilink-home' %}"><img class="img-responsive mobile-adjust" style="width: 100%;" src="{% get_media_prefix  %}{{ product.logo.name }}"/>
+                <a href="{{ product_numeri_home.url }}"><img class="img-responsive mobile-adjust" style="width: 100%;" src="{% get_media_prefix  %}{{ product_numeri_home.logo.name }}"/>
                     <div class="front-ribbon v-align">
                         <img class="product-logo-img" src="{% static 'econnect/img/numerilink.png' %}">
                     </div>
                 </a>
             </div>
-            {% else %}
+        {% for product in product_list %}
             <div class="col-lg-6" style="margin-bottom: 5vh" >
                 <a class="product-link" href="{{product.url}}">
                     <img class="img-responsive mobile-adjust" style="width: 100%;" src="{% get_media_prefix  %}{{ product.logo.name }}"/>
@@ -61,11 +59,24 @@
                     </div>
                 </a>
             </div>
-            {% endif %}
         {% endfor %}
         </div>
 
         <div class="container hidden-lg">
+            <div class="card card-default green">
+                <div class="card-header text-center">
+                    <h2>{{ product_numeri_home.name }}</h2>
+                </div>
+                <div class="card-body card-5-7 v-align">
+                    <div class="card-left">
+                        <img src="{% get_media_prefix  %}{{ product_numeri_home.logo.name }}" class="img-responsive">
+                    </div>
+                    <div class="card-right v-align-center">
+                        <p class="mobile-adjust">{{ product_numeri_home.description|safe }}</p>
+                    </div>
+                    <a  href='{{product_numeri_home.url}}' class="btn btn-success animated pulse mobile-adjust" style="margin: 2vh 0 3vh 0; height: 45px; min-width: 200px">{{ product_numeri_home.cta_label }}</a>
+                </div>
+            </div>
             <div class="card card-default green">
                 <div class="card-header text-center">
                     <h2>{{ product_numeri_hotel.name }}</h2>
@@ -74,13 +85,11 @@
                     <div class="card-left">
                         <img src="{% get_media_prefix  %}{{ product_numeri_hotel.logo.name }}" class="img-responsive">
                     </div>
-                {% blocktrans with product_url=product_numeri_hotel.url product_description=product_numeri_hotel.description product_cta=product_numeri_hotel.cta_label %}
                     <div class="card-right v-align-center">
-                        <p class="mobile-adjust">{{ product_description }}</p>
+                        <p class="mobile-adjust">{{ product_numeri_hotel.description|safe }}</p>
                     </div>
-                    <a  href='{{product_url}}' class="btn btn-success animated pulse mobile-adjust" style="margin: 2vh 0 3vh 0; height: 45px; min-width: 200px">{{ product_cta }}</a>
+                    <a  href='{{product_numeri_hotel.url}}' class="btn btn-success animated pulse mobile-adjust" style="margin: 2vh 0 3vh 0; height: 45px; min-width: 200px">{{ product_numeri_hotel.cta_label }}</a>
                 </div>
-                {% endblocktrans %}
             </div>
             {% for product in product_list %}
             <div class="card card-default green">
@@ -91,14 +100,11 @@
                     <div class="card-left">
                         <img src="{% get_media_prefix  %}{{ product.logo.name }}" class="img-responsive">
                     </div>
-                {% blocktrans with product_url=product.url product_description=product.description product_cta=product.cta_label %}
                     <div class="card-right v-align-center">
-                        <p >{{ product_description }}</p>
+                        <p >{{ product.description|safe }}</p>
                     </div>
-                    <a  href='{{product_url}}' class="btn btn-success animated pulse mobile-adjust" style="margin: 2vh 0 3vh 0; height: 45px; min-width: 200px">{{ product_cta }}</a>
+                    <a  href='{{product.url}}' class="btn btn-success animated pulse mobile-adjust" style="margin: 2vh 0 3vh 0; height: 45px; min-width: 200px">{{ product.cta_label }}</a>
                 </div>
-
-                {% endblocktrans %}
             </div>
             {% endfor %}
         </div>
@@ -116,7 +122,7 @@
                             <h3 class="visible-xs">{{ advertisement.title }}</h3>
                             <div class="desc">
                                 <p style="color: #464646; text-align: justify">
-                                    {{ advertisement.description }}
+                                    {{ advertisement.description|safe }}
                                 </p>
                                 <a class="btn btn-success" href="{{ advertisement.cta_url }}" target="_blank"><b>{{ advertisement.cta_label }}</b></a>
                             </div>
@@ -125,7 +131,7 @@
                             <h2 class="hidden-xs" style="visibility: hidden">{{ advertisement.title }}</h2>
                             <div class="hidden-xs desc" style="visibility: hidden">
                                 <p style="color: #464646; text-align: justify; visibility: hidden">
-                                    {{ advertisement.description }}
+                                    {{ advertisement.description|safe }}
                                 </p>
                                 <a class="btn btn-success hidden-xs" href="{{ advertisement.cta_url }}" target="_blank">{{ advertisement.cta_label }}</a>
                             </div>
@@ -138,7 +144,7 @@
                             <h2 class="hidden-xs" style="visibility: hidden">{{ advertisement.title }}</h2>
                             <div class="hidden-xs desc" style="visibility: hidden">
                                 <p style="color: #464646; text-align: justify; visibility: hidden">
-                                    {{ advertisement.description }}
+                                    {{ advertisement.description|safe }}
                                 </p>
                                 <a class="btn btn-success hidden-xs" href="{{ advertisement.cta_url }}" target="_blank">{{ advertisement.cta_label }}</a>
                             </div>
@@ -148,7 +154,7 @@
                             <h3 class="visible-xs">{{ advertisement.title }}</h3>
                             <div class="desc">
                                 <p style="color: #464646; text-align: justify">
-                                    {{ advertisement.description }}
+                                    {{ advertisement.description|safe }}
                                 </p>
                                 <a class="btn btn-success" href="{{ advertisement.cta_url }}" target="_blank"><b>{{ advertisement.cta_label }}</b></a>
                             </div>

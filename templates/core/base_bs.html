@@ -22,7 +22,7 @@
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
             <link rel='stylesheet' href="{% static 'ikwen/css/flatly.bootstrap.min.css' %}" />
             <link rel="stylesheet" type="text/css" href="{% static 'embed-doc/css/embed-doc.css' %}"/>
-            <link rel='stylesheet' href="{% static 'econnect/css/base_default.css' %}" />
+            <link rel='stylesheet' href="{% static 'econnect/css/base_default.css' %}?V=19.11.06.17.19" />
 		{% endblock %}
         {% block head_js %}
             <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -43,6 +43,17 @@
             {% url "ikwen:account_setup" as account_setup_url %}
             <div id="navbar" class="navbar navbar-default navbar-static-top">
                 <div class="container-fluid help-navbar hidden-xs" style="">
+{#                    <form class="lang-switcher" method="post" action="{% url 'set_language'%}" style="display: inline">{% csrf_token %}#}
+{#                        <input type="hidden" name="language">#}
+{#                        <span class="dropdown">#}
+{#                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img style=" display:inline; width: 24px" src="{% static 'econnect/img/us.svg' %}"><b class="caret"></b></a>#}
+{#                            <ul class="dropdown-menu" style="min-width: 24px">#}
+{#                                <li data-lang="en"><img style=" display:inline; width: 24px" src="{% static 'econnect/img/us.svg' %}"></li>#}
+{#                                <li data-lang="fr"><img style=" display:inline; width: 24px" src="{% static 'econnect/img/fr.svg' %}"></li>#}
+{#                            </ul>#}
+{#                        </span>#}
+{#                    </form>#}
+                    <span class="lang-switcher hidden-xs">{% include 'econnect/snippets/language_switcher.html' %}</span>
                     <span class="help-navbar-phone">{% trans "Need some help? " %}{{ config.contact_phone }}&nbsp;<i class="fab fa-whatsapp" style="color: #28a745; font-size: large"></i></span>
                     <div class="navbar-right" style="margin-right: 0">
                         {% if user.is_authenticated %}
@@ -153,9 +164,9 @@
                                             <a href="{% url 'econnect:numerilink-hotel' %}" class="animated fadeIn">{% trans 'NumeriLink Hotel' %}</a>
                                         </div>
                                     </li>
-                                    <li class="page-menu HOMELINK"><a href="{% url 'econnect:homelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/homelink.png' %}"></a></li>
-                                    <li class="page-menu OFFICELINK"><a href="{% url 'econnect:officelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/officelink.png' %}"></a></li>
-                                    <li class="page-menu CORPORATELINK"><a href="{% url 'econnect:corporatelink' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/corporatelink.png' %}"></a></li>
+                                    <li class="page-menu HOMELINK"><a href="{% url 'econnect:homelink-pricing' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/homelink.png' %}"></a></li>
+                                    <li class="page-menu OFFICELINK"><a href="{% url 'econnect:officelink-pricing' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/officelink.png' %}"></a></li>
+                                    <li class="page-menu CORPORATELINK"><a href="{% url 'econnect:corporatelink-pricing' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/corporatelink.png' %}"></a></li>
 {#                                        <li><a href="{% url 'blog:home' %}" class="nav-menu nav-menu-custom">{% trans "Blog" %}</a></li>#}
                                 {% endblock %}
                                 </ul>
@@ -192,7 +203,7 @@
                             <ul style="list-style-type: none; padding-left: 0">
                                 <li><a style="color: #d2d1d1;" href="{{ service.url }}/page/privacy/" >{% trans 'Privacy policy' %}</a></li>
                                 <li><a style="color: #d2d1d1;" href="{{ service.url }}/page/legal-mentions/" >{% trans 'Legal mention' %}</a></li>
-                                <li class="lang-switcher hidden-xs">{% include 'econnect/snippets/language_switcher.html' %}</li>
+{#                                <li class="lang-switcher hidden-xs">{% include 'econnect/snippets/language_switcher.html' %}</li>#}
                             </ul>
                         </div>
                         <div class="col-sm-3 col-xs-10 footer-mobile-adjust">
@@ -231,12 +242,21 @@
         {% block js %}
             <script>
                 (function() {
-                    $('form#lang a').click(function() {
+                    {% comment %}$('form#lang a').click(function() {
                         var lang = $(this).data('val');
                         $('form#lang input[name=language]').val(lang);
                         $('form#lang').submit();
                         return false
                     });
+
+                    $('form.lang-switcher li').click(function () {
+                        let lang = $(this).data('lang');
+                        $('form.lang-switcher input[name="language"]').val(lang);
+                        $('form.lang-switcher').submit();
+                        return false
+                        alert(lang)
+
+                    }){% endcomment %}
 
                     let path = window.location.href;
                     $('li a.nav-menu').each(function () {

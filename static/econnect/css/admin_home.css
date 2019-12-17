@@ -34,7 +34,7 @@
 .btn-outline-white:not(:disabled):not(.disabled).active:focus,
 .show > .btn-outline-white.dropdown-toggle:focus { box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5); }
 
-.card-section-title { /*padding-bottom: 2vh !important;*/ }
+.card-section-title { margin-bottom: 1vh !important; }
 .subtitle { color: #5a5a5a !important; line-height: 1.5 }
 .slow .toggle-group { transition: left 0.7s; -webkit-transition: left 0.7s; }
 

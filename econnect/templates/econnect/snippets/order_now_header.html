@@ -18,16 +18,16 @@
 <section>
     <div id="section-header-general-view" class="container-fluid container-fluid-custom" style="font-family: Lato,Helvetica,Arial,sans-serif;">
         <div class="row section-banniere-top" style="margin-top: 10px">
-            <div class="col-sm-7 catchy">
+            <div class="col-sm-6 catchy">
                 <h1 class="catchy-title hidden-xs">
                   {{ product.catchy_title }}
                 </h1>
                 <h2 class="catchy-title visible-xs">
                   {{ product.catchy_title }}
                 </h2>
-                <h2 class="hidden-xs">
+                <h3 class="hidden-xs">
                   {{ product.catchy|safe }}
-                </h2>
+                </h3>
                 <a href='{{ product_url }}' class="btn btn-success btn-cta animated pulse" style="margin-top: 20px; min-width: 200px"><strong class="" style="font-size:large;">{% trans "Order now" %}</strong></a>
             </div>
             <div class="slogan hidden-sm hidden-xs">

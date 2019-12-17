@@ -54,7 +54,7 @@ class Product(ModelI18n):
     name = models.CharField(max_length=200)
     slug = models.CharField(max_length=250)
     slogan = models.CharField(max_length=250)
-    description = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True, help_text="Description appears below the banner on the product presentation page")
     catchy_title = models.CharField(max_length=250, help_text="Title for banner appear on product and pricing page")
     catchy = models.TextField(blank=True, null=True, help_text="Text for banner appear on product and pricing page")
     cta_label = models.CharField(max_length=30, verbose_name="Call-to-action")

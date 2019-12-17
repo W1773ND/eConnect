@@ -20,6 +20,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.db import transaction
+from django.db.models import Q
 from django.core import mail
 from django.views.generic import TemplateView
 from django.core.mail import EmailMessage
@@ -209,24 +210,13 @@ class OrderConfirm(TemplateView):
         config = service.config
         notify_email = [email.strip() for email in config.notification_email.split(',')]
         admin_url = service.url + reverse('econnect:pending_order')
-
-        if getattr(settings, 'DEBUG', False):
-            prospect_url = getattr(settings, "LOCAL_MAPS_URL") + 'save_prospect'
-            payload = {
-                'customer_name': member_fullname,
-                'lat': lat,
-                'lng': lng,
-                'order_id': order_id,
-                'debug': 'true'
-            }
-        else:
-            prospect_url = getattr(settings, "CREOLINK_MAPS_URL") + 'save_prospect'
-            payload = {
-                'customer_name': member_fullname,
-                'lat': lat,
-                'lng': lng,
-                'order_id': order_id
-            }
+        prospect_url = getattr(settings, "CREOLINK_MAPS_URL") + 'save_prospect'
+        payload = {
+            'customer_name': member_fullname,
+            'lat': lat,
+            'lng': lng,
+            'order_id': order_id
+        }
         Thread(target=set_prospect, args=(order, prospect_url, payload)).start()
         try:
             subject = _("An order was submitted on CREOLINK COMMUNICATIONS website !")
@@ -274,24 +264,13 @@ class PendingOrderList(HybridListView):
         member = order.member
         lat = order.location_lat
         lng = order.location_lng
-
-        if getattr(settings, 'DEBUG', False):
-            prospect_url = getattr(settings, "LOCAL_MAPS_URL") + 'save_prospect'
-            payload = {
-                'customer_name': member.full_name,
-                'lat': lat,
-                'lng': lng,
-                'order_id': order_id,
-                'debug': 'true'
-            }
-        else:
-            prospect_url = getattr(settings, "CREOLINK_MAPS_URL") + 'save_prospect'
-            payload = {
-                'customer_name': member.full_name,
-                'lat': lat,
-                'lng': lng,
-                'order_id': order_id
-            }
+        prospect_url = getattr(settings, "CREOLINK_MAPS_URL") + 'save_prospect'
+        payload = {
+            'customer_name': member.full_name,
+            'lat': lat,
+            'lng': lng,
+            'order_id': order_id
+        }
 
         Thread(target=set_prospect, args=(order, prospect_url, payload)).start()
         response = {"success": True}
@@ -343,14 +322,8 @@ class PendingOrderList(HybridListView):
             logger.error("Mail sending failed", exc_info=True)
             response = {"success": True, "Mail": False}
             return HttpResponse(json.dumps(response), 'content-type: text/json')
-
-        if getattr(settings, 'DEBUG', False):
-            customer_url = getattr(settings, "LOCAL_MAPS_URL") + 'update_prospect'
-            payload = {DEVICE_ID: order.maps_id}
-
-        else:
-            customer_url = getattr(settings, "CREOLINK_MAPS_URL") + 'update_prospect'
-            payload = {DEVICE_ID: order.maps_id}
+        customer_url = getattr(settings, "CREOLINK_MAPS_URL") + 'update_prospect'
+        payload = {DEVICE_ID: order.maps_id}
 
         Thread(target=requests.get, args=(customer_url, payload)).start()
 
@@ -515,20 +488,26 @@ class HomeView(TemplateView):
         advertisement_list = []
         if Product.objects.filter(lang=lang).count() < Product.objects.filter(lang='en').count():
             lang = 'en'
-        for product in Product.objects.filter(lang=lang).exclude(name=NUMERIHOTEL):
-            product.url = reverse('econnect:' + product.slug)
+        for product in Product.objects.filter(lang=lang).exclude(Q(name=NUMERIHOTEL) & Q(name=NUMERIHOME)):
+            product_pricing = slugify(product.name) + '-pricing'
+            product.url = reverse('econnect:' + product_pricing)
             product_list.append(product)
         try:
+            product_numeri_home = Product.objects.get(name=NUMERIHOME, lang=lang)
             product_numeri_hotel = Product.objects.get(name=NUMERIHOTEL, lang=lang)
         except:
+            product_numeri_home = get_object_or_404(Product, name=NUMERIHOME, lang='en')
             product_numeri_hotel = get_object_or_404(Product, name=NUMERIHOTEL, lang='en')
+        product_numeri_home.slug = slugify(product_numeri_home.name)
         product_numeri_hotel.slug = slugify(product_numeri_hotel.name)
+        product_numeri_home.url = reverse('econnect:' + product_numeri_home.slug)
         product_numeri_hotel.url = reverse('econnect:' + product_numeri_hotel.slug)
         if Advertisement.objects.filter(lang=lang).count() < Advertisement.objects.filter(lang='en').count():
             lang = 'en'
         for advertisement in Advertisement.objects.filter(lang=lang):
             advertisement_list.append(advertisement)
         context['product_list'] = product_list
+        context['product_numeri_home'] = product_numeri_home
         context['product_numeri_hotel'] = product_numeri_hotel
         context['advertisement_list'] = advertisement_list
         return context
@@ -1079,6 +1058,8 @@ class ChangeMailCampaign(CampaignBaseView, ChangeObjectBase):
             return self.toggle_campaign(request, *args, **kwargs)
         if action == 'run_test':
             return self.run_test(request, *args, **kwargs)
+        if action == 'clone_campaign':
+            return self.clone_campaign(request, *args, **kwargs)
         return super(ChangeMailCampaign, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):

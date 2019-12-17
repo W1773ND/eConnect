@@ -1,0 +1,106 @@
+{% extends 'core/app_base_admin.html' %}
+{% load i18n humanize static auth_tokens %}
+
+{% block page_title %}
+<title> {% if obj %}{{ obj }}{% else %}{% trans "New" %}{% endif %} - {{ service.project_name }} </title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link href="{% static 'ikwen/css/uploader-single.css' %}" media="screen" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block head_js %}
+    {{ block.super }}
+    <script src="{% static 'ikwen/ajaxuploader/js/fileuploader.js' %}"></script>
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>
+        (function () {
+            var properties = {
+                menubar: false,
+                statusbar: false,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table contextmenu paste code'
+                ],
+                paste_data_images: true,
+                content_css: [
+                    '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+                    '//www.tinymce.com/css/codepen.min.css'
+                ]
+            };
+            var descriptionProperties = JSON.parse(JSON.stringify(properties));
+
+            descriptionProperties['selector'] = '#id_description';
+            descriptionProperties['height'] = 300;
+            descriptionProperties['toolbar'] = 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link code';
+            descriptionProperties['insert_button_items'] = 'charmap anchor insertdatetime';
+            if ($(window).width() >= 768) {
+                descriptionProperties['width'] = 650
+            }
+            tinymce.init(descriptionProperties);
+        })()
+    </script>
+{% endblock %}
+
+{% block breadcrumb_location %}
+    <li>
+        <a href="{{ object_list_url }}">{{ verbose_name_plural|capfirst }}</a>
+    </li>
+    {% if obj %}
+        <li>{{ obj }}</li>
+    {% else %}
+        <li>{% trans 'New' %}</li>
+    {% endif %}
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content" class="change-form">
+        <div class="container-fluid">
+            {% if errors %}<p class="alert alert-danger">{{ errors }}</p>{% endif %}
+            <form class="admin-form" method="post">{% csrf_token %}
+                {% include 'core/snippets/model_admin_form.html' %}
+                {% for img_obj in img_field_list %}
+                <div class="col-sm-4 col-lg-3" style="padding-left: 0">
+                    {% with model_name=model image=img_obj.image image_field_name=img_obj.field label_field_name=label_field img_help_text=img_obj.help_text img_counter=img_obj.counter %}
+                        {% include 'core/snippets/uploader_single.html' %}
+                    {% endwith %}
+                </div>
+                {% endfor %}
+                <div class="form-group col-xs-12 col-sm-4 col-md-3" style="clear: both; padding-top: 15px">
+                    <button class="btn btn-sm btn-primary btn-block">{% trans "Save" %}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        (function() {
+            $('div#admin-nav .{{ verbose_name_plural|slugify }}').addClass('active');
+            $('.form-row').addClass('form-group');
+            $('.form-row input, .form-row select, .form-row textarea').addClass('form-control input-sm');
+            $('.form-row textarea').addClass('form-control input-sm');
+            $('.date-field').each(function() {
+                var alt = $(this).data('alt');
+                $(this).datepicker({
+                    altField: alt,
+                    altFormat: "yy-mm-dd"
+                });
+            });
+            $('.datetime-field').each(function() {
+                var alt = $(this).data('alt'),
+                    time = $(this).data('time');
+                $(this).datepicker({
+                    altField: alt,
+                    altFormat: "yy-mm-dd"
+                }).change(function() {
+                    if (!$(time).val()) $(time).val('00:00:00')
+                });
+            });
+        })()
+    </script>
+{% endblock %}
