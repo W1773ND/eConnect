@@ -150,6 +150,7 @@ class Order(Model):
     formatted_address = models.CharField(max_length=250)
     cost = models.IntegerField(default=0)
     status = models.CharField(max_length=30, default=STARTED)
+    tags = models.CharField(max_length=250)
 
 
 class Faq(Model):

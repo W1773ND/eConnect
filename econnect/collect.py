@@ -83,7 +83,7 @@ def order_set_checkout(request, *args, **kwargs):
             next_url = cancel_url
     except:
         logger.error("%s - Init payment flow failed." % service.project_name, exc_info=True)
-        messages.error(request, "Error occurs, please try again later or with another operator payment")
+        messages.error(request, "Error occurs, please try again later or with another payment operator")
         next_url = cancel_url
     return HttpResponseRedirect(next_url)
 

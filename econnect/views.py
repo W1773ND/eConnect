@@ -15,7 +15,7 @@ from threading import Thread
 from currencies.models import Currency
 
 from django.conf import settings
-from django.http import HttpResponseRedirect, Http404, HttpResponse
+from django.http import HttpResponseRedirect, Http404, HttpResponse, request
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
@@ -54,6 +54,7 @@ from econnect.models import ADMIN_EMAIL, Subscription, Order, CustomerRequest, P
     NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, ANALOG, DIGITAL, ECONNECT, Faq, Advertisement
 
 import logging
+
 logger = logging.getLogger('ikwen')
 
 
@@ -198,6 +199,7 @@ class OrderConfirm(TemplateView):
         order_id = request.GET['order_id']
         order = get_object_or_404(Order, id=order_id)
         order.status = PENDING
+        order.tags = order.member.full_name + ' ' + order.member.email
         order.save()
         member = order.member
         member_fullname = member.full_name if not member.is_ghost else _('Customer')
@@ -240,7 +242,7 @@ class PendingOrderList(HybridListView):
     html_results_template_name = 'econnect/admin/snippets/order_list_results.html'
     embed_doc_template_name = 'econnect/admin/snippets/order_list_results.html'
     queryset = Order.objects.exclude(status__in=[REPORTED, Invoice.PAID, FINISHED, CANCELED])
-    search_field = 'member'
+    search_field = 'tags'
     list_filter = (
         ('created_on', _('Date')),
         ('status', _('Status'))
@@ -362,7 +364,7 @@ class PaidOrderList(HybridListView):
     template_name = 'econnect/admin/order_list.html'
     html_results_template_name = 'econnect/admin/snippets/order_list_results.html'
     queryset = Order.objects.filter(status=Invoice.PAID)
-    search_field = 'member'
+    search_field = 'tags'
     list_filter = ('created_on',)
     context_object_name = 'order'
 
@@ -407,7 +409,7 @@ class ReportedOrderList(HybridListView):
     template_name = 'econnect/admin/order_list.html'
     html_results_template_name = 'econnect/snippets/order_list_results.html'
     queryset = Order.objects.filter(status=REPORTED)
-    search_field = 'member'
+    search_field = 'tags'
     list_filter = ('created_on',)
     context_object_name = 'order'
 
@@ -547,8 +549,10 @@ class HomeView(TemplateView):
                 next_url_for_mail = reverse('ikwen:logout') + "?next=" + reverse('ikwen:register')
                 try:
                     subject = _("Do more with Creolink Communications !")
-                    html_content = get_mail_content(subject, template_name='accesscontrol/mails/complete_registration.html',
-                                                    extra_context={'member_email': visitor_email, 'next_url': next_url_for_mail}, )
+                    html_content = get_mail_content(subject,
+                                                    template_name='accesscontrol/mails/complete_registration.html',
+                                                    extra_context={'member_email': visitor_email,
+                                                                   'next_url': next_url_for_mail}, )
                     sender = '%s <no-reply@%s>' % (config.company_name, service.domain)
                     msg = EmailMessage(subject, html_content, sender, [visitor_email], [ADMIN_EMAIL])
                     msg.content_subtype = "html"
@@ -702,7 +706,7 @@ class Corporatelink(TemplateView):
 class ProductList(HybridListView):
     model = Product
     search_field = 'name'
-    ordering = ('order_of_appearance', )
+    ordering = ('order_of_appearance',)
 
 
 class ChangeProduct(ChangeObjectBase):
@@ -714,7 +718,7 @@ class PackageList(HybridListView):
     model = Package
     list_filter = ('product',)
     search_field = 'name'
-    ordering = ('order_of_appearance', )
+    ordering = ('order_of_appearance',)
 
 
 class ChangePackage(ChangeObjectBase):
@@ -727,7 +731,7 @@ class EquipmentList(HybridListView):
     model = Equipment
     list_filter = ('product',)
     search_field = 'name'
-    ordering = ('order_of_appearance', )
+    ordering = ('order_of_appearance',)
 
 
 class ChangeEquipment(ChangeObjectBase):
@@ -739,7 +743,7 @@ class ExtraList(HybridListView):
     model = Extra
     list_filter = ('product',)
     search_field = 'name'
-    ordering = ('order_of_appearance', )
+    ordering = ('order_of_appearance',)
 
 
 class ChangeExtra(ChangeObjectBase):
@@ -751,7 +755,7 @@ class FaqList(HybridListView):
     model = Faq
     list_filter = ('product',)
     search_field = 'question'
-    ordering = ('order_of_appearance', )
+    ordering = ('order_of_appearance',)
 
 
 class ChangeFaq(ChangeObjectBase):
@@ -761,7 +765,7 @@ class ChangeFaq(ChangeObjectBase):
 
 class AdvertisementList(HybridListView):
     model = Advertisement
-    ordering = ('order_of_appearance', )
+    ordering = ('order_of_appearance',)
 
 
 class ChangeAdvertisement(ChangeObjectBase):
@@ -1090,8 +1094,8 @@ class ChangeMailCampaign(CampaignBaseView, ChangeObjectBase):
             else:
                 cta = form.cleaned_data['cta']
                 cta_url = form.cleaned_data['cta_url']
-            recipient_label, recipient_label_raw, recipient_src, recipient_list, recipient_profile = self.get_recipient_list(
-                request)
+            recipient_label, recipient_label_raw, recipient_src, recipient_list, checked_profile_tag_id_list, \
+                recipient_profile = self.get_recipient_list(request)
             slug = slugify(subject)
             if not object_id:
                 obj = MailCampaign(service=service, member=mbr)
