@@ -7,47 +7,47 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eConnect 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-26 01:06+0100\n"
-"PO-Revision-Date: 2019-09-26 01:20+0100\n"
+"POT-Creation-Date: 2020-05-10 19:17+0100\n"
+"PO-Revision-Date: 2020-05-10 19:31+0100\n"
 "Last-Translator: W177 <wilfriedwillend@gmail.com>\n"
 "Language-Team: IKWEN Trad <contact@ikwen.com>\n"
-"Language: French\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 2.0.6\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: scripts.py:12 econnect/scripts.py:12
+#: scripts.py:12 econnect/scripts.py:19
 msgid "View dashboard"
 msgstr ""
 
-#: scripts.py:13 econnect/scripts.py:13
+#: scripts.py:13 econnect/scripts.py:20
 msgid "Access commission"
 msgstr ""
 
-#: scripts.py:14 econnect/scripts.py:14
+#: scripts.py:14 econnect/scripts.py:21
 msgid "Manage sales"
 msgstr ""
 
-#: scripts.py:16 econnect/scripts.py:16
+#: scripts.py:16 econnect/scripts.py:23
 msgid "Manage website"
 msgstr ""
 
-#: scripts.py:18 econnect/scripts.py:18
+#: scripts.py:18 econnect/scripts.py:25
 msgid "Manage community"
 msgstr "Gestion de la Communauté"
 
-#: scripts.py:20 econnect/scripts.py:21
+#: scripts.py:20 econnect/scripts.py:28
 msgid "Manage customer"
 msgstr "Gestion de la clientèle"
 
-#: settings.py:141 conf/settings.py:141
+#: settings.py:141 conf/settings.py:147
 msgid "English"
-msgstr ""
+msgstr "Anglais"
 
-#: settings.py:142 conf/settings.py:142
+#: settings.py:142 conf/settings.py:148
 msgid "French"
 msgstr "Français"
 
@@ -67,13 +67,9 @@ msgstr ""
 msgid "Mailing"
 msgstr ""
 
-#: econnect/collect.py:145
+#: econnect/collect.py:149
 msgid "View invoice"
 msgstr "Voir la facture"
-
-#: econnect/collect.py:150
-msgid "Successful payment. Your subscription is now active."
-msgstr "Paiement effectué. Votre service est activé."
 
 #: econnect/models.py:77
 msgid ""
@@ -97,47 +93,52 @@ msgid ""
 "strong>, <strong>3 months</strong>, etc."
 msgstr ""
 
-#: econnect/views.py:235
-msgid "Date"
-msgstr "Date"
-
-#: econnect/views.py:236
-msgid "Status"
-msgstr ""
-
-#: econnect/views.py:289 econnect/views.py:347 econnect/views.py:389
+#: econnect/views.py:205 econnect/views.py:290 econnect/views.py:342
+#: econnect/views.py:384
 msgid "Customer"
 msgstr "Client"
 
-#: econnect/views.py:310 econnect/views.py:350 econnect/views.py:395
+#: econnect/views.py:224
+msgid "An order was submitted on CREOLINK COMMUNICATIONS website !"
+msgstr ""
+
+#: econnect/views.py:247
+msgid "Date"
+msgstr "Date"
+
+#: econnect/views.py:248
+msgid "Status"
+msgstr ""
+
+#: econnect/views.py:311 econnect/views.py:345 econnect/views.py:390
 #: econnect/templates/econnect/order_confirm.html:24
 #: econnect/templates/econnect/order_confirm.html:74
 msgid "Dear "
 msgstr "Cher"
 
-#: econnect/views.py:556
+#: econnect/views.py:551
 msgid "Do more with Creolink Communications !"
 msgstr "Allez plus loin avec Creolink Communications !"
 
-#: econnect/views.py:1093
+#: econnect/views.py:1092
 msgid "Confirm my order now"
 msgstr "Confirmer ma commande"
 
-#: econnect/views.py:1144
+#: econnect/views.py:1143
 msgid "successfully updated"
 msgstr "Mise à jour réussie"
 
-#: econnect/views.py:1147
+#: econnect/views.py:1146
 msgid "successfully created"
 msgstr "Création effectuée"
 
-#: econnect/views.py:1167
+#: econnect/views.py:1166
 msgid "Insufficient Email balance."
-msgstr ""
+msgstr "Crédit Mail Insuffisant"
 
 #: econnect/templates/econnect/corporatelink.html:50
 #: econnect/templates/econnect/homelink.html:50
-#: econnect/templates/econnect/homepage.html:216
+#: econnect/templates/econnect/homepage.html:226
 #: econnect/templates/econnect/numerilink_home.html:51
 #: econnect/templates/econnect/numerilink_hotel.html:81
 #: econnect/templates/econnect/officelink.html:50
@@ -166,48 +167,18 @@ msgstr "Le meilleur d'Internet,Le meilleur de la Télé"
 msgid "Everyone can create link with us"
 msgstr "Tout le monde peut créer des liens grâce à nous"
 
-#: econnect/templates/econnect/homepage.html:77
-#, python-format
-msgid ""
-"\n"
-"                    <div class=\"card-right v-align-center\">\n"
-"                        <p class=\"mobile-adjust\">%(product_description)s</"
-"p>\n"
-"                    </div>\n"
-"                    <a  href='%(product_url)s' class=\"btn btn-success "
-"animated pulse mobile-adjust\" style=\"margin: 2vh 0 3vh 0; height: 45px; "
-"min-width: 200px\">%(product_cta)s</a>\n"
-"                </div>\n"
-"                "
-msgstr ""
-
-#: econnect/templates/econnect/homepage.html:94
-#, python-format
-msgid ""
-"\n"
-"                    <div class=\"card-right v-align-center\">\n"
-"                        <p >%(product_description)s</p>\n"
-"                    </div>\n"
-"                    <a  href='%(product_url)s' class=\"btn btn-success "
-"animated pulse mobile-adjust\" style=\"margin: 2vh 0 3vh 0; height: 45px; "
-"min-width: 200px\">%(product_cta)s</a>\n"
-"                </div>\n"
-"\n"
-"                "
-msgstr ""
-
-#: econnect/templates/econnect/homepage.html:108
-#: econnect/templates/econnect/homepage.html:109
+#: econnect/templates/econnect/homepage.html:114
+#: econnect/templates/econnect/homepage.html:115
 msgid "Do more with"
 msgstr "Aller  plus loin avec"
 
-#: econnect/templates/econnect/homepage.html:114
-#: econnect/templates/econnect/homepage.html:137
+#: econnect/templates/econnect/homepage.html:120
+#: econnect/templates/econnect/homepage.html:143
 msgid "Shoplink Website"
 msgstr "https://shoplink.ikwen.com"
 
-#: econnect/templates/econnect/homepage.html:209
-#: templates/core/base_bs.html:319
+#: econnect/templates/econnect/homepage.html:219
+#: templates/core/base_bs.html:344
 msgid " Modify my location"
 msgstr "Changer ma localisation"
 
@@ -447,7 +418,7 @@ msgstr ""
 #: econnect/templates/econnect/pricing_officelink.html:28
 #: econnect/templates/econnect/pricing_officelink.html:34
 #: econnect/templates/econnect/pricing_officelink.html:41
-#: templates/core/app_base_admin.html:78
+#: templates/core/app_base_admin.html:86
 msgid "Equipment"
 msgstr "Équipements"
 
@@ -609,7 +580,8 @@ msgid "Uncompleted Order"
 msgstr "Commande en suspens"
 
 #: econnect/templates/econnect/uncompleted_order_list.html:28
-#: econnect/templates/econnect/admin/admin_home.html:33
+#: econnect/templates/econnect/admin/admin_home.html:32
+#: econnect/templates/econnect/admin/dashboard.html:25
 #: templates/billing/invoice_list.html:41
 msgid "Welcome "
 msgstr "Bienvenue"
@@ -636,12 +608,13 @@ msgstr "À installer à l'adresse suivante"
 #: econnect/templates/econnect/uncompleted_order_list.html:130
 #: templates/accesscontrol/set_new_password.html:27
 #: templates/accesscontrol/set_new_password_sms_recovery.html:54
+#: templates/billing/subscription_list.html:124
 msgid "Confirm"
 msgstr "Valider"
 
 #: econnect/templates/econnect/uncompleted_order_list.html:84
 #: econnect/templates/econnect/uncompleted_order_list.html:129
-#: econnect/templates/econnect/admin/change_mailcampaign.html:258
+#: econnect/templates/econnect/admin/change_mailcampaign.html:254
 #: templates/accesscontrol/account.html:77
 #: templates/accesscontrol/account.html:99
 #: templates/accesscontrol/account.html:121
@@ -672,7 +645,8 @@ msgid "Error occurs when canceling this order, please try again..."
 msgstr "Une erreur est survenue, essayer encore..."
 
 #: econnect/templates/econnect/admin/admin_home.html:5
-#: econnect/templates/econnect/admin/admin_home.html:15
+#: econnect/templates/econnect/admin/admin_home.html:14
+#: econnect/templates/econnect/admin/dashboard.html:15
 #: econnect/templates/econnect/snippets/edge_panel.html:24
 #: templates/accesscontrol/forgotten_password.html:23
 #: templates/core/app_base_admin.html:6
@@ -685,11 +659,21 @@ msgid ""
 "make the most of your services"
 msgstr ""
 
-#: econnect/templates/econnect/admin/admin_home.html:40
+#: econnect/templates/econnect/admin/admin_home.html:36
+#, fuzzy
+msgid "Manage "
+msgstr "Gestion de la clientèle"
+
+#: econnect/templates/econnect/admin/admin_home.html:36
+#, fuzzy
+msgid " website."
+msgstr "Aller sur le site Web"
+
+#: econnect/templates/econnect/admin/admin_home.html:43
 msgid "Orders and customer requests"
 msgstr ""
 
-#: econnect/templates/econnect/admin/admin_home.html:51
+#: econnect/templates/econnect/admin/admin_home.html:54
 msgid ""
 "\n"
 "                                Manage interaction to your customers with "
@@ -697,26 +681,26 @@ msgid ""
 "                                "
 msgstr ""
 
-#: econnect/templates/econnect/admin/admin_home.html:58
-#: templates/core/app_base_admin.html:16
+#: econnect/templates/econnect/admin/admin_home.html:61
+#: templates/core/app_base_admin.html:23
 msgid "Pending orders"
 msgstr "Commandes en attente"
 
-#: econnect/templates/econnect/admin/admin_home.html:59
-#: templates/core/app_base_admin.html:19
+#: econnect/templates/econnect/admin/admin_home.html:62
+#: templates/core/app_base_admin.html:26
 msgid "Paid orders"
 msgstr "Commandes payées"
 
-#: econnect/templates/econnect/admin/admin_home.html:60
-#: templates/core/app_base_admin.html:22
+#: econnect/templates/econnect/admin/admin_home.html:63
+#: templates/core/app_base_admin.html:29
 msgid "Reported orders"
 msgstr "Commandes reportées"
 
-#: econnect/templates/econnect/admin/admin_home.html:64
+#: econnect/templates/econnect/admin/admin_home.html:69
 msgid "Customers contacts and community"
 msgstr ""
 
-#: econnect/templates/econnect/admin/admin_home.html:70
+#: econnect/templates/econnect/admin/admin_home.html:75
 msgid ""
 "\n"
 "                                Register your customers contacts here. Our "
@@ -730,19 +714,19 @@ msgid ""
 "                            "
 msgstr ""
 
-#: econnect/templates/econnect/admin/admin_home.html:79
+#: econnect/templates/econnect/admin/admin_home.html:84
 msgid "Create profile"
 msgstr "Creer profile"
 
-#: econnect/templates/econnect/admin/admin_home.html:80
+#: econnect/templates/econnect/admin/admin_home.html:85
 msgid "Add contact"
 msgstr "Ajouter contact"
 
-#: econnect/templates/econnect/admin/admin_home.html:85
+#: econnect/templates/econnect/admin/admin_home.html:90
 msgid "Mails and SMS campaigns"
 msgstr "Campagnes Mails et SMS"
 
-#: econnect/templates/econnect/admin/admin_home.html:92
+#: econnect/templates/econnect/admin/admin_home.html:97
 msgid ""
 "\n"
 "                                Send individual or mass mails and SMS "
@@ -751,19 +735,63 @@ msgid ""
 "                                "
 msgstr ""
 
-#: econnect/templates/econnect/admin/admin_home.html:99
+#: econnect/templates/econnect/admin/admin_home.html:104
 msgid "Start Email campaign"
 msgstr "Lancer une campagne Email"
 
-#: econnect/templates/econnect/admin/admin_home.html:100
+#: econnect/templates/econnect/admin/admin_home.html:105
 msgid "Start SMS campaign"
 msgstr "Lancer une campagne SMS"
 
-#: econnect/templates/econnect/admin/admin_home.html:148
+#: econnect/templates/econnect/admin/admin_home.html:112
+msgid "Manage your product and offers"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:116
+#, fuzzy
+msgid "Manage products"
+msgstr "Gestion de la Communauté"
+
+#: econnect/templates/econnect/admin/admin_home.html:117
+#, fuzzy
+msgid "Manage packages"
+msgstr "Pack analog."
+
+#: econnect/templates/econnect/admin/admin_home.html:118
+#, fuzzy
+msgid "Manage advertisements"
+msgstr "Publicité"
+
+#: econnect/templates/econnect/admin/admin_home.html:122
+#, fuzzy
+msgid "Manage blog content"
+msgstr "Gestion de la Communauté"
+
+#: econnect/templates/econnect/admin/admin_home.html:126
+#, fuzzy
+msgid "Manage categories"
+msgstr "Catégories du blog"
+
+#: econnect/templates/econnect/admin/admin_home.html:127
+#, fuzzy
+msgid "Manage posts"
+msgstr "Gestion de la clientèle"
+
+#: econnect/templates/econnect/admin/admin_home.html:128
+#, fuzzy
+msgid "Review comments"
+msgstr "Commentaires"
+
+#: econnect/templates/econnect/admin/admin_home.html:132
+#: econnect/templates/econnect/admin/admin_home.html:136
+msgid "Manage flat pages"
+msgstr ""
+
+#: econnect/templates/econnect/admin/admin_home.html:143
 msgid "Website configurations and branding"
 msgstr ""
 
-#: econnect/templates/econnect/admin/admin_home.html:155
+#: econnect/templates/econnect/admin/admin_home.html:150
 msgid ""
 "\n"
 "                                Configure useful information of your website "
@@ -773,119 +801,228 @@ msgid ""
 "                                "
 msgstr ""
 
-#: econnect/templates/econnect/admin/admin_home.html:163
+#: econnect/templates/econnect/admin/admin_home.html:158
 msgid "Configure your website"
 msgstr "Configurez votre site Web"
 
-#: econnect/templates/econnect/admin/admin_home.html:280
+#: econnect/templates/econnect/admin/admin_home.html:276
 msgid "Remind me later"
 msgstr "Me rapeler plus tard"
 
-#: econnect/templates/econnect/admin/admin_home.html:280
+#: econnect/templates/econnect/admin/admin_home.html:276
 msgid "Got it!"
 msgstr "Compris !"
 
-#: econnect/templates/econnect/admin/admin_home.html:280
+#: econnect/templates/econnect/admin/admin_home.html:276
 msgid "Show Help"
 msgstr "Montrer l'aide"
 
 #: econnect/templates/econnect/admin/change_mailcampaign.html:5
-#: econnect/templates/econnect/admin/change_mailcampaign.html:72
+#: econnect/templates/econnect/admin/change_mailcampaign.html:68
 msgid "Email campaign"
 msgstr "Campagne Email"
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:68
+#: econnect/templates/econnect/admin/change_mailcampaign.html:64
 msgid "Remaining mail : "
 msgstr "Email(s) restant :"
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:69
+#: econnect/templates/econnect/admin/change_mailcampaign.html:65
 msgid "Refill ? "
 msgstr "Recharger ?"
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:85
-#: econnect/templates/econnect/admin/change_mailcampaign.html:95
+#: econnect/templates/econnect/admin/change_mailcampaign.html:81
+#: econnect/templates/econnect/admin/change_mailcampaign.html:91
 msgid "Start"
 msgstr "Commencer"
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:90
+#: econnect/templates/econnect/admin/change_mailcampaign.html:86
 msgid "Pause"
 msgstr ""
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:102
+#: econnect/templates/econnect/admin/change_mailcampaign.html:98
 msgid "Test"
 msgstr ""
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:111
-#: econnect/templates/econnect/admin/change_mailcampaign.html:116
+#: econnect/templates/econnect/admin/change_mailcampaign.html:107
+#: econnect/templates/econnect/admin/change_mailcampaign.html:112
 msgid "To"
 msgstr "À"
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:137
+#: econnect/templates/econnect/admin/change_mailcampaign.html:133
 msgid "Subject"
 msgstr "Sujet"
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:143
+#: econnect/templates/econnect/admin/change_mailcampaign.html:139
 msgid "Pre-Header"
 msgstr ""
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:159
+#: econnect/templates/econnect/admin/change_mailcampaign.html:155
 #: templates/shopping/mails/order_notice.html:192
 msgid "Message"
 msgstr ""
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:205
+#: econnect/templates/econnect/admin/change_mailcampaign.html:201
 msgid "Call-to-action button title"
 msgstr "Titre du bouton d'action"
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:207
+#: econnect/templates/econnect/admin/change_mailcampaign.html:203
 msgid "Ex: Buy now"
 msgstr "Ex: Acheter maintenant"
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:212
+#: econnect/templates/econnect/admin/change_mailcampaign.html:208
 msgid "Call-to-action url link"
 msgstr "Lien url du Call-to-action"
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:214
+#: econnect/templates/econnect/admin/change_mailcampaign.html:210
 msgid "Ex: http://www.mysite.com/product/your_product"
 msgstr ""
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:221
+#: econnect/templates/econnect/admin/change_mailcampaign.html:217
 #: econnect/templates/econnect/snippets/get_email_modal.html:19
+#: econnect/templates/econnect/snippets/popup.html:19
 #: templates/accesscontrol/set_new_password_sms_recovery.html:58
 #: templates/accesscontrol/sign_in_minimal.html:126
 msgid "Continue"
 msgstr "Continuer"
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:225
+#: econnect/templates/econnect/admin/change_mailcampaign.html:221
 #: econnect/templates/econnect/admin/change_package.html:105
+#: templates/core/change_object_base.html:72
 #: templates/core/configuration.html:38
 msgid "Save"
 msgstr "Sauvegarger"
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:237
+#: econnect/templates/econnect/admin/change_mailcampaign.html:233
 msgid "Send a mail test"
 msgstr "Envoyer un mail de test"
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:241
+#: econnect/templates/econnect/admin/change_mailcampaign.html:237
 msgid "Input test emails. <em>Separate with coma</em>"
 msgstr "Saisir les emails de tests. <em>séparer avec une virgule (\",\")</em>"
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:244
+#: econnect/templates/econnect/admin/change_mailcampaign.html:240
 msgid "Test emails"
 msgstr "Tester emails"
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:254
+#: econnect/templates/econnect/admin/change_mailcampaign.html:250
 msgid "Send test"
 msgstr "Envoyer test"
 
-#: econnect/templates/econnect/admin/change_mailcampaign.html:352
+#: econnect/templates/econnect/admin/change_mailcampaign.html:348
 msgid "Your tests were sent"
 msgstr "Test réussis"
 
 #: econnect/templates/econnect/admin/change_package.html:5
 #: econnect/templates/econnect/admin/change_package.html:87
+#: templates/core/change_object_base.html:5
+#: templates/core/change_object_base.html:54
 msgid "New"
 msgstr "Nouveau"
+
+#: econnect/templates/econnect/admin/dashboard.html:5
+#: templates/core/app_base_admin.html:11
+msgid "Dashboard"
+msgstr ""
+
+#: econnect/templates/econnect/admin/dashboard.html:26
+msgid "Easily monitor your business"
+msgstr ""
+
+#: econnect/templates/econnect/admin/dashboard.html:32
+#, fuzzy
+msgid "Orders"
+msgstr "Passer une commande"
+
+#: econnect/templates/econnect/admin/dashboard.html:39
+msgid "New(s)"
+msgstr ""
+
+#: econnect/templates/econnect/admin/dashboard.html:42
+#, fuzzy
+msgid "No pending order to display"
+msgstr "Commandes en attente"
+
+#: econnect/templates/econnect/admin/dashboard.html:48
+#: econnect/templates/econnect/admin/dashboard.html:65
+#: econnect/templates/econnect/admin/dashboard.html:82
+#: econnect/templates/econnect/admin/dashboard.html:99
+#: econnect/templates/econnect/admin/dashboard.html:121
+#: econnect/templates/econnect/admin/dashboard.html:137
+#: econnect/templates/econnect/admin/dashboard.html:159
+#: econnect/templates/econnect/admin/dashboard.html:176
+#: econnect/templates/econnect/admin/dashboard.html:193
+msgid "More info "
+msgstr ""
+
+#: econnect/templates/econnect/admin/dashboard.html:56
+#: econnect/templates/econnect/admin/dashboard.html:167
+#, fuzzy
+msgid "Pending payment"
+msgstr "Commandes en attente"
+
+#: econnect/templates/econnect/admin/dashboard.html:59
+#: econnect/templates/econnect/admin/dashboard.html:170
+msgid "No pending payments to display"
+msgstr ""
+
+#: econnect/templates/econnect/admin/dashboard.html:73
+#: econnect/templates/econnect/admin/dashboard.html:184
+msgid "Paid"
+msgstr ""
+
+#: econnect/templates/econnect/admin/dashboard.html:76
+msgid "No unserved payments to display..."
+msgstr ""
+
+#: econnect/templates/econnect/admin/dashboard.html:90
+#, fuzzy
+msgid "Reported"
+msgstr "Reporter"
+
+#: econnect/templates/econnect/admin/dashboard.html:93
+#, fuzzy
+msgid "No reported order to display..."
+msgstr "Commandes reportées"
+
+#: econnect/templates/econnect/admin/dashboard.html:106
+#: templates/core/app_base_admin.html:50
+msgid "Community"
+msgstr "Communauté"
+
+#: econnect/templates/econnect/admin/dashboard.html:113
+#, fuzzy
+msgid "Registered Users"
+msgstr "Enregistrer"
+
+#: econnect/templates/econnect/admin/dashboard.html:115
+msgid "No member registered yet..."
+msgstr ""
+
+#: econnect/templates/econnect/admin/dashboard.html:129
+msgid "Unique Visitors"
+msgstr ""
+
+#: econnect/templates/econnect/admin/dashboard.html:131
+msgid "Nothing to display at the moment..."
+msgstr ""
+
+#: econnect/templates/econnect/admin/dashboard.html:143
+#, fuzzy
+msgid "Invoices"
+msgstr "Facture"
+
+#: econnect/templates/econnect/admin/dashboard.html:150
+msgid "Sent"
+msgstr ""
+
+#: econnect/templates/econnect/admin/dashboard.html:153
+msgid "No sent invoice to display"
+msgstr ""
+
+#: econnect/templates/econnect/admin/dashboard.html:187
+#, fuzzy
+msgid "No invoices paid..."
+msgstr "Mes factures"
 
 #: econnect/templates/econnect/admin/order_list.html:5
 #: econnect/templates/econnect/admin/order_list.html:19
@@ -901,6 +1038,7 @@ msgstr "Chercher %(verbose_name)s"
 
 #: econnect/templates/econnect/admin/order_list.html:41
 #: econnect/templates/econnect/admin/request_list.html:39
+#: templates/billing/subscription_list.html:56
 msgid "All"
 msgstr "Tout"
 
@@ -920,6 +1058,11 @@ msgstr "Contacter le client"
 msgid "Sending request..."
 msgstr "Envoie de la requête..."
 
+#: econnect/templates/econnect/admin/order_list.html:97
+#, fuzzy
+msgid "Error occurs when sending request, please try again..."
+msgstr "Une erreur est survenue, essayer encore..."
+
 #: econnect/templates/econnect/admin/order_list.html:111
 msgid "Order accepted"
 msgstr "Commande acceptée"
@@ -930,15 +1073,15 @@ msgstr ""
 "Une erreur se produit lors de l'acceptation de cette commande, veuillez "
 "réessayer...."
 
-#: econnect/templates/econnect/admin/order_list.html:129
+#: econnect/templates/econnect/admin/order_list.html:128
 msgid "Order reported"
 msgstr "Commande reportée"
 
-#: econnect/templates/econnect/admin/order_list.html:132
+#: econnect/templates/econnect/admin/order_list.html:131
 msgid "Error occurs when reporting this order, please try again..."
 msgstr "Une erreur s'est produite, veuillez réessayer...."
 
-#: econnect/templates/econnect/admin/order_list.html:145
+#: econnect/templates/econnect/admin/order_list.html:143
 msgid "Error occurs when classifying this order, please try again..."
 msgstr ""
 "Une erreur s'est produite lors de la classification de cette commande, "
@@ -970,6 +1113,7 @@ msgstr "Terminer"
 
 #: econnect/templates/econnect/admin/snippets/order_list_results.html:169
 #: econnect/templates/econnect/admin/snippets/request_list_result.html:52
+#: templates/billing/snippets/subscription_list_results.html:66
 #, python-format
 msgid ""
 "\n"
@@ -978,6 +1122,7 @@ msgstr ""
 
 #: econnect/templates/econnect/admin/snippets/order_list_results.html:172
 #: econnect/templates/econnect/admin/snippets/request_list_result.html:55
+#: templates/billing/snippets/subscription_list_results.html:69
 #, python-format
 msgid "%(count)s results"
 msgstr "%(count)s résultats"
@@ -993,6 +1138,7 @@ msgstr "Détail"
 #: econnect/templates/econnect/mails/order_accepted.html:94
 #: econnect/templates/econnect/mails/order_finished.html:94
 #: econnect/templates/econnect/mails/order_reported.html:94
+#: econnect/templates/econnect/mails/order_submitted.html:94
 #: templates/accesscontrol/mails/community_welcome.html:23
 msgid "The best of internet, the best of tv."
 msgstr "Le meilleur d'internet, le meilleur de la télé."
@@ -1037,7 +1183,7 @@ msgstr ""
 "                        "
 
 #: econnect/templates/econnect/mails/order_accepted.html:150
-#: templates/billing/invoice_list.html:75
+#: templates/billing/invoice_list.html:80
 #: templates/billing/snippets/modal_payment_options.html:7
 msgid "Pay now"
 msgstr "Payer maintenant"
@@ -1115,27 +1261,50 @@ msgstr ""
 msgid "My Creolink"
 msgstr "Mon Creolink"
 
+#: econnect/templates/econnect/mails/order_submitted.html:132
+#, fuzzy, python-format
+msgid ""
+"Hi Administrator,</h3>\n"
+"                        <p style=\"-ms-text-size-adjust:100%%;-webkit-text-"
+"size-adjust:100%%;font-size:14px\" >\n"
+"                            %(member_fullname)s just placed the order "
+"%(order_label)s on website.\n"
+"                        </p>\n"
+"                        "
+msgstr ""
+"\n"
+"                                                    Bienvenu dans la "
+"communauté <span style=\"-ms-text-size-adjust:100%%;-webkit-text-size-"
+"adjust:100%%;color:#f28632;\" >%(joined_project_name)s</span>.\n"
+"                                                    "
+
+#: econnect/templates/econnect/mails/order_submitted.html:145
+#, fuzzy
+msgid "See order"
+msgstr "Modifier la Commande"
+
 #: econnect/templates/econnect/snippets/edge_panel.html:25
-#: templates/core/app_base_admin.html:127
+#: templates/core/app_base_admin.html:139
 msgid "Blog"
 msgstr ""
 
 #: econnect/templates/econnect/snippets/edge_panel.html:27
-#: templates/core/base_bs.html:183
+#: templates/core/base_bs.html:195
 msgid "About Us"
 msgstr "À propos de nous"
 
 #: econnect/templates/econnect/snippets/edge_panel.html:28
-#: templates/core/base_bs.html:190
+#: templates/core/base_bs.html:205
 msgid "Privacy policy"
 msgstr "Politique de confidentialité"
 
 #: econnect/templates/econnect/snippets/edge_panel.html:29
-#: templates/core/base_bs.html:191
+#: templates/core/base_bs.html:206
 msgid "Legal mention"
 msgstr "Mentions légales"
 
 #: econnect/templates/econnect/snippets/get_email_modal.html:8
+#: econnect/templates/econnect/snippets/popup.html:8
 msgid "Please, enter your email before proceeding..."
 msgstr "Veuillez entrer votre email avant de continuer...."
 
@@ -1732,14 +1901,87 @@ msgstr ""
 msgid "Why we ask those information ?"
 msgstr "Pourquoi nous demandons ces informations ?"
 
-#: templates/billing/invoice_list.html:66
+#: templates/billing/invoice_list.html:71
 msgid "Due date"
 msgstr "Date d'échéance"
 
+#: templates/billing/subscription_list.html:6
+#: templates/billing/subscription_list.html:23
+#: templates/core/app_base_admin.html:110
+msgid "Subscriptions"
+msgstr "Abonnements"
+
+#: templates/billing/subscription_list.html:35
+msgid "Search"
+msgstr ""
+
+#: templates/billing/subscription_list.html:44
+msgid "Filters"
+msgstr ""
+
+#: templates/billing/subscription_list.html:61
+msgid "Other"
+msgstr ""
+
+#: templates/billing/subscription_list.html:72
+#, python-format
+msgid "Add new %(verbose_name)s"
+msgstr "Ajouter %(verbose_name)s"
+
+#: templates/billing/subscription_list.html:74
+msgid "Add"
+msgstr "Ajouter"
+
+#: templates/billing/subscription_list.html:79
+#, python-format
+msgid "Import %(verbose_name)s list from CSV file"
+msgstr ""
+
+#: templates/billing/subscription_list.html:82
+msgid "Import"
+msgstr "Importer"
+
+#: templates/billing/subscription_list.html:87
+msgid "Export as Spreadsheet"
+msgstr ""
+
+#: templates/billing/subscription_list.html:89
+msgid "Export"
+msgstr "Exporter"
+
+#: templates/billing/subscription_list.html:106
+msgid "Import from CSV file"
+msgstr ""
+
+#: templates/billing/subscription_list.html:111
+msgid "Download CSV file model..."
+msgstr ""
+
+#: templates/billing/subscription_list.html:142
+msgid "Import customer list from CSV file"
+msgstr ""
+
+#: templates/billing/subscription_list.html:149
+msgid "Upload customer from CSV file"
+msgstr ""
+
 #: templates/billing/mails/notice.html:131
 #, python-format
-msgid "Dear %(member_name)s,"
-msgstr "%(member_name)s,"
+msgid ""
+"Dear %(member_name)s,</h3>\n"
+"                        <p style=\"-ms-text-size-adjust:100%%;-webkit-text-"
+"size-adjust:100%%;font-size:14px;\" >\n"
+"                            Your subscription is being activated. Please see "
+"details below and proceed to payment.\n"
+"                        </p>"
+msgstr ""
+"Salutations %(member_name)s,</h3>\n"
+"                        <p style=\"-ms-text-size-adjust:100%%;-webkit-text-"
+"size-adjust:100%%;font-size:14px;\" >\n"
+"                            Votre abonnement est en cours d'activation. "
+"Veuillez consulter ses détails ci-dessous et procéder au paiement s'il vous "
+"plaît.\n"
+"                        </p>"
 
 #: templates/billing/mails/notice.html:186
 msgid "Amount"
@@ -1753,7 +1995,7 @@ msgstr "Date d'échéance"
 msgid "Service details"
 msgstr "Détails du service"
 
-#: templates/billing/mails/notice.html:226
+#: templates/billing/mails/notice.html:222
 #, python-format
 msgid "Thank you for your business with %(company_name)s"
 msgstr "Merci d'avoir fait confiance à %(company_name)s"
@@ -1774,84 +2016,93 @@ msgstr "Payer avec Orange Money"
 msgid "Pay with YUP"
 msgstr "Payer avec YUP"
 
-#: templates/core/app_base_admin.html:11
+#: templates/billing/snippets/subscription_list_results.html:22
+msgid "Cost"
+msgstr "Coût"
+
+#: templates/billing/snippets/subscription_list_results.html:26
+msgid "Plan"
+msgstr ""
+
+#: templates/billing/snippets/subscription_list_results.html:31
+msgid "Expiry"
+msgstr "Expiration"
+
+#: templates/billing/snippets/subscription_list_results.html:42
+#: templates/flatpages/flatpage_list.html:35
+msgid "Delete item"
+msgstr "Supprimer l'élément"
+
+#: templates/core/app_base_admin.html:18
 msgid "Cloud Order Manager"
 msgstr "Gestion des commandes"
 
-#: templates/core/app_base_admin.html:25
+#: templates/core/app_base_admin.html:32
 msgid "Canceled orders"
 msgstr "Annuler la commande"
 
-#: templates/core/app_base_admin.html:47
-msgid "Community"
-msgstr "Communauté"
+#: templates/core/app_base_admin.html:57
+msgid "Campaign"
+msgstr "Campagne"
 
-#: templates/core/app_base_admin.html:54
-msgid "Messaging Campaign"
-msgstr "Campagne de messagerie"
-
-#: templates/core/app_base_admin.html:68
+#: templates/core/app_base_admin.html:76
 msgid "Content Management System"
 msgstr "Gestion du contenu"
 
-#: templates/core/app_base_admin.html:72
+#: templates/core/app_base_admin.html:80
 msgid "Products"
 msgstr "Produits"
 
-#: templates/core/app_base_admin.html:75
+#: templates/core/app_base_admin.html:83
 msgid "Packages"
 msgstr ""
 
-#: templates/core/app_base_admin.html:81
+#: templates/core/app_base_admin.html:89
 msgid "Extra"
 msgstr ""
 
-#: templates/core/app_base_admin.html:84
+#: templates/core/app_base_admin.html:92
 msgid "Faq"
 msgstr ""
 
-#: templates/core/app_base_admin.html:87
+#: templates/core/app_base_admin.html:95
 msgid "Advertisement"
 msgstr "Publicité"
 
-#: templates/core/app_base_admin.html:94
+#: templates/core/app_base_admin.html:104
 msgid "Billing"
 msgstr "Facturation"
 
-#: templates/core/app_base_admin.html:100
-msgid "Subscriptions"
-msgstr "Abonnements"
-
-#: templates/core/app_base_admin.html:105
+#: templates/core/app_base_admin.html:115
 msgid "Customer invoices"
 msgstr "Factures des clients"
 
-#: templates/core/app_base_admin.html:108
+#: templates/core/app_base_admin.html:118
 msgid "Payments"
 msgstr "Paiements"
 
-#: templates/core/app_base_admin.html:113 templates/core/base_admin.html:122
+#: templates/core/app_base_admin.html:123 templates/core/base_admin.html:114
 #: templates/core/configuration.html:23
 msgid "Configuration"
 msgstr ""
 
-#: templates/core/app_base_admin.html:116
+#: templates/core/app_base_admin.html:126
 msgid "Payment means"
 msgstr "Moyens de paiement"
 
-#: templates/core/app_base_admin.html:120
+#: templates/core/app_base_admin.html:130
 msgid "My invoices"
 msgstr "Mes factures"
 
-#: templates/core/app_base_admin.html:132
+#: templates/core/app_base_admin.html:144
 msgid "Blog categories"
 msgstr "Catégories du blog"
 
-#: templates/core/app_base_admin.html:135
+#: templates/core/app_base_admin.html:147
 msgid "Posts"
 msgstr "Articles"
 
-#: templates/core/app_base_admin.html:139
+#: templates/core/app_base_admin.html:151
 msgid "Comments"
 msgstr "Commentaires"
 
@@ -1863,46 +2114,46 @@ msgstr "Effacer la sélection"
 msgid "Selected"
 msgstr ""
 
-#: templates/core/base_admin.html:28 templates/core/base_admin.html.py:31
+#: templates/core/base_admin.html:27 templates/core/base_admin.html.py:29
 msgid "Go to website"
 msgstr "Aller sur le site Web"
 
-#: templates/core/base_admin.html:67 templates/core/base_bs.html:67
-#: templates/core/base_bs.html.py:123
+#: templates/core/base_admin.html:65 templates/core/base_bs.html:79
+#: templates/core/base_bs.html.py:135
 msgid "Account setup"
 msgstr "Configuration du compte"
 
-#: templates/core/base_admin.html:74 templates/core/base_bs.html:74
-#: templates/core/base_bs.html.py:130
+#: templates/core/base_admin.html:72 templates/core/base_bs.html:86
+#: templates/core/base_bs.html.py:142 templates/core/base_bs.html:198
 msgid "Logout"
 msgstr "Déconnexion"
 
-#: templates/core/base_admin.html:80 templates/core/base_bs.html:80
-#: templates/core/base_bs.html.py:136
+#: templates/core/base_admin.html:78 templates/core/base_bs.html:92
+#: templates/core/base_bs.html.py:148
 msgid "Login"
 msgstr "Connection"
 
-#: templates/core/base_admin.html:100
+#: templates/core/base_admin.html:98
 msgid "Pages"
 msgstr ""
 
-#: templates/core/base_admin.html:117
+#: templates/core/base_admin.html:109
 msgid "Modules"
 msgstr ""
 
-#: templates/core/base_admin.html:126
+#: templates/core/base_admin.html:118
 msgid "Info & Billing"
 msgstr "Info & Facturation"
 
-#: templates/core/base_admin.html:144
+#: templates/core/base_admin.html:136
 msgid "All rights reserved."
 msgstr "Tout droits réservés."
 
-#: templates/core/base_admin.html:145
+#: templates/core/base_admin.html:137
 msgid "Legal mentions"
 msgstr "Mentions légales"
 
-#: templates/core/base_admin.html:270
+#: templates/core/base_admin.html:262
 msgid "Confirm deletion ?"
 msgstr "Confirmer la suppression ?"
 
@@ -1910,39 +2161,39 @@ msgstr "Confirmer la suppression ?"
 msgid "Creolink Communications"
 msgstr ""
 
-#: templates/core/base_bs.html:46
+#: templates/core/base_bs.html:58
 msgid "Need some help? "
 msgstr "Besoins d'aide ?"
 
-#: templates/core/base_bs.html:152
+#: templates/core/base_bs.html:164
 msgid "NumeriLink Home"
 msgstr ""
 
-#: templates/core/base_bs.html:153
+#: templates/core/base_bs.html:165
 msgid "NumeriLink Hotel"
 msgstr "NumeriLink Hôtel"
 
-#: templates/core/base_bs.html:180
+#: templates/core/base_bs.html:192
 msgid "Our Company"
 msgstr "Notre Entreprise"
 
-#: templates/core/base_bs.html:184
+#: templates/core/base_bs.html:197
 msgid "Sign In"
 msgstr "Se connecter"
 
-#: templates/core/base_bs.html:188
+#: templates/core/base_bs.html:203
 msgid "Legal"
 msgstr "Légal"
 
-#: templates/core/base_bs.html:196
+#: templates/core/base_bs.html:211
 msgid "Follow us"
 msgstr "Suivez nous"
 
-#: templates/core/base_bs.html:206
+#: templates/core/base_bs.html:221
 msgid "Or on web..."
 msgstr "Ou sur le Web..."
 
-#: templates/core/base_bs.html:325
+#: templates/core/base_bs.html:350
 msgid "Get started"
 msgstr "Commencer"
 
@@ -2004,10 +2255,6 @@ msgstr ""
 msgid "Flat Pages"
 msgstr ""
 
-#: templates/flatpages/flatpage_list.html:35
-msgid "Delete item"
-msgstr ""
-
 #: templates/flatpages/flatpage_list.html:55
 msgid "Flat page info successfully updated."
 msgstr "Mise à jour de la page réussie"
@@ -2025,6 +2272,10 @@ msgid ""
 "strong> was confirmed.\n"
 "                "
 msgstr ""
+"\n"
+"                    Votre commande N°<strong>%(rcc)s</strong> sur "
+"%(merchant)s a été confirmé.\n"
+"                "
 
 #: templates/shopping/mails/order_notice.html:188
 #, python-format
@@ -2034,6 +2285,10 @@ msgid ""
 "strong> was rejected.\n"
 "                "
 msgstr ""
+"\n"
+"                    Votre commande N°<strong>%(rcc)s</strong> sur "
+"%(merchant)s a été rejeté.\n"
+"                "
 
 #: templates/shopping/mails/order_notice.html:198
 #, python-format
@@ -2216,6 +2471,15 @@ msgstr ""
 #: templates/shopping/mails/order_notice_with_reward.html:361
 msgid "Collect your gifts now"
 msgstr "Réclamer vos cadeaux maintenant"
+
+#~ msgid "Dear %(member_name)s,"
+#~ msgstr "%(member_name)s,"
+
+#~ msgid "Successful payment. Your subscription is now active."
+#~ msgstr "Paiement effectué. Votre service est activé."
+
+#~ msgid "Messaging Campaign"
+#~ msgstr "Campagne de messagerie"
 
 #~ msgid "Domain name"
 #~ msgstr "Nom de domaine"
