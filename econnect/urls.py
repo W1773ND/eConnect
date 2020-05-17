@@ -1,17 +1,12 @@
 from django.conf.urls import url, patterns
-from django.contrib.auth.decorators import permission_required, login_required, user_passes_test
-
-from ikwen.accesscontrol.utils import is_staff
-from ikwen.billing.invoicing.views import InvoiceList
+from django.contrib.auth.decorators import permission_required, login_required
 
 from econnect.collect import confirm_invoice_payment
 from econnect.utils import get_media, delete_tinyMCE_photo
-from econnect.views import Admin, HomeView, Numerilink, NumerilinkHotel, Homelink, Officelink, Corporatelink, \
-    PricingNumerilink, PricingNumerilinkHotel, PendingOrderList, PaidOrderList, \
-    CustomerRequestList, ChangeProduct, ProductList, ChangePackage, PackageList, EquipmentList, ChangeEquipment, \
-    ExtraList, ChangeExtra, PricingOfficelink, PricingHomelink, PricingCorporatelink, Maps, \
-    OrderConfirm, ChangeMailCampaign, ReportedOrderList, Offline, CanceledOrderList, FaqList, \
-    ChangeFaq, ChangeAdvertisement, AdvertisementList, Dashboard
+from econnect.views import HomeView, Numerilink, NumerilinkHotel, Homelink, Officelink, Corporatelink, \
+    PricingNumerilink, PricingNumerilinkHotel, ChangeProduct, ProductList, ChangePackage, PackageList, EquipmentList,\
+    ChangeEquipment, ExtraList, ChangeExtra, PricingOfficelink, PricingHomelink, PricingCorporatelink, Maps, \
+    OrderConfirm, ChangeMailCampaign, Offline, FaqList, ChangeFaq, ChangeAdvertisement, AdvertisementList
 
 urlpatterns = patterns(
     '',
@@ -29,10 +24,10 @@ urlpatterns = patterns(
     url(r'^Corporatelink/order/$', PricingCorporatelink.as_view(), name='corporatelink-pricing'),
     url(r'^maps$', login_required(Maps.as_view()), name='maps'),
     url(r'^OrderConfirm/$', login_required(OrderConfirm.as_view()), name='order_confirm'),
-    url(r'^MyCreolink/$', login_required(InvoiceList.as_view()), name='my_creolink'),
+
+
     url(r'^confirm_invoice_payment/(?P<tx_id>[-\w]+)/(?P<signature>[-\w]+)/(?P<lang>[-\w]+)$', confirm_invoice_payment, name='confirm_invoice_payment'),
-    url(r'^STAFF/home/$', user_passes_test(is_staff)(Admin.as_view()), name='admin'),
-    url(r'^STAFF/dashboard/$', permission_required('econnect.ik_view_dashboard')(Dashboard.as_view()), name='dashboard'),
+
     url(r'^products/$', permission_required('flatpages.ik_webmaster')(ProductList.as_view()), name='product_list'),
     url(r'^product/$', permission_required('flatpages.ik_webmaster')(ChangeProduct.as_view()), name='change_product'),
     url(r'^product/(?P<object_id>[-\w]+)/$', permission_required('flatpages.ik_webmaster')(ChangeProduct.as_view()), name='change_product'),
@@ -51,13 +46,9 @@ urlpatterns = patterns(
     url(r'^advertisements/$', permission_required('flatpages.ik_webmaster')(AdvertisementList.as_view()), name='advertisement_list'),
     url(r'^advertisement/$', permission_required('flatpages.ik_webmaster')(ChangeAdvertisement.as_view()), name='change_advertisement'),
     url(r'^advertisement/(?P<object_id>[-\w]+)/$', permission_required('flatpages.ik_webmaster')(ChangeAdvertisement.as_view()), name='change_advertisement'),
-    url(r'^STAFF/pendingOrder$', permission_required('econnect.ik_manage_sales')(PendingOrderList.as_view()), name='pending_order'),
-    url(r'^STAFF/paidOrder$', permission_required('econnect.ik_manage_sales')(PaidOrderList.as_view()), name='paid_order'),
-    url(r'^STAFF/reportedOrder$', permission_required('econnect.ik_manage_sales')(ReportedOrderList.as_view()), name='reported_order'),
-    url(r'^STAFF/canceledOrder$', permission_required('econnect.ik_manage_sales')(CanceledOrderList.as_view()), name='canceled_order'),
     url(r'^mailCampaign/$', permission_required('econnect.ik_sav')(ChangeMailCampaign.as_view()), name='change_mailcampaign'),
     url(r'^mailCampaign/(?P<object_id>[-\w]+)/$', permission_required('econnect.ik_sav')(ChangeMailCampaign.as_view()), name='change_mailcampaign'),
-    url(r'^STAFF/customerRequest$', permission_required('econnect.ik_econnect_admin')(CustomerRequestList.as_view()), name='admin_request'),
+
     url(r'^get_media$', get_media, name='get_media'),
     url(r'^delete_tinymce_photo', delete_tinyMCE_photo, name='delete_tinymce_photo'),
 )

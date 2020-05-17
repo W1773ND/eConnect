@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from djangotoolbox.fields import ListField, EmbeddedModelField
 
-from ikwen.core.models import Model, Service, AbstractWatchModel, AbstractConfig
+from ikwen.core.models import Model, Service, AbstractWatchModel, AbstractConfig, Country
 from ikwen.core.constants import STARTED
 from ikwen.accesscontrol.models import Member
 
@@ -34,8 +34,8 @@ TYPE_CHOICES = (
 EN = 'en'
 FR = 'fr'
 LANG_CHOICES = (
-   (EN, 'English'),
-   (FR, u'Français'),
+    (EN, 'English'),
+    (FR, u'Français'),
 )
 MEDIA_DIR = getattr(settings, 'MEDIA_ROOT') + 'tiny_mce/'
 TINYMCE_MEDIA_URL = getattr(settings, 'MEDIA_URL') + 'tiny_mce/'
@@ -54,7 +54,8 @@ class Product(ModelI18n):
     name = models.CharField(max_length=200)
     slug = models.CharField(max_length=250)
     slogan = models.CharField(max_length=250)
-    description = models.TextField(blank=True, null=True, help_text="Description appears below the banner on the product presentation page")
+    description = models.TextField(blank=True, null=True,
+                                   help_text="Description appears below the banner on the product presentation page")
     catchy_title = models.CharField(max_length=250, help_text="Title for banner appear on product and pricing page")
     catchy = models.TextField(blank=True, null=True, help_text="Text for banner appear on product and pricing page")
     cta_label = models.CharField(max_length=30, verbose_name="Call-to-action")
@@ -89,6 +90,7 @@ class Package(ModelI18n):
                                                  "Eg:<strong>1 month</strong>, <strong>3 months</strong>, etc."))
     cost = models.IntegerField()
     order_of_appearance = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
 
     def __unicode__(self):
         if self.type:
@@ -184,14 +186,36 @@ class Advertisement(Model):
         return self.description
 
 
+class Subscription(AbstractSubscription):
+    order = models.ForeignKey(Order, blank=True, null=True)
+
+
+class Site(Model):
+    member = models.ForeignKey(Member, related_name='+', blank=True, null=True)
+    package = models.ForeignKey(Package, verbose_name=_("Subscription"))
+    subscription = models.ForeignKey(Subscription, blank=True, null=True)
+    code = models.CharField(_("Site Code"), max_length=30)
+    order_of_appearance = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return str(self.package)
+
+    def get_obj_details(self):
+        return _("Expires on : ") + str(self.subscription.expiry)
+
+
+class Profile(Model):
+    member = models.ForeignKey(Member, related_name='+', blank=True, null=True)
+    code = models.CharField(_("Client Code"), max_length=15)
+    country = models.ForeignKey(Country)
+    city = models.CharField(max_length=30)
+    district = models.CharField(max_length=30, blank=True, null=True)
+
+
 class CustomerRequest(Model):
     member = models.ForeignKey(Member, related_name='+')
     name = models.CharField(max_length=250)
     label = models.CharField(max_length=250, blank=False, null=False)
-
-
-class Subscription(AbstractSubscription):
-    order = models.ForeignKey(Order)
 
 
 class Config(AbstractConfig):

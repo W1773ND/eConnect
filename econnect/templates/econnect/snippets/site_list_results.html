@@ -1,0 +1,63 @@
+{% load i18n static humanize %}
+{% include 'core/snippets/spinner.html' %}
+<ul class="object-list list-group">
+    {% for obj in objects_page.object_list %}
+    {% url change_object_url_name obj.id as obj_url %}
+    <li class="ik-li list-group-item {{ obj.status }}" id="{{ obj.id }}" data-id="{{ obj.id }}">
+        {% if has_image %}
+            <a href="{{ obj_url }}" class="image"
+               style="background-image: url({% if obj.image.thumb_name %}{% get_media_prefix %}{{ obj.image.thumb_name }}{% elif obj.image.name %}{% get_media_prefix %}{{ obj.image.name }}{% else %}{{ settings.IKWEN_MEDIA_URL }}no_photo.png{% endif %})"></a>
+            <div class="info">
+                <a href="{{ obj_url }}" class="title">{{ obj }}</a>
+                {% with obj_details=obj.get_obj_details %}
+                    {% if obj_details %}
+                        <p class="about text-muted">{{ obj_details|safe }}</p>
+                    {% endif %}
+                {% endwith %}
+            </div>
+        {% else %}
+            <a href="{{ obj_url }}">{{ obj }}</a>
+            {% with obj_details=obj.get_obj_details %}
+                {% if obj_details %}
+                    <div class="text-muted">{{ obj_details|safe }}</div>
+                {% endif %}
+            {% endwith %}
+        {% endif %}
+        <div class="actions">
+            {% if has_is_active_field %}
+                {% if obj.is_active %}
+                    <i class="action glyphicon glyphicon-ok toggle active off" title="{% trans "Deactivate" %}"></i>
+                {% else %}
+                    <i class="action glyphicon glyphicon-ok toggle active on" title="{% trans "Activate" %}"></i>
+                {% endif %}
+            {% endif %}
+{#            <i class="glyphicon glyphicon-trash trash" title="{% trans "Delete item" %}"></i>#}
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% if objects_page.paginator.num_pages > 1 %}
+<ul class="pagination">
+    {% if objects_page.paginator.num_pages > max_visible_page_count and page_range.0 >= max_visible_page_count  %}
+        <li class="page" data-val="first"><a href="javascript:;" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+    {% endif %}
+    {% for page in page_range %}
+        <li class="page{% if page == objects_page.number %} active{% endif %}" data-val="{{ page }}">
+            <a href="javascript:;">
+                {{ page }} {% if page == objects_page.number %}<span class="sr-only">(current)</span>{% endif %}
+            </a>
+        </li>
+    {% endfor %}
+    {% if objects_page.paginator.num_pages > max_visible_page_count and max_page < objects_page.paginator.num_pages %}
+        <li class="page{% if max_page == objects_page.paginator.num_pages %} disabled{% endif %}" data-val="-1"><a href="javascript:;" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+    {% endif %}
+</ul>
+{% endif %}
+<div id="page-navigation" class="text-muted">
+    {% if objects_page.paginator.num_pages > 1 %}
+        <p>{% blocktrans with count=objects_page.paginator.count start=objects_page.start_index end=objects_page.end_index %}
+            {{ start }} – {{ end }} of {{ count }} results{% endblocktrans %}</p>
+    {% else %}
+        <p>{% blocktrans with count=objects_page.paginator.count %}{{ count }} results{% endblocktrans %}</p>
+    {% endif %}
+</div>

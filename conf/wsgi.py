@@ -10,7 +10,10 @@ https://docs.djangoproject.com/en/1.6/howto/deployment/wsgi/
 import os
 import sys
 
-sys.path.append('/home/w177/PycharmProjects/eConnect/')
+
+path = '/home/w177/MEGAsync/PycharmProjects/eConnect/'
+if path not in sys.path:
+    sys.path.append(path)
 
 from conf import monitor
 

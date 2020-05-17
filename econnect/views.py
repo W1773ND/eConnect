@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
+
 __author__ = 'W1773ND (wilfriedwillend@gmail.com)'
 
+from calendar import monthrange
 from datetime import datetime, timedelta
 
 import requests
@@ -46,16 +48,21 @@ from echo.views import CampaignBaseView, File, batch_send_mail
 from echo.models import MailCampaign, Balance
 from echo.admin import MailCampaignAdmin
 
-from econnect.admin import ProductAdmin, PackageAdmin, EquipmentAdmin, ExtraAdmin, FaqAdmin, AdvertisementAdmin
+from econnect.admin import ProductAdmin, PackageAdmin, EquipmentAdmin, ExtraAdmin, FaqAdmin, AdvertisementAdmin, \
+    SiteAdmin, ProfileAdmin
 from econnect.forms import OrderForm
 from econnect.models import ADMIN_EMAIL, Subscription, Order, CustomerRequest, Product, Package, Equipment, \
     EquipmentOrderEntry, \
     Extra, RENTAL, PURCHASE, REPORTED, FINISHED, CANCELED, DEVICE_ID, \
-    NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, ANALOG, DIGITAL, ECONNECT, Faq, Advertisement
+    NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, ANALOG, DIGITAL, ECONNECT, Faq, Advertisement, Site, Profile
 
 import logging
 
 logger = logging.getLogger('ikwen')
+
+
+def last_day_of_the_month(date):
+    return date.replace(day=monthrange(date.year, date.month)[1])
 
 
 def set_prospect(order, url, payload):
@@ -228,7 +235,7 @@ class OrderConfirm(TemplateView):
                                                            'admin_url': admin_url,
                                                            })
             sender = 'Creolink Communications <no-reply@creolink.com>'
-            msg = XEmailMessage(subject, html_content, sender, [member.email], notify_email)
+            msg = XEmailMessage(subject, html_content, sender, [member.email], bcc=notify_email)
             msg.content_subtype = "html"
             Thread(target=lambda m: m.send(), args=(msg,)).start()
         except:
@@ -317,7 +324,7 @@ class PendingOrderList(HybridListView):
                                                            'member_lastname': member_lastname,
                                                            })
             sender = 'Creolink Communications <no-reply@creolink.com>'
-            msg = XEmailMessage(subject, html_content, sender, [member.email], [ADMIN_EMAIL])
+            msg = XEmailMessage(subject, html_content, sender, [member.email], bcc=[ADMIN_EMAIL])
             msg.content_subtype = "html"
             Thread(target=lambda m: m.send(), args=(msg,)).start()
         except:
@@ -433,7 +440,7 @@ class UncompletedOrderList(HybridListView):
         member = self.request.user
         queryset = Order.objects.filter(member=member, status=STARTED)
         if queryset.count() == 0:
-            next_url = reverse('econnect:my_creolink')
+            next_url = reverse('my_creolink')
             return HttpResponseRedirect(next_url)
         else:
             action = request.GET.get('action')
@@ -772,6 +779,62 @@ class ChangeAdvertisement(ChangeObjectBase):
     model = Advertisement
     model_admin = AdvertisementAdmin
     label_field = 'cta_label'
+
+
+class SiteList(HybridListView):
+    queryset = Site.objects.select_related('member', 'site')
+    ordering = ('order_of_appearance',)
+    context_object_name = 'site_list'
+    change_object_url_name = 'change_site'
+    template_name = 'econnect/site_list.html'
+    html_results_template_name = 'econnect/snippets/site_list_results.html'
+
+
+class ChangeSite(ChangeObjectBase):
+    model = Site
+    model_admin = SiteAdmin
+    template_name = 'econnect/change_site.html'
+    object_list_url = 'site_list'
+
+    def get_context_data(self, **kwargs):
+        context = super(ChangeSite, self).get_context_data(**kwargs)
+        member = self.request.user
+        context['member'] = member
+        return context
+
+    def after_save(self, request, obj, *args, **kwargs):
+        obj.member = request.user
+        obj.save()
+        try:
+            code_client = Profile.objects.get(member=self.request.user).code
+            now = datetime.today()
+            expiry = last_day_of_the_month(now)
+            reference_id = code_client + ":" + obj.code
+            subscription, update = Subscription.objects.get_or_create(member=obj.member, reference_id=reference_id)
+            subscription.product = obj.package
+            subscription.expiry = expiry
+            subscription.status = Subscription.ACTIVE
+            subscription.save()
+            obj.subscription = subscription
+            obj.save()
+        except Profile.DoesNotExist:
+            pass
+
+
+class ChangeProfile(ChangeObjectBase):
+    model = Profile
+    model_admin = ProfileAdmin
+    template_name = 'econnect/change_profile.html'
+
+    def get_object(self, **kwargs):
+        try:
+            return Profile.objects.get(member=self.request.user)
+        except Profile.DoesNotExist:
+            pass
+
+    def after_save(self, request, obj, *args, **kwargs):
+        obj.member = request.user
+        obj.save()
 
 
 class PricingNumerilink(PostView):

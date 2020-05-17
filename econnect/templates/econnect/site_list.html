@@ -1,0 +1,331 @@
+{% extends "core/base_admin.html" %}
+{% load i18n humanize staticfiles admin_list %}
+
+{% block head_style %}
+    {{ block.super }}
+    <style>
+        body { font-size: 15px }
+
+        .nav-pills>li>a { color: green; font-weight: normal }
+
+        @media (min-width: 768px) {
+            .navbar-default .navbar-brand { padding: 25px 15px 20px 0; }
+            #admin-nav .wrapper { padding-top: 0 }
+        }
+    </style>
+{% endblock %}
+
+{% block page_title %}
+<title> {{ verbose_name_plural|capfirst }} - {{ service.project_name }} </title>
+{% endblock %}
+
+{% block breadcrumb_location %}
+{% endblock %}
+
+<div id="top-notice-ctnr" style="display: none">
+    <span class="floating-notice has-shade" style="float: none; position: static"> </span>
+</div>
+{% block header %}
+    {% url "ikwen:account_setup" as account_setup_url %}
+    <div id="navbar" class="navbar navbar-default navbar-static-top">
+        <div class="container-fluid help-navbar hidden-xs" style="display: block">
+            <span class="lang-switcher hidden-xs">{% include 'econnect/snippets/language_switcher.html' %}</span>
+            <span class="help-navbar-phone">{% trans "Need some help? " %}{{ config.contact_phone }}&nbsp;<i class="fab fa-whatsapp" style="color: #28a745; font-size: large"></i></span>
+            {% comment %}<div class="navbar-right" style="margin-right: 0">
+                {% if user.is_authenticated %}
+                    {% if user.is_ghost %}
+                        <div id="user-menu">
+                            <a class="icon" href="{% url "ikwen:logout" %}?next={% url 'ikwen:register' %}">
+                                <i class="fas fa-user-slash" style="font-size: 22px"></i>
+                            </a>
+                        </div>
+                    {% else %}
+                        <div id="user-menu" class="dropdown">
+                            <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="{% if user.is_staff %}fas fa-user-cog{% else %}fas fa-user{% endif %}"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="user-menu">
+                                <li style="padding: 3px 20px"> {{ user.full_name }} </li>
+                                <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
+                                <li>
+                                    <a href="{% url 'uncompleted_order' %}">My Creolink</a>
+                                </li>
+                                <li>
+                                    <a href="{{ account_setup_url }}">{% trans "Account setup" %}</a>
+                                </li>
+                                {% if user.is_staff %}
+                                    <li>
+                                        <a href="{% url 'econnect:admin' %}">Admin</a>
+                                    </li>
+                                {% endif %}
+                                <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="hidden-xs">
+                        <a href="{% url 'ikwen:sign_in' %}" class=" menu btn btn-xs btn-success animated fadeIn">{% trans "Login" %}</a>
+                    </div>
+                {% endif %}
+            </div>{% endcomment %}
+        </div>
+        <div class="container-fluid" style="padding-left: 30px">
+            <div class="navbar-header">
+                <div class="container-fluid">
+                    <i class="glyphicon glyphicon-menu-left back"></i>
+                    <div class="menu-button">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </div>
+                    {% block header_brand %}
+                        <a class="navbar-brand navbar-brand-screen img-default hidden-xs" href="{% url 'econnect:home' %}">
+                            <img src="{% static "econnect/img/creolink_logo.png" %}">
+                        </a>
+                        <a href="{% url 'econnect:home' %}"><strong class="navbar-brand visible-xs">{{ config.company_name|upper }}</strong></a>
+                    {% endblock %}
+                    {% block site_menu_xs %}
+                        {% comment %}<nav class="visible-xs pull-right">
+                            <ul id="nav-xs" class="nav navbar-nav navbar-right">
+                                {% if user.is_authenticated %}
+                                    {% if user.is_ghost %}
+                                        <li id="user-menu">
+                                            <a class="icon" href="{% url "ikwen:logout" %}?next={% url 'ikwen:register' %}">
+                                                <i class="fas fa-user-slash" style="font-size: 22px"></i>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li id="user-menu" class="dropdown">
+                                            <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="{% if user.is_staff %}fas fa-user-cog{% else %}fas fa-user{% endif %}"></i>
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="user-menu">
+                                                <li style="padding: 3px 20px"> {{ user.full_name }} </li>
+                                                <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
+                                                <li>
+                                                    <a href="{% url 'uncompleted_order' %}">My Creolink</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ account_setup_url }}">{% trans "Account setup" %}</a>
+                                                </li>
+                                                {% if user.is_staff %}
+                                                    <li>
+                                                        <a href="{% url 'econnect:admin' %}">Admin</a>
+                                                    </li>
+                                                {% endif %}
+                                                <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
+                                            </ul>
+                                        </li>
+                                    {% endif %}
+                                {% else %}
+                                    <li class="hidden-xs">
+                                        <a href="{% url 'ikwen:sign_in' %}" class="btn btn-outline-success menu animated fadeIn" style="border-radius: 2px; border-width: 1px; display:block; height: 4.5vh!important; line-height: 4.5vh; padding: 0; width: 120px">{% trans "Login" %}</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>{% endcomment %}
+                    {% endblock %}
+                </div>
+            </div>
+            {% block site_menu %}
+                <div id="site-menu" class="collapse navbar-collapse">
+                    <div class="container-fluid">
+                        <ul class="nav navbar-nav navbar-right" style="margin: 0 -15px 0 0">
+                        {% block product_menu %}
+                            <li class="dropdown page-menu NUMERILINK">
+                                <div class="dropbtn nav-menu nav-menu-img animated fadeIn" data-toggle="dropdown"><img class="nav-menu-img" src="{% static 'econnect/img/numerilink.png' %}"></div>
+                                <div class="dropdown-content ">
+                                    <a href="{% url 'econnect:numerilink-home' %}" class="animated fadeIn">{% trans 'NumeriLink Home' %}</a>
+                                    <a href="{% url 'econnect:numerilink-hotel' %}" class="animated fadeIn">{% trans 'NumeriLink Hotel' %}</a>
+                                </div>
+                            </li>
+                            <li class="page-menu HOMELINK"><a href="{% url 'econnect:homelink-pricing' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/homelink.png' %}"></a></li>
+                            <li class="page-menu OFFICELINK"><a href="{% url 'econnect:officelink-pricing' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/officelink.png' %}"></a></li>
+                            <li class="page-menu CORPORATELINK"><a href="{% url 'econnect:corporatelink-pricing' %}" class="nav-menu nav-menu-img animated fadeIn"><img class="nav-menu-img" src="{% static 'econnect/img/corporatelink.png' %}"></a></li>
+{#                                        <li><a href="{% url 'blog:home' %}" class="nav-menu nav-menu-custom">{% trans "Blog" %}</a></li>#}
+                        {% endblock %}
+                        </ul>
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-nav" class="edge-panel-left">
+        <div class="wrapper">
+            <div class="stage">
+                <div class="menu">
+                    <div class="divider"></div>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li role="presentation" class="configuration">
+                            <a href="{% url 'uncompleted_order' %}">My Creolink</a>
+                        </li>
+                        <li role="presentation" class="service-info">
+                            <a href="{% url 'change_profile' %}">{% trans "Profile" %}</a>
+                        </li>
+                        {% if code_client %}
+                        <li role="presentation" class="configuration">
+                            <a href="{% url 'site_list' %}"><b>{% trans "Services" %}</b></a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="admin-content">
+{#        <div style="height: 40px">#}
+{#            <h4>{% trans "My Services" %}</h4>#}
+{#        </div>#}
+        <div class="container-fluid stage">
+            <div id="admin-tools">
+                <form id="admin-tools-form">
+                    <div>
+                        {% if filter and filter|length > 0 %}
+                            <div class="filter-trigger">
+                                <i class="glyphicon glyphicon-filter"></i>
+                                <i class="glyphicon glyphicon-menu-left hide-filter back"></i>
+                                <div class="show-floating-filter btn btn-default btn-sm hidden-xs" style="display: none; padding-left: 30px">
+                                    <div>
+                                        <span class="pull-left">{% trans "Filters" %}</span>
+                                        <span class="caret pull-right" style="margin: 7px 0 0 5px"></span>
+                                    </div>
+                                </div>
+                                <div class="floating-filter subtle-shade" style="display: none">
+                                    <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                {% for elt in filter %}
+                                    <div class="tool filter{% if elt.is_date_filter %} period{% endif %}">
+                                        <label for="{{ elt.parameter_name }}" class="sr-only">{% trans elt.title %}</label>
+                                        <select id="{{ elt.parameter_name }}" style="float: left; width: 120px;{% if forloop.counter > 1 %} padding-left: 10px{% endif %}"
+                                                class="form-control input-sm {{ elt.parameter_name }} widget" name="{{ elt.parameter_name }}">
+                                            <option value="">{% trans "All" %} {% trans elt.title %}</option>
+                                            {% for choice in elt.choices %}
+                                                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                            {% endfor %}
+                                            {% if elt.is_date_filter %}
+                                                <option value="other">{% trans "Other" %}</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </form>
+
+                <div class="clearfix"></div>
+            </div>
+            {% if objects_page.object_list|length == 0 %}
+            <div class="jumbotron" style="margin-bottom: 0">
+            <div class="text-center">
+                <h2>{% trans "You have not yet filled in any subscription..." %}</h2>
+                <h4>{% trans "To set up a subscription click on the add button below" %}</h4>
+            </div>
+            </div>
+            {% endif %}
+            <div id="results" class="results-stage">
+                {% include html_results_template_name %}
+                <div class="text-center" style="padding-top: 10vh">
+                    {% url change_object_url_name as change_object_url %}
+                    <a href="{{ change_object_url }}" class="btn btn-sm btn-success cta add " style="min-width: 250px"
+                            title="{% blocktrans %}Add new {{ verbose_name }}{% endblocktrans %}">
+                        <i class="glyphicon glyphicon-plus {% if objects_page.object_list|length == 0 %}animated infinite glow{% endif %}"></i>
+                        <span>{% trans "Add" %}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block after_content %}
+    <div id="period-chooser" class="modal fade" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-info">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{% trans "Choose custom period" %}</h4>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="return false">
+                        <div class="form-group">
+                            <label for="start-date">From:</label>
+                            <input type="text" id="start-date" class="form-control input-sm" />
+                            <input type="hidden" id="start-alt" />
+                        </div>
+                        <div class="form-group">
+                            <label for="end-date">To:</label>
+                            <input type="text" id="end-date" class="form-control input-sm" />
+                            <input type="hidden" id="end-alt" />
+                        </div>
+                    </form>
+                    <div class="actions">
+                        <div class="col-xs-12 col-sm-4 col-md-3 pull-right">
+                            <button class="btn btn-sm btn-success btn-block confirm-period"
+                                    data-dismiss="modal" aria-label="Close">{% trans "OK" %}</button>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-3 pull-right">
+                            <button class="btn btn-sm btn-default btn-block cancel-period"
+                                    data-dismiss="modal" aria-label="Close">{% trans "Cancel" %}</button>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+    {{ block.super }}
+    {% include 'core/snippets/sort_and_actions.html' %}
+    <script type="text/javascript">
+        (function() {
+            var target = '{{ verbose_name_plural|slugify }}' ? '{{ verbose_name_plural|slugify }}' : 'blank';
+            $('div#admin-nav .' + target).addClass('active');
+            $('#start-date').datepicker({
+                altField: "#start-alt",
+                altFormat: "yy-mm-dd"
+            });
+            $('#end-date').datepicker({
+                altField: "#end-alt",
+                altFormat: "yy-mm-dd"
+            });
+            var period = 'today';  // Initial period is today
+            $('.filter-trigger .period select').change(function() {
+                var val = $(this).val(),
+                    target = $(this).attr('id');
+                if (val === 'other') {
+                    $('#period-chooser').data('target', target).modal('show');
+                    return false;
+                }
+            });
+            $('.cancel-period').click(function() {
+                $('#period').val(period);
+            });
+            $('.confirm-period').click(function() {
+                var target = $('#period-chooser').data('target'),
+                    start = $('#start-date').val(),
+                    end = $('#end-date').val();
+                if (start && end) {
+                    var value = '__period__' + $('#start-alt').val() + ',' + $('#end-alt').val(),
+                        $option = $('<option value="' + value + '">' + start + ' to ' + end + '</option>'),
+                        $target = $('#' + target);
+                    if ($target.find('optgroup').length === 0) {
+                        var $optgroup = $('<optgroup label="-------"></optgroup>');
+                        $target.append($optgroup);
+                    }
+                    $target.find('optgroup').append($option).val(value).change();
+                    $target.val(value).change();
+                }
+            });
+        })()
+    </script>
+{% endblock %}

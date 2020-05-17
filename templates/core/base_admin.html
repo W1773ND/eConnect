@@ -3,7 +3,7 @@
 {% block head_style %}
     {{ block.super }}
     <link rel='stylesheet' href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
-    <link href="{% static 'econnect/css/admin.css' %}" media="screen" rel="stylesheet" type="text/css" />
+    <link href="{% static 'econnect/css/admin.css' %}?V=20.05.17.21.48" media="screen" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block selection_control %}
@@ -59,14 +59,14 @@
                         <li style="padding: 3px 20px"> {{ user.full_name }} </li>
                         <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
                         <li>
-                            <a href="{% url 'econnect:my_creolink' %}">My Creolink</a>
+                            <a href="{% url 'my_creolink' %}">My Creolink</a>
                         </li>
                         <li>
                             <a href="{{ account_setup_url }}">{% trans "Account setup" %}</a>
                         </li>
                         {% if user.is_staff %}
                             <li>
-                                <a href="{% url 'econnect:admin' %}">Admin</a>
+                                <a href="{% url 'admin' %}">Admin</a>
                             </li>
                         {% endif %}
                         <li><a href="{% url "ikwen:logout" %}">{% trans "Logout" %}</a> </li>
@@ -94,7 +94,7 @@
                                     <div class="divider"></div>
                                     <ul class="nav nav-pills nav-stacked">
                                         <li role="presentation" class="flatpages">
-                                            {% url 'ikwen:flatpage_list' as flatpage_list_url %}
+                                            {% url 'flatpage_list' as flatpage_list_url %}
                                             <a href="{{ flatpage_list_url }}">{% trans "Pages" %}</a>
                                         </li>
                                     </ul>

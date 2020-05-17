@@ -14,9 +14,12 @@
                     <input id="action" name='action' type="hidden" required value="send_mail_to_visitor">
                     <input id="visitor-email" name='visitor_email' type="email" required placeholder="Email" aria-describedby="input-email" class="form-control-custom">
                 </form>
+                <span class="btn btn-success btn-process mobile-adjust " style="margin-top: 3vh; min-width: 200px">{% trans "Continue" %}</span>
             </div>
             <div class="modal-footer no-border" style="padding-top: 0 !important; text-align: center !important;">
-                <span class="btn btn-success btn-process mobile-adjust " style="min-width: 200px">{% trans "Continue" %}</span>
+                <a href="{% url 'ikwen:sign_in' %}">
+                    <div class="pull-right">{% trans "I have an account" %}</div>
+                </a>
             </div>
         </div>
     </div>

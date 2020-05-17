@@ -7,8 +7,9 @@ from ikwen.core.constants import PENDING, PENDING_FOR_PAYMENT
 from ikwen.billing.models import Invoice
 from ikwen_webnode.blog.views import Comment
 
+from echo.models import PopUp
 
-from econnect.models import Order, REPORTED, CANCELED
+from econnect.models import Order, REPORTED, CANCELED, Profile
 
 
 def project_settings(request):
@@ -82,6 +83,26 @@ def billing_stats(c):
         total_sent_invoice = {'count': 0, 'amount': 0}
     billing['sent_invoice'] = total_sent_invoice
     return billing
+
+
+def pop_up(r):
+    try:
+        popup = PopUp.objects.filter(is_active=True)
+    except PopUp.DoesNotExist:
+        pass
+    return popup
+
+
+def customer_profile(request):
+    profile = {}
+    member = request.user
+    if not member.is_anonymous():
+        try:
+            user_profile = Profile.objects.get(member=member)
+            profile['code_client'] = user_profile.code
+        except Profile.DoesNotExist:
+            pass
+    return profile
 
 
 def comments(comment_id):

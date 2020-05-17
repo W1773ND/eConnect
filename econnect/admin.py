@@ -7,7 +7,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class PackageAdmin(admin.ModelAdmin):
-    fields = ('product', 'type', 'name', 'target', 'optional_target_cost', 'summary', 'description', 'cost', 'duration',
+    fields = ('is_active', 'product', 'type', 'name', 'target', 'optional_target_cost', 'summary', 'description', 'cost', 'duration',
               'duration_text')
 
 
@@ -25,6 +25,14 @@ class FaqAdmin(admin.ModelAdmin):
 
 class AdvertisementAdmin(admin.ModelAdmin):
     fields = ('title', 'description', 'cta_label', 'cta_url', 'lang')
+
+
+class SiteAdmin(admin.ModelAdmin):
+    fields = ('package', 'code')
+
+
+class ProfileAdmin(admin.ModelAdmin):
+    fields = ('code', 'country', 'city', 'district')
 
 
 class ConfigAdmin(admin.ModelAdmin):

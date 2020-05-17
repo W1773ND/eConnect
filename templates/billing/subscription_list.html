@@ -1,0 +1,179 @@
+{% extends 'core/object_list_base.html' %}
+
+{% load i18n humanize staticfiles auth_tokens %}
+
+{% block page_title %}
+<title>{% trans "Subscriptions" %} - {{ service.project_name }}</title>
+{% endblock %}
+
+{% block head_style %}
+    {{ block.super }}
+    <link href="{% static 'ikwen/css/uploader-single.css' %}" media="screen" rel="stylesheet" type="text/css" />
+    <style>
+        .date .fa-circle.color-active {color: transparent}
+    </style>
+{% endblock %}
+
+{% block head_js %}
+    {{ block.super }}
+    <script src="{% static 'ikwen/ajaxuploader/js/fileuploader.js' %}"></script>
+{% endblock %}
+
+{% block breadcrumb_location %}
+    <li>{% trans "Subscriptions" %}</li>
+{% endblock %}
+
+{% block admin_content %}
+    <div id="admin-content">
+        <div class="container-fluid">
+            <div id="admin-tools">
+    <form id="admin-tools-form">
+        <div>
+            <div>
+                <i class="glyphicon glyphicon-search"></i>
+                <i class="glyphicon glyphicon-menu-left hide-search back"></i>
+                <input id="context-search" type="text" placeholder="{% trans "Search" %}" value="{% if q %}{{ q }}{% endif %}"
+                       class="input-sm tool search" data-min-search-chars="2"/>
+            </div>
+            {% if filter and filter|length > 0 %}
+                <div class="filter-trigger">
+                    <i class="glyphicon glyphicon-filter"></i>
+                    <i class="glyphicon glyphicon-menu-left hide-filter back"></i>
+                    <div class="show-floating-filter btn btn-default btn-sm hidden-xs" style="display: none; padding-left: 30px">
+                        <div>
+                            <span class="pull-left">{% trans "Filters" %}</span>
+                            <span class="caret pull-right" style="margin: 7px 0 0 5px"></span>
+                        </div>
+                    </div>
+                    <div class="floating-filter subtle-shade" style="display: none">
+                        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    {% for elt in filter %}
+                        <div class="tool filter{% if elt.is_date_filter %} period{% endif %}">
+                            <label for="{{ elt.parameter_name }}" class="sr-only">{% trans elt.title %}</label>
+                            <select id="{{ elt.parameter_name }}" style="float: left; width: 120px;{% if forloop.counter > 1 %} padding-left: 10px{% endif %}"
+                                    class="form-control input-sm {{ elt.parameter_name }} widget" name="{{ elt.parameter_name }}">
+                                <option value="">{% trans "All" %} {% trans elt.title %}</option>
+                                {% for choice in elt.choices %}
+                                    <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                {% endfor %}
+                                {% if elt.is_date_filter %}
+                                    <option value="other">{% trans "Other" %}</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </form>
+    <div id="admin-tools-actions">
+        <a href="{% url 'change_subscription' %}" class="btn btn-sm btn-success cta add pull-right action"
+                title="{% blocktrans %}Add new {{ verbose_name }}{% endblocktrans %}">
+            <i class="glyphicon glyphicon-plus"></i>
+            <span class="hidden-xs">{% trans "Add" %}</span>
+            {% if first_setup %}<div class="pulse"></div>{% endif %}
+        </a>
+        {% if show_import %}
+            <button class="btn btn-sm btn-success cta pull-right action"
+               title="{% blocktrans %}Import {{ verbose_name }} list from CSV file{% endblocktrans %}"
+               style="margin-right: 5px" data-toggle="modal" data-target="#modal-import">
+                <i class="fa fa-file-import"></i>
+                <span class="hidden-xs">{% trans "Import" %}</span>
+            </button>
+        {% endif %}
+        {% if show_export %}
+        <button class="btn btn-sm btn-success cta pull-right action export"
+                style="margin-right: 5px" data-toggle="modal" data-target="#load-product" title="{% trans "Export as Spreadsheet" %}">
+            <i class="fa fa-file-export"></i>
+            <span class="hidden-xs">{% trans "Export" %}</span>
+        </button>
+        {% endif %}
+    </div>
+        <div class="clearfix"></div>
+    </div>
+            <div id="results" style="clear: both">
+                {% include 'core/snippets/spinner.html' %}
+                {% include 'billing/snippets/subscription_list_results.html' %}
+            </div>
+        </div>
+    </div>
+    <div id="modal-import" class="modal fade modal-import" tabindex="-1" role="dialog" aria-labelledby="modal-import">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="text-align: center">
+                <div class="modal-header no-border " style="background: #319dd5; color: #ffffff">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="color: #ffffff">&times;</span></button>
+                    <h4 class="modal-title" style="text-align: center">{% trans "Import from CSV file" %}</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="hidden-xs" style="padding-top: 1.5vh;">
+                            <a href="{% static "ikwen/billing/ikwen_Billing_import_clients.csv" %}" style="text-decoration: none;">{% trans "Download CSV file model..." %}</a>
+                        </div>
+                        <div id="upload-container" class="upload-container text-center" style="padding-top: 1vh;width: 100%">
+                            <div class="uploader" style="display: block; margin: auto; position: static; height: 120px"></div>
+                            <span class="subscription-filename text-success" style="font-size: 1.2em"></span>
+                            <span id="import-error" class="text-danger" style="font-size: 1.2em"></span>
+                        </div>
+                        <input type="hidden" id="subscription-file-url" name="subscription_file_url" />
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="border: none; padding-top: 0;text-align: center">
+                    <a class="btn btn-success btn-sm confirm-import" style="display: none; min-width: 200px">
+                        {% trans "Confirm" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        (function() {
+            var uploader = new qq.FileUploader({
+                template: '<div class="qq-uploader" style="background: none">' +
+                    '<div class="qq-upload-drop-area"><span></span></div>' +
+                    '<div class="qq-upload-button">' +
+                        '<img class="modal-icon pb-10" src="{% static 'echo/img/import-csv-small.png' %}"' +
+                            'style="cursor: pointer;"' +
+                            'title="{% trans 'Import customer list from CSV file' %}">' +
+                    '</div>' +
+                    '<ul class="qq-upload-list"></ul>' +
+                '</div>',
+                action: "{% url 'billing:upload_subscription_file' %}",
+                element: $('div#upload-container .uploader')[0],
+                allowedExtensions: ['csv'],
+                buttonText: "{% trans "Upload customer from CSV file" %}",
+                multiple: false,
+                onSubmit: function(id, fileName) {
+                    $('body').css('cursor', 'wait')
+                },
+                onComplete: function(id, fileName, responseJSON) {
+                    $('body').css('cursor', 'auto');
+                    if (responseJSON.error_message) {
+                        $('.subscription-filename').hide();
+                        $('#import-error').html(responseJSON.error_message).show();
+                        $('.confirm-import').hide();
+                    } else if(responseJSON.success) {
+                        var url = responseJSON.path,
+                            href = '?action=import&filename=' + url;
+                        $('#subscription-file-url').val(url);
+                        $('.subscription-filename').text(fileName).show();
+                        $('#import-error').hide();
+                        $('.confirm-import').attr('href', href).show();
+                    } else {
+                        alert("upload failed!");
+                    }
+                },
+                params: {
+                    'csrf_token': '{{ csrf_token }}',
+                    'csrf_name': 'csrfmiddlewaretoken',
+                    'csrf_xname': 'X-CSRFToken'
+                }
+            });
+        })()
+    </script>
+{% endblock %}

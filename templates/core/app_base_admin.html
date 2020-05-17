@@ -3,12 +3,12 @@
 {% block app_admin_nav %}
     <ul class="nav nav-pills nav-stacked">
         <li role="presentation" class="menus">
-            <a href="{% url "econnect:admin" %}">{% trans 'Home' %}</a>
+            <a href="{% url "admin" %}">{% trans 'Home' %}</a>
         </li>
         <div class="divider"></div>
         {% if perms.econnect.ik_view_dashboard %}
         <li role="presentation" class="menus">
-            <a href="{% url "econnect:dashboard" %}">{% trans 'Dashboard' %}</a>
+            <a href="{% url "dashboard" %}">{% trans 'Dashboard' %}</a>
         </li>
         <div class="divider"></div>
         {% endif %}
@@ -20,16 +20,16 @@
             </a>
             <ul id="customerAdmin" class="nav nav-pills nav-stacked collapse" style="padding-left: 15px;">
                 <li class="echo-categories">
-                    <a href="{% url "econnect:pending_order" %}">{% trans 'Pending orders' %}{% if pending_order.count > 0 %}<span class="badge badge-danger animated glow">{{ pending_order.count|intcomma }}</span>{% endif %}</a>
+                    <a href="{% url "pending_order" %}">{% trans 'Pending orders' %}{% if pending_order.count > 0 %}<span class="badge badge-danger animated glow">{{ pending_order.count|intcomma }}</span>{% endif %}</a>
                 </li>
                 <li class="echo-categories">
-                    <a href="{% url "econnect:paid_order" %}">{% trans 'Paid orders' %}{% if paid_order.count > 0 %}<span class="badge badge-danger animated glow">{{ paid_order.count|intcomma }}</span>{% endif %}</a>
+                    <a href="{% url "paid_order" %}">{% trans 'Paid orders' %}{% if paid_order.count > 0 %}<span class="badge badge-danger animated glow">{{ paid_order.count|intcomma }}</span>{% endif %}</a>
                 </li>
                 <li class="echo-categories">
-                    <a href="{% url "econnect:reported_order" %}">{% trans 'Reported orders' %}{% if reported_order.count > 0 %}<span class="badge badge-danger animated glow">{{ reported_order.count|intcomma }}</span>{% endif %}</a>
+                    <a href="{% url "reported_order" %}">{% trans 'Reported orders' %}{% if reported_order.count > 0 %}<span class="badge badge-danger animated glow">{{ reported_order.count|intcomma }}</span>{% endif %}</a>
                 </li>
                 <li class="echo-categories">
-                    <a href="{% url "econnect:canceled_order" %}">{% trans 'Canceled orders' %}{% if canceled_order.count > 0 %}<span class="badge badge-default animated glow">{{ canceled_order.count|intcomma }}</span>{% endif %}</a>
+                    <a href="{% url "canceled_order" %}">{% trans 'Canceled orders' %}{% if canceled_order.count > 0 %}<span class="badge badge-default animated glow">{{ canceled_order.count|intcomma }}</span>{% endif %}</a>
                 </li>
             </ul>
         </li>
@@ -54,7 +54,7 @@
         <div class="divider"></div>
         <li role="presentation" class="menus">
             <a href="javascript:;" data-toggle="collapse" data-target="#echo" aria-expanded="true" style="padding-right: 0;">
-                {% trans 'Messaging Campaign' %}<i class="fa fa-fw fa-caret-down"></i>
+                {% trans 'Campaign' %}<i class="fa fa-fw fa-caret-down"></i>
             </a>
             <ul id="echo" class="nav nav-pills nav-stacked collapse" style="padding-left: 15px;">
                 <li class="echo-categories">
@@ -62,6 +62,9 @@
                 </li>
                 <li class="echo-categories">
                     <a href="{% url "econnect:change_mailcampaign" %}">Mail</a>
+                </li>
+                <li class="echo-promotion">
+                    <a href="{% url "echo:popup_list" %}">Pop-up</a>
                 </li>
             </ul>
         </li>

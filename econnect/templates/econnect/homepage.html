@@ -172,6 +172,7 @@
     </a>
 
     {% include 'econnect/snippets/get_email_modal.html' %}
+{#    {% include 'echo/snippets/popup.html' %}#}
     {% include 'econnect/snippets/edge_panel.html' %}
 {% endblock %}
 
@@ -180,8 +181,11 @@
     <script src="{% static 'econnect/js/dropdown3D.js' %}"></script>
     <script>
         (function () {
-            // redirect to Tsunami signIn page
+            // redirect to signIn page
             $('#site-menu a.btn.menu').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:home' %}");
+
+            //Open popup
+            $('#modal-popup').modal('show');
 
             // set focus when modal is opened
             $('#modal-get-email').on('shown.bs.modal', function () {

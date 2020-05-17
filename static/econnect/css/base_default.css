@@ -28,7 +28,7 @@ body {
         }
 h1, h2, h3, h4, h5, h6 {font-family: 'Montserrat', sans-serif;}
 
-a {color: green; text-decoration: none !important;}
+a {color: green;text-decoration: none !important;}
 a:hover, a:focus { color: #28a745; }
 
 hr.section-border-top { -webkit-box-sizing: content-box; box-sizing: content-box; height: 0; margin: 0 0 16px 0; border: 0; border-top: 3px solid #f1f1f1; }
@@ -520,7 +520,7 @@ li.page-menu.CORPORATELINK:hover { border-bottom: 4px solid #008bbf; transition:
     width: 90%;
     z-index: 1;
     }
-.edge-panel-left .wrapper {padding: 20px 0 120px}
+.edge-panel-left .wrapper {padding: 85px 0 120px;}
 .edge-panel-left footer {
     bottom: 0;
     margin: 0;
@@ -627,9 +627,12 @@ ul.social-network li { display: inline; margin: 0 5px }
 
 
 
-.footer { background-color: #0e1c0e;
+.footer {
+            background-color: #0e1c0e;
             flex-shrink: 0;  /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
-            padding: 3px 0; }
+            padding: 3px 0;
+            z-index: 10;
+}
 .footer-copyright { color: #ffffff}
 
 @media (max-width: 767px) {
@@ -650,7 +653,7 @@ ul.social-network li { display: inline; margin: 0 5px }
     .navbar-default .navbar-brand > * {float: left; width: 300%}
     .navbar-default .navbar-brand .letter-i {float: none}
     .container-fluid > strong.navbar-header {float: left;margin-left: 0;}
-    #navbar > .container-fluid {padding: 0}
+    #navbar > .container-fluid {padding: 0 !important;}
     #nav-xs.navbar-nav .open .dropdown-menu {
         background-color: #fff;
         border: 1px solid #dedede;

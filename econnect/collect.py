@@ -32,8 +32,6 @@ from ikwen.core.models import Service
 from ikwen.core.utils import add_database_to_settings, get_service_instance, add_event, get_mail_content, XEmailMessage
 from echo.models import Balance
 
-from econnect.models import Order
-
 logger = logging.getLogger('ikwen')
 
 Subscription = get_subscription_model()

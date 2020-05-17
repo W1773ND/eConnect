@@ -70,7 +70,7 @@ div#container.admin {padding-top: 92px;}
 #admin-nav > div > div {padding: 0 10px;}
 #admin-nav .wrapper {padding: 20px 0 90px;}
 #admin-nav .stage {width: 100%;padding: 0 0 200px;}
-.help-navbar { display: none !important;}
+.help-navbar {display: none;}
 .nav-pills>li>a {padding: 9px 15px;cursor: pointer;font-weight: 700;color: #777;}
 .nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {background: #f6f6f6;color: #333;}
 
@@ -100,7 +100,7 @@ div#container.admin {padding-top: 92px;}
 
 .fas {display: inline-block;position: relative;top: 1px;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;}
 
-#admin-tools {background: #fff;clear: both;padding: 0 15px;position: fixed;width: 100%;z-index: 11}
+#admin-tools {background: #fff;clear: both;padding: 0 15px;position: fixed;width: 100%;z-index: 0;}
 #admin-tools input, #admin-tools select {border: 1px solid #ddd;font-size: 13px;padding-left: 40px;}
 #admin-tools .btn.action .fas {float: left;margin: 1px 10px 0 0;}
 #admin-tools .btn.filter {padding-left: 30px;}
