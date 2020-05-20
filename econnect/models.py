@@ -201,7 +201,8 @@ class Site(Model):
         return str(self.package)
 
     def get_obj_details(self):
-        return _("Expires on : ") + str(self.subscription.expiry)
+        return "Code Site : " + str(self.code) + "<br />" +\
+               "Expires on : " + str(self.subscription.expiry)
 
 
 class Profile(Model):
