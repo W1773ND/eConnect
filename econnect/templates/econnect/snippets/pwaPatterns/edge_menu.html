@@ -1,0 +1,28 @@
+{% load i18n static %}
+
+<style>
+    .pwa-alert { border-radius: 0; margin-bottom: 0 }
+    {#.pwa-close { font-size: 40px!important; font-weight: normal!important; left: -12px; }#}
+    .pwa-install-btn { margin-left: 5vw; min-width: 100px; padding-top: 0; padding-bottom: 0; }
+    .pwa-install-container .action { margin-top: 2vh }
+</style>
+
+<div class="container-fluid pwa-install-container visible-xs">
+    <div class="row alert alert-success alert-dismissible pwa-alert" role="alert">
+        <div>
+            {% if user.is_authenticated %}<strong>{% trans "Hey " %}{{ user }} ! </strong><br>{% endif %}
+            {% trans "Find what you need faster with our free Apps" %}.
+        </div>
+        <div class="pull-right action">
+            <span class="pwa-close text-muted" data-dismiss="alert" aria-label="Close">{% trans "Not now" %}</span>
+            <a href="#" class="btn btn-success pwa-install-btn">{% trans "Install" %}</a>
+        </div>
+
+    </div>
+</div>
+
+
+
+{#/////////////////////////////////////////////////////////////////////////#}
+{#See snippets/edge_panel.html for example#}
+

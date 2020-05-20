@@ -1,0 +1,16 @@
+{% load i18n static %}
+
+<style>
+    .pwa-install-btn { margin-bottom: 1vh; margin-top: 1vh; min-width: 100px; padding-top: 0; padding-bottom: 0; }
+    .pwa-install-container { border-top: 1px solid rgba(136, 136, 136, 0.5); margin-bottom: 5vh }
+</style>
+
+<div class="container-fluid pwa-install-container visible-xs">
+    <div id="" class="pull-right" style="font-family: Lato,Helvetica,Arial,sans-serif; padding-right: 15px">
+        <span class="text-muted"> {% trans "Keep in touch with latest update" %}</span>
+        <a href="#" class="btn btn-success pwa-install-btn">{% trans "Install" %}</a>
+    </div>
+</div>
+
+{#/////////////////////////////////////////////////////////////////////////#}
+{#See base_bs.html after block site_menu_xs for example#}
