@@ -803,6 +803,7 @@ class ChangeSite(ChangeObjectBase):
         return context
 
     def after_save(self, request, obj, *args, **kwargs):
+        obj.code = obj.code.upper()
         obj.member = request.user
         obj.save()
         try:
@@ -833,6 +834,7 @@ class ChangeProfile(ChangeObjectBase):
             pass
 
     def after_save(self, request, obj, *args, **kwargs):
+        obj.code = obj.code.upper()
         obj.member = request.user
         obj.save()
 
