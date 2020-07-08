@@ -3,7 +3,7 @@
 {% block head_style %}
     {{ block.super }}
     <link rel='stylesheet' href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
-    <link href="{% static 'econnect/css/admin.css' %}?V=20.05.17.21.48" media="screen" rel="stylesheet" type="text/css" />
+    <link href="{% static 'econnect/css/admin.css' %}?V=20.06.04.02.07" media="screen" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block selection_control %}
@@ -198,13 +198,35 @@
                     modelName = $(this).parents('li').data('model-name'),
                     deleteEndpoint = $(this).parents('ul').data('delete-endpoint');
                 deleteSelection(selection, modelName, deleteEndpoint);
-            }).on('click', '.pagination .page', function() {
-                var query = window.location.search,
-                    page = $(this).data('val');
+            }).on('click', '.pagination .page:not(.disabled)', function() {
+                let params = [];
+                $('div#admin-tools .filter select').each(function() {
+                    let paramName = $(this).prop('name');
+                    if (paramName) params[paramName] = $(this).val();
+                });
+                $('div#admin-tools .filter input').each(function() {
+                    let paramName = $(this).prop('name');
+                    if (paramName) params[paramName] = $(this).val();
+                });
+                params['q'] = $('#context-search').val();
+                let query = window.location.search,
+                    page = $(this).data('val'),
+                    paramString = '';
+                for (let key in params) paramString += '&' + key + '=' + params[key];
+                if (query && query !== '?') query += paramString;
+                else query = paramString.substr(1);
                 if (query && query !== '?') query += '&format=html_results&page=' + page;
                 else query = 'format=html_results&page=' + page;
-                $('div#results .spinner').fadeIn();
-                $('div#admin-content .stage').load('', query);
+                let $resultsStage = $(this).parents('.results-stage');
+                if ($resultsStage.length === 0) $resultsStage = $('#results');
+                $resultsStage.find('.spinner').fadeIn();
+                {% if is_sortable %}
+                    $resultsStage.load('', query, function() {
+                        ikwen.initSortable();
+                    });
+                {% else %}
+                    $resultsStage.load('', query);
+                {% endif %}
             });
 
             $('#admin-content').on('click', '#admin-tools .fa-search', function() {

@@ -180,7 +180,7 @@
     {{ block.super }}
     <script src="{% static 'econnect/js/dropdown3D.js' %}"></script>
     <script>
-        (function () {
+        ( () => {
             // redirect to signIn page
             $('#site-menu a.btn.menu').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:home' %}");
 

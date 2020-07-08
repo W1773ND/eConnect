@@ -294,7 +294,7 @@
     {{ block.super }}
     <script src="{% static 'econnect/js/bootstrap-slider.min.js' %}"></script>
     <script>
-        (function () {
+        ( () => {
             // redirect to signIn page
             $('#site-menu a.cta').attr('href', "{% url 'ikwen:sign_in' %}?next={% url 'econnect:officelink-pricing' %}");
 
