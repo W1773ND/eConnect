@@ -23,7 +23,7 @@
             <link rel='stylesheet' href="{% static 'ikwen/css/flatly.bootstrap.min.css' %}" />
             <link rel="stylesheet" type="text/css" href="{% static 'embed-doc/css/embed-doc.css' %}"/>
             <link rel="stylesheet" type="text/css" href="{% static 'echo/css/popup.css' %}"/>
-            <link rel='stylesheet' href="{% static 'econnect/css/base_default.css' %}?V=20.05.17.21.48" />
+            <link rel='stylesheet' href="{% static 'econnect/css/base_default.css' %}?V=20.06.03.18.39" />
 		{% endblock %}
         {% block head_js %}
             <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -154,6 +154,9 @@
                                 </nav>
                             {% endblock %}
                         </div>
+
+{#                    {% include 'econnect/snippets/pwaPatterns/simple_button.html' %}#}
+
                     </div>
                     {% block site_menu %}
                         <div id="site-menu" class="collapse navbar-collapse">
@@ -176,6 +179,7 @@
                             </div>
                         </div>
                     {% endblock %}
+{#                {% include 'econnect/snippets/pwaPatterns/banner.html' %}#}
                 </div>
             </div>
         {% endblock %}

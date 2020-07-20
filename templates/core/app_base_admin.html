@@ -57,15 +57,15 @@
                 {% trans 'Campaign' %}<i class="fa fa-fw fa-caret-down"></i>
             </a>
             <ul id="echo" class="nav nav-pills nav-stacked collapse" style="padding-left: 15px;">
-                <li class="echo-categories">
+                {% comment %}<li class="echo-categories">
                     <a href="{% url "echo:sms_campaign" %}">SMS</a>
-                </li>
+                </li>{% endcomment %}
                 <li class="echo-categories">
                     <a href="{% url "econnect:change_mailcampaign" %}">Mail</a>
                 </li>
-                <li class="echo-promotion">
+                {% comment %}<li class="echo-promotion">
                     <a href="{% url "echo:popup_list" %}">Pop-up</a>
-                </li>
+                </li>{% endcomment %}
             </ul>
         </li>
         <div class="divider"></div>

@@ -47,6 +47,8 @@ fieldset.disabled { color: #999; cursor: not-allowed !important; }
 .failure, .floating-notice.error, .msg-tag.error {background: #FFB6C1; border: 1px solid; border-radius: 3px; color:  #F00}
 
 
+/*.badge-custom { background-color: #039B03!important; }*/
+
 .btn-outline-primary { color: #007bff; background-color: transparent; background-image: none; border-color: #007bff; }
 .btn-outline-primary:hover { color: #fff !important; background-color: #007bff; border-color: #007bff; }
 .btn-outline-primary:focus, .btn-outline-primary.focus { color: #007bff; box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5); }
@@ -541,10 +543,9 @@ li.page-menu.CORPORATELINK:hover { border-bottom: 4px solid #008bbf; transition:
 .nav-tabs > .tab {float: left;margin-bottom: -1px;}
 .nav-tabs > .tab > a {line-height: 1.42857143;/* border: 1px solid transparent; */border-radius: 4px 4px 0 0;}
 .nav-tabs > .tab.active > a, .nav-tabs > .tab.active > a:hover, .nav-tabs > .tab.active > a:focus {
-    color: #2c3e50;
+    color: #28a745;
     background-color: #f6f6f6;
-    border-bottom: 3px solid #1565C0;
-    /* border-bottom-color: #3F51B5; */
+    border-bottom: 3px solid #039B03;
     cursor: default;
 }
 
@@ -741,6 +742,7 @@ ul.social-network li { display: inline; margin: 0 5px }
     .nav > .tab > a {padding: 10px 15px}
     .ik-li .date {float: right}
     .payment-method {display: inline}
+    .nav-tabs > .tab.swiper-slide {max-width: 155px;width: auto;}
 }
 @media (max-width: 991px) {
     #navbar .navbar-nav .open .dropdown-menu {max-height: 450px;overflow: auto;min-width: 200px;}

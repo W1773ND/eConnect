@@ -72,18 +72,17 @@
 {% block js %}
     {{ block.super }}
     <script>
-        var map, infoWindow, marker, pos;
-        var availabilityCheck= parseInt('{{ request.GET.availabilityCheck }}');
-        var orderId= '{{ request.GET.order_id }}';
+        const availabilityCheck= parseInt('{{ request.GET.availabilityCheck }}');
+        const orderId= '{{ request.GET.order_id }}';
         {% comment %}var NEW_ZEALAND_BOUNDS = {
             north: 13.083335,
             south: 16.194408,
             west: 1.6559,
             east: 8.3936,
         };{% endcomment %}
-        var IKWEN = { lat: 3.834418, lng: 11.4849073 };
+        const IKWEN = { lat: 3.834418, lng: 11.4849073 };
         function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), {
+            let map = new google.maps.Map(document.getElementById('map'), {
                 center: IKWEN,
                 {% comment %}restriction: {
                     latLngBounds: NEW_ZEALAND_BOUNDS,
@@ -93,28 +92,28 @@
                 // gestureHandling: 'cooperative'
 
             });
-            var geocoder = new google.maps.Geocoder;
-            var contentString = $('#defaultContent').html();
-            var infowindow = new google.maps.InfoWindow({content: contentString});
-            var infowindowForOrder = new google.maps.InfoWindow();
+            let geocoder = new google.maps.Geocoder;
+            let contentString = $('#defaultContent').html();
+            let infowindow = new google.maps.InfoWindow({content: contentString});
+            let infowindowForOrder = new google.maps.InfoWindow();
 
-            function stopBounce() {
+            const stopBounce = () => {
                 marker.setAnimation(google.maps.Animation.DROP);
-            }
+            };
 
-            function startBounce() {
+            const startBounce = () => {
                 marker.setAnimation(google.maps.Animation.BOUNCE);
-            }
+            };
 
-            function autoCenter() {
+            const autoCenter = () => {
                 map.addListener('center_changed', function() {
                   window.setTimeout(function() {
                     map.panTo(marker.getPosition());
                   }, 4000);
                 });
-            }
+            };
 
-            function locationResolve(geocoder, latlng){
+            const locationResolve = (geocoder, latlng) => {
                 geocoder.geocode({'location': latlng}, function(results, status) {
                     if (status === google.maps.GeocoderStatus.OK) {
                         if (results[1]) {
@@ -135,7 +134,7 @@
                         else { window.alert('No results found'); }
                     } else {  window.alert('Geocoder failed due to: ' + status); }
                     if (availabilityCheck === 1){
-                        let contentString = '<br>'+
+                        const contentString = '<br>'+
                                             '<div style="font-weight: 700;">'+
                                                 $("input[name=formatted_address]").val() +
                                             '</div>'+
@@ -146,10 +145,10 @@
                     }
 
                 });
-            }
+            };
             if (availabilityCheck === 1) {
                 $('input[name=human_address]').attr('type', 'hidden');
-                map.setZoom(18);
+                map.setZoom(12);
                 pos = {
                     lat: parseFloat("{{ request.GET.lat }}"),
                     lng: parseFloat("{{ request.GET.lng }}")
@@ -174,7 +173,7 @@
             }
 
             else if (orderId !== '') {
-                map.setZoom(18);
+                map.setZoom(12);
                 pos = {
                     lat: parseFloat("{{ request.GET.lat }}"),
                     lng: parseFloat("{{ request.GET.lng }}")
@@ -189,18 +188,18 @@
                     title: 'Here you are'
                 });
                 autoCenter();
-                marker.addListener('click', function() {
+                marker.addListener('click', () => {
                     stopBounce();
                     infowindow.open(map, marker);
                 });
-                google.maps.event.addListener(marker, 'dragstart', function (evt) {
+                google.maps.event.addListener(marker, 'dragstart', (evt) => {
                     {#startBounce();#}
                     infowindow.close(map, marker);
                 });
-                google.maps.event.addListener(marker, 'dragend', function (evt) {
+                google.maps.event.addListener(marker, 'dragend', (evt) => {
                     stopBounce();
-                    var latitude = marker.getPosition().lat();
-                    var longitude = marker.getPosition().lng();
+                    const latitude = marker.getPosition().lat();
+                    const longitude = marker.getPosition().lng();
                     pos = {lat: latitude, lng: longitude};
                     map.panTo(marker.getPosition());
 
@@ -239,8 +238,8 @@
                 google.maps.event.addListener(marker, 'dragend', function (evt) {
                     stopBounce();
                     marker.setTitle('Here you are');
-                    var latitude = marker.getPosition().lat();
-                    var longitude = marker.getPosition().lng();
+                    const latitude = marker.getPosition().lat();
+                    const longitude = marker.getPosition().lng();
                     pos = {lat: latitude, lng: longitude};
                     map.panTo(marker.getPosition());
 
@@ -287,8 +286,8 @@
                 });
                 google.maps.event.addListener(marker, 'dragend', function (evt) {
                     stopBounce();
-                    var latitude = marker.getPosition().lat();
-                    var longitude = marker.getPosition().lng();
+                    const latitude = marker.getPosition().lat();
+                    const longitude = marker.getPosition().lng();
                     pos = {lat: latitude, lng: longitude};
                     map.panTo(marker.getPosition());
 
@@ -324,8 +323,8 @@
                 google.maps.event.addListener(marker, 'dragend', function (evt) {
                     stopBounce();
                     marker.setTitle('Here you are');
-                    var latitude = marker.getPosition().lat();
-                    var longitude = marker.getPosition().lng();
+                    const latitude = marker.getPosition().lat();
+                    const longitude = marker.getPosition().lng();
                     pos = {lat: latitude, lng: longitude};
                     map.panTo(marker.getPosition());
 
@@ -347,25 +346,23 @@
             }{% endcomment %}
         }
 
-        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        const handleLocationError = (browserHasGeolocation, infoWindow, pos) => {
             infoWindow.setPosition(pos);
             infoWindow.setContent(browserHasGeolocation ?
                       "Error: The Geolocation service failed." :
                       "Error: Your browser doesn't support geolocation.");
             infoWindow.open(map);
-        }
+        };
 
-        function redirect(){
-            window.location.replace("{{ request.GET.next }}")
-        }
+        const redirect = () => window.location.replace("{{ request.GET.next }}");
 
         $(document.body).on('click', '.set-position', function () {
             map.setZoom(18);
-            let savedLocation = {
+            const savedLocation = {
               "Latitude": $('input[name=customer_lat]').val(),
               "Longitude": $('input[name=customer_lng]').val()
             };
-            let savedFormattedAddress = $('input[name=formatted_address]').val();
+            const savedFormattedAddress = $('input[name=formatted_address]').val();
             localStorage.setItem('Location', JSON.stringify(savedLocation));
             localStorage.setItem('FormattedAddress', savedFormattedAddress);
             ikwen.showFloatingNotice("{% trans 'Location saved successfully!'%}", '', 3);
@@ -373,14 +370,14 @@
 
         });
 
-        $(document.body).on('click', '.update-position', function () {
+        $(document.body).on('click', '.update-position', () => {
             map.setZoom(18);
-            let updatedLocation = {
+            const updatedLocation = {
               "Latitude": $('input[name=customer_lat]').val(),
               "Longitude": $('input[name=customer_lng]').val()
             };
             {#$("input[name=human_address]").val().replace("Current location: ", "");#}
-            let updatedFormattedAddress = $("input[name=formatted_address]").val();
+            const updatedFormattedAddress = $("input[name=formatted_address]").val();
             localStorage.setItem('Location', JSON.stringify(updatedLocation));
             localStorage.setItem('FormattedAddress', updatedFormattedAddress);
             ikwen.showFloatingNotice("{% trans 'Location updated successfully!'%}", '', 3);
