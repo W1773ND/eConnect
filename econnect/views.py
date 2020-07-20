@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from econnect.navision import pull_invoices
 
 __author__ = 'W1773ND (wilfriedwillend@gmail.com)'
 
@@ -35,7 +35,7 @@ from ikwen.conf import settings as ikwen_settings
 from ikwen.conf.settings import WALLETS_DB_ALIAS
 from ikwen.accesscontrol.backends import UMBRELLA
 from ikwen.accesscontrol.models import Member, DEFAULT_GHOST_PWD
-from ikwen.core.models import Service
+from ikwen.core.models import Service, Country
 from ikwen.core.views import HybridListView, ChangeObjectBase
 from ikwen.core.constants import PENDING, PENDING_FOR_PAYMENT, STARTED
 from ikwen.core.utils import get_model_admin_instance, get_service_instance, get_item_list, get_model, get_mail_content, \
@@ -826,6 +826,28 @@ class ChangeProfile(ChangeObjectBase):
     model = Profile
     model_admin = ProfileAdmin
     template_name = 'econnect/change_profile.html'
+    object_list_url = 'change_profile'
+
+    def get(self, request, *args, **kwargs):
+        action = request.GET.get('action')
+        if action == 'check_code_and_pull_invoice':
+            start_date = datetime.now() - timedelta(days=120)
+            end_date = datetime.now()
+            code = request.GET['code']
+            invoice_list, pending_count = pull_invoices(member=request.user, client_code=code,
+                                                        start_date=start_date, end_date=end_date, send_mail=False)
+            if len(invoice_list) == 0:
+                response = {'error': 'Incorrect Client Code'}
+            else:
+                response = {'success': True}
+            return HttpResponse(json.dumps(response), 'content-type: text/json')
+        return super(ChangeProfile, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(ChangeProfile, self).get_context_data(**kwargs)
+        context['pending_count'] = self.request.session.get('pending_count')
+        self.request.session['pending_count'] = 0
+        return context
 
     def get_object(self, **kwargs):
         try:
@@ -834,8 +856,23 @@ class ChangeProfile(ChangeObjectBase):
             pass
 
     def after_save(self, request, obj, *args, **kwargs):
-        obj.code = obj.code.upper()
-        obj.member = request.user
+        country_code = request.POST.get('country_code').strip()
+        country = Country.objects.get(iso2__iexact=country_code)
+        obj.country = country
+        previous_code = request.POST.get('previous_code')
+        if not obj.member:
+            obj.member = request.user
+        if previous_code != obj.code and obj.code_update_count < 2:
+            obj.code = obj.code.strip().upper()
+            obj.code_update_count += 1
+            start_date = datetime.now() - timedelta(days=120)
+            end_date = datetime.now()
+            invoice_list, pending_count = pull_invoices(member=request.user, start_date=start_date, end_date=end_date,
+                                                        send_mail=False, dry_run=False)
+            request.session['pending_count'] = pending_count
+        else:
+            messages.error(request, _("You are not allowed to change Client Code more that twice."))
+            obj.code = previous_code
         obj.save()
 
 

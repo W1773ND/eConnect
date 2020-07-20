@@ -40,7 +40,7 @@ urlpatterns = patterns(
     url(r'^blog/listcomments/$', permission_required('flatpages.ik_webmaster')(CommentList.as_view()), name='list_comment'),
     url(r'^blog/', include('ikwen_webnode.blog.urls', namespace='blog')),
 
-    url(r'^STAFF/', include('conf.staff_url')),
+    url(r'^STAFF/', include('conf.staff_urls')),
 
     # url(r'^ikwen/dashboard/$', permission_required('trade.ik_view_dashboard')(ProviderDashboard.as_view()),
     #     name='dashboard'),
@@ -51,7 +51,7 @@ urlpatterns = patterns(
     # url(r'^cci/', include('ikwen_kakocase.cci.urls', namespace='cci')),
 
 
-    url(r'^MyCreolink/', include('conf.my_creolink_url')),
+    url(r'^MyCreolink/', include('conf.my_creolink_urls')),
 
     # url(r'^ikwen/cashout/', include('ikwen.cashout.urls', namespace='cashout')),
     url(r'^revival/', include('ikwen.revival.urls', namespace='revival')),

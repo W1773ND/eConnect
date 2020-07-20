@@ -203,10 +203,10 @@
                     <div class="clearfix"></div>
                 </div>
             {% endwith %}
-                <form class="col-sm-8 col-sm-offset-2" method="post">{% csrf_token %}
+                <form id="client-profile" class="col-sm-8 col-sm-offset-2" method="post">{% csrf_token %}
                     <input type="hidden" name="keep_editing" value="yes" />
-                    <input type="hidden" id="country_code" name="country-code" />
-                    <input type="hidden" id="{{ request.user }}-alt" name="member" value="{{ request.user }}" />
+                    <input type="hidden" name="previous_code" value="{{ obj.code }}"/>
+                    <input type="hidden" name="country_code" id="country-code" value="{{ obj.country.iso2 }}" />
                     {% if form.errors %}
                         <div class="errorlist">{{ form.errors }}</div>
                     {% endif %}
@@ -218,7 +218,10 @@
                         </div>
                         <div style="padding-top: 30px; margin-bottom: 10px">
                             <div class="col-xs-12 col-sm-8 col-md-4">
-                                <button class="btn btn-sm btn-block btn-success">{% trans "Save" %}</button>
+                                <button type="button" class="btn btn-sm btn-block btn-success save-profile">
+                                    {% include 'core/snippets/button_spinner.html' %}
+                                    <span>{% trans "Save" %}</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -232,7 +235,7 @@
     {{ block.super }}
     <script src="https://cdn.jsdelivr.net/npm/places.js@1.18.2"></script>
     <script type="text/javascript">
-        ( () => {
+        (() => {
             $('div#admin-nav .{{ verbose_name_plural|slugify }}').addClass('active');
             $('.form-row').addClass('form-group');
             $('.form-row input, .form-row select, .form-row textarea').addClass('form-control input-sm');
@@ -247,9 +250,43 @@
                 container: document.querySelector('#city-autocomplete')
             });
             citiesAutocomplete.on('change', (e) => {
-                $('#country_code').val(e.suggestion.countryCode);
+                $('#country-code').val(e.suggestion.countryCode);
                 $('#id_city').attr('value', e.suggestion.name)
             });
+
+            $('.save-profile:not(.processing)').click(checkInput);
+            $('#client-profile').keydown((e) => {
+                if (e.keyCode === 13) {
+                    e.preventDefault();
+                    checkInput();
+                }
+            });
+
+            function checkInput() {
+                let _$btn = $('.save-profile'),
+                    validInput = true,
+                    code = $('#id_code').val(),
+                    city = $('#city-autocomplete').val();
+                $('.form-group').removeClass('has-error');
+                if (!code) {
+                    $('#id_code').parents('.form-group').addClass('has-error');
+                    validInput = false
+                }
+                if (!city) {
+                    $('#city-autocomplete').parents('.form-group').addClass('has-error');
+                    validInput = false
+                }
+                if (!validInput) return false;
+                _$btn.addClass('processing');
+                $.getJSON('', {action: 'check_code_and_pull_invoice', 'code': code}, (resp) => {
+                    _$btn.removeClass('processing');
+                    if (resp.error) {
+                        $('#id_code').parents('.form-group').addClass('has-error')
+                    } else {
+                        $('#client-profile').submit()
+                    }
+                });
+            }
         })()
     </script>
 {% endblock %}

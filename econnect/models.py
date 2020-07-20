@@ -208,9 +208,12 @@ class Site(Model):
 class Profile(Model):
     member = models.ForeignKey(Member, related_name='+', blank=True, null=True)
     code = models.CharField(_("Client Code"), max_length=15)
-    country = models.ForeignKey(Country)
+    country = models.ForeignKey(Country, blank=True, null=True)
     city = models.CharField(max_length=30)
     district = models.CharField(max_length=30, blank=True, null=True)
+    code_update_count = models.IntegerField(default=0,
+                                            help_text="Counts how many times the code was updated. User should not be "
+                                                      "allowed to modify more than twice.")
 
 
 class CustomerRequest(Model):

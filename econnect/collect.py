@@ -123,9 +123,14 @@ def confirm_invoice_payment(request, *args, **kwargs):
             return HttpResponse('Invalid transaction signature')
     invoice = Invoice.objects.get(pk=tx.object_id)
     member = invoice.member
-    now = datetime.now()
-    duration = SUBSCRIPTION_DURATION
-    expiry = now + timedelta(days=duration)
+    for val in [31, 30, 29, 28]:
+        try:
+            datetime(invoice.due_date.year, invoice.due_date.month, val)
+            duration = val
+            break
+        except ValueError:
+            continue
+    expiry = invoice.due_date + timedelta(days=duration)
     subscription = invoice.subscription
     subscription.expiry = expiry
     subscription.status = Subscription.ACTIVE
