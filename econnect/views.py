@@ -867,7 +867,7 @@ class ChangeProfile(ChangeObjectBase):
             obj.code_update_count += 1
             start_date = datetime.now() - timedelta(days=120)
             end_date = datetime.now()
-            invoice_list, pending_count = pull_invoices(member=request.user, start_date=start_date, end_date=end_date,
+            invoice_list, pending_count = pull_invoices(member=request.user, client_code=obj.code, start_date=start_date, end_date=end_date,
                                                         send_mail=False, dry_run=False)
             request.session['pending_count'] = pending_count
         else:
