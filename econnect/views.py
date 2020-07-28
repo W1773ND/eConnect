@@ -874,6 +874,8 @@ class ChangeProfile(ChangeObjectBase):
             messages.error(request, _("You are not allowed to change Client Code more that twice."))
             obj.code = previous_code
         obj.save()
+        next_url = reverse('my_creolink')
+        return HttpResponseRedirect(next_url)
 
 
 class PricingNumerilink(PostView):
