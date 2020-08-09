@@ -332,6 +332,20 @@
                         }
                     });{% endcomment %}
 
+                    $(window).scroll(function(e){
+                        let scrollTop = $(window).scrollTop();
+                        let docHeight = $(document).height();
+                        let winHeight = $(window).height();
+                        let scrollPercent = (scrollTop) / (docHeight - winHeight);
+                        let scrollPercentRounded = Math.round(scrollPercent*100);
+                        if (scrollPercentRounded >= 12) {
+                            $('.back-to-top').removeClass('hiding').addClass('showing')
+                        } else {
+                            $('.back-to-top').removeClass('showing').addClass('hiding')
+                        }
+                    });
+
+
                     $('.js-scrollTo').on('click', function() {
                         let page = $(this).attr('href');
                         let speed = 750;
@@ -358,20 +372,6 @@
 
                     //Cleaning local Storage
                     {#$('.btn-general-invoice').click(localStorage.clear());#}
-
-                    $(window).scroll(function(e){
-                        let scrollTop = $(window).scrollTop();
-                        let docHeight = $(document).height();
-                        let winHeight = $(window).height();
-                        let scrollPercent = (scrollTop) / (docHeight - winHeight);
-                        let scrollPercentRounded = Math.round(scrollPercent*100);
-                        if (scrollPercentRounded >= 12) {
-                            $('.back-to-top').removeClass('hiding').addClass('showing')
-                        } else {
-                            $('.back-to-top').removeClass('showing').addClass('hiding')
-                        }
-                    });
-
 
                     {% url 'ikwen:list_projects' as list_projects_url %}
                     let searchDescriptor = [{
