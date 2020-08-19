@@ -831,7 +831,7 @@ class ChangeProfile(ChangeObjectBase):
     def get(self, request, *args, **kwargs):
         action = request.GET.get('action')
         if action == 'check_code_and_pull_invoice':
-            start_date = datetime.now() - timedelta(days=120)
+            start_date = datetime.now() - timedelta(days=180)
             end_date = datetime.now()
             code = request.GET['code']
             invoice_list, pending_count = pull_invoices(member=request.user, client_code=code,
@@ -870,12 +870,14 @@ class ChangeProfile(ChangeObjectBase):
             invoice_list, pending_count = pull_invoices(member=request.user, client_code=obj.code, start_date=start_date, end_date=end_date,
                                                         send_mail=False, dry_run=False)
             request.session['pending_count'] = pending_count
+            messages.info(request, _("Import successful. You have %d pending invoices."))
+            obj.save()
+            next_url = reverse('my_creolink')
+            return HttpResponseRedirect(next_url)
         else:
             messages.error(request, _("You are not allowed to change Client Code more that twice."))
             obj.code = previous_code
-        obj.save()
-        next_url = reverse('my_creolink')
-        return HttpResponseRedirect(next_url)
+            obj.save()
 
 
 class PricingNumerilink(PostView):

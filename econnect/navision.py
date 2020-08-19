@@ -118,6 +118,9 @@ def pull_invoices(member, client_code=None, start_date=None, end_date=None, stat
             invoice_list.append(invoice)
             subject, message, sms_text = get_invoice_generated_message(invoice)
 
+            if invoice.status == Invoice.PENDING:
+                send_mail = True
+
             if not dry_run and send_mail and member.email:
                 invoice_url = 'http://creolink.com' + reverse('billing:invoice_detail', args=(invoice.id,))
                 html_content = get_mail_content(subject, message, template_name='billing/mails/notice.html',
@@ -144,3 +147,15 @@ def pull_invoices(member, client_code=None, start_date=None, end_date=None, stat
     except:
         logger.error("Failed to import clients data", exc_info=True)
     return invoice_list, pending_count
+
+
+def test_invoice_generation():
+    from ikwen.billing.models import Invoice
+    start = datetime(2020, 1, 1)
+    end = datetime(2020, 8, 18)
+    m = Member.objects.get(username='w177')
+    i = Invoice.objects.get(number='FE0000002048')
+    i.delete()
+    pull_invoices(m, 'C010320', start, end)
+    # ic = get_invoicing_config_instance()
+    # pdf = generate_pdf_invoice(ic, i)
