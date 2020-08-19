@@ -870,7 +870,7 @@ class ChangeProfile(ChangeObjectBase):
             invoice_list, pending_count = pull_invoices(member=request.user, client_code=obj.code, start_date=start_date, end_date=end_date,
                                                         send_mail=False, dry_run=False)
             request.session['pending_count'] = pending_count
-            messages.info(request, _("Import successful. You have %d pending invoices."))
+            messages.info(request, _("Import successful. You have %d pending invoices." % pending_count))
             obj.save()
             next_url = reverse('my_creolink')
             return HttpResponseRedirect(next_url)

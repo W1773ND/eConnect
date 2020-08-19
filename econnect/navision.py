@@ -124,7 +124,8 @@ def pull_invoices(member, client_code=None, start_date=None, end_date=None, stat
             if not dry_run and send_mail and member.email:
                 invoice_url = 'http://creolink.com' + reverse('billing:invoice_detail', args=(invoice.id,))
                 html_content = get_mail_content(subject, message, template_name='billing/mails/notice.html',
-                                                extra_context={'invoice_url': invoice_url, 'cta': _("Pay now"),
+                                                extra_context={'member_name': member.first_name, 'cta': _("Pay now"),
+                                                               'invoice': invoice, 'invoice_url': invoice_url,
                                                                'currency': 'XAF'})
                 # Sender is simulated as being no-reply@company_name_slug.com to avoid the mail
                 # to be delivered to Spams because of origin check.
