@@ -224,6 +224,9 @@
                                 </button>
                             </div>
                         </div>
+                        <div class="text-info loading" style="clear: both; display: none; float: left; margin: 15px">
+                            {% trans "Pulling your data ... Please wait." %}
+                        </div>
                     </div>
                 </form>
             </div>
@@ -278,6 +281,7 @@
                 }
                 if (!validInput) return false;
                 _$btn.addClass('processing');
+                $('.subscription-details .loading').show();
                 $.getJSON('', {action: 'check_code_and_pull_invoice', 'code': code}, (resp) => {
                     _$btn.removeClass('processing');
                     if (resp.error) {
