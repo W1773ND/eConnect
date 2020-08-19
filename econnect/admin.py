@@ -38,7 +38,8 @@ class ProfileAdmin(admin.ModelAdmin):
 class ConfigAdmin(admin.ModelAdmin):
     list_display = ('company_name', 'short_description', 'contact_email', 'contact_phone')
     fieldsets = (
-        (_('General'), {'fields': ('company_name', 'short_description', 'slogan', 'description', 'payment_delay')}),
+        (_('General'), {'fields': ('company_name', 'registration_number', 'taxpayer_number', 'currency_code',
+                                   'currency_symbol', 'short_description', 'slogan', 'description', 'payment_delay')}),
         (_('Address & Contact'), {'fields': ('contact_email', 'notification_email', 'contact_phone', 'address', 'country', 'city')}),
         (_('Social'), {'fields': ('facebook_link', 'twitter_link', 'instagram_link',
                                   'linkedin_link',)}),
