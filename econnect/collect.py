@@ -57,7 +57,7 @@ def order_set_checkout(request, *args, **kwargs):
         .create(service_id=service.id, type=MoMoTransaction.CASH_OUT, amount=amount, phone='N/A',
                 model=model_name, object_id=invoice_id, wallet=mean, username=buyer, is_running=True, task_id=signature)
     notification_url = service.url + reverse('econnect:confirm_invoice_payment', args=(tx.id, signature, lang))
-    cancel_url = service.url + reverse('econnect:my_creolink')  # Orange Money only
+    cancel_url = service.url + reverse('my_creolink')  # Orange Money only
     return_url = service.url + reverse('billing:invoice_detail', args=(invoice.id,))
     gateway_url = getattr(settings, 'IKWEN_PAYMENT_GATEWAY_URL', 'http://payment.creolink.com/v1')
     endpoint = gateway_url + '/request_payment'
