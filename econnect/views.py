@@ -218,7 +218,7 @@ class OrderConfirm(TemplateView):
         service = get_service_instance()
         config = service.config
         notify_email = [email.strip() for email in config.notification_email.split(',')]
-        admin_url = service.url + reverse('econnect:pending_order')
+        admin_url = service.url + reverse('pending_order')
         prospect_url = getattr(settings, "CREOLINK_MAPS_URL") + 'save_prospect'
         payload = {
             'customer_name': member_fullname,

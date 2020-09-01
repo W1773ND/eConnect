@@ -72,6 +72,7 @@
 {% block js %}
     {{ block.super }}
     <script>
+        let map, infoWindow, marker, pos;
         const availabilityCheck= parseInt('{{ request.GET.availabilityCheck }}');
         const orderId= '{{ request.GET.order_id }}';
         {% comment %}var NEW_ZEALAND_BOUNDS = {
@@ -82,7 +83,7 @@
         };{% endcomment %}
         const IKWEN = { lat: 3.834418, lng: 11.4849073 };
         function initMap() {
-            let map = new google.maps.Map(document.getElementById('map'), {
+            map = new google.maps.Map(document.getElementById('map'), {
                 center: IKWEN,
                 {% comment %}restriction: {
                     latLngBounds: NEW_ZEALAND_BOUNDS,
@@ -92,10 +93,10 @@
                 // gestureHandling: 'cooperative'
 
             });
-            let geocoder = new google.maps.Geocoder;
-            let contentString = $('#defaultContent').html();
-            let infowindow = new google.maps.InfoWindow({content: contentString});
-            let infowindowForOrder = new google.maps.InfoWindow();
+            const geocoder = new google.maps.Geocoder;
+            const contentString = $('#defaultContent').html();
+            const infowindow = new google.maps.InfoWindow({content: contentString});
+            const infowindowForOrder = new google.maps.InfoWindow();
 
             const stopBounce = () => {
                 marker.setAnimation(google.maps.Animation.DROP);
@@ -173,7 +174,7 @@
             }
 
             else if (orderId !== '') {
-                map.setZoom(12);
+                map.setZoom(18);
                 pos = {
                     lat: parseFloat("{{ request.GET.lat }}"),
                     lng: parseFloat("{{ request.GET.lng }}")
@@ -214,7 +215,7 @@
 
             }
             else if (localStorage.getItem('Location')) {
-                let retrievedLocation = JSON.parse(localStorage.getItem('Location'));
+                const retrievedLocation = JSON.parse(localStorage.getItem('Location'));
                 $('input[name=customer_lat]').val(retrievedLocation['Latitude']);
                 $('input[name=customer_lng]').val(retrievedLocation['Longitude']);
                 pos = {
