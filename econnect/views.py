@@ -347,7 +347,7 @@ class PendingOrderList(HybridListView):
         order.save()
         member = order.member
         member_lastname = member.last_name if not member.is_ghost else _('Customer')
-        my_creolink_url = reverse('econnect:my_creolink')
+        my_creolink_url = reverse('my_creolink')
         try:
             subject = _("Dear " + member.full_name + ", we'll come soon as possible to install your service.")
             html_content = get_mail_content(subject, template_name='econnect/mails/order_reported.html',
