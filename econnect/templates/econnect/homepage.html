@@ -33,7 +33,7 @@
                 {% if request.user.is_authenticated %}
                     <a  href='{% url 'econnect:maps' %}?next={{ request.path }}' class="btn btn-success btn-set-location animated pulse mobile-adjust" style="margin-top: 40px; min-width: 200px"><i class="fas fa-map-marker-alt" style="font-size:large; margin-right: 0.5vw"></i><strong class="get-started" style="font-size:large; padding-left: .5vw;"></strong></a>
                 {% else %}
-                     <button type="button" class="btn btn-success btn-set-location animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-email" style="margin-top: 40px; min-width: 200px"><strong class="get-started" style="font-size:large;"></strong></button>
+                     <button type="button" class="btn btn-success btn-set-location animated pulse mobile-adjust" data-toggle="modal" data-target="#modal-get-contact" style="margin-top: 40px; min-width: 200px"><strong class="get-started" style="font-size:large;"></strong></button>
                 {% endif %}
             </div>
         </div>
@@ -171,7 +171,7 @@
         <i class="fa fa-chevron-circle-up"></i>
     </a>
 
-    {% include 'econnect/snippets/get_email_modal.html' %}
+    {% include 'econnect/snippets/get_visitor_contact_modal.html' %}
 {#    {% include 'echo/snippets/popup.html' %}#}
     {% include 'econnect/snippets/edge_panel.html' %}
 {% endblock %}
@@ -187,24 +187,6 @@
             //Open popup
             $('#modal-popup').modal('show');
 
-            // set focus when modal is opened
-            $('#modal-get-email').on('shown.bs.modal', function () {
-                $("#visitor-email").focus();
-            });
-
-            $('#visitor-email').focusin(function () {
-                $('div#email-error').fadeOut().hide()
-            });
-
-            // get the email for Tsunami relaunch mails
-            $('.btn-process').click(function () {
-                var visitor_email = $('#visitor-email').val();
-                if (visitor_email !== ''){
-                    $('#get-user-email').submit()
-                }else {
-                    $('div#email-error').fadeIn().show()
-                }
-            });
 
             $('.back-face').click(function () {
                 {#window.location = $(this).find("a:first").attr("href");#}
@@ -227,6 +209,8 @@
                 $('.btn-set-location').find('.fas').addClass('tpl');
             }
             //Retrieving location: END
+
+
         })()
     </script>
 {% endblock %}

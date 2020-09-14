@@ -1,0 +1,65 @@
+{% load i18n static %}
+
+<div id="modal-get-contact" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-get-contact">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style=" background: url({% static 'econnect/img/modal-background.png' %}); border: 0.2px solid #ccc; border-radius: 4px; text-align: center;">
+            <div class="modal-header no-border " style="color: #464646">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="color: #d32f2f">&times;</span></button>
+                <h4 class="modal-title" style="text-align: center">{% trans "Please, enter your contact before proceeding..." %}</h4>
+            </div>
+            <div id='email-error' class="failure" style="display:none; margin: 4px auto; width: 80%">{% trans "Enter a valid email please" %}</div>
+            <div id='phone-error' class="failure" style="display:none; margin: 4px auto; width: 80%">{% trans "Enter a valid phone please" %} </div>
+            <div class="modal-body">
+                <form action="{% url 'econnect:home' %}" id="get-user-contact">
+                    <input id="next" name='next' type="hidden" required value="{{ request.path }}">
+                    <input id="action" name='action' type="hidden" required value="send_mail_to_visitor">
+                    <input id="visitor-email" name='visitor_email' type="email" required placeholder="Email" aria-describedby="input-email" class="form-control-custom">
+                    <br>
+                    <input id="visitor-phone" name='visitor_phone' type="phone" required placeholder="Phone" aria-describedby="input-phone" class="form-control-custom">
+                </form>
+                <span class="btn btn-success btn-process mobile-adjust " style="margin-top: 3vh; min-width: 200px">{% trans "Continue" %}</span>
+            </div>
+            <div class="modal-footer no-border" style="padding-top: 0 !important; text-align: center !important;">
+                <a href="{% url 'ikwen:sign_in' %}">
+                    <div class="pull-right">{% trans "I have an account" %}</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (() => {
+        // set focus when modal is opened
+        $('#modal-get-email').on('shown.bs.modal', function () {
+            $("#visitor-email").focus();
+        });
+
+
+        // get the contact for relaunch mails
+        $('.btn-process').click(function () {
+            const visitor_email = $('#visitor-email').val();
+            const visitor_phone = $('#visitor-phone').val();
+            if (visitor_email == '') { $('div#email-error').fadeIn().show() }
+            if (visitor_phone == '') { $('div#phone-error').fadeIn().show() }
+            if (visitor_email !== '' && visitor_phone !==''){
+                if (testPhone()) { $('#get-user-contact').submit() }
+                else { $('div#phone-error').fadeIn().show() }
+            }
+        });
+
+         let testPhone = () => {
+                $('.errorlist.phone').remove();
+                let $phone = $('#visitor-phone'),
+                    phone = $phone.val().replace(/ /g, '');
+                $phone.val(phone);
+                if (phone && phone.substr(0, 2) !== '00' && /\d{9,}/.test(phone)) return true;
+                $('<ul class="errorlist phone" style="list-style-type: none">' +
+                    '<li>' + "{% trans "Please use digits only." %}" + '</li>' +
+                    '<li>' + "{% trans "Prepend country code if you are not in Cameroon." %}" + '</li>' +
+                    '<li>' + "{% trans "DO NOT prepend 00." %}" + '</li>' +
+                    '</ul>').insertAfter('#visitor-phone');
+                return false;
+            }
+    })()
+</script>

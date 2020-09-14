@@ -531,6 +531,7 @@ class HomeView(TemplateView):
         service = get_service_instance()
         config = service.config
         visitor_email = request.GET.get('visitor_email')
+        visitor_phone = request.GET.get('visitor_phone')
         next_url = request.GET.get('next', '/')
         if not visitor_email:
             response = {'error': 'No Email found'}
@@ -547,7 +548,7 @@ class HomeView(TemplateView):
             try:
                 Member.objects.get(username=username, is_ghost=True)
             except Member.DoesNotExist:
-                member = Member.objects.create_user(username, DEFAULT_GHOST_PWD, email=visitor_email, is_ghost=True)
+                member = Member.objects.create_user(username, DEFAULT_GHOST_PWD, email=visitor_email, phone=visitor_phone, is_ghost=True)
                 tag = ECONNECT
                 econnect_tag, change = ProfileTag.objects.get_or_create(name=tag, slug=slugify(tag))
                 member_profile = MemberProfile.objects.get(member=member)
