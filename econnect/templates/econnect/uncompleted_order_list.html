@@ -145,7 +145,7 @@
 {% block js %}
     {{ block.super }}
     <script type="text/javascript">
-        ( () => {
+        (function () {
             $('.order-confirm').click(function () {
                 let currentOrder = $(this).parents('.event');
                 let orderId = currentOrder.attr('id');

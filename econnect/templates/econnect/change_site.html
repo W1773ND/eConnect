@@ -208,7 +208,7 @@
 {% block js %}
     {{ block.super }}
     <script type="text/javascript">
-        ( () => {
+        (function() {
             $('div#admin-nav .{{ verbose_name_plural|slugify }}').addClass('active');
             $('.form-row').addClass('form-group');
             $('.form-row input, .form-row select, .form-row textarea').addClass('form-control input-sm');

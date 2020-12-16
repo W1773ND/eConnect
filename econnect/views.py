@@ -235,7 +235,7 @@ class OrderConfirm(TemplateView):
                                                            'admin_url': admin_url,
                                                            })
             sender = 'Creolink Communications <no-reply@creolink.com>'
-            msg = XEmailMessage(subject, html_content, sender, [member.email], bcc=notify_email)
+            msg = XEmailMessage(subject, html_content, sender, notify_email)
             msg.content_subtype = "html"
             Thread(target=lambda m: m.send(), args=(msg,)).start()
         except:

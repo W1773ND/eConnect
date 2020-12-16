@@ -125,7 +125,7 @@
 {% block js %}
     {{ block.super }}
     <script type="text/javascript">
-        ( () => {
+        (function () {
             function redirect(){
                 window.location.replace("{% url 'econnect:home' %}")
             }
