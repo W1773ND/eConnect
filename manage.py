@@ -2,7 +2,7 @@
 import os
 import sys
 
-sys.path.append('/home/creolink/Tools/lib/python2.7/site-packages')
+sys.path.append('/home/komsihon/Tools/venv/lib/python2.7/site-packages')
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "conf.settings")
 

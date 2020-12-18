@@ -49,6 +49,10 @@
                     {% url 'ikwen:community' as community_url %}
                     <a href="{{ community_url }}">{% trans "Community" %}</a>
                 </li>
+                <li class="incompleteclients">
+                    {% url 'incompleteclient_list' as incompleteclient_url %}
+                    <a href="{{ incompleteclient_url }}">{% trans "Incomplete Clients" %}</a>
+                </li>
             </ul>
         </li>
         <div class="divider"></div>

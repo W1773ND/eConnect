@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as __
 from django.conf import settings
 from djangotoolbox.fields import ListField, EmbeddedModelField
 
@@ -208,9 +209,9 @@ class Site(Model):
 class Profile(Model):
     member = models.ForeignKey(Member, related_name='+', blank=True, null=True)
     code = models.CharField(_("Client Code"), max_length=15)
-    country = models.ForeignKey(Country, blank=True, null=True)
-    city = models.CharField(max_length=30)
-    district = models.CharField(max_length=30, blank=True, null=True)
+    country = models.ForeignKey(Country, verbose_name=_("Country"), blank=True, null=True)
+    city = models.CharField(_("City"), max_length=30, blank=True, null=True)
+    district = models.CharField(_("Neighborhood"), max_length=30, blank=True, null=True)
     code_update_count = models.IntegerField(default=0,
                                             help_text="Counts how many times the code was updated. User should not be "
                                                       "allowed to modify more than twice.")
@@ -220,6 +221,35 @@ class CustomerRequest(Model):
     member = models.ForeignKey(Member, related_name='+')
     name = models.CharField(max_length=250)
     label = models.CharField(max_length=250, blank=False, null=False)
+
+
+class IncompleteClient(Model):
+    """
+    Represents a client imported from Navision without email.
+    When a client does not have email, the corresponding Member
+    object cannot be created. A list of such clients is built
+    for the Call-Center to revive them one by one and get them to provide their emails
+    """
+    code = models.CharField(max_length=15, unique=True)
+    name = models.CharField(max_length=100, db_index=True)
+    city = models.CharField(max_length=100, blank=True, null=True, db_index=True)
+    email = models.EmailField(blank=True, null=True, db_index=True,
+                              help_text="The email is empty when the object is created and manually set "
+                                        "later when we obtain it. A cron will traverse objects having "
+                                        "email set and create the corresponding Member")
+    phone = models.CharField(max_length=60, blank=True, null=True, db_index=True)
+    last_access = models.DateTimeField(blank=True, null=True, db_index=True,
+                                       help_text="Last time this client file was accessed, probably for a revival "
+                                                 "by the Call-Center")
+
+    def __unicode__(self):
+        return self.name
+
+    def get_obj_details(self):
+        last_access = self.last_access.strftime('%Y-%m-%d %H:%M') if self.last_access else '---'
+        return __("<span><strong>Client Code:</strong> %(client_code)s</span>&nbsp;&nbsp;"
+                  "<span><strong>Last access:</strong> "
+                  "%(last_access)s</span>" % {'client_code': self.code, 'last_access': last_access})
 
 
 class Config(AbstractConfig):

@@ -32,7 +32,7 @@
                             </li>
                         {% endif %}
                         <li class="col-sm-4 payment-method yup"
-                            {% comment %}{% if om %}data-action-url="{% url om.action_url_name %}?mean=orange-money"{% endif %}{% endcomment %}>
+                            data-action-url="{% url yup.action_url_name %}?mean=yup">
                             <span class="logo" style="background: #e60028" title="{% trans "Pay with YUP" %}">
                                 <img src="{% static 'econnect/img/logo_yup.png' %}" height="90" />
                             </span>

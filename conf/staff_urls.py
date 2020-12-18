@@ -8,6 +8,7 @@ from ikwen.flatpages.views import FlatPageList
 
 from ikwen.billing.invoicing.views import ChangeSubscription
 
+from econnect.navision import CustomPaymentList, IncompleteClientList, ChangeIncompleteClient
 from econnect.views import Dashboard, Admin, PendingOrderList, PaidOrderList, ReportedOrderList, CanceledOrderList, \
     CustomerRequestList
 
@@ -15,6 +16,7 @@ urlpatterns = patterns(
     '',
     url(r'^billing/changeSubscription/$', permission_required('billing.ik_manage_subscription')(ChangeSubscription.as_view()), name='change_subscription'),
     url(r'^billing/changeSubscription/(?P<object_id>[-\w]+)/$', permission_required('billing.ik_manage_subscription')(ChangeSubscription.as_view()), name='change_subscription'),
+    url(r'^billing/payments/$', permission_required('billing.ik_manage_invoice')(CustomPaymentList.as_view())),
     url(r'^billing/', include('ikwen.billing.urls', namespace='billing')),
 
     url(r'^flatPages/$', permission_required('flatpages.ik_webmaster')(FlatPageList.as_view()), name='flatpage_list'),
@@ -28,4 +30,6 @@ urlpatterns = patterns(
     url(r'^reportedOrder$', permission_required('econnect.ik_manage_sales')(ReportedOrderList.as_view()), name='reported_order'),
     url(r'^canceledOrder$', permission_required('econnect.ik_manage_sales')(CanceledOrderList.as_view()), name='canceled_order'),
     url(r'^customerRequest$', permission_required('econnect.ik_econnect_admin')(CustomerRequestList.as_view()), name='admin_request'),
+    url(r'^incompleteClients$', permission_required('econnect.ik_manage_sales')(IncompleteClientList.as_view()), name='incompleteclient_list'),
+    url(r'^changeIncompleteClient/(?P<object_id>[-\w]+)$', permission_required('econnect.ik_manage_sales')(ChangeIncompleteClient.as_view()), name='change_incompleteclient'),
 )

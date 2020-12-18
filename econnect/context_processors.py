@@ -4,12 +4,12 @@ from django.db.models import Sum
 from ikwen.accesscontrol.models import Member
 from ikwen.core.context_processors import project_settings as ikwen_settings
 from ikwen.core.constants import PENDING, PENDING_FOR_PAYMENT
-from ikwen.billing.models import Invoice
+from ikwen.billing.models import Invoice, PaymentMean
 from ikwen_webnode.blog.views import Comment
 
 from echo.models import PopUp
 
-from econnect.models import Order, REPORTED, CANCELED, Profile
+from econnect.models import Order, REPORTED, Profile
 
 
 def project_settings(request):
@@ -21,6 +21,10 @@ def project_settings(request):
         'GOOGLE_MAPS_API_KEY': getattr(settings, 'GOOGLE_MAPS_API_KEY'),
         'CREOLINK_MAPS_URL': getattr(settings, 'CREOLINK_MAPS_URL'),
     })
+    try:
+        econnect_settings['yup'] = PaymentMean.objects.get(slug='yup')
+    except:
+        pass
     return econnect_settings
 
 
@@ -30,31 +34,31 @@ def order_status(order_id):
         pending_order_qs = Order.objects.filter(status=PENDING)
         aggr = pending_order_qs.aggregate(Sum('cost'))
         total_pending_order = {'count': pending_order_qs.count(), 'cost': aggr['cost__sum']}
-    except IndexError:
+    except:
         total_pending_order = {'count': 0, 'amount': 0}
     try:
         pending_for_payment_order_qs = Order.objects.filter(status=PENDING_FOR_PAYMENT)
         aggr = pending_for_payment_order_qs.aggregate(Sum('cost'))
         total_pending_for_payment_order = {'count': pending_for_payment_order_qs.count(), 'cost': aggr['cost__sum']}
-    except IndexError:
+    except:
         total_pending_for_payment_order = {'count': 0, 'amount': 0}
     try:
         paid_order_qs = Order.objects.filter(status=Invoice.PAID)
         aggr = paid_order_qs.aggregate(Sum('cost'))
         total_paid_order = {'count': paid_order_qs.count(), 'cost': aggr['cost__sum']}
-    except IndexError:
+    except:
         total_paid_order = {'count': 0, 'amount': 0}
     try:
         reported_order_qs = Order.objects.filter(status=REPORTED)
         aggr = reported_order_qs.aggregate(Sum('cost'))
         total_reported_order = {'count': reported_order_qs.count(), 'cost': aggr['cost__sum']}
-    except IndexError:
+    except:
         total_reported_order = {'count': 0, 'amount': 0}
     try:
         canceled_order_qs = Order.objects.filter(status=PENDING)
         aggr = canceled_order_qs.aggregate(Sum('cost'))
         total_canceled_order = {'count': canceled_order_qs.count(), 'cost': aggr['cost__sum']}
-    except IndexError:
+    except:
         total_canceled_order = {'count': 0, 'amount': 0}
     order['pending_order'] = total_pending_order
     order['pending_for_payment_order'] = total_pending_for_payment_order
@@ -79,7 +83,7 @@ def billing_stats(c):
         sent_invoice_qs = Invoice.objects.filter(status=Invoice.PENDING)
         aggr = sent_invoice_qs.aggregate(Sum('amount'))
         total_sent_invoice = {'count': sent_invoice_qs.count(), 'amount':aggr['amount__sum']}
-    except IndexError:
+    except:
         total_sent_invoice = {'count': 0, 'amount': 0}
     billing['sent_invoice'] = total_sent_invoice
     return billing
@@ -96,12 +100,14 @@ def pop_up(r):
 def customer_profile(request):
     profile = {}
     member = request.user
-    if not member.is_anonymous():
+    if member.is_authenticated():
         try:
             user_profile = Profile.objects.get(member=member)
             profile['code_client'] = user_profile.code
         except Profile.DoesNotExist:
             pass
+        pending_invoice_count = Invoice.objects.filter(member=member, status=PENDING).count()
+        profile['pending_invoice_count'] = pending_invoice_count
     return profile
 
 

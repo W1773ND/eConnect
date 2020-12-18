@@ -112,6 +112,11 @@ section {margin-bottom: 5vh;}
   color: rgba(255, 255, 255, 0.8);
 }
 
+.small-box > .small-box-footer.warning {
+  background: rgb(243 157 48);
+  color: rgba(255, 255, 255, 0.8);
+}
+
 .small-box > .small-box-footer:hover {
   background: rgba(0, 0, 0, 0.15);
   color: #ffffff;

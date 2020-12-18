@@ -15,3 +15,9 @@ class OrderForm(forms.Form):
     equipment = forms.CharField(max_length=255)
     extra = forms.CharField(max_length=255, required=False)
     optional_tv = forms.IntegerField(required=False)
+
+
+class YUPCallbackForm(forms.Form):
+    invoice_id = forms.CharField(max_length=60)
+    amount = forms.IntegerField()
+    transaction_id = forms.CharField(max_length=60)

@@ -8,7 +8,7 @@
 {% block head_style %}
     {{ block.super }}
     <link href="{% static 'econnect/css/admin_home.css' %}" rel="stylesheet">
-    <link href="{% static 'econnect/css/dashboard.css' %}" rel="stylesheet">
+    <link href="{% static 'econnect/css/dashboard.css' %}?v=20.12.18" rel="stylesheet">
 {% endblock %}
 
 {% block breadcrumb_location %}
@@ -105,7 +105,7 @@
                     <section id="community">
                         <h2>{% trans "Community" %}</h2>
                         <div class="row">
-                            <div class="col-lg-6 col-6">
+                            <div class="col-sm-4 col-xs-6">
                                 <div class="small-box border border-success">
                                     <div class="inner">
                                         {% if registered_member_count > 0 %}
@@ -121,7 +121,23 @@
                                     <a href="{% url "ikwen:community" %}" class="small-box-footer success">{% trans "More info " %}<i class="fas fa-caret-square-right"></i></a>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-6">
+                            <div class="col-sm-4 col-xs-6">
+                                <div class="small-box border border-warning">
+                                    <div class="inner">
+                                        {% if incomplete_client_count > 0 %}
+                                        <h1>{{ incomplete_client_count|intcomma }}</h1>
+                                        <p>{% trans "Incomplete Clients" %}</p>
+                                        {% else %}
+                                        <p class="text-muted">{% trans "Nothing to display at the moment..." %}</p>
+                                        {% endif %}
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fas fa-user-ninja"></i>
+                                    </div>
+                                    <a href="{% url "incompleteclient_list" %}" class="small-box-footer warning">{% trans "More info " %}<i class="fas fa-caret-square-right"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-xs-6">
                                 <div class="small-box border border-danger">
                                     <div class="inner">
                                         {% if unregistered_member_count > 0 %}
@@ -142,7 +158,7 @@
                     <section id="billing">
                         <h2 class="section-title">{% trans "Invoices" %}</h2>
                         <div class="row">
-                            <div class="col-lg-4 col-6">
+                            <div class="col-sm-4 col-xs-6">
                                 <div class="small-box bg-info">
                                     <div class="inner">
                                         {% if sent_invoice.count > 0 %}
@@ -159,7 +175,7 @@
                                     <a href="#" class="small-box-footer">{% trans "More info " %}<i class="fas fa-caret-square-right"></i></a>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-6">
+                            <div class="col-sm-4 col-xs-6">
                                 <div class="small-box bg-success">
                                     <div class="inner">
                                         {% if pending_for_payment_order_count > 0 %}
@@ -176,7 +192,7 @@
                                     <a href="#" class="small-box-footer">{% trans "More info " %}<i class="fas fa-caret-square-right"></i></a>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-6">
+                            <div class="col-sm-4 col-xs-6">
                                 <div class="small-box bg-warning">
                                     <div class="inner">
                                         {% if paid_order_count > 0 %}

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from ikwen.accesscontrol.utils import VerifiedEmailTemplateView
+
 from econnect.navision import pull_invoices
 
 __author__ = 'W1773ND (wilfriedwillend@gmail.com)'
@@ -54,7 +56,8 @@ from econnect.forms import OrderForm
 from econnect.models import ADMIN_EMAIL, Subscription, Order, CustomerRequest, Product, Package, Equipment, \
     EquipmentOrderEntry, \
     Extra, RENTAL, PURCHASE, REPORTED, FINISHED, CANCELED, DEVICE_ID, \
-    NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, ANALOG, DIGITAL, ECONNECT, Faq, Advertisement, Site, Profile
+    NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, ANALOG, DIGITAL, ECONNECT, Faq, Advertisement, Site, Profile, \
+    IncompleteClient
 
 import logging
 
@@ -477,6 +480,11 @@ class Admin(TemplateView):
 class Dashboard(TemplateView):
     template_name = 'econnect/admin/dashboard.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(Dashboard, self).get_context_data(**kwargs)
+        context['incomplete_client_count'] = IncompleteClient.objects.filter(email='').count()
+        return context
+
 
 class CustomerRequestList(HybridListView):
     template_name = 'econnect/admin/request_list.html'
@@ -782,7 +790,7 @@ class ChangeAdvertisement(ChangeObjectBase):
     label_field = 'cta_label'
 
 
-class SiteList(HybridListView):
+class SiteList(HybridListView, VerifiedEmailTemplateView):
     queryset = Site.objects.select_related('member', 'site')
     ordering = ('order_of_appearance',)
     context_object_name = 'site_list'
@@ -791,7 +799,7 @@ class SiteList(HybridListView):
     html_results_template_name = 'econnect/snippets/site_list_results.html'
 
 
-class ChangeSite(ChangeObjectBase):
+class ChangeSite(ChangeObjectBase, VerifiedEmailTemplateView):
     model = Site
     model_admin = SiteAdmin
     template_name = 'econnect/change_site.html'
@@ -830,11 +838,28 @@ class ChangeProfile(ChangeObjectBase):
     object_list_url = 'change_profile'
 
     def get(self, request, *args, **kwargs):
+        email_verified = Member.objects.using(UMBRELLA).get(pk=request.user.id).email_verified
+        if email_verified:
+            # If email already verified in umbrella, report it to local database
+            member = request.user
+            member.email_verified = True
+            member.propagate_changes()
+        else:
+            referrer = request.META.get('HTTP_REFERER', '/')
+            next_url = reverse('ikwen:email_confirmation') + '?next=' + referrer
+            return HttpResponseRedirect(next_url)
         action = request.GET.get('action')
         if action == 'check_code_and_pull_invoice':
             start_date = datetime.now() - timedelta(days=180)
             end_date = datetime.now()
             code = request.GET['code']
+            try:
+                profile = Profile.objects.get(code=code)
+                if profile.member != request.user:
+                    response = {'error': 'Attempt to use an already registered Client Code'}
+                    return HttpResponse(json.dumps(response), 'content-type: text/json')
+            except Profile.DoesNotExist:
+                pass
             invoice_list, pending_count = pull_invoices(member=request.user, client_code=code,
                                                         start_date=start_date, end_date=end_date, send_mail=False)
             if len(invoice_list) == 0:

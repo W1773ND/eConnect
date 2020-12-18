@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import permission_required
 from ikwen_webnode.blog.views import AdminPostHome, ListCategory, ChangeCategory, ChangePost, CommentList
 from ikwen_kakocase.shopping.views import FlatPageView
 
-
 from econnect.views import HomeView
+from econnect.navision import test_navision_import
 
 admin.autodiscover()
 

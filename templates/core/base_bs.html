@@ -68,12 +68,18 @@
                                 <div id="user-menu" class="dropdown">
                                     <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="{% if user.is_staff %}fas fa-user-cog{% else %}fas fa-user{% endif %}"></i>
+                                        {% if pending_invoice_count %}
+                                            <span class="label label-danger" style="margin: 12px 0 0 -50px; position: absolute">{{ pending_invoice_count }}</span>
+                                        {% endif %}
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="user-menu">
                                         <li style="padding: 3px 20px"> {{ user.full_name }} </li>
                                         <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
                                         <li>
                                             <a href="{% url 'uncompleted_order' %}">My Creolink</a>
+                                            {% if pending_invoice_count %}
+                                                <span class="label label-danger" style="margin: -21px 0 0 125px; position: absolute">{{ pending_invoice_count }}</span>
+                                            {% endif %}
                                         </li>
                                         <li>
                                             <a href="{{ account_setup_url }}">{% trans "Account setup" %}</a>
@@ -124,12 +130,18 @@
                                                 <li id="user-menu" class="dropdown">
                                                     <a class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                         <i class="{% if user.is_staff %}fas fa-user-cog{% else %}fas fa-user{% endif %}"></i>
+                                                        {% if pending_invoice_count %}
+                                                            <span class="label label-danger" style="margin: 12px 0 0 -45px; position: absolute">{{ pending_invoice_count }}</span>
+                                                        {% endif %}
                                                     </a>
                                                     <ul class="dropdown-menu" aria-labelledby="user-menu">
                                                         <li style="padding: 3px 20px"> {{ user.full_name }} </li>
                                                         <li role="separator" class="divider" style="margin-bottom: 0; width: 100%"></li>
                                                         <li>
                                                             <a href="{% url 'uncompleted_order' %}">My Creolink</a>
+                                                            {% if pending_invoice_count %}
+                                                                <span class="label label-danger" style="margin: -30px 0 0 160px; position: absolute">{{ pending_invoice_count }}</span>
+                                                            {% endif %}
                                                         </li>
                                                         <li>
                                                             <a href="{{ account_setup_url }}">{% trans "Account setup" %}</a>

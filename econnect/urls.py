@@ -1,12 +1,14 @@
 from django.conf.urls import url, patterns
 from django.contrib.auth.decorators import permission_required, login_required
 
-from econnect.collect import confirm_invoice_payment
+from econnect.collect import confirm_invoice_payment, process_yup_app_payment
+from econnect.navision import extract, export_payments
 from econnect.utils import get_media, delete_tinyMCE_photo
 from econnect.views import HomeView, Numerilink, NumerilinkHotel, Homelink, Officelink, Corporatelink, \
     PricingNumerilink, PricingNumerilinkHotel, ChangeProduct, ProductList, ChangePackage, PackageList, EquipmentList,\
     ChangeEquipment, ExtraList, ChangeExtra, PricingOfficelink, PricingHomelink, PricingCorporatelink, Maps, \
     OrderConfirm, ChangeMailCampaign, Offline, FaqList, ChangeFaq, ChangeAdvertisement, AdvertisementList
+
 
 urlpatterns = patterns(
     '',
@@ -26,7 +28,8 @@ urlpatterns = patterns(
     url(r'^OrderConfirm/$', login_required(OrderConfirm.as_view()), name='order_confirm'),
 
 
-    url(r'^confirm_invoice_payment/(?P<tx_id>[-\w]+)/(?P<signature>[-\w]+)/(?P<lang>[-\w]+)$', confirm_invoice_payment, name='confirm_invoice_payment'),
+    url(r'^confirm_invoice_payment/(?P<object_id>[-\w]+)/(?P<lang>[-\w]+)$', confirm_invoice_payment, name='confirm_invoice_payment'),
+    url(r'^confirm_invoice_payment/(?P<object_id>[-\w]+)/(?P<lang>[-\w]+)/(?P<signature>[-\w]+)$', confirm_invoice_payment, name='confirm_invoice_payment'),
 
     url(r'^products/$', permission_required('flatpages.ik_webmaster')(ProductList.as_view()), name='product_list'),
     url(r'^product/$', permission_required('flatpages.ik_webmaster')(ChangeProduct.as_view()), name='change_product'),
@@ -51,4 +54,7 @@ urlpatterns = patterns(
 
     url(r'^get_media$', get_media, name='get_media'),
     url(r'^delete_tinymce_photo', delete_tinyMCE_photo, name='delete_tinymce_photo'),
+    url(r'^api/invoices', extract, name='extract'),
+    url(r'^api/payments', export_payments, name='export_payments'),
+    url(r'^api/YUPAppCallback', process_yup_app_payment, name='process_yup_app_payment'),
 )

@@ -35,6 +35,11 @@ class ProfileAdmin(admin.ModelAdmin):
     fields = ('code', 'country', 'city', 'district')
 
 
+class IncompleteClientAdmin(admin.ModelAdmin):
+    fields = ('code', 'name', 'city', 'email', 'phone', 'last_access')
+    readonly_fields = ('code', 'name', 'city', 'last_access')
+
+
 class ConfigAdmin(admin.ModelAdmin):
     list_display = ('company_name', 'short_description', 'contact_email', 'contact_phone')
     fieldsets = (
