@@ -1,4 +1,4 @@
-{% extends 'core/app_base_admin.html' %}
+{% extends 'core/object_list_base.html' %}
 {% load i18n humanize staticfiles auth_tokens %}
 
 {% block page_title %}
@@ -10,7 +10,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'echo/css/swiper.min.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'ikwen/ajaxuploader/css/fileuploader.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'embed-doc/css/embed-doc.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/base_default.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/admin.css' %}?V=12.17.19.20.16"/>
     <link rel="stylesheet" type="text/css" href="{% static 'econnect/css/econnect_pricing.css' %}"/>
 {% endblock %}
@@ -22,41 +21,7 @@
 {% block admin_content %}
     <div id="admin-content">
         <div class="container-fluid stage">
-            <div id="admin-tools" class="ceil bottom-shade-xs">
-                <form id="admin-tools-form" onsubmit="return false">
-                    <div>
-                        <div>
-                            <i class="fas fa-search"></i>
-                            <i class="fas fa-chevron-left hide-search back"></i>
-                            <input type="text" id="context-search" class="tool search form-input input-sm" placeholder="{% blocktrans %}Search {{ verbose_name }}{% endblocktrans %}"/>
-                        </div>
-                        {% if filter and filter|length > 0 %}
-                            <div class="filter-trigger">
-                                <i class="fas fa-filter"></i>
-                                <i class="fas fa-chevron-left hide-filter back"></i>
-                                {% for elt in filter %}
-                                <div class="tool filter">
-                                    <label for="{{ elt.parameter_name }}" class="sr-only">{% trans elt.title %}</label>
-                                    <select id="{{ elt.parameter_name }}" style="float: left; width: 120px" class="form-control input-sm {{ elt.parameter_name }} widget" name="{{ elt.parameter_name }}">
-                                        <option value="">{% trans "All" %} {% trans elt.title %}</option>
-                                        {% for choice in elt.choices %}
-                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
-                </form>
-                {% comment %}{% url change_object_url_name as change_object_url %}
-                <a href="{{ change_object_url }}" class="btn btn-sm btn-success cta add pull-right action"
-                        title="{% trans "Add new " %} {{ verbose_name }}">
-                    <i class="glyphicon glyphicon-plus"></i>
-                    <span class="hidden-xs">{% trans "Add" %}</span>
-                </a>
-                <div class="clearfix"></div>{% endcomment %}
-            </div>
+            {% include 'core/snippets/admin_tools.html' %}
             <div id="results" class="col-lg-8 col-lg-offset-2">
                 {% include 'core/snippets/spinner.html' %}
                 {% include 'econnect/admin/snippets/order_list_results.html' %}
@@ -72,7 +37,6 @@
                 <button href="{{ obj_url }}" class="btn btn-outline-primary order-relaunch btn-sm pull-right">{% trans 'Contact customer' %}</button>
             </form>
         </section>
-
     </div>
 {% endblock %}
 
@@ -148,5 +112,4 @@
             })
         })();
     </script>
-
 {% endblock %}

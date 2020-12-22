@@ -1,15 +1,17 @@
+from datetime import datetime, timedelta
+
 from django.conf import settings
 from django.db.models import Sum
 
 from ikwen.accesscontrol.models import Member
 from ikwen.core.context_processors import project_settings as ikwen_settings
-from ikwen.core.constants import PENDING, PENDING_FOR_PAYMENT
+from ikwen.core.constants import PENDING, PENDING_FOR_PAYMENT, STARTED
 from ikwen.billing.models import Invoice, PaymentMean
 from ikwen_webnode.blog.views import Comment
 
 from echo.models import PopUp
 
-from econnect.models import Order, REPORTED, Profile
+from econnect.models import Order, REPORTED, Profile, CANCELED
 
 
 def project_settings(request):
@@ -55,7 +57,7 @@ def order_status(order_id):
     except:
         total_reported_order = {'count': 0, 'amount': 0}
     try:
-        canceled_order_qs = Order.objects.filter(status=PENDING)
+        canceled_order_qs = Order.objects.filter(status=CANCELED)
         aggr = canceled_order_qs.aggregate(Sum('cost'))
         total_canceled_order = {'count': canceled_order_qs.count(), 'cost': aggr['cost__sum']}
     except:

@@ -247,6 +247,25 @@ class OrderConfirm(TemplateView):
         return HttpResponse(json.dumps(response), 'content-type: text/json')
 
 
+class PendingStatusListFilter(object):
+    title = _('Status')
+    parameter_name = 'status'
+
+    def lookups(self):
+        choices = [
+            (STARTED, _('Started')),
+            (PENDING, _('Pending')),
+            (PENDING_FOR_PAYMENT, _('Pending for payment'))
+        ]
+        return choices
+
+    def queryset(self, request, queryset):
+        value = request.GET.get(self.parameter_name)
+        if value:
+            return queryset.filter(status=value)
+        return queryset
+
+
 class PendingOrderList(HybridListView):
     template_name = 'econnect/admin/order_list.html'
     html_results_template_name = 'econnect/admin/snippets/order_list_results.html'
@@ -254,8 +273,8 @@ class PendingOrderList(HybridListView):
     queryset = Order.objects.exclude(status__in=[REPORTED, Invoice.PAID, FINISHED, CANCELED])
     search_field = 'tags'
     list_filter = (
-        ('created_on', _('Date')),
-        ('status', _('Status'))
+        PendingStatusListFilter,
+        ('created_on', _('Date'))
     )
     context_object_name = 'order'
 
@@ -328,14 +347,13 @@ class PendingOrderList(HybridListView):
         invoice = Invoice.objects.create(subscription=subscription, member=member, number=number, amount=order.cost,
                                          months_count=1, due_date=due_date.date(), is_one_off=True, entries=entries)
         try:
-            subject = _("Dear " + member.full_name + ", we are ready to come and install your service.")
+            subject = _("We are ready to come and install your service.")
             invoice_url = service.url + reverse('billing:invoice_detail', args=(invoice.id,))
             html_content = get_mail_content(subject, template_name='econnect/mails/order_accepted.html',
                                             extra_context={'invoice_url': invoice_url,
                                                            'order_label': label,
                                                            'order_location': order_location,
-                                                           'member_lastname': member_lastname,
-                                                           })
+                                                           'member_lastname': member_lastname})
             sender = 'Creolink Communications <no-reply@creolink.com>'
             msg = XEmailMessage(subject, html_content, sender, [member.email], bcc=[ADMIN_EMAIL])
             msg.content_subtype = "html"
@@ -380,12 +398,33 @@ class PendingOrderList(HybridListView):
         return HttpResponse(json.dumps(response), 'content-type: text/json')
 
 
+class PaidStatusListFilter(object):
+    title = _('Status')
+    parameter_name = 'status'
+
+    def lookups(self):
+        choices = [
+            (Invoice.PAID, _('Paid')),
+            (FINISHED, _('Processed and archived'))
+        ]
+        return choices
+
+    def queryset(self, request, queryset):
+        value = request.GET.get(self.parameter_name)
+        if value:
+            return queryset.filter(status=value)
+        return queryset
+
+
 class PaidOrderList(HybridListView):
     template_name = 'econnect/admin/order_list.html'
     html_results_template_name = 'econnect/admin/snippets/order_list_results.html'
-    queryset = Order.objects.filter(status=Invoice.PAID)
+    queryset = Order.objects.filter(status__in=[Invoice.PAID, FINISHED])
     search_field = 'tags'
-    list_filter = ('created_on',)
+    list_filter = (
+        PaidStatusListFilter,
+        ('created_on', _('Date'))
+    )
     context_object_name = 'order'
 
     def get(self, request, *args, **kwargs):
@@ -478,8 +517,8 @@ class CanceledOrderList(HybridListView):
     template_name = 'econnect/admin/order_list.html'
     html_results_template_name = 'econnect/snippets/order_list_results.html'
     queryset = Order.objects.filter(status=CANCELED)
-    search_field = 'member'
-    list_filter = ('created_on',)
+    search_field = 'tags'
+    list_filter = (('created_on', _("Date")), )
     context_object_name = 'order'
 
 
