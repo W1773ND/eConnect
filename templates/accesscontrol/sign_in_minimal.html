@@ -4,7 +4,8 @@
 {% block page_title %}<title>{{ service.project_name }} - {% trans "Sign in" %} </title>{% endblock %}
 {% block head_style %}
     {{ block.super }}
-    <link rel='stylesheet' href="{% static 'ikwen/css/sign-in.css' %}" />
+    <link rel='stylesheet' href="{% static 'ikwen/css/sign-in.css' %}?v=20.1.11" />
+    <link rel='stylesheet' href="{% static 'ikwen/css/pwa.css' %}?v=20.8.6" />
 {% endblock %}
 
 {% block content %}
@@ -36,9 +37,6 @@
                             {% blocktrans %}<strong>LOGIN</strong>{% endblocktrans %}
                         </button>
                     {% endif %}
-                    <div class="spinner">
-                        <i class="fa fa-circle-o-notch fa-spin fa-2x"></i>
-                    </div>
                 </div>
                 <div class="create-account">
                     <div class="form-group row password2">
@@ -48,9 +46,12 @@
                         </div>
                     </div>
                     <div class="form-group row email">
-                        <label for="email" class="col-sm-5 col-md-4">{% trans "E-mail" %}</label>
+                        <label for="email" class="col-sm-5 col-md-4">
+                            {% trans "E-mail" %}
+                            {% if not config.register_with_email %}<span style="font-weight: 300">({% trans "Optional" %})</span>{% endif %}
+                        </label>
                         <div class="col-sm-7 col-md-8">
-                            <input id="email" class="form-control input-md required" type="email" name="email"/>
+                            <input id="email" class="form-control input-md{% if config.register_with_email %} required{% endif %}" type="email" name="email"/>
                         </div>
                     </div>
                     <div class="form-group row phone">
@@ -124,7 +125,10 @@
                 <div class="form-group submit">
                     <button id="cancel" class="btn btn-outline-secondary btn-md hidden-xs" type="button"> {% trans "Back" %} </button>
                     <button id="continue" class="btn btn-outline-primary btn-block btn-md continue" type="button"> {% trans "Continue" %} </button>
-                    <button id="submit" class="btn btn-outline-success btn-block btn-md cta" type="submit"> {% trans "Submit" %} </button>
+                    <button id="submit" class="btn btn-outline-success btn-block btn-md cta" type="submit">
+                        {% include 'core/snippets/button_spinner.html' %}
+                        <span>{% trans "Submit" %}</span>
+                    </button>
                     {% url 'ikwen:forgotten_password' as forgotten_password_url %}
                     <a class="forgotten-pwd" href="{{ forgotten_password_url }}">{% trans "Forgotten password ?" %}</a>
                     <div class="clearfix"></div>
@@ -141,6 +145,9 @@
 {% endblock %}
 {% block js %}
     {{ block.super }}
+    {% if service.is_pwa_ready %}
+        <script src="{% static 'ikwen/js/pwa-main.js' %}?v=20.5.31"></script>
+    {% endif %}
     <script type="text/javascript">
         {% get_current_language as LANGUAGE_CODE %}
         (function() {
@@ -178,7 +185,7 @@
                 if ($(this).prop('checked')) {
                     $('#submit').removeProp('disabled').removeClass('default')
                 } else $('#submit').prop('disabled', true).addClass('default')
-            }).on('click', '#submit', function() {
+            }).on('click', '#submit:not(.processing)', function() {
                 if ($('#content').hasClass('register step2')) {
                     $('.errorlist').remove();
                     {% if settings.REGISTER_WITH_DOB %}
@@ -186,6 +193,7 @@
                     {% endif %}
                     if (!$('#accept-terms').prop('checked')) return false;
                 }
+                $(this).addClass('processing');
             }).on('keydown', '#auth input, #auth select', function(e) {
                 // This Manages what happens when we press enter in the form
                 // returning false on $(form).submit() does not prevent the
@@ -207,6 +215,7 @@
                         {% endif %}
                         if (!$('#accept-terms').prop('checked')) e.preventDefault();
                     }
+                    if ($('#submit').hasClass('processing')) e.preventDefault();
                 }
             });
             $('#username').keyup(function(e) {
@@ -230,12 +239,11 @@
                             .insertAfter('#username');
                     return false
                 }
-                if (username.length >= 3 && /[a-z]{1}/.test(username.substr(0, 1))) return true;
+                if (username.length >= 3 && (/[a-z]{1}/.test(username.substr(0, 1)) || /\d{9,}/.test(username))) return true;
                 $('<ul class="errorlist username">' +
                     '<li>' + "{% trans "Please use at least 3 characters." %}" + '</li>' +
-                    '<li>' + "{% trans "Start with a letter." %}" + '</li>' +
+                    '<li>' + "{% trans "Start with a letter or use a valid phone number." %}" + '</li>' +
                     '</ul>').insertAfter('#username');
-                $username.focus();
                 return false;
             }
             function testEmail() {
@@ -244,9 +252,10 @@
                     email = $email.val().replace(/ /g, '').toLowerCase();
                 $email.val(email);
                 if (email.isValidEmail()) return true;
+                {% if config.register_with_email %}
                 $('<ul class="errorlist email"><li>' + "{% trans "Please, enter valid email" %}" + '</li></ul>')
                         .insertAfter('#email');
-                $email.focus();
+                {% endif %}
                 return false;
             }
             function testPhone() {
@@ -260,7 +269,6 @@
                     '<li>' + "{% trans "Prepend country code if you are not in Cameroon." %}" + '</li>' +
                     '<li>' + "{% trans "DO NOT prepend 00." %}" + '</li>' +
                     '</ul>').insertAfter('#phone');
-                $phone.focus();
                 return false;
             }
             function testPassword() {
@@ -272,7 +280,6 @@
                     $('<ul class="errorlist password">' +
                         '<li>' + "{% trans "Password too short. Use at least 6 characters." %}" + '</li>' +
                         '</ul>').insertAfter('#password');
-                    $pwd1.focus();
                     return false
                 }
                 if (pwd1 !== pwd2) {
@@ -286,29 +293,37 @@
             }
 
             function checkUsername() {
-                var username = $('#username').val().toLowerCase();
+                let username = $('#username').val().toLowerCase(),
+                    _$btn = $('.submit-username .btn');
                 if (!username) return false;
                 if (!testUsername(username)) return false;
-                $('#auth .spinner').css('visibility', 'visible');
+                if (_$btn.hasClass('processing')) return false;
+                _$btn.addClass('processing');
                 $.ajax({
                     url: '{% url 'ikwen:sign_in' %}',
                     data: {username: username},
                     error: function(req, status, error) {
-                        $('#auth .spinner').css('visibility', 'hidden');
+                        _$btn.removeClass('processing');
                         $('#content .failure').show().html("{% trans "Oops! An error occurred. Check your internet." %}");
                     },
                     success: function(data) {
-                        $('#auth .spinner').css('visibility', 'hidden');
-                        $('#content').removeClass('init');
                         if (data.existing) {
-                            location.hash = 'login';
-                            $('#password').focus();
                             $('#auth').prop('action', "{% url 'ikwen:do_sign_in' %}?{{ request.META.QUERY_STRING|safe }}");
+                            if (data.no_password && !data.is_staff) {
+                                $('#password').val('---');  // --- is just a random password not to leave the field blank
+                                $('#submit').click();
+                                return
+                            }
+                            location.hash = 'login';
+                            _$btn.removeClass('processing');
+                            $('#content').removeClass('init');
+                            $('#password').focus();
                             if (username.isValidEmail()) {
+                                {% url 'ikwen:forgotten_password' as forgotten_password_url %}
                                 $('.forgotten-pwd').prop('href', '{{ forgotten_password_url }}' + '?' + 'username=' + username);
                             }
                         } else {
-                            $('#content').hide().addClass('register step1').fadeIn('normal', 'linear', function() {
+                            $('#content').hide().removeClass('init').addClass('register step1').fadeIn('normal', 'linear', function() {
                                 $('#password').focus();
                             });
                             $('#stage').removeClass('form-wrapper').addClass('col-sm-9 col-md-8');

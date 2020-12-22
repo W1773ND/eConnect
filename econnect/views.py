@@ -312,6 +312,16 @@ class PendingOrderList(HybridListView):
         entry2 = InvoiceEntry(item=item2, short_description='For ' + member.full_name, quantity=1, total=amount)
 
         entries = [entry1, entry2]
+        for elt in order.equipment_order_entry_list:
+            item = InvoiceItem(label=elt.equipment.name, amount=elt.cost)
+            short_description = _("Rental") if elt.is_rent else _("Purchase")
+            entry = InvoiceEntry(item=item, short_description=short_description, quantity=1, total=elt.cost)
+            entries.append(entry)
+        for extra in order.extra_list:
+            item = InvoiceItem(label=extra.name, amount=extra.cost)
+            entry = InvoiceEntry(item=item, quantity=1, total=extra.cost)
+            entries.append(entry)
+
         due_date = datetime.now() + timedelta(days=config.payment_delay)
         subscription = Subscription.objects.create(member=member, product=order.package, monthly_cost=amount,
                                                    billing_cycle=Service.MONTHLY, details='', order=order)

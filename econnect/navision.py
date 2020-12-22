@@ -7,6 +7,7 @@ from threading import Thread
 
 import requests
 from django.conf import settings
+from django.core import mail
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
@@ -53,6 +54,11 @@ def import_clients(start=0, length=1000, max_items=None, debug=False):
         max_counter = 1e10  # Very large number to simulate infinite
     n = start / length - 1
     result = []
+    connection = mail.get_connection()
+    try:
+        connection.open()
+    except:
+        logger.error(u"Connexion error", exc_info=True)
     while n < max_counter:
         n += 1
         skip = n * length
@@ -115,6 +121,21 @@ def import_clients(start=0, length=1000, max_items=None, debug=False):
                     # Set code_update_count to 4 to prevent manual update by customer, as 3 is the max allowed
                     Profile.objects.create(member=member1, code=client_code, country=cameroon, city=city,
                                            code_update_count=4)
+                    subject = _("Pay your invoices online as of now on")
+                    cta_url = 'http://creolink.com' + reverse('my_creolink')
+                    html_content = get_mail_content(subject, '', template_name='billing/mails/mycreolink_invitation.html',
+                                                    extra_context={'member': member1, 'client_code': client_code,
+                                                                   'cta': _("Pay now"), 'cta_url': cta_url})
+                    # Sender is simulated as being no-reply@company_name_slug.com to avoid the mail
+                    # to be delivered to Spams because of origin check.
+                    sender = 'MyCreolink <no-reply@creolink.com>'
+                    msg = EmailMessage(subject, html_content, sender, [email])
+                    # msg = EmailMessage(subject, html_content, sender, ['rsihon@gmail.com'])
+                    # if debug:
+                    #     msg.bcc = ['rsihon@gmail.com', 'joseph.mbock@gmail.com']
+                    msg.content_subtype = "html"
+                    if not msg.send():
+                        logger.error("Failed to send MyCreolink invitation to %s" % email, exc_info=True)
                 invoice_list, pending_count = pull_invoices(member1, client_code, start_date=start_date, end_date=now,
                                                             send_mail=False, dry_run=False, debug=debug)
                 if debug:
@@ -127,6 +148,10 @@ def import_clients(start=0, length=1000, max_items=None, debug=False):
         except:
             logger.error("Failed to import clients data", exc_info=True)
             break
+    try:
+        connection.close()
+    except:
+        pass
     return result
 
 
@@ -226,8 +251,9 @@ def pull_invoices(member=None, client_code=None, start_date=None, end_date=None,
                 sender = '%s <no-reply@%s>' % (config.company_name, weblet.domain)
                 recipient_list = [member.email]
                 msg = EmailMessage(subject, html_content, sender, recipient_list)
+                # msg = EmailMessage(subject, html_content, sender, ['rsihon@gmail.com'])
                 if debug:
-                    msg.bcc = getattr(settings, 'ADMINS', [])
+                    msg.bcc = ['rsihon@gmail.com', 'joseph.mbock@gmail.com']
                 if invoice_pdf_file:
                     msg.attach_file(invoice_pdf_file, mimetype='application/pdf')
                 msg.content_subtype = "html"
@@ -378,7 +404,7 @@ def export_payments(request, *args, **kwargs):
                 client_code = ''
             try:
                 tx = MoMoTransaction.objects.using('wallets').get(processor_tx_id=payment.processor_tx_id)
-                method = tx.wallet
+                method = tx.wallet_name
             except:
                 method = payment.method
             obj = {

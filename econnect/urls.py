@@ -2,7 +2,7 @@ from django.conf.urls import url, patterns
 from django.contrib.auth.decorators import permission_required, login_required
 
 from econnect.collect import confirm_invoice_payment, process_yup_app_payment
-from econnect.navision import extract, export_payments
+from econnect.navision import extract, export_payments, test_navision_import
 from econnect.utils import get_media, delete_tinyMCE_photo
 from econnect.views import HomeView, Numerilink, NumerilinkHotel, Homelink, Officelink, Corporatelink, \
     PricingNumerilink, PricingNumerilinkHotel, ChangeProduct, ProductList, ChangePackage, PackageList, EquipmentList,\
@@ -57,4 +57,5 @@ urlpatterns = patterns(
     url(r'^api/invoices', extract, name='extract'),
     url(r'^api/payments', export_payments, name='export_payments'),
     url(r'^api/YUPAppCallback', process_yup_app_payment, name='process_yup_app_payment'),
+    url(r'^testImport$', test_navision_import, name='process_yup_app_payment'),
 )

@@ -51,7 +51,7 @@
             var productId = $(this).data('product-id');
             $('#payment-product-id').val(productId);
             $('#payment-methods').modal('show');
-        }).on('click', '.payment-method:not(.yup)', function() {
+        }).on('click', '.payment-method', function() {
             var actionURL = $(this).data('action-url');
             $('form#payment-start-flow').prop('action', actionURL).submit()
         });
