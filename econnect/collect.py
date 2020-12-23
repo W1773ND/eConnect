@@ -7,6 +7,7 @@ from threading import Thread
 from bson import ObjectId
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.db.models import Sum
 from django.http import HttpResponse
 from django.utils.translation import gettext as _, get_language
 from ikwen.billing.decorators import momo_gateway_request, momo_gateway_callback
@@ -21,6 +22,7 @@ from econnect.forms import YUPCallbackForm
 logger = logging.getLogger('ikwen')
 
 Subscription = get_subscription_model()
+MOMO_MAX_AMOUNT = 5e5
 SUBSCRIPTION_DURATION = 30  # Defaults to 1 month upon online payment. Admin can later extend expiry on the Subscription detail
 
 YUP_APP = 'Yup App'
@@ -30,21 +32,27 @@ YUP_APP = 'Yup App'
 def order_set_checkout(request, *args, **kwargs):
     invoice_id = request.POST['product_id']
     invoice = Invoice.objects.get(pk=invoice_id)
-    amount = invoice.amount
-    if invoice.amount % 50 > 0:
-        amount = (invoice.amount / 50 + 1) * 50  # Mobile Money Payment support only multiples of 50
+    amount = invoice.amount - invoice.paid
+    if amount > MOMO_MAX_AMOUNT:
+        amount = MOMO_MAX_AMOUNT
+    if amount % 50 > 0:
+        amount = (amount / 50 + 1) * 50  # Mobile Money Payment support only multiples of 50
     lang = get_language()
 
-    notification_url = reverse('econnect:confirm_invoice_payment', args=(invoice.id, lang))
+    payment = Payment.objects.create(invoice=invoice, method=Payment.MOBILE_MONEY, amount=amount)
+    notification_url = reverse('econnect:confirm_invoice_payment', args=(payment.id, lang))
     return_url = reverse('billing:invoice_detail', args=(invoice.id, ))
     cancel_url = reverse('my_creolink')
-    return invoice, amount, notification_url, return_url, cancel_url
+    return payment, amount, notification_url, return_url, cancel_url
 
 
 @momo_gateway_callback
 def confirm_invoice_payment(request, *args, **kwargs):
     tx = kwargs['tx']
-    invoice = Invoice.objects.select_related().get(pk=tx.object_id)
+    payment = Payment.objects.select_related().get(pk=tx.object_id)
+    payment.processor_tx_id = tx.processor_tx_id
+    payment.save()
+    invoice = payment.invoice
     for val in [31, 30, 29, 28]:
         try:
             datetime(invoice.due_date.year, invoice.due_date.month, val)
@@ -57,17 +65,17 @@ def confirm_invoice_payment(request, *args, **kwargs):
     subscription.expiry = expiry
     subscription.status = Subscription.ACTIVE
     subscription.save()
-    invoice.paid = invoice.amount
-    invoice.status = Invoice.PAID
+    invoice.paid += tx.amount
+    if invoice.paid >= invoice.amount:
+        invoice.status = Invoice.PAID
     invoice.save()
     try:
         order = subscription.order
-        order.status = Invoice.PAID
+        if invoice.status == Invoice.PAID:
+            order.status = Invoice.PAID
         order.save()
     except:
         pass
-    payment = Payment.objects.create(invoice=invoice, method=Payment.MOBILE_MONEY, amount=tx.amount,
-                                     processor_tx_id=tx.processor_tx_id)
     notify_payment(payment)
     return HttpResponse("Notification for transaction %s received with status %s" % (tx.id, tx.status))
 
