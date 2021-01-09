@@ -163,7 +163,8 @@ footer a {color: #999}
 
 .event.visible-xs { margin-left: auto}
 
-.order-pricing {  }
+#interactions {margin-top: 30px; max-height: 400px; overflow: auto}
+#interactions .spinner {padding-top: 0; position: static}
 
 .payment-mean {display: block;height: 45px;background: #fff;}
 .payment-mean span {float: left; padding: 12px 15px; width: 35%}

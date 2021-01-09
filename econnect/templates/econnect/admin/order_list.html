@@ -38,6 +38,90 @@
             </form>
         </section>
     </div>
+    <div class="modal fade" id="modal-add-interaction" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-info">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{% trans "New interaction" %}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group interaction-type">
+                        <label for="interaction-type">{% trans "Type" %}</label>
+                        <select id="interaction-type" class="form-control input-sm">
+                            <option value="">------</option>
+                            {% for type in interaction_types %}
+                                <option value="{{ type.0 }}">{{ type.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group interaction-summary">
+                        <label for="interaction-summary">{% trans "Summary of the action" %}</label>
+                        <textarea id="interaction-summary" class="form-control input-sm" cols="15" rows="5"></textarea>
+                    </div>
+                    <div class="form-group interaction-response">
+                        <label for="interaction-response">{% trans "Response from client" %}</label>
+                        <textarea id="interaction-response" class="form-control input-sm" cols="15" rows="5"></textarea>
+                    </div>
+                    <div class="form-group interaction-next-rdv">
+                        <label for="interaction-next-rdv">{% trans "Next Interaction" %}</label>
+                        <input type="text" id="interaction-next-rdv" class="form-control input-sm" />
+                        <input type="hidden" id="interaction-next-rdv-alt" class="form-control input-sm" />
+                    </div>
+                    <div class="actions">
+                        <div class="col-xs-12 col-sm-4 pull-right">
+                            <button type="button" class="btn btn-success btn-block confirm">
+                                {% include 'core/snippets/button_spinner.html' %}
+                                <span>{% trans "OK" %}</span>
+                            </button>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 pull-right">
+                            <button class="btn btn-default btn-block"
+                                    data-dismiss="modal" aria-label="Close">{% trans "Cancel" %}</button>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-terminate-order" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-info">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{% trans "Terminate Order with Client Code" %}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group client-code">
+                        <label for="new-client-code">{% trans "Client Code" %}</label>
+                        <input type="text" id="new-client-code" class="form-control input-md" />
+                    </div>
+                    <div class="form-group client-city">
+                        <label for="new-client-city">{% trans "City" %}</label>
+                        <select id="new-client-city" class="form-control input-md">
+                            <option value="">------</option>
+                            <option value="Yaoundé">Yaoundé</option>
+                            <option value="Douala">Douala</option>
+                        </select>
+                    </div>
+                    <div class="actions">
+                        <div class="col-xs-12 col-sm-4 pull-right">
+                            <button type="button" class="btn btn-success btn-block confirm">
+                                {% include 'core/snippets/button_spinner.html' %}
+                                <span>{% trans "OK" %}</span>
+                            </button>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 pull-right">
+                            <button class="btn btn-default btn-block"
+                                    data-dismiss="modal" aria-label="Close">{% trans "Cancel" %}</button>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block js %}
@@ -45,8 +129,17 @@
     <script src="{% static 'embed-doc/js/embed-doc.js' %}" ></script>
     <script type="text/javascript">
         (function () {
-            $('.set-equipment').mouseover(function () {$(this).removeClass('animated')
-            }).mouseout(function () {$(this).addClass('animated')
+            {% if request.GET.status %}
+                $('#status').val('{{ request.GET.status }}').change()
+            {% endif %}
+            $('#interaction-next-rdv').datepicker({
+                altField: '#interaction-next-rdv-alt',
+                altFormat: "yy-mm-dd"
+            });
+            $('.set-equipment').mouseover(function () {
+                $(this).removeClass('animated')
+            }).mouseout(function () {
+                $(this).addClass('animated')
             }).click(function () {
                 let currentOrder = $(this).parents('.event');
                 let orderId = currentOrder.attr('id');
@@ -95,21 +188,127 @@
                         setTimeout(function () {location.reload()}, 2000)
                     }
                 });
-            }).on('click', '.order-finish', function () {
-                let orderId = $(this).parents('.event').attr('id');
-                let params = {action: 'finish_order', order_id: orderId};
-                $.getJSON('', params, function (data) {
-                    if (data.success) {
-                        ikwen.showFloatingNotice('Order classified', '', 2);
-                    }
-                    else {
+            }).on('click', '.show-modal-terminate-order', function () {
+                let id = $(this).parents('.obj').data('id');
+                $('#modal-terminate-order .confirm').data('object-id', id);
+                $('#modal-terminate-order').modal('show');
+            }).on('click', '#modal-terminate-order .confirm:not(.processing)', function () {
+                let _$btn = $(this),
+                    orderId = $(this).data('object-id'),
+                    clientCode = $('#new-client-code').val(),
+                    city = $('#new-client-city').val();
+                $('.form-group').removeClass('has-error')
+                if (!clientCode) {
+                    $('.form-group.client-code').addClass('has-error')
+                    return
+                }
+                if (!city) {
+                    $('.form-group.client-city').addClass('has-error')
+                    return
+                }
+                let params = {
+                    action: 'terminate_order',
+                    order_id: orderId,
+                    city: city,
+                    client_code: clientCode
+                };
+                _$btn.addClass('processing');
+                $.getJSON('', params, (resp) => {
+                    _$btn.removeClass('processing');
+                    if (resp.success) {
+                        ikwen.showFloatingNotice("{% trans "Order terminated and archived" %}", '', 2);
+                        setTimeout(function () {location.reload()}, 2000)
+                    } else if (resp.error)
+                        ikwen.showFloatingNotice(`<strong>Error</strong>: ${resp.error}`, 'failure', 6);
+                    else
                         ikwen.showFloatingNotice("{% trans "Error occurs when classifying this order, please try again..." %}", '', 3);
+                });
+            }).on('click', '.list-interactions', function () {
+                let _$interactions = $('#interactions'),
+                    _$interactionsUL = $('#interactions ul'),
+                    _$order = $(this).parents('.obj'),
+                    objectId = _$order.data('id');
+                _$interactions.css({height: 0, overflow: 'hidden'}).find('li:not(.tpl):not(.add-new)').remove();
+                let _$spinner = _$interactions.find('.spinner');
+                _$interactions.appendTo(_$order.find('.event-detail')).show().height(60);
+                _$spinner.show();
+                $.getJSON('', {action: 'list_interactions', model: 'econnect.order', object_id: objectId}, (data) => {
+                    _$spinner.hide();
+                    if (data.length === 0) {
+                        let $empty = ("<li class='ik-li list-group-item empty-list'>{% trans "No interaction" %}</li>");
+                        _$interactionsUL.prepend($empty)
+                    }
+                    for (let i=0; i<data.length; i++) {
+                        let obj = data[i],
+                            $interaction = createInteraction(obj);
+                        $interaction.prependTo('#interactions ul').show();
+                    }
+                    let height = Math.min(_$interactionsUL.height(), 400);
+                    _$interactions.css('overflow', 'auto').animate({height: `${height}px`}).delay(400).css('height', 'auto');
+                });
+            }).on('click', '.show-modal-add-interaction', function () {
+                let id = $(this).parents('.obj').data('id')
+                $('#interaction-type').val('');
+                $('#interaction-summary').val('');
+                $('#interaction-response').val('');
+                $('#interaction-next-rdv, #interaction-next-rdv-alt').val('');
+                $('#modal-add-interaction .confirm').data('object-id', id)
+                $('#modal-add-interaction .actions').show()
+                $('#modal-add-interaction .form-group').removeClass('has-error')
+                $('#modal-add-interaction').modal('show')
+            }).on('click', '#modal-add-interaction .confirm:not(.processing)', function () {
+                let _$btn = $(this),
+                    type = $('#interaction-type').val(),
+                    object_id = $(this).data('object-id');
+                if (!type) {
+                    $('.form-group.interaction-type').addClass('has-error')
+                    return
+                }
+                $('.form-group.interaction-type').removeClass('has-error')
+                let params = {
+                    action: 'add_interaction',
+                    member: '{{ user.full_name }}',  // Not used server-side
+                    object_id: object_id,
+                    type: type,
+                    summary: $('#interaction-summary').val(),
+                    response: $('#interaction-response').val(),
+                    next_rdv: $('#interaction-next-rdv-alt').val()
+                };
+                _$btn.addClass('processing');
+                $.getJSON('', params, (resp) => {
+                    if (resp.success) {
+                        _$btn.removeClass('processing');
+                        let $interaction = createInteraction(params);
+                        $('#interactions li.empty-list').remove();
+                        $interaction.prependTo('#interactions ul').show();
+                        $('#modal-add-interaction').modal('show')
                     }
                 });
-                setTimeout(function () {location.reload()}, 2000)
-            }).on('click', '.order-member-email', function () {
-                {#To-DO: Set Email message to this member#}
+            }).on('click', 'li.interaction:not(.add-new)', function () {
+                let $interaction = $(this),
+                    type = $interaction.find('.type').text(),
+                    summary = $interaction.find('.summary').text(),
+                    response = $interaction.find('.response').text(),
+                    next_rdv = $interaction.find('.next-rdv').text();
+                $('#interaction-type').val(type);
+                $('#interaction-summary').val(summary);
+                $('#interaction-response').val(response);
+                $('#interaction-next-rdv, #interaction-next-rdv-alt').val(next_rdv);
+                $('#modal-add-interaction .actions').hide();
+                $('#modal-add-interaction').modal('show');
             })
+
+            function createInteraction(obj) {
+                /* Creates an interaction node from interaction JSON object,
+                * then returns it as jQuery object for append to DOM */
+                let $interaction = $('.interaction.tpl').clone().removeClass('tpl');
+                $interaction.find('.by').text(obj.member);
+                $interaction.find('.type').text(obj.type);
+                $interaction.find('.summary').text(obj.summary);
+                $interaction.find('.response').text(obj.response);
+                $interaction.find('.next-rdv').text(obj.next_rdv.substr(0, 10));
+                return $interaction
+            }
         })();
     </script>
 {% endblock %}

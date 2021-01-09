@@ -1,9 +1,9 @@
 {% load i18n static humanize %}
 {% include 'core/snippets/spinner.html' %}
 <ul class="object-list campaign-list list-group">
-    {% for order in objects_page.object_list %}
+    {% for order in objects_page_list %}
     {% url change_object_url_name order.id as obj_url %}
-    <li class="col-md-12 row event hidden-xs{% if not order.is_paid %} pending{% endif %}" id= "{{ order.id }}">
+    <li class="col-md-12 row event obj hidden-xs{% if not order.is_paid %} pending{% endif %}" data-id="{{ order.id }}">
         <div class="subtle-shade event-detail">
             <div class="event-icon v-align">
                 <img class="v-align-center" src="{% static 'econnect/img/picto-registration-form.png' %}" />
@@ -57,13 +57,21 @@
                 </div>
                 <div class="clearfix"></div>
                 <div class="event-action">
+                    <div class="pull-right">
+                        <i class="action glyphicon glyphicon-menu-hamburger list-interactions pull-right"
+                           style="font-size: 18px;padding: 7px;margin-right: 6px;"
+                           title="{% trans "Interactions" %}"></i>
+                        {% if order.new_interaction_count %}
+                            <span class="label label-danger" style="margin: -5px 0 0 30px">{{ order.new_interaction_count }}</span>
+                        {% endif %}
+                    </div>
                 {% if order.status == "Pending" %}
                     <button class="btn btn-outline-success order-accept pull-right btn-sm" style="margin-left: 1vw"> {% trans "Accept" %}</button>
                     <button class="btn btn-outline-secondary order-report pull-right btn-sm"> {% trans "Report" %}</button>
                 {% elif order.status == "PendingForPayment" %}
                     <p class="text-muted text-center">{% trans 'This order is waiting for payment...' %}</p>
                 {% elif order.status == "Paid" %}
-                    <button class="btn btn-outline-success order-finish pull-right btn-sm"> {% trans "Finish" %}</button>
+                    <button class="btn btn-outline-success show-modal-terminate-order pull-right btn-sm"> {% trans "Terminate" %}</button>
                 {% else %}
                     <form action="{% url 'econnect:change_mailcampaign' %}" method="post">
                     {% csrf_token %}
@@ -74,12 +82,11 @@
                     </form>
                 {% endif %}
                 </div>
-
             </div>
             <div class="clearfix"></div>
         </div>
     </li>
-    <li class="col-xs-12 row event visible-xs{% if not order.is_paid %} pending{% endif %}" id= "{{ order.id }}">
+    <li class="col-xs-12 row event obj visible-xs{% if not order.is_paid %} pending{% endif %}" data-id="{{ order.id }}">
         <div class="subtle-shade event-detail">
             <div class="event-content-mobile">
                 <div>
@@ -136,7 +143,7 @@
                 {% elif order.status == "PendingForPayment" %}
                     <p class="text-muted text-center">{% trans 'This order is waiting for payment...' %}</p>
                 {% elif order.status == "Paid" %}
-                    <button class="btn btn-outline-success order-finish btn-md"> {% trans "Finish" %}</button>
+                    <button class="btn btn-outline-success order-finish btn-md"> {% trans "Terminate" %}</button>
                 {% else %}
                     <form action="{% url 'econnect:change_mailcampaign' %}" method="post">
                     {% csrf_token %}
@@ -174,4 +181,29 @@
     {% else %}
         <p>{% blocktrans with count=objects_page.paginator.count %}{{ count }} results{% endblocktrans %}</p>
     {% endif %}
+</div>
+<div id="interactions" style="display: none">
+    {% include 'core/snippets/spinner.html' %}
+    <ul class="object-list list-group" style="float: left; margin: 0; width: 100%">
+        <li class="ik-li list-group-item interaction tpl">
+            <div class="info">
+                <span class="title type"></span>
+                <p class="about text-muted">
+                    <span>
+                        <strong>{% trans "By" %}:</strong>
+                        <span class="by"></span>
+                    </span>&nbsp;&nbsp;
+                    <span>
+                        <strong>{% trans "Next RDV" %}:</strong>
+                        <span class="next-rdv"></span>
+                    </span>
+                    <span class="summary hidden"></span>
+                    <span class="response hidden"></span>
+                </p>
+            </div>
+        </li>
+        <li class="ik-li list-group-item interaction add-new">
+            <button class="btn btn-sm btn-success show-modal-add-interaction">{% trans "New" %}</button>
+        </li>
+    </ul>
 </div>

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from ikwen.accesscontrol.utils import VerifiedEmailTemplateView
 
 from econnect.navision import pull_invoices
@@ -57,7 +58,7 @@ from econnect.models import ADMIN_EMAIL, Subscription, Order, CustomerRequest, P
     EquipmentOrderEntry, \
     Extra, RENTAL, PURCHASE, REPORTED, FINISHED, CANCELED, DEVICE_ID, \
     NUMERIHOME, NUMERIHOTEL, HOME, OFFICE, CORPORATE, ANALOG, DIGITAL, ECONNECT, Faq, Advertisement, Site, Profile, \
-    IncompleteClient
+    IncompleteClient, Interaction
 
 import logging
 
@@ -68,17 +69,100 @@ def last_day_of_the_month(date):
     return date.replace(day=monthrange(date.year, date.month)[1])
 
 
-def set_prospect(order, url, payload):
-    resp = requests.get(url, params=payload)
-    if DEVICE_ID in resp.text:
-        order.maps_url = resp.text
-        parsed_query = urlparse.urlparse(resp.text).query
-        query = urlparse.parse_qs(parsed_query)
-        device_id = query[DEVICE_ID][0]
-        order.maps_id = device_id
-        order.save()
-    else:
-        pass
+def set_prospect_on_creolink_maps(order):
+    """
+    Issue a request to CREOLINK MAPS to add this Customer so
+    that he becomes visible on the Map as a Prospect
+    """
+    endpoint = getattr(settings, "CREOLINK_MAPS_URL") + 'save_prospect'
+    payload = {
+        'api_key': getattr(settings, 'CREOLINK_MAPS_API_KEY'),
+        'client_name': order.member.full_name,
+        'lat': order.location_lat,
+        'lng': order.location_lng,
+        'order_id': order.id
+    }
+    resp = requests.get(endpoint, params=payload)
+    data = resp.json()
+    order.maps_id = data['device_id']
+    order.save()
+
+
+class InteractiveList(HybridListView):
+
+    def get_context_data(self, **kwargs):
+        context = super(InteractiveList, self).get_context_data(**kwargs)
+        context['interaction_types'] = Interaction.INTERACTION_TYPES
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        fmt = self.request.GET.get('format')
+        member = self.request.user
+        queryset = context['queryset']
+        queryset = queryset.order_by(*self.ordering)
+        if self.request.GET.get('action') == 'export':
+            return self.export(queryset)
+        paginator = Paginator(queryset, self.page_size)
+        page = self.request.GET.get('page')
+        try:
+            objects_page = paginator.page(page)
+            page = int(page)
+        except PageNotAnInteger:
+            page = 1
+            objects_page = paginator.page(1)
+        except EmptyPage:
+            page = paginator.num_pages
+            objects_page = paginator.page(paginator.num_pages)
+        context['q'] = self.request.GET.get('q')
+        object_list = []
+        for obj in objects_page.object_list:
+            # Ordering by -is_main causes the main to appear first
+            all_count = Interaction.objects.filter(object_id=obj.id).count()
+            viewed_count = Interaction.objects.raw_query({
+                'viewed_by': {'$elemMatch': {'$eq': member.id}}
+            }).filter(object_id=obj.id).count()
+            new_interaction_count = all_count - viewed_count
+            obj.new_interaction_count = new_interaction_count
+            object_list.append(obj)
+        context['objects_page_list'] = object_list
+        max_visible_page_count = context['max_visible_page_count']
+        min_page = page - (page % max_visible_page_count)
+        if min_page < max_visible_page_count:
+            min_page += 1
+        max_page = min(min_page + max_visible_page_count, paginator.num_pages)
+        if page == paginator.num_pages:
+            min_page = page - max_visible_page_count
+        context['page_range'] = range(min_page, max_page + 1)
+        context['max_page'] = max_page
+        context['has_image'] = self.get_has_image(queryset)
+        if fmt == 'html_results':
+            return render(self.request, self.html_results_template_name, context)
+        else:
+            return super(InteractiveList, self).render_to_response(context, **response_kwargs)
+
+    def add_interaction(self, request, *args, **kwargs):
+        type = request.GET['type']
+        object_id = request.GET['object_id']
+        summary = request.GET.get('summary')
+        response = request.GET.get('response')
+        next_rdv = request.GET.get('next_rdv')
+        Interaction.objects.create(member=request.user, type=type, object_id=object_id,
+                                   summary=summary, response=response, next_rdv=next_rdv)
+        return HttpResponse(json.dumps({'success': True}), content_type='application/json')
+
+    def list_interactions(self, request, *args, **kwargs):
+        member = request.user
+        object_id = request.GET['object_id']
+        tokens = request.GET['model'].split('.')
+        model = get_model(tokens[0], tokens[1])
+        obj = model.objects.get(pk=object_id)
+        interaction_list = []
+        for elt in obj.interaction_set:
+            if member.id not in elt.viewed_by:
+                elt.viewed_by.append(member.id)
+                elt.save()
+            interaction_list.append(elt.to_dict())
+        return HttpResponse(json.dumps(interaction_list), content_type='application/json')
 
 
 class PostView(TemplateView):
@@ -201,7 +285,7 @@ class OrderConfirm(TemplateView):
     def get(self, request, *args, **kwargs):
         action = request.GET.get('action')
         if action == 'confirm_order':
-            return self.confirm_order(request, *args, **kwargs)
+            return self.confirm_order(request)
         return super(OrderConfirm, self).get(request, *args, **kwargs)
 
     @staticmethod
@@ -216,27 +300,17 @@ class OrderConfirm(TemplateView):
         product_name = order.package.product.name
         package_name = order.package.name
         label = product_name + ' [' + package_name + ']'
-        lat = order.location_lat
-        lng = order.location_lng
         service = get_service_instance()
         config = service.config
         notify_email = [email.strip() for email in config.notification_email.split(',')]
         admin_url = service.url + reverse('pending_order')
-        prospect_url = getattr(settings, "CREOLINK_MAPS_URL") + 'save_prospect'
-        payload = {
-            'customer_name': member_fullname,
-            'lat': lat,
-            'lng': lng,
-            'order_id': order_id
-        }
-        Thread(target=set_prospect, args=(order, prospect_url, payload)).start()
+        Thread(target=set_prospect_on_creolink_maps, args=(order, )).start()
         try:
-            subject = _("An order was submitted on CREOLINK COMMUNICATIONS website !")
+            subject = _("New order issued on CREOLINK.COM !")
             html_content = get_mail_content(subject, template_name='econnect/mails/order_submitted.html',
                                             extra_context={'order_label': label,
                                                            'member_fullname': member_fullname,
-                                                           'admin_url': admin_url,
-                                                           })
+                                                           'admin_url': admin_url})
             sender = 'Creolink Communications <no-reply@creolink.com>'
             msg = XEmailMessage(subject, html_content, sender, notify_email)
             msg.content_subtype = "html"
@@ -266,7 +340,7 @@ class PendingStatusListFilter(object):
         return queryset
 
 
-class PendingOrderList(HybridListView):
+class PendingOrderList(InteractiveList):
     template_name = 'econnect/admin/order_list.html'
     html_results_template_name = 'econnect/admin/snippets/order_list_results.html'
     embed_doc_template_name = 'econnect/admin/snippets/order_list_results.html'
@@ -278,32 +352,11 @@ class PendingOrderList(HybridListView):
     )
     context_object_name = 'order'
 
-    def get(self, request, *args, **kwargs):
-        action = request.GET.get('action')
-        if action == 'set_equipment':
-            return self.set_equipment(request)
-        if action == 'accept_order':
-            return self.accept_order(request)
-        elif action == 'report_order':
-            return self.report_order(request)
-        return super(PendingOrderList, self).get(request, *args, **kwargs)
-
     @staticmethod
     def set_equipment(request):
         order_id = request.GET['order_id']
         order = get_object_or_404(Order, id=order_id)
-        member = order.member
-        lat = order.location_lat
-        lng = order.location_lng
-        prospect_url = getattr(settings, "CREOLINK_MAPS_URL") + 'save_prospect'
-        payload = {
-            'customer_name': member.full_name,
-            'lat': lat,
-            'lng': lng,
-            'order_id': order_id
-        }
-
-        Thread(target=set_prospect, args=(order, prospect_url, payload)).start()
+        set_prospect_on_creolink_maps(order)
         response = {"success": True}
         return HttpResponse(json.dumps(response), 'content-type: text/json')
 
@@ -346,6 +399,8 @@ class PendingOrderList(HybridListView):
                                                    billing_cycle=Service.MONTHLY, details='', order=order)
         invoice = Invoice.objects.create(subscription=subscription, member=member, number=number, amount=order.cost,
                                          months_count=1, due_date=due_date.date(), is_one_off=True, entries=entries)
+        Interaction.objects.create(member=request.user, type=_("Handover"), object_id=order.id,
+                                   summary=_("Order verified and accepted"))
         try:
             subject = _("We are ready to come and install your service.")
             invoice_url = service.url + reverse('billing:invoice_detail', args=(invoice.id,))
@@ -362,11 +417,6 @@ class PendingOrderList(HybridListView):
             logger.error("Mail sending failed", exc_info=True)
             response = {"success": True, "Mail": False}
             return HttpResponse(json.dumps(response), 'content-type: text/json')
-        customer_url = getattr(settings, "CREOLINK_MAPS_URL") + 'update_prospect'
-        payload = {DEVICE_ID: order.maps_id}
-
-        Thread(target=requests.get, args=(customer_url, payload)).start()
-
         response = {"success": True}
         return HttpResponse(json.dumps(response), 'content-type: text/json')
 
@@ -376,15 +426,16 @@ class PendingOrderList(HybridListView):
         order = get_object_or_404(Order, id=order_id)
         order.status = REPORTED
         order.save()
+        Interaction.objects.create(member=request.user, type=_("Handover"), object_id=order.id,
+                                   summary=_("Order checked and reported"))
         member = order.member
         member_lastname = member.last_name if not member.is_ghost else _('Customer')
         my_creolink_url = reverse('my_creolink')
         try:
-            subject = _("Dear " + member.full_name + ", we'll come soon as possible to install your service.")
+            subject = _("We will come soon as possible to install your service.")
             html_content = get_mail_content(subject, template_name='econnect/mails/order_reported.html',
                                             extra_context={'my_creolink_url': my_creolink_url,
-                                                           'member_lastname': member_lastname,
-                                                           })
+                                                           'member_lastname': member_lastname})
             sender = 'Creolink Communications <no-reply@creolink.com>'
             msg = XEmailMessage(subject, html_content, sender, [member.email], [ADMIN_EMAIL])
             msg.content_subtype = "html"
@@ -393,6 +444,15 @@ class PendingOrderList(HybridListView):
             logger.error("Mail sending failed", exc_info=True)
             response = {"success": True, "Mail": False}
             return HttpResponse(json.dumps(response), 'content-type: text/json')
+
+        # Update the prospect in Creolink Maps to Reported Prospect.
+        # This operation will set a new category on the Prospect object, thus changing its icon
+        endpoint = getattr(settings, "CREOLINK_MAPS_URL") + 'update_prospect'
+        payload = {
+            'api_key': getattr(settings, 'CREOLINK_MAPS_API_KEY'),
+            'device_id': order.maps_id
+        }
+        Thread(target=requests.get, args=(endpoint, payload)).start()
 
         response = {"success": True}
         return HttpResponse(json.dumps(response), 'content-type: text/json')
@@ -416,7 +476,7 @@ class PaidStatusListFilter(object):
         return queryset
 
 
-class PaidOrderList(HybridListView):
+class PaidOrderList(InteractiveList):
     template_name = 'econnect/admin/order_list.html'
     html_results_template_name = 'econnect/admin/snippets/order_list_results.html'
     queryset = Order.objects.filter(status__in=[Invoice.PAID, FINISHED])
@@ -427,19 +487,40 @@ class PaidOrderList(HybridListView):
     )
     context_object_name = 'order'
 
-    def get(self, request, *args, **kwargs):
-        action = request.GET.get('action')
-        if action == 'finish_order':
-            return self.finish_order(request)
-        return super(PaidOrderList, self).get(request, *args, **kwargs)
-
     @staticmethod
-    def finish_order(request):
+    def terminate_order(request):
         order_id = request.GET['order_id']
+        client_code = request.GET['client_code']
+        city = request.GET['city']
+
         order = get_object_or_404(Order, id=order_id)
+        member = order.member
+        try:
+            cameroon = Country.objects.get(iso2__iexact='cm')
+        except:
+            cameroon = Country.objects.create(name='Cameroon', iso2='CM', iso3='CMR')
+
+        # Check Client code
+        client_code = slugify(client_code).replace('-', '').upper()
+        try:
+            Profile.objects.get(code__iexact=client_code)
+            return HttpResponse(json.dumps({'error': _("Client code <strong>%s</strong> already exists" % client_code)}),
+                                'content-type: text/json')
+        except Profile.DoesNotExist:
+            Profile.objects.create(member=member, code=client_code, country=cameroon, city=city, code_update_count=4)
+
+        # Terminate the Order
         order.status = FINISHED
         order.save()
-        member = order.member
+
+        # Mark the matching subscription as active and create and Profile for MyCreolink to work correctly
+        Subscription.objects.filter(order=order).update(status=Subscription.ACTIVE)
+
+        # Automatically create an interaction for that
+        Interaction.objects.create(member=request.user, object_id=order_id,
+                                   type=Interaction.INTERVENTION, summary=client_code)
+
+        # Prepare and send email
         member_lastname = member.last_name if not member.is_ghost else _('Customer')
         product_name = order.package.product.name
         package_name = order.package.name
@@ -450,8 +531,7 @@ class PaidOrderList(HybridListView):
             html_content = get_mail_content(subject, template_name='econnect/mails/service_completed.html',
                                             extra_context={'order_label': label,
                                                            'order_location': order_location,
-                                                           'member_lastname': member_lastname,
-                                                           })
+                                                           'member_lastname': member_lastname})
             sender = 'Creolink Communications <no-reply@creolink.com>'
             msg = XEmailMessage(subject, html_content, sender, [member.email], [ADMIN_EMAIL])
             msg.content_subtype = "html"
@@ -460,57 +540,27 @@ class PaidOrderList(HybridListView):
             logger.error("Mail sending failed", exc_info=True)
             response = {"success": True, "Mail": False}
             return HttpResponse(json.dumps(response), 'content-type: text/json')
+
+        # Update the prospect in Creolink Maps to Client with necessary information
+        endpoint = getattr(settings, "CREOLINK_MAPS_URL") + 'update_prospect'
+        payload = {
+            'api_key': getattr(settings, 'CREOLINK_MAPS_API_KEY'),
+            'device_id': order.maps_id,
+            'client_code': client_code
+        }
+        Thread(target=requests.get, args=(endpoint, payload)).start()
+
         response = {"success": True}
         return HttpResponse(json.dumps(response), 'content-type: text/json')
 
 
-class ReportedOrderList(HybridListView):
+class ReportedOrderList(InteractiveList):
     template_name = 'econnect/admin/order_list.html'
     html_results_template_name = 'econnect/snippets/order_list_results.html'
     queryset = Order.objects.filter(status=REPORTED)
     search_field = 'tags'
     list_filter = ('created_on',)
     context_object_name = 'order'
-
-
-class UncompletedOrderList(HybridListView):
-    template_name = 'econnect/uncompleted_order_list.html'
-
-    def get_queryset(self):
-        member = self.request.user
-        queryset = Order.objects.filter(member=member, status=STARTED)
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super(UncompletedOrderList, self).get_context_data(**kwargs)
-        member = self.request.user
-        queryset = Order.objects.filter(member=member, status=STARTED)
-        context['uncompleted_order_list'] = queryset
-        return context
-
-    def get(self, request, *args, **kwargs):
-        member = self.request.user
-        queryset = Order.objects.filter(member=member, status=STARTED)
-        if queryset.count() == 0:
-            next_url = reverse('my_creolink')
-            return HttpResponseRedirect(next_url)
-        else:
-            action = request.GET.get('action')
-            if action == 'confirm_order':
-                return OrderConfirm.confirm_order(request, *args, **kwargs)
-                # return self.confirm_order(request)
-            if action == 'cancel_order':
-                return self.cancel_order(request)
-            return super(UncompletedOrderList, self).get(request, *args, **kwargs)
-
-    @staticmethod
-    def cancel_order(request):
-        order_id = request.GET['order_id']
-        order = get_object_or_404(Order, id=order_id)
-        order.status = CANCELED
-        order.save()
-        response = {"success": True}
-        return HttpResponse(json.dumps(response), 'content-type: text/json')
 
 
 class CanceledOrderList(HybridListView):
@@ -878,81 +928,6 @@ class ChangeSite(ChangeObjectBase, VerifiedEmailTemplateView):
             obj.save()
         except Profile.DoesNotExist:
             pass
-
-
-class ChangeProfile(ChangeObjectBase):
-    model = Profile
-    model_admin = ProfileAdmin
-    template_name = 'econnect/change_profile.html'
-    object_list_url = 'change_profile'
-
-    def get(self, request, *args, **kwargs):
-        email_verified = Member.objects.using(UMBRELLA).get(pk=request.user.id).email_verified
-        if email_verified:
-            # If email already verified in umbrella, report it to local database
-            member = request.user
-            member.email_verified = True
-            member.propagate_changes()
-        else:
-            referrer = request.META.get('HTTP_REFERER', '/')
-            next_url = reverse('ikwen:email_confirmation') + '?next=' + referrer
-            return HttpResponseRedirect(next_url)
-        action = request.GET.get('action')
-        if action == 'check_code_and_pull_invoice':
-            start_date = datetime.now() - timedelta(days=180)
-            end_date = datetime.now()
-            code = request.GET['code']
-            try:
-                profile = Profile.objects.get(code=code)
-                if profile.member != request.user:
-                    response = {'error': 'Attempt to use an already registered Client Code'}
-                    return HttpResponse(json.dumps(response), 'content-type: text/json')
-            except Profile.DoesNotExist:
-                pass
-            invoice_list, pending_count = pull_invoices(member=request.user, client_code=code,
-                                                        start_date=start_date, end_date=end_date, send_mail=False)
-            if len(invoice_list) == 0:
-                response = {'error': 'Incorrect Client Code'}
-            else:
-                response = {'success': True}
-            return HttpResponse(json.dumps(response), 'content-type: text/json')
-        return super(ChangeProfile, self).get(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super(ChangeProfile, self).get_context_data(**kwargs)
-        context['pending_count'] = self.request.session.get('pending_count')
-        self.request.session['pending_count'] = 0
-        return context
-
-    def get_object(self, **kwargs):
-        try:
-            return Profile.objects.get(member=self.request.user)
-        except Profile.DoesNotExist:
-            pass
-
-    def after_save(self, request, obj, *args, **kwargs):
-        country_code = request.POST.get('country_code').strip()
-        country = Country.objects.get(iso2__iexact=country_code)
-        obj.country = country
-        previous_code = request.POST.get('previous_code')
-        if not obj.member:
-            obj.member = request.user
-        if previous_code != obj.code and obj.code_update_count < 2:
-            obj.code = obj.code.strip().upper()
-            obj.code_update_count += 1
-            start_date = datetime.now() - timedelta(days=120)
-            end_date = datetime.now()
-            invoice_list, pending_count = pull_invoices(member=request.user, client_code=obj.code, start_date=start_date, end_date=end_date,
-                                                        send_mail=False, dry_run=False)
-            request.session['pending_count'] = pending_count
-            messages.info(request, _("Import successful. You have %d pending invoices." % pending_count))
-            obj.save()
-            next_url = reverse('my_creolink')
-            return HttpResponseRedirect(next_url)
-        else:
-            messages.error(request, _("You are not allowed to change Client Code more that twice."))
-            obj.code = previous_code
-            obj.save()
 
 
 class PricingNumerilink(PostView):

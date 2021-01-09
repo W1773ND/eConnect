@@ -4,6 +4,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext as __
 from django.conf import settings
+from django_mongodb_engine.contrib import MongoDBManager
 from djangotoolbox.fields import ListField, EmbeddedModelField
 
 from ikwen.core.models import Model, Service, AbstractWatchModel, AbstractConfig, Country
@@ -11,6 +12,7 @@ from ikwen.core.constants import STARTED
 from ikwen.accesscontrol.models import Member
 
 from ikwen.billing.models import AbstractSubscription
+from ikwen.core.utils import to_dict
 
 ADMIN_EMAIL = 'wilfriedwillend@gmail.com'
 ECONNECT = 'eConnect'
@@ -47,6 +49,12 @@ class ModelI18n(Model):
 
     class Meta:
         abstract = True
+
+
+class Interactive(object):
+    def _get_interaction_set(self):
+        return Interaction.objects.filter(object_id=self.id)
+    interaction_set = property(_get_interaction_set)
 
 
 class Product(ModelI18n):
@@ -140,7 +148,7 @@ class EquipmentOrderEntry(Model):
     is_rent = models.BooleanField(default=False)
 
 
-class Order(Model):
+class Order(Model, Interactive):
     member = models.ForeignKey(Member, related_name='+')
     package = models.ForeignKey(Package)
     equipment_order_entry_list = ListField(EmbeddedModelField('EquipmentOrderEntry'), editable=False)
@@ -148,12 +156,16 @@ class Order(Model):
     extra_list = ListField(EmbeddedModelField('Extra'), editable=False, blank=True, null=True)
     location_lat = models.FloatField(default=0.0)
     location_lng = models.FloatField(default=0.0)
-    maps_url = models.URLField(blank=True, null=True)
     maps_id = models.CharField(max_length=20, blank=True, null=True)
     formatted_address = models.CharField(max_length=250)
     cost = models.IntegerField(default=0)
     status = models.CharField(max_length=30, default=STARTED)
     tags = models.CharField(max_length=250)
+
+    def _get_maps_url(self):
+        return getattr(settings, 'CREOLINK_MAPS_URL') + \
+               "equipments?device_id=%s&lat=%s&lng=%s" % (self.maps_id, self.location_lat, self.location_lng)
+    maps_url = property(_get_maps_url)
 
 
 class Faq(Model):
@@ -216,6 +228,12 @@ class Profile(Model):
                                             help_text="Counts how many times the code was updated. User should not be "
                                                       "allowed to modify more than twice.")
 
+    def __unicode__(self):
+        return self.code
+
+    def get_obj_details(self):
+        return self.city
+
 
 class CustomerRequest(Model):
     member = models.ForeignKey(Member, related_name='+')
@@ -223,7 +241,7 @@ class CustomerRequest(Model):
     label = models.CharField(max_length=250, blank=False, null=False)
 
 
-class IncompleteClient(Model):
+class IncompleteClient(Model, Interactive):
     """
     Represents a client imported from Navision without email.
     When a client does not have email, the corresponding Member
@@ -252,7 +270,41 @@ class IncompleteClient(Model):
                   "%(last_access)s</span>" % {'client_code': self.code, 'last_access': last_access})
 
 
+class Interaction(Model):
+    """
+    Any interaction done by a Staff on either an Order or
+    an IncompleteClient. This allows to monitor how those
+    have been addressed.
+    """
+    CALL = 'Call'
+    TEXT = 'Text'
+    EMAIL = 'Email'
+    INTERVENTION = 'Intervention'
+
+    INTERACTION_TYPES = (
+        (CALL, _('Call')),
+        (TEXT, _('Text / WhatsApp')),
+        (EMAIL, _('Email')),
+        (INTERVENTION, _('Intervention'))
+    )
+    member = models.ForeignKey(Member)
+    object_id = models.CharField(max_length=24, db_index=True)  # ID of Order or IncompleteClient
+    type = models.CharField(max_length=100, choices=INTERACTION_TYPES, db_index=True)
+    summary = models.TextField(blank=True, null=True)
+    response = models.TextField()
+    next_rdv = models.DateTimeField(blank=True, null=True)
+    viewed_by = ListField()  # List of sudo who already checked this interaction
+
+    objects = MongoDBManager()
+
+    def to_dict(self):
+        val = to_dict(self)
+        val['member'] = self.member.full_name
+        return val
+
+
 class Config(AbstractConfig):
     payment_delay = models.IntegerField(default=15)
     notification_email = models.CharField(max_length=250,
-                                          help_text="Set which mailbox should be notified when an order is submit, separate with ','")
+                                          help_text="Set which mailbox should be notified when "
+                                                    "an order is submit, separate with ','")

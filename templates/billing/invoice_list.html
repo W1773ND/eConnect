@@ -7,8 +7,11 @@
 
 {% block head_style %}
     {{ block.super }}
+    <link href="{% static 'ikwen/css/admin.css' %}?v=20.7.10" media="screen" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="{% static 'embed-doc/css/embed-doc.css' %}"/>
     <style>
+        .nav-pills>li>a {color: green;font-weight: 400;text-decoration: none !important;}
+        .nav-pills>li>a:hover, .nav-pills>li>a:focus { color: #28a745; }
         #pending-invoices {margin-top: 10px;}
         .v-align { display: flex; align-items: center; justify-content: flex-start }
         .v-align-center { align-self: center; }
@@ -23,6 +26,7 @@
         }
     </style>
 {% endblock %}
+
 {% block header_brand %}
     <a class="navbar-brand navbar-brand-screen hidden-xs" href="{% url 'econnect:home' %}">
         <img class="" src="{% static "econnect/img/creolink_logo.png" %}">
@@ -41,7 +45,7 @@
                             <a href="{% url 'uncompleted_order' %}"><b>My Creolink</b></a>
                         </li>
                         <li role="presentation" class="service-info">
-                            <a href="{% url 'change_profile' %}">{% trans "Profile" %}</a>
+                            <a href="{% url 'profile_list' %}">{% trans "Profiles" %}</a>
                         </li>
                         {% if code_client %}
                         <li role="presentation" class="configuration">
@@ -54,8 +58,7 @@
             </div>
         </div>
     </div>
-
-    <div id="content" class="container" style="padding-top: 20vh">
+    <div id="admin-content" style="padding-top: 20vh">
         <div class="col-sm-8 col-sm-offset-2">
 
             <div style="margin-bottom: 5vh;">

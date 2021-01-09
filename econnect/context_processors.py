@@ -100,17 +100,12 @@ def pop_up(r):
 
 
 def customer_profile(request):
-    profile = {}
+    val = {}
     member = request.user
     if member.is_authenticated():
-        try:
-            user_profile = Profile.objects.get(member=member)
-            profile['code_client'] = user_profile.code
-        except Profile.DoesNotExist:
-            pass
         pending_invoice_count = Invoice.objects.filter(member=member, status=PENDING).count()
-        profile['pending_invoice_count'] = pending_invoice_count
-    return profile
+        val['pending_invoice_count'] = pending_invoice_count
+    return val
 
 
 def comments(comment_id):

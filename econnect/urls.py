@@ -9,7 +9,6 @@ from econnect.views import HomeView, Numerilink, NumerilinkHotel, Homelink, Offi
     ChangeEquipment, ExtraList, ChangeExtra, PricingOfficelink, PricingHomelink, PricingCorporatelink, Maps, \
     OrderConfirm, ChangeMailCampaign, Offline, FaqList, ChangeFaq, ChangeAdvertisement, AdvertisementList
 
-
 urlpatterns = patterns(
     '',
     url(r'^$', HomeView.as_view(), name='home'),

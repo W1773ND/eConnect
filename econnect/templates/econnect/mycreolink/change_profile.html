@@ -166,13 +166,8 @@
                             <a href="{% url 'uncompleted_order' %}">My Creolink</a>
                         </li>
                         <li role="presentation" class="service-info">
-                            <a href="{% url 'change_profile' %}"><b>{% trans "Profile" %}</b></a>
+                            <a href="{% url 'profile_list' %}"><b>{% trans "Profiles" %}</b></a>
                         </li>
-                        {% if code_client %}
-                        <li role="presentation" class="configuration">
-                            <a href="{% url 'site_list' %}">{% trans "Services" %}</a>
-                        </li>
-                        {% endif %}
                     </ul>
                 </div>
                 <div class="clear"></div>
